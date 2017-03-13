@@ -8,7 +8,6 @@ using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 using Nadam.Lib.DatabaseGraphs;
-using Nadam.Lib;
 
 namespace Nadam.Lib.JsonDb
 {
@@ -170,11 +169,6 @@ namespace Nadam.Lib.JsonDb
         // </SaveChanges>
 
         // <Db_engine_helper_functions>
-        //private void SetIdsForTable(IEnumerable<object> table)
-        //{
-        //    table.SetIdsFor();
-        //}
-
         private bool TableExistInRoot(string table)
         {
             return SavedDbTables.Contains(table);

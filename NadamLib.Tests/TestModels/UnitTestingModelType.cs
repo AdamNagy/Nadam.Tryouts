@@ -21,5 +21,13 @@ namespace NadamLib.Tests.TestModels
         // Matrix
         public IList<IList<int>> intMatrix { get; set; }
         public IList<IList<object>> objectMatrix { get; set; }
+
+        public UnitTestingModelType()
+        {
+            var randomGenerator = new Random();
+            IntTypeProp = randomGenerator.Next(10, 100);
+            StringTypeProp = "Fusce tempus mauris tortor, eget tristique dui malesuada at. Sed et ante risus. Curabitur lacinia lacus in augue rutrum tincidunt. Donec molestie urna a turpis lobortis mattis sagittis maximus lacus. Suspendisse finibus elit hendrerit velit consequat, nec feugiat dui egestas. Sed ac justo malesuada, laoreet est at, auctor eros. Aliquam ultricies eget ex id laoreet.";
+            DatetimeTypeProp = DateTime.Now.AddDays(randomGenerator.Next(100, 300));
+        }
     }
 }

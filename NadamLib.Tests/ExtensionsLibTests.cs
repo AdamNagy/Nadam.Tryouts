@@ -91,9 +91,71 @@ namespace NadamLib.Tests
                 testObject.SetValueToNullFor("DecimalTypeProp");
 
                 // Assert
-                Assert.IsNull(testObject.IntTypeProp);
-                Assert.IsNull(testObject.DoubleTypeprop);
-                Assert.IsNull(testObject.DecimalTypeProp);
+                Assert.AreEqual(testObject.IntTypeProp, 0);
+                Assert.AreEqual(testObject.DoubleTypeprop, 0);
+                Assert.AreEqual(testObject.DecimalTypeProp, 0);
+            }
+
+            [TestMethod]
+            public void ValidStringTypePropsSetingToNull()
+            {
+                // Arrange
+                var testObject = new UnitTestingModelBase(true);
+
+                // Action
+                testObject.SetValueToNullFor("StringTypeProp");
+                testObject.SetValueToNullFor("CharTypeProp");
+                testObject.SetValueToNullFor("ByteTypeProp");
+                testObject.SetValueToNullFor("ByteArrTypeProp");
+
+                // Assert
+                Assert.AreEqual(testObject.StringTypeProp, String.Empty);
+                Assert.AreEqual(testObject.CharTypeProp, 0);
+                Assert.AreEqual(testObject.ByteTypeProp, 0);
+                Assert.IsNull(testObject.ByteArrTypeProp);
+            }
+
+            [TestMethod]
+            public void ValidObjectTypePropsSetingToNull()
+            {
+                // Arrange
+                var testObject = new UnitTestingModelBase(true);
+
+                // Act
+                testObject.SetValueToNullFor("ComplexTypeList");
+
+                // Assert
+                Assert.IsNull(testObject.ComplexTypeList);
+            }
+        }
+        
+        [TestClass]
+        public class SetValuesToNullForTest
+        {
+            [TestMethod]
+            public void ValidSetingAllPropertieTest()
+            {
+                // Arrange
+                var testObject = new UnitTestingModelBase(true);
+                var properties = new string[]
+                {
+                    "IntTypeProp", "DoubleTypeprop", "DecimalTypeProp",
+                    "StringTypeProp", "CharTypeProp", "ByteTypeProp", "ByteArrTypeProp",
+                    "ComplexTypeList"
+                };
+
+                // Action
+                testObject.SetValuesToNullFor(properties);
+
+                // Assert
+                Assert.AreEqual(testObject.IntTypeProp, 0);
+                Assert.AreEqual(testObject.DoubleTypeprop, 0);
+                Assert.AreEqual(testObject.DecimalTypeProp, 0);
+                Assert.AreEqual(testObject.StringTypeProp, String.Empty);
+                Assert.AreEqual(testObject.CharTypeProp, 0);
+                Assert.AreEqual(testObject.ByteTypeProp, 0);
+                Assert.IsNull(testObject.ByteArrTypeProp);
+                Assert.IsNull(testObject.ComplexTypeList);
             }
         }
         #endregion

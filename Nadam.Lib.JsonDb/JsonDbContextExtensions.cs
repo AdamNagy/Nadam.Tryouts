@@ -21,13 +21,13 @@ namespace Nadam.Lib.JsonDb
 
         public static void SetIdsFor(this IEnumerable<object> table)
         {
-            int lastId = (int)table.Max(p => p.GetValueFor("Id"));
-            //table.Where(p => (int)p.GetValueFor("Id") == 0)
-            //     .Foreach(q => q.SetValueFor("Id", lastId));
-
-            foreach (var item in table.Where(p => (int)p.GetValueFor("Id") == 0))
+            if(table != null && table.Count() != 0)
             {
-                item.SetValueFor("Id", ++lastId);
+                int lastId = (int)table.Max(p => p.GetValueFor("Id"));
+                foreach (var item in table.Where(p => (int)p.GetValueFor("Id") == 0))
+                {
+                    item.SetValueFor("Id", ++lastId);
+                }
             }
         }
     }

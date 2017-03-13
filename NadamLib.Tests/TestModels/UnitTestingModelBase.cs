@@ -38,7 +38,7 @@ namespace NadamLib.Tests.TestModels
         public Dictionary<string, DateTime> StringDateTimeDictionaryTypeProp { get; set; }
         public Dictionary<DateTime, bool> DateTimeBoolDictionaryTypeProp { get; set; }
 
-        //
+        // Object
         public IEnumerable<UnitTestingModelType> ComplexTypeList { get; set; }
 
         public UnitTestingModelBase(bool seedData = true)
@@ -57,6 +57,17 @@ namespace NadamLib.Tests.TestModels
                 CharTypeProp = dataSeeder.CharTypeProp();
                 ByteTypeProp = dataSeeder.ByteTypeProp();
                 ByteArrTypeProp = dataSeeder.ByteArrTypeProp();
+
+                // ..
+
+                // Objet
+                ComplexTypeList = new List<UnitTestingModelType>()
+                {
+                    new UnitTestingModelType(),
+                    new UnitTestingModelType(),
+                    new UnitTestingModelType(),
+                    new UnitTestingModelType()
+                };
             }
         }
     }
