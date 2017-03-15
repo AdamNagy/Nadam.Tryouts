@@ -1,2 +1,6 @@
-﻿body {
+﻿.slide {
+    display: none;
+    width: 100%;
+    float: left;
+    position: relative;
 }

@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <!-- Script lib -->
+    <script src="../../jslib/jquery-3.1.1.min.js"></script>
+    <script src="../../jslib/bootstrap.min.js"></script>
+
+    <!-- Style lib -->
+    <link rel="stylesheet" type="text/css" href="../../csslib/bootstrap.min.css" />
+
+    <!-- Nadam modul -->
+    <script src="Nadam-Focuslayer.js"></script>
+    <link rel="stylesheet" type="text/css" href="Nadam-Focuslayer.css" />
+
+    <!-- Test page content -->
+    <style>
+        body{
+            background-image:url('Images/imbudapestbuilding 1600.jpg');
+        }
+
+        .background-layer{
+            background:inherit;
+            width:100%;
+            height:100%;
+            position:absolute;
+            transition: all 0.4s;
+        }
+
+        .mybody{
+            position:absolute;
+            width:100%;
+            height:100%;
+            z-index:5;
+        }
+
+        .dcms-board {
+            width: 50%;
+            height: 800px;
+            border: 1px solid black;
+            margin: 0 auto;
+            background-color: #bcc2a1;
+            background-color: rgba(188, 194, 161, 0.4);
+            float: left;
+        }
+
+        .dcms-board table  thead  tr  td {
+            color: rgb(188, 194, 161);
+            background-color: #9a380a;
+            background-color: rgba(154, 56, 10, 0.8);
+            border: 1px solid black;
+        }
+
+        .dcms-table-cell {
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px solid black;
+        }
+
+        .dcms-table-rowheader {
+            background-color: #9a380a;
+            background-color: rgba(154, 56, 10, 0.8);
+            color: rgb(188, 194, 161);
+            width: 50px;
+        }
+
+        td{
+          cursor:default;  
+        }
+
+        td:hover{
+            background-color:red;
+        }
+    </style>
+
+    <script>
+        $(function () {
+            var focuslayer = new CreateFocuslayer();
+            $('#focus-toggle').click(focuslayer.ShowFocuslayer);
+
+            $('td').each(function () {
+                $(this).click(focuslayer.ShowFocuslayer);
+            })
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h2>Focus layer demo</h2>
+    </header>
+    <main class="container">
+        <div>
+            <div class="row">
+                <button id="focus-toggle" class="btn"> Click to show focus layer </button>
+            </div>
+            <div class="row">
+                <div class="dcms-board col-md-6">
+                    <table class="table" id="dcms-table">
+                        <thead>
+                            <tr>
+                                <td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
+                            <tr><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
+                            <tr><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
+                            <tr><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
+                            <tr><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
+                            <tr><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="dcms-board col-md-6">
+                    <table class="table" id="dcms-table">
+                        <thead>
+                            <tr>
+                                <td></td>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>4</td>
+                                <td>5</td>
+                                <td>6</td>
+                                <td>7</td>
+                                <td>8</td>
+                                <td>9</td>
+                                <td>10</td>
+                                <td>11</td>
+                                <td>12</td>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        version  0.1.0
+    </footer>
+</body>
+</html>

@@ -1,0 +1,16 @@
+﻿#focuslayer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    display: none;
+    opacity: 0;
+    background-color: #646464;
+    background-color: rgba(125, 125, 125, 0.5);
+    z-index: 9;
+}
+
+.blure-3px{
+    filter: blur(3px);
+}

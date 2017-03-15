@@ -1,0 +1,64 @@
+﻿body {
+    background-color: white;
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+}
+
+.column {
+    min-height: 300px;
+    float: left;
+    width: 100%;
+}
+
+#gallery {
+    float: left;
+    width: 65%;
+    min-height: 12em;
+}
+
+.gallery.custom-state-active {
+    background: #eee;
+}
+
+.gallery li {
+    float: left;
+    width: 96px;
+    padding: 0.4em;
+    margin: 0 0.4em 0.4em 0;
+    text-align: center;
+}
+
+.sequence-droparea {
+    width: 100%;
+    min-height: 18em;
+    padding: 1%;
+    margin: 10px;
+    background-color: rgba(100, 100, 100, 0.5);
+}
+
+.image-box {
+    height: 100px;
+    width: 100px;
+    background-color: rgb(100, 120, 140);
+}
+
+.seqeuence-dropactive {
+    background-color: #c81405;
+    background-color: rgba(200, 20, 5, 0.4);
+}
+
+table {
+    width: 100%;
+}
+
+    td:nth-child(odd)  {
+        border-right: 3px rgb(200, 20, 5) solid;
+    }
+
+    
+    td:nth-child(even)  {
+        border-left: 3px rgb(200, 20, 5) solid;
+    }

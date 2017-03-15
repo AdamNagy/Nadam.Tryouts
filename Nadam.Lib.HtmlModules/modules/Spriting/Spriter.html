@@ -4,21 +4,43 @@
     <title>Nadam Dropdown sample</title>
     <meta charset="utf-8" />
     <!-- Script lib -->
+    <script src="../../jslib/jquery-3.1.1.min.js"></script>
+    <script src="../../jslib/bootstrap.min.js"></script>
 
     <!-- Style lib -->
+    <link rel="stylesheet" type="text/css" href="../../csslib/bootstrap.min.css" />
 
     <!-- Nadam modul -->
+    <script src="Nadam-Spriter.js"></script>
 
     <!-- Test page content -->
     <style>
+        .sprited{
+            float:left;
+        }
+
+        .sprited:hover{
+            background-image: linear-gradient(45deg, rgba(100, 60, 200, 0.8), rgba(182, 255, 0, 0.8));
+            border-radius:10px;
+        }
     </style>
     <script>
         $(function() {
-            
+            SpriteImage("Images/social-media.png", 200, 190, "sprited-social-images");
+            SpriteImage("Images/technology-and-hardware.png", 200, 190, "sprited-techandother");
+
+            $('#sprited-social-images .frame').each(function () {
+                $(this).addClass('sprited');
+            });
+
+            $('#sprited-techandother .frame').each(function () {
+                $(this).addClass('sprited');
+            });
         });
     </script>
 </head>
 <body>
-
+    <div id="sprited-social-images"></div>
+    <div id="sprited-techandother"></div>
 </body>
 </html>
