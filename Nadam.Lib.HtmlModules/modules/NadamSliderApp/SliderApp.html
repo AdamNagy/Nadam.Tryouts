@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <!-- Script lib -->
+    <script src="../../jslib/jquery-3.1.1.min.js"></script>
+    <script src="../../jslib/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="../../jslib/bootstrap.min.js"></script>
+
+    <!-- Style lib -->
+    <link rel="stylesheet" type="text/css" href="../../csslib/bootstrap.min.css" />
+
+    <!-- Nadam modul -->
+    <script src="Nadam-SliderApp.js"></script>
+    <link rel="stylesheet" type="text/css" href="Nadam-SliderApp.css" />
+
+    <!-- Test page content -->
+    <style>
+        body {
+            font-family: Geneva,Arial,Helvetica,sans-serif;
+            margin: 0px auto;
+            height: 100%;
+        }
+
+        .left-slider {
+            z-index: 10;
+            top: 5rem;
+            position: fixed;
+            height: 1080px;
+            background-color: #bcc2a1;
+            background-color: rgba(188, 194, 161, 0.3);
+            width: 60px;
+            line-height: 500px;
+            font-size: 18px;
+            left: -2%;
+            transition: all 0.5s;
+        }
+
+        .left-slider:hover {
+                left: 0%;
+                background-color: #9a380a;
+                background-color: rgba(154, 56, 10, 0.6);
+                color: rgb(188, 194, 161);
+            }
+
+
+        .right-slider {
+            top: 5rem;
+            position: fixed;
+            height: 1080px;
+            background-color: #bcc2a1;
+            background-color: rgba(188, 194, 161, 0.3);
+            width: 60px;
+            line-height: 500px;
+            font-size: 18px;
+            right: -2%;
+            transition: all 0.5s;
+        }
+
+        .right-slider:hover {
+                right: 0%;
+                background-color: #9a380a;
+                background-color: rgba(154, 56, 10, 0.6);
+                color: rgb(188, 194, 161);
+            }
+    </style>
+    <script>
+        $(function () {
+            var sliderApp = new SliderManager();
+            window.app = sliderApp;
+
+            window.app.SlideLoadListener(1, page1Listener);
+            window.app.SlideLoadListener(3, page3Listener);
+
+            window.app.start();
+        });
+
+        function page1Listener(){
+            alert('page 1 loaded');
+        }
+
+        function page3Listener() {
+            alert('page 3 loaded');
+        }
+    </script>
+</head>
+<body>
+    <div class="row">
+        <button onclick="window.app.ToPage(1)">Page 1</button>
+        <button onclick="window.app.ToPage(2)">Page 2</button>
+        <button onclick="window.app.ToPage(3)">Page 3</button>
+    </div>
+
+    <div class="slide" id="slide-1">
+        <h2>Slide 1</h2>
+    </div>
+
+    <div class="slide" id="slide-2">
+        <h2>Slide 2</h2>
+    </div>
+
+    <div class="slide" id="slide-3">
+        <h2>Slide 3</h2>
+    </div>
+
+    <div class="slide" id="slide-4">
+        <h2>Slide 4</h2>
+    </div>
+
+    <div class="slide" id="slide-5">
+        <h2>Slide 5</h2>
+    </div>
+
+    <div class="right-slider" onclick="window.app.NextPage()">
+        <span class="glyphicon glyphicon-menu-right"></span>
+    </div>
+
+    <div class="left-slider" onclick="window.app.PrevPage()">
+        <span class="glyphicon glyphicon-menu-left"></span>
+    </div>
+</body>
+</html>

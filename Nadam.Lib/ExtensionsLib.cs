@@ -39,7 +39,13 @@ namespace Nadam.Lib
             return src;
         }
 
-        
+        /// <summary>
+        /// Set the given property to null
+        /// </summary>
+        /// <typeparam name="T">the type of the object</typeparam>
+        /// <param name="src">the object that you want to set one if its properties to null</param>
+        /// <param name="property">the name of the property</param>
+        /// <returns></returns>
         public static object SetValueToNullFor<T>(this T src, string property)
         {
             var type = src.GetType();
@@ -68,10 +74,16 @@ namespace Nadam.Lib
                 }
             }
 
-
             return src;
         }
 
+        /// <summary>
+        /// Same as the SetValueToNullFor method, just this one takes a list of propeti name that will made null
+        /// </summary>
+        /// <typeparam name="T">check SetValueToNullFor method</typeparam>
+        /// <param name="src">check SetValueToNullFor method</param>
+        /// <param name="properties">check SetValueToNullFor method</param>
+        /// <returns></returns>
         public static T SetValuesToNullFor<T>(this T src, IEnumerable<string> properties)
         {
             foreach (var prop in properties)
@@ -82,59 +94,94 @@ namespace Nadam.Lib
             return src;
         }
 
+        /// <summary>
+        /// Check the given property if exist for the given object
+        /// </summary>
+        /// <typeparam name="T">the type of the objet</typeparam>
+        /// <param name="src">the object it selt you want tocheck</param>
+        /// <param name="property">name of the property to check</param>
+        /// <returns></returns>
         public static bool HasProperty<T>(this T src, string property)
         {
             return src.GetType().GetProperties().Select(p => p.Name).Contains(property);
         }
 
+        /// <summary>
+        /// Makes all the virtual properties null for the given object
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
         public static IEnumerable<object> MakeVirtualPropertiesNull(this IEnumerable<object> root)
         {
             if (root != null && root.Any())
             {
-                var domainVirtualProperties = root
-                    .First()
-                    .GetType()
-                    .GetProperties()
-                    .Where(p => p.GetMethod.IsVirtual);
+                //var domainVirtualProperties = root
+                //    .First()
+                //    .GetType()
+                //    .GetProperties()
+                //    .Where(p => p.GetMethod.IsVirtual);
 
-                root.Foreach(p =>
-                {
-                    p.SetValuesToNullFor(domainVirtualProperties.Select(q => q.Name));
-                });
+                //root.Foreach(p =>
+                //{
+                //    p.SetValuesToNullFor(domainVirtualProperties.Select(q => q.Name));
+                //});
+                var virtualProperties = root
+                                    .First()
+                                    .GetVirtualPropertiesOf();
+                
+                root.Foreach(p => p.SetValuesToNullFor(virtualProperties));
+
             }
             return root;
         }
+
+        public static object MakeVirtualPropertiesNull(this object root)
+        {
+            if (root != null)
+            {        
+                root.SetValuesToNullFor(root.GetVirtualPropertiesOf());               
+            }
+            return root;
+        }
+
+        public static IEnumerable<string> GetVirtualPropertiesOf(this object subject)
+        {
+            return subject
+                    .GetType()
+                    .GetProperties()
+                    .Where(p => p.GetMethod.IsVirtual)
+                    .Select(p => p.Name);
+        }
         #endregion
-
-
+        
         #region Filters
-        public static IEnumerable<T> FilterByEquality<T>(this IEnumerable<T> domain, string filter, object reference)
-        {
-            domain = domain as IList<T> ?? domain.ToList();
-            if (!domain.Any())
-                return null;
+        //public static IEnumerable<T> FilterByEquality<T>(this IEnumerable<T> domain, string filter, object reference)
+        //{
+        //    domain = domain as IList<T> ?? domain.ToList();
+        //    if (!domain.Any())
+        //        return null;
 
-            if (domain.First().HasProperty(filter))
-            {
-                return domain.FilterBy(filter, reference, PredicatesLib.EqualityPredicate);
-            }
+        //    if (domain.First().HasProperty(filter))
+        //    {
+        //        return domain.FilterBy(filter, reference, PredicatesLib.EqualityPredicate);
+        //    }
 
-            throw new ArgumentException("Filterable property does not exist on domain object.");
-        }
+        //    throw new ArgumentException("Filterable property does not exist on domain object.");
+        //}
 
-        public static IEnumerable<T> FilterByGreaterThan<T>(this IEnumerable<T> domain, string filter, string reference)
-        {
-            domain = domain as IList<T> ?? domain.ToList();
-            if (!domain.Any())
-                return null;
+        //public static IEnumerable<T> FilterByGreaterThan<T>(this IEnumerable<T> domain, string filter, string reference)
+        //{
+        //    domain = domain as IList<T> ?? domain.ToList();
+        //    if (!domain.Any())
+        //        return null;
 
-            if (domain.First().HasProperty(filter))
-            {
-                return domain.FilterBy<T>(filter, reference, PredicatesLib.GreaterThanPredicate);
-            }
+        //    if (domain.First().HasProperty(filter))
+        //    {
+        //        return domain.FilterBy<T>(filter, reference, PredicatesLib.GreaterThanPredicate);
+        //    }
 
-            throw new ArgumentException("Filterable property does not exist on domain object.");
-        }
+        //    throw new ArgumentException("Filterable property does not exist on domain object.");
+        //}
 
         public static IEnumerable<T> FilterBy<T>(this IEnumerable<T> domain, string filter, object reference, Func<object, object, bool> pred)
         {
@@ -163,6 +210,16 @@ namespace Nadam.Lib
             }
         }
 
+        public static void Foreach<T>(this IEnumerable<T> list, Func<T, T> action)
+        {
+            //foreach(var listItem in list)
+            var array = list as List<T>;
+            for (int i = 0; i < list.Count(); i++)
+            {
+                array[i] = action(array[i]);
+            }
+        }
+
         public static string PluralizeString(this string single)
         {
             if (string.IsNullOrEmpty(single))
@@ -174,24 +231,24 @@ namespace Nadam.Lib
         }
         #endregion
 
-        public static Func<object, object, bool> SingleOrDefaultPredicate(this string funcName)
-        {
-            switch(funcName)
-            {
-                case "EqualityPredicate":
-                case "Equality":
-                    return EqualityPredicate;
-                case "GreaterThanPredicate":
-                case "GreaterThan":
-                case "Greater":
-                    return GreaterThanPredicate;
-                case "LessThanPredicate":
-                case "LessThan":
-                case "Less":
-                    return LessThanPredicate;
-                default:
-                    return NoFilter;
-            }
-        }
+        //public static Func<object, object, bool> SingleOrDefaultPredicate(this string funcName)
+        //{
+        //    switch(funcName.ToLower())
+        //    {
+        //        case "equalitypredicate":
+        //        case "equality":
+        //            return EqualityPredicate;
+        //        case "greaterthanpredicate":
+        //        case "greaterthan":
+        //        case "greater":
+        //            return GreaterThanPredicate;
+        //        case "lessthanpredicate":
+        //        case "lessthan":
+        //        case "less":
+        //            return LessThanPredicate;
+        //        default:
+        //            return NoFilter;
+        //    }
+        //}
     }
 }

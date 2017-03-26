@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <!-- Script lib -->
+    <script src="../../jslib/jquery-3.1.1.min.js"></script>
+    <script src="../../jslib/bootstrap.min.js"></script>
+
+    <!-- Style lib -->
+    <link rel="stylesheet" type="text/css" href="../../csslib/bootstrap.min.css" />
+
+    <!-- Nadam modul -->
+    <script src="Nadam-Checkbox.js"></script>
+    <link rel="stylesheet" type="text/css" href="Nadam-Checkbox.css" />
+
+    <!-- Test page content -->
+    <script>
+        $(function() {
+            var cbColor = new NadamCheckbox("color-checker");
+            cbColor.SelectionChange(GetColor);
+
+            var cbCar = new NadamCheckbox("car-checker");
+            cbCar.SelectionChange(GetColor);
+        });
+
+        function GetColor(val) {
+            console.log(val);
+        }
+
+        function GetCar(val) {
+            console.log(val);
+        }
+    </script>
+</head>
+<body>
+    <div style="float:left;">
+        <div class="nadam-radiobutton-group" id="color-checker">
+            <div class="nadam-radiobutton" data-value="black">Black</div>
+            <div class="nadam-radiobutton" data-value="skinColor">Skin color</div>
+            <div class="nadam-radiobutton" data-value="white">White</div>
+            <div class="nadam-radiobutton" data-value="red">Red</div>
+            <div class="nadam-radiobutton" data-value="green">Green</div>
+            <div class="nadam-radiobutton" data-value="blue">Blue</div>
+            <div class="nadam-radiobutton" data-value="grey">Grey</div>
+            <div class="nadam-radiobutton" data-value="purple">Pink 'n purple</div>
+        </div>
+    </div>
+    <div style="float:left;">
+        <div class="nadam-radiobutton-group" id="car-checker">
+            <div class="nadam-radiobutton" data-value="BMW">BMW</div>
+            <div class="nadam-radiobutton" data-value="Autdi">Autdi</div>
+            <div class="nadam-radiobutton" data-value="Mercedes">Mercedes</div>
+            <div class="nadam-radiobutton" data-value="Porsche">Porsche</div>
+            <div class="nadam-radiobutton" data-value="Lamborghini">Lamborghini</div>
+        </div>
+    </div>
+      
+
+</body>
+</html>
