@@ -159,5 +159,13 @@ namespace NadamLib.Tests
             }
         }
         #endregion
+
+        #region Filters
+        [TestClass]
+        public class FilterTest
+        {
+
+        }
+        #endregion
     }
 }

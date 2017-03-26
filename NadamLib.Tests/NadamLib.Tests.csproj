@@ -53,6 +53,9 @@
     <Compile Include="ExtensionsLibTests.cs" />
     <Compile Include="PredicatesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestModels\Color.cs" />
+    <Compile Include="TestModels\ColorClass.cs" />
+    <Compile Include="TestModels\TestDataEntity.cs" />
     <Compile Include="TestModels\TestDataSeed.cs" />
     <Compile Include="TestModels\UnitTestingModelBase.cs" />
     <Compile Include="TestModels\UnitTestingModelType.cs" />
