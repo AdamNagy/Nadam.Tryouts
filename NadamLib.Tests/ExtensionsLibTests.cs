@@ -4,8 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Nadam.ConsoleTest.Models;
 using NadamLib.Tests.TestModels;
 using Nadam.Lib;
+using static Nadam.Lib.BinaryPredicates;
+//using static Nadam.Lib.BinaryPredicates.BinaryPredicates;
+//using Nadam.Lib.BinaryPredicates;
+
 
 namespace NadamLib.Tests
 {
@@ -164,7 +169,46 @@ namespace NadamLib.Tests
         [TestClass]
         public class FilterTest
         {
+            [TestMethod]
+            public void FilterOnNameResultShouldBe1()
+            {
+                // Arrenge
+                var dbTable = TestDataEntityTableSeeder.SeedTestDataEntityTable();
 
+                // Act
+                //(this IEnumerable<T> domain, string filter, object reference, Func< object, object, bool> pred)
+                var filtered = dbTable.FilterBy("Name", "Duis Consectetur", Equality).ToList();
+
+                // Assert
+                Assert.AreEqual(1, filtered.Count());
+                Assert.AreEqual("Duis Consectetur", filtered[0].Name);
+            }
+
+            [TestMethod]
+            public void FilterOnNameResultShouldBenull()
+            {
+                // Arrenge
+                var dbTable = TestDataEntityTableSeeder.SeedTestDataEntityTable();
+
+                // Act
+                var filtered = dbTable.FilterBy("Name", "Biztosan nem létező név", Equality); 
+
+                // Assert
+                Assert.AreEqual(0, filtered.Count());
+            }
+
+            [TestMethod]
+            public void FilterOnColorResultShouldBenull()
+            {
+                // Arrenge
+                var dbTable = TestDataEntityTableSeeder.SeedTestDataEntityTable();
+
+                // Act
+                var filtered = dbTable.FilterBy("ColorE", ColorEnum.black, Equality);
+
+                // Assert
+                Assert.AreEqual(16, filtered.Count());
+            }
         }
         #endregion
     }
