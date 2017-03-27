@@ -41,29 +41,32 @@ namespace NadamLib.Tests.TestModels
             Records = records;
         }
 
-        public static IList<TestDataEntity> SeedTestDataEntityTable()
+        public static IList<TestDataEntity> SeedTestDataEntityTable(int records = 100)
         {
-            var seeder = new TestDataEntityTableSeeder();
-
+            var seeder = new TestDataEntityTableSeeder(records);
             var testEntities = new List<TestDataEntity>();
-            var names = seeder.SeedNames();
-            var dobs = seeder.SeedDobs();
-            var colors = seeder.SeedColors();
 
-            for (int i = 0; i < seeder.Records; i++)
+            if( !seeder.TryReadFromFile(ref testEntities) )
             {
-                var colorIdx = seeder.GetRandomColorIdx();
-                testEntities.Add(new TestDataEntity()
+                var names = seeder.SeedNames();
+                var dobs = seeder.SeedDobs();
+                var colors = seeder.SeedColors();
+
+                for (int i = 0; i < seeder.Records; i++)
                 {
-                    Id = i + 1,
-                    Name = names[i],
-                    Dob = dobs[i],
-                    ColorC = colors[colorIdx],
-                    ColorE = (ColorEnum)Enum.Parse(typeof(ColorEnum), colorIdx.ToString())
-                });
+                    var colorIdx = seeder.GetRandomColorIdx();
+                    testEntities.Add(new TestDataEntity()
+                    {
+                        Id = i + 1,
+                        Name = names[i],
+                        Dob = dobs[i],
+                        ColorC = colors[colorIdx],
+                        ColorE = (ColorEnum)Enum.Parse(typeof(ColorEnum), colorIdx.ToString())
+                    });
+                }
+                seeder.SaveToFile(testEntities);
             }
 
-            //seeder.SaveToFile(testEntities);
             return testEntities;
         }
 
@@ -74,7 +77,7 @@ namespace NadamLib.Tests.TestModels
 
             for (int i = 0; i < strArr.Length; i += 2)
             {
-                for (int j = i + 1; j < strArr.Length; j += (int)Records/3)
+                for (int j = i + 1; j < strArr.Length; j += 3)
                 {
                     names.Add($"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(strArr[i])} {CultureInfo.CurrentCulture.TextInfo.ToTitleCase(strArr[j])}");
                 }
@@ -126,11 +129,44 @@ namespace NadamLib.Tests.TestModels
             return Random.Next(0, 7);
         }
 
-        private IEnumerable<TestDataEntity> TryReadFromFile()
+        private bool TryReadFromFile(ref List<TestDataEntity> testEntities)
         {
-            var testEntities = new List<TestDataEntity>();
+            
+            try
+            {
+                TextReader tw = new StreamReader("../../app_data/test_entity_list.txt");
+                //foreach (var line in tw.ReadLine())
+                var line = tw.ReadLine();
+                while(!string.IsNullOrEmpty(line))
+                {
+                    var commaSeparated = line.ToString().Split(',');
+                    //"{entity.Id},{entity.Name},{entity.ColorC.Id},{entity.ColorE},{entity.Dob.Date}"
+                    testEntities.Add(new TestDataEntity()
+                    {
+                        Id = Convert.ToInt32(commaSeparated[0]),
+                        Name = commaSeparated[1],
+                        ColorC = new ColorClass()
+                        {
+                            Id = Convert.ToInt32(commaSeparated[2]),
+                            Name = commaSeparated[3]
+                        },
+                        ColorE = (ColorEnum)Enum.Parse(typeof(ColorEnum), commaSeparated[3]),
+                        Dob = Convert.ToDateTime(commaSeparated[4])
+                    });
+                    line = tw.ReadLine();
+                }
+            }
+            catch(FileNotFoundException)
+            {
+                return false;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}\n{ex?.InnerException?.Message}");
+                return false;
+            }
 
-            return testEntities;
+            return true;
         }
 
         private bool SaveToFile(List<TestDataEntity> testData)

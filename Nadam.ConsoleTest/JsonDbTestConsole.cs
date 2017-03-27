@@ -10,8 +10,8 @@ namespace Nadam.ConsoleTest
         public static void TestRunner()
         {
             var program = new JsonDbTestConsole();
-            var list = program.SeedImages();
-            var owners = program.SeedOwners().ToArray();
+            //var list = program.SeedImages();
+            //var owners = program.SeedOwners().ToArray();
 
             //var filtered = list.FilterByEquality(Filter.ColorEnum.ToString(), ColorEnum.Black);
             //filtered = list.FilterBy(Filter.ColorEnum.ToString(), ColorEnum.Black.ToString(), (s, s1) => true);
@@ -28,39 +28,51 @@ namespace Nadam.ConsoleTest
             //program.DbState(ref context);
 
 
-            var context2 = new TestJsonDbContext();
-            program.DbState(ref context2);
+            //var context2 = new TestJsonDbContext();
+            //program.DbState(ref context2);
 
-            var ow = context2.Users.Single(p => p.Id == 1);
-            var col = context2.Colors.Single(p => p.ColorName.Equals("Green"));
+            //var ow = context2.Users.Single(p => p.Id == 1);
+            //var col = context2.Colors.Single(p => p.ColorName.Equals("Green"));
 
-            context2.Images.Add(new Image()
-            {
-                User = ow,
-                Color = col,
-                Rating = 3,
-                Title = "myimage_0001.jpg"
-            });
-            context2.Images.Add(new Image()
-            {
-                User = ow,
-                Color = col,
-                Rating = 3,
-                Title = "myimage_0002.jpg"
-            });
-            context2.Images.Add(new Image()
-            {
-                User = ow,
-                Color = col,
-                Rating = 3,
-                Title = "myimage_0003.jpg"
-            });
-            context2.SaveChanges();
+            //context2.Images.Add(new Image()
+            //{
+            //    User = ow,
+            //    Color = col,
+            //    Rating = 3,
+            //    Title = "myimage_0001.jpg"
+            //});
+            //context2.Images.Add(new Image()
+            //{
+            //    User = ow,
+            //    Color = col,
+            //    Rating = 3,
+            //    Title = "myimage_0002.jpg"
+            //});
+            //context2.Images.Add(new Image()
+            //{
+            //    User = ow,
+            //    Color = col,
+            //    Rating = 3,
+            //    Title = "myimage_0003.jpg"
+            //});
+            //context2.SaveChanges();
 
             //program.DbState(ref context2);
 
+            var ret = program.MyMethod(p => p.Id);
+
             Console.WriteLine("Done!");
             Console.ReadKey();
+        }
+
+        private T MyMethod<T>(Func<Color, T> selector)
+        {
+            Color obj = new Color()
+            {
+                ColorName = "red",
+                Id = 3
+            };
+            return selector(obj);
         }
 
         private IList<Image> SeedImages()

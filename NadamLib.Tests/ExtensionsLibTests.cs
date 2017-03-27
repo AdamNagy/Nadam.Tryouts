@@ -198,16 +198,29 @@ namespace NadamLib.Tests
             }
 
             [TestMethod]
-            public void FilterOnColorResultShouldBenull()
+            public void FilterOnColorResultShouldBe190()
             {
                 // Arrenge
-                var dbTable = TestDataEntityTableSeeder.SeedTestDataEntityTable();
+                var dbTable = TestDataEntityTableSeeder.SeedTestDataEntityTable(150);
 
                 // Act
                 var filtered = dbTable.FilterBy("ColorE", ColorEnum.black, Equality);
 
                 // Assert
-                Assert.AreEqual(16, filtered.Count());
+                Assert.AreEqual(19, filtered.Count());
+            }
+
+            [TestMethod]
+            public void FilterOnColorResultShouldBe190_b()
+            {
+                // Arrenge
+                var dbTable = TestDataEntityTableSeeder.SeedTestDataEntityTable(150);
+
+                // Act
+                var filtered = dbTable.FilterBy(p => p.ColorE, ColorEnum.black, Equality);
+
+                // Assert
+                Assert.AreEqual(19, filtered.Count());
             }
         }
         #endregion

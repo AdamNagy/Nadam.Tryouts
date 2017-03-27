@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using static Nadam.Lib.BinaryPredicates;
 
 namespace Nadam.Lib
@@ -155,35 +156,10 @@ namespace Nadam.Lib
         #endregion
         
         #region Filters
-        //public static IEnumerable<T> FilterByEquality<T>(this IEnumerable<T> domain, string filter, object reference)
-        //{
-        //    domain = domain as IList<T> ?? domain.ToList();
-        //    if (!domain.Any())
-        //        return null;
-
-        //    if (domain.First().HasProperty(filter))
-        //    {
-        //        return domain.FilterBy(filter, reference, PredicatesLib.EqualityPredicate);
-        //    }
-
-        //    throw new ArgumentException("Filterable property does not exist on domain object.");
-        //}
-
-        //public static IEnumerable<T> FilterByGreaterThan<T>(this IEnumerable<T> domain, string filter, string reference)
-        //{
-        //    domain = domain as IList<T> ?? domain.ToList();
-        //    if (!domain.Any())
-        //        return null;
-
-        //    if (domain.First().HasProperty(filter))
-        //    {
-        //        return domain.FilterBy<T>(filter, reference, PredicatesLib.GreaterThanPredicate);
-        //    }
-
-        //    throw new ArgumentException("Filterable property does not exist on domain object.");
-        //}
-
-        public static IEnumerable<T> FilterBy<T>(this IEnumerable<T> domain, string filter, object reference, Func<object, object, bool> binaryPred)
+        public static IEnumerable<T> FilterBy<T>(this IEnumerable<T> domain, 
+                                                 string filter, 
+                                                 object reference, 
+                                                 Func<object, object, bool> binaryPred)
         {
             domain = domain as IList<T> ?? domain.ToList();
             if (!domain.Any())
@@ -199,23 +175,29 @@ namespace Nadam.Lib
             throw new ArgumentException("Filterable property does not exist on domain object.");
         }
 
-        public static IEnumerable<T> FilterBy<T>(this IEnumerable<T> domain, string filter, Func<object, bool> unaryPred)
+        public static IEnumerable<T> FilterBy<T, U>(this IEnumerable<T> domain, 
+                                                    Func<T, U> propertySelector, 
+                                                    Func<object, bool> unaryPred)
         {
             domain = domain as IList<T> ?? domain.ToList();
             if (!domain.Any())
                 return null;
+ 
+            return domain.Where(p => unaryPred(propertySelector(p))).ToList();
+        }
 
-            if (filter == "NoFilter")
-                return domain;
-
-            if (domain.First().HasProperty(filter))
-            {
-                return domain.Where(p => unaryPred(p.GetValueFor(filter))).ToList();
-            }
-            throw new ArgumentException("Filterable property does not exist on domain object.");
+        public static IEnumerable<T> FilterBy<T, U>(this IEnumerable<T> domain, 
+                                                    Func<T, U> propertySelector, 
+                                                    object reference, 
+                                                    Func<object, object, bool> binaryPred)
+        {
+            domain = domain as IList<T> ?? domain.ToList();
+            if (!domain.Any())
+                return null;
+                        
+            return domain.Where(p => binaryPred(propertySelector(p), reference)).ToList();
         }
         #endregion
-
 
         #region Base extensions
         public static void Foreach<T>(this IEnumerable<T> list, Action<T> action)
@@ -228,7 +210,6 @@ namespace Nadam.Lib
 
         public static void Foreach<T>(this IEnumerable<T> list, Func<T, T> action)
         {
-            //foreach(var listItem in list)
             var array = list as List<T>;
             for (int i = 0; i < list.Count(); i++)
             {
@@ -247,24 +228,5 @@ namespace Nadam.Lib
         }
         #endregion
 
-        //public static Func<object, object, bool> SingleOrDefaultPredicate(this string funcName)
-        //{
-        //    switch(funcName.ToLower())
-        //    {
-        //        case "equalitypredicate":
-        //        case "equality":
-        //            return EqualityPredicate;
-        //        case "greaterthanpredicate":
-        //        case "greaterthan":
-        //        case "greater":
-        //            return GreaterThanPredicate;
-        //        case "lessthanpredicate":
-        //        case "lessthan":
-        //        case "less":
-        //            return LessThanPredicate;
-        //        default:
-        //            return NoFilter;
-        //    }
-        //}
     }
 }
