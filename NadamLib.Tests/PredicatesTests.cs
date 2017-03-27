@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static Nadam.Lib.PredicatesLib;
+using NadamLib.Tests.TestModels;
+using static Nadam.Lib.BinaryPredicates;
 
 namespace NadamLib.Tests
 {
@@ -15,31 +16,24 @@ namespace NadamLib.Tests
         {
             // Exception assert
             [TestMethod]
-            [ExpectedException(typeof(ArgumentException))]
+            [ExpectedException(typeof(NotImplementedException))]
             public void LeftOperantIsNUllTest()
             {
-                var less = LessThanPredicate(null, "10");
+                var less = LessThan(null, "10");
             }
 
             [TestMethod]
-            [ExpectedException(typeof(ArgumentException))]
-            public void RightOperandIsNUllTest()
-            {
-                var less = LessThanPredicate(2.234, null);
-            }
-
-            [TestMethod]
-            [ExpectedException(typeof(ArgumentException))]
+            [ExpectedException(typeof(NotImplementedException))]
             public void BothOperandsNUllTest()
             {
-                var less = LessThanPredicate(null, null);
+                var less = LessThan(null, null);
             }
 
             [TestMethod]
-            [ExpectedException(typeof(FormatException))]
+            [ExpectedException(typeof(NotImplementedException))]
             public void Convertion()
             {
-                var less = LessThanPredicate("Not a number", "null");
+                var less = LessThan("Not a number", "null");
             }
             /*********************************************************/
 
@@ -47,55 +41,143 @@ namespace NadamLib.Tests
             [TestMethod]
             public void ValidTestUsingInt()
             {
-                var less = LessThanPredicate(1, 2);
+                var less = LessThan(1, 2);
                 Assert.IsTrue(less);
 
-                less = LessThanPredicate(3, 2);
-                Assert.IsFalse(less);
-            
-                less = LessThanPredicate(2, 2);
+                less = LessThan(3, 2);
                 Assert.IsFalse(less);
 
-                less = LessThanPredicate(-2, 2);
+                less = LessThan(2, 2);
+                Assert.IsFalse(less);
+
+                less = LessThan(-2, 2);
                 Assert.IsTrue(less);
             }
 
             [TestMethod]
             public void ValidTestUsingDouble()
             {
-                var less = LessThanPredicate(1.0, 2.2);
+                var less = LessThan(1.0, 2.2);
                 Assert.IsTrue(less);
 
-                less = LessThanPredicate(-14234.234234, 2342.4234);
+                less = LessThan(-14234.234234, 2342.4234);
                 Assert.IsTrue(less);
 
-                less = LessThanPredicate(3.321, 2.432);
+                less = LessThan(3.321, 2.432);
                 Assert.IsFalse(less);
 
-                less = LessThanPredicate(2.123, 2.123);
+                less = LessThan(2.123, 2.123);
                 Assert.IsFalse(less);
             }
 
             [TestMethod]
+            [ExpectedException(typeof(NotImplementedException))]
             public void ValidTestUsingString()
             {
-                var less = LessThanPredicate("1", "2");
-                Assert.IsTrue(less);
+                var less = LessThan("1", "2");
+                //Assert.IsTrue(less);
 
-                less = LessThanPredicate("-4231", "42342");
-                Assert.IsTrue(less);
+                //less = LessThan("-4231", "42342");
+                //Assert.IsTrue(less);
 
-                less = LessThanPredicate("14234", "2342234");
-                Assert.IsTrue(less);
+                //less = LessThan("14234", "2342234");
+                //Assert.IsTrue(less);
 
-                less = LessThanPredicate("3", "2");
-                Assert.IsFalse(less);
+                //less = LessThan("3", "2");
+                //Assert.IsFalse(less);
 
-                less = LessThanPredicate("2", "2");
-                Assert.IsFalse(less);
+                //less = LessThan("2", "2");
+                //Assert.IsFalse(less);
             }
         }
 
+        [TestClass]
+        public class Equlity
+        {
+            [TestMethod]
+            public void FilterInNumbersShouldBe1()
+            {
+                // Arrange
+                var numbers = TestDataEntityTableSeeder.SeedNumbers();
 
+                // Action
+                var result = numbers.Where(p => Equality(p, 1)).ToList();
+
+                // Assert
+                Assert.AreEqual(1, result.Count());
+                Assert.AreEqual(1, result[0]);
+            }
+
+            [TestMethod]
+            public void FilterInNumbersShouldBe0()
+            {
+                // Arrange
+                var numbers = TestDataEntityTableSeeder.SeedNumbers();
+
+                // Action
+                var result = numbers.Where(p => Equality(p, -1)).ToList();
+
+                // Assert
+                Assert.AreEqual(0, result.Count());
+            }
+
+            [TestMethod]
+            public void FilterInNumbersShouldBe3()
+            {
+                // Arrange
+                var numbers = TestDataEntityTableSeeder.SeedNumbers3TimesEach();
+
+                // Action
+                var result = numbers.Where(p => Equality(p, 5)).ToList();
+
+                // Assert
+                Assert.AreEqual(3, result.Count());
+                Assert.AreEqual(5, result[0]);
+                Assert.AreEqual(5, result[1]);
+                Assert.AreEqual(5, result[2]);
+            }
+
+            [TestMethod]
+            public void FilterInStringShouldBe1()
+            {
+                // Arrange
+                var numbers = TestDataEntityTableSeeder.SeedStrings();
+
+                // Action
+                var result = numbers.Where(p => Equality(p, "three")).ToList();
+
+                // Assert
+                Assert.AreEqual(1, result.Count());
+                Assert.AreEqual("three", result[0]);
+            }
+
+            [TestMethod]
+            public void FilterInStringShouldBe2()
+            {
+                // Arrange
+                var numbers = TestDataEntityTableSeeder.SeedStrings2TimesEach();
+
+                // Action
+                var result = numbers.Where(p => Equality(p, "three")).ToList();
+
+                // Assert
+                Assert.AreEqual(2, result.Count());
+                Assert.AreEqual("three", result[0]);
+                Assert.AreEqual("three", result[1]);
+            }
+
+            [TestMethod]
+            public void FilterInStringShouldBe0()
+            {
+                // Arrange
+                var numbers = TestDataEntityTableSeeder.SeedStrings2TimesEach();
+
+                // Action
+                var result = numbers.Where(p => Equality(p, "nem létező")).ToList();
+
+                // Assert
+                Assert.AreEqual(0, result.Count());
+            }
+        }
     }
 }

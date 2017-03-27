@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Nadam.Lib.PredicatesLib;
+using static Nadam.Lib.BinaryPredicates;
 
 namespace Nadam.Lib
 {
@@ -9,7 +9,7 @@ namespace Nadam.Lib
     /// This class contains extension methods for Reflection, Filters and other types methods like
     /// Foreach, PluralizeString...
     /// </summary>
-    public static class ExtensionsLib
+    public static class Extensions
     {
         #region Reflection extensions
         /// <summary>
@@ -183,7 +183,7 @@ namespace Nadam.Lib
         //    throw new ArgumentException("Filterable property does not exist on domain object.");
         //}
 
-        public static IEnumerable<T> FilterBy<T>(this IEnumerable<T> domain, string filter, object reference, Func<object, object, bool> pred)
+        public static IEnumerable<T> FilterBy<T>(this IEnumerable<T> domain, string filter, object reference, Func<object, object, bool> binaryPred)
         {
             domain = domain as IList<T> ?? domain.ToList();
             if (!domain.Any())
@@ -194,7 +194,23 @@ namespace Nadam.Lib
 
             if (domain.First().HasProperty(filter))
             {
-                return domain.Where(p => pred(p.GetValueFor(filter), reference)).ToList();
+                return domain.Where(p => binaryPred(p.GetValueFor(filter), reference)).ToList();
+            }
+            throw new ArgumentException("Filterable property does not exist on domain object.");
+        }
+
+        public static IEnumerable<T> FilterBy<T>(this IEnumerable<T> domain, string filter, Func<object, bool> unaryPred)
+        {
+            domain = domain as IList<T> ?? domain.ToList();
+            if (!domain.Any())
+                return null;
+
+            if (filter == "NoFilter")
+                return domain;
+
+            if (domain.First().HasProperty(filter))
+            {
+                return domain.Where(p => unaryPred(p.GetValueFor(filter))).ToList();
             }
             throw new ArgumentException("Filterable property does not exist on domain object.");
         }

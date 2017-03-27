@@ -10,7 +10,11 @@ namespace NadamLib.Tests.TestModels
     {
         black,
         white,
+        red,
+        green,
         blue,
-        gree,
+        skincolor,
+        grey,
+        purple
     }
 }
