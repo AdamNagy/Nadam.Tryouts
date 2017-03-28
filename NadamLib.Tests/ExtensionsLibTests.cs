@@ -208,6 +208,38 @@ namespace NadamLib.Tests
 
                 // Assert
                 Assert.AreEqual(16, filtered.Count());
+
+                // Act
+                var filtered = dbTable.FilterBy("Name", "Biztosan nem létező név", Equality); 
+
+                // Assert
+                Assert.AreEqual(0, filtered.Count());
+            }
+
+            [TestMethod]
+            public void FilterOnColorResultShouldBe190()
+            {
+                // Arrenge
+                var dbTable = TestDataEntityTableSeeder.SeedTestDataEntityTable(150);
+
+                // Act
+                var filtered = dbTable.FilterBy("ColorE", ColorEnum.black, Equality);
+
+                // Assert
+                Assert.AreEqual(19, filtered.Count());
+            }
+
+            [TestMethod]
+            public void FilterOnColorResultShouldBe190_b()
+            {
+                // Arrenge
+                var dbTable = TestDataEntityTableSeeder.SeedTestDataEntityTable(150);
+
+                // Act
+                var filtered = dbTable.FilterBy(p => p.ColorE, ColorEnum.black, Equality);
+
+                // Assert
+                Assert.AreEqual(19, filtered.Count());
             }
         }
         #endregion

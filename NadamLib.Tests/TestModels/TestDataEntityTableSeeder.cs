@@ -41,6 +41,7 @@ namespace NadamLib.Tests.TestModels
             Records = records;
         }
 
+<<<<<<< HEAD
         public static IList<TestDataEntity> SeedTestDataEntityTable()
         {
             var seeder = new TestDataEntityTableSeeder();
@@ -64,6 +65,34 @@ namespace NadamLib.Tests.TestModels
             }
 
             //seeder.SaveToFile(testEntities);
+=======
+        public static IList<TestDataEntity> SeedTestDataEntityTable(int records = 100)
+        {
+            var seeder = new TestDataEntityTableSeeder(records);
+            var testEntities = new List<TestDataEntity>();
+
+            if( !seeder.TryReadFromFile(ref testEntities) )
+            {
+                var names = seeder.SeedNames();
+                var dobs = seeder.SeedDobs();
+                var colors = seeder.SeedColors();
+
+                for (int i = 0; i < seeder.Records; i++)
+                {
+                    var colorIdx = seeder.GetRandomColorIdx();
+                    testEntities.Add(new TestDataEntity()
+                    {
+                        Id = i + 1,
+                        Name = names[i],
+                        Dob = dobs[i],
+                        ColorC = colors[colorIdx],
+                        ColorE = (ColorEnum)Enum.Parse(typeof(ColorEnum), colorIdx.ToString())
+                    });
+                }
+                seeder.SaveToFile(testEntities);
+            }
+
+>>>>>>> refs/remotes/origin/master
             return testEntities;
         }
 
@@ -74,7 +103,11 @@ namespace NadamLib.Tests.TestModels
 
             for (int i = 0; i < strArr.Length; i += 2)
             {
+<<<<<<< HEAD
                 for (int j = i + 1; j < strArr.Length; j += (int)Records/3)
+=======
+                for (int j = i + 1; j < strArr.Length; j += 3)
+>>>>>>> refs/remotes/origin/master
                 {
                     names.Add($"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(strArr[i])} {CultureInfo.CurrentCulture.TextInfo.ToTitleCase(strArr[j])}");
                 }
@@ -126,11 +159,52 @@ namespace NadamLib.Tests.TestModels
             return Random.Next(0, 7);
         }
 
+<<<<<<< HEAD
         private IEnumerable<TestDataEntity> TryReadFromFile()
         {
             var testEntities = new List<TestDataEntity>();
 
             return testEntities;
+=======
+        private bool TryReadFromFile(ref List<TestDataEntity> testEntities)
+        {
+            
+            try
+            {
+                TextReader tw = new StreamReader("../../app_data/test_entity_list.txt");
+                //foreach (var line in tw.ReadLine())
+                var line = tw.ReadLine();
+                while(!string.IsNullOrEmpty(line))
+                {
+                    var commaSeparated = line.ToString().Split(',');
+                    //"{entity.Id},{entity.Name},{entity.ColorC.Id},{entity.ColorE},{entity.Dob.Date}"
+                    testEntities.Add(new TestDataEntity()
+                    {
+                        Id = Convert.ToInt32(commaSeparated[0]),
+                        Name = commaSeparated[1],
+                        ColorC = new ColorClass()
+                        {
+                            Id = Convert.ToInt32(commaSeparated[2]),
+                            Name = commaSeparated[3]
+                        },
+                        ColorE = (ColorEnum)Enum.Parse(typeof(ColorEnum), commaSeparated[3]),
+                        Dob = Convert.ToDateTime(commaSeparated[4])
+                    });
+                    line = tw.ReadLine();
+                }
+            }
+            catch(FileNotFoundException)
+            {
+                return false;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"{ex.Message}\n{ex?.InnerException?.Message}");
+                return false;
+            }
+
+            return true;
+>>>>>>> refs/remotes/origin/master
         }
 
         private bool SaveToFile(List<TestDataEntity> testData)
