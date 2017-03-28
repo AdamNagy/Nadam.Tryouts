@@ -190,8 +190,8 @@ namespace Nadam.Lib
             throw new ArgumentException("Filterable property does not exist on domain object.");
         }
 
-        public static IEnumerable<T> FilterBy<T, U>(this IEnumerable<T> domain, 
-                                                    Func<T, U> propertySelector, 
+        public static IEnumerable<T> FilterBy<T, TU>(this IEnumerable<T> domain, 
+                                                    Func<T, TU> propertySelector, 
                                                     Func<object, bool> unaryPred)
         {
             domain = domain as IList<T> ?? domain.ToList();
@@ -201,8 +201,8 @@ namespace Nadam.Lib
             return domain.Where(p => unaryPred(propertySelector(p))).ToList();
         }
 
-        public static IEnumerable<T> FilterBy<T, U>(this IEnumerable<T> domain, 
-                                                    Func<T, U> propertySelector, 
+        public static IEnumerable<T> FilterBy<T, TU>(this IEnumerable<T> domain, 
+                                                    Func<T, TU> propertySelector, 
                                                     object reference, 
                                                     Func<object, object, bool> binaryPred)
         {

@@ -208,12 +208,6 @@ namespace NadamLib.Tests
 
                 // Assert
                 Assert.AreEqual(16, filtered.Count());
-
-                // Act
-                var filtered = dbTable.FilterBy("Name", "Biztosan nem létező név", Equality); 
-
-                // Assert
-                Assert.AreEqual(0, filtered.Count());
             }
 
             [TestMethod]
