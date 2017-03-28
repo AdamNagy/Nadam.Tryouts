@@ -66,7 +66,6 @@ namespace NadamLib.Tests.TestModels
                 }
                 seeder.SaveToFile(testEntities);
             }
-
             return testEntities;
         }
 
@@ -77,6 +76,7 @@ namespace NadamLib.Tests.TestModels
 
             for (int i = 0; i < strArr.Length; i += 2)
             {
+
                 for (int j = i + 1; j < strArr.Length; j += 3)
                 {
                     names.Add($"{CultureInfo.CurrentCulture.TextInfo.ToTitleCase(strArr[i])} {CultureInfo.CurrentCulture.TextInfo.ToTitleCase(strArr[j])}");
@@ -131,11 +131,9 @@ namespace NadamLib.Tests.TestModels
 
         private bool TryReadFromFile(ref List<TestDataEntity> testEntities)
         {
-            
             try
             {
                 TextReader tw = new StreamReader("../../app_data/test_entity_list.txt");
-                //foreach (var line in tw.ReadLine())
                 var line = tw.ReadLine();
                 while(!string.IsNullOrEmpty(line))
                 {
