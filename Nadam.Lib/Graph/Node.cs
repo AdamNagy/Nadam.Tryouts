@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Nadam.Lib.Graph
 {
-    public class Node<T>
+    public class Node<T> //: IEquatable<T>
     {
         public T Value { get; set; }
 
@@ -12,6 +13,11 @@ namespace Nadam.Lib.Graph
         {
             Value = value;
         }
+
+        //public bool Equals(T other)
+        //{
+        //    return Value.Equals(other);
+        //}
     }
 }
 

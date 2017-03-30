@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions.cs" />
+    <Compile Include="OtherExtensions.cs" />
+    <Compile Include="ReflectionExtensions.cs" />
+    <Compile Include="FilterExtensions.cs" />
     <Compile Include="Graph\Graph.cs" />
     <Compile Include="Graph\GraphNode.cs" />
     <Compile Include="Graph\Node.cs" />

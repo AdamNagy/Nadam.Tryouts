@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7A5C839D-17DD-4166-963D-23CE1BD3E2EA}</ProjectGuid>
+    <ProjectGuid>{596C9257-F669-4765-B7A2-31BE5306DA65}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NadamLib.Graph.Test</RootNamespace>
-    <AssemblyName>NadamLib.Graph.Test</AssemblyName>
+    <RootNamespace>Nadam.Lib.JsonDb.Test</RootNamespace>
+    <AssemblyName>Nadam.Lib.JsonDb.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,9 +50,15 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DatabaseGraphTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NorthwindDbGraphSeeder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Nadam.Lib.JsonDb\Nadam.Lib.JsonDb.csproj">
+      <Project>{015537B7-AFAA-480D-872D-FAEC01ADF045}</Project>
+      <Name>Nadam.Lib.JsonDb</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Nadam.Lib\Nadam.Lib.csproj">
       <Project>{6f9afe40-62c2-4d40-b143-8aa81bc0c926}</Project>
       <Name>Nadam.Lib</Name>

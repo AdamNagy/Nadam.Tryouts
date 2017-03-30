@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Nadam.Lib.BinaryPredicates;
 
 namespace Nadam.Lib
 {
     /// <summary>
-    /// This class contains extension methods for Reflection, Filters and other types methods like
-    /// Foreach, PluralizeString...
+    /// This class contains extension methods for Reflection
     /// </summary>
-    public static class Extensions
+    public static partial class Extensions
     {
         #region Reflection extensions
         /// <summary>
@@ -115,16 +113,6 @@ namespace Nadam.Lib
         {
             if (root != null && root.Any())
             {
-                //var domainVirtualProperties = root
-                //    .First()
-                //    .GetType()
-                //    .GetProperties()
-                //    .Where(p => p.GetMethod.IsVirtual);
-
-                //root.Foreach(p =>
-                //{
-                //    p.SetValuesToNullFor(domainVirtualProperties.Select(q => q.Name));
-                //});
                 var virtualProperties = root
                                     .First()
                                     .GetVirtualPropertiesOf();
@@ -153,95 +141,5 @@ namespace Nadam.Lib
                     .Select(p => p.Name);
         }
         #endregion
-        
-        #region Filters
-        public static IEnumerable<T> FilterBy<T>(this IEnumerable<T> domain, 
-                                                 string filter, 
-                                                 object reference, 
-                                                 Func<object, object, bool> binaryPred)
-        {
-            domain = domain as IList<T> ?? domain.ToList();
-            if (!domain.Any())
-                return null;
-
-            if (filter == "NoFilter")
-                return domain;
-
-            if (domain.First().HasProperty(filter))
-            {
-                return domain.Where(p => binaryPred(p.GetValueFor(filter), reference)).ToList();
-            }
-            throw new ArgumentException("Filterable property does not exist on domain object.");
-        }
-
-        public static IEnumerable<T> FilterBy<T>(this IEnumerable<T> domain, string filter, Func<object, bool> unaryPred)
-        {
-            domain = domain as IList<T> ?? domain.ToList();
-            if (!domain.Any())
-                return null;
-
-            if (filter == "NoFilter")
-                return domain;
-
-            if (domain.First().HasProperty(filter))
-            {
-                return domain.Where(p => unaryPred(p.GetValueFor(filter))).ToList();
-            }
-            throw new ArgumentException("Filterable property does not exist on domain object.");
-        }
-
-        public static IEnumerable<T> FilterBy<T, TU>(this IEnumerable<T> domain, 
-                                                    Func<T, TU> propertySelector, 
-                                                    Func<object, bool> unaryPred)
-        {
-            domain = domain as IList<T> ?? domain.ToList();
-            if (!domain.Any())
-                return null;
- 
-            return domain.Where(p => unaryPred(propertySelector(p))).ToList();
-        }
-
-        public static IEnumerable<T> FilterBy<T, TU>(this IEnumerable<T> domain, 
-                                                    Func<T, TU> propertySelector, 
-                                                    object reference, 
-                                                    Func<object, object, bool> binaryPred)
-        {
-            domain = domain as IList<T> ?? domain.ToList();
-            if (!domain.Any())
-                return null;
-                        
-            return domain.Where(p => binaryPred(propertySelector(p), reference)).ToList();
-        }
-        #endregion
-
-        #region Base extensions
-        public static void Foreach<T>(this IEnumerable<T> list, Action<T> action)
-        {
-            foreach (var listItem in list)
-            {
-                action(listItem);
-            }
-        }
-
-        public static void Foreach<T>(this IEnumerable<T> list, Func<T, T> action)
-        {
-            var array = list as List<T>;
-            for (int i = 0; i < list.Count(); i++)
-            {
-                array[i] = action(array[i]);
-            }
-        }
-
-        public static string PluralizeString(this string single)
-        {
-            if (string.IsNullOrEmpty(single))
-                return string.Empty;
-
-            if (single.Last() == 's')
-                return single;
-            return single + 's';
-        }
-        #endregion
-
     }
 }
