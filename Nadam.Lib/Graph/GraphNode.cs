@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Nadam.Lib.Graph
 {
-    public class GraphNode<T> : Node<T>
+    public class GraphNode<T> : Node<T>, IEquatable<GraphNode<T>>
     {
         public int NodeId { get; set; }
         public IList<GraphNode<T>> Neighbors { get; set; }
@@ -16,6 +17,12 @@ namespace Nadam.Lib.Graph
         {
             NodeId = id;
             Neighbors = new List<GraphNode<T>>();
+        }
+
+        public bool Equals(GraphNode<T> other)
+        {
+            return NodeId == other.NodeId &&
+                   Value.Equals(other.Value);
         }
     }
 }

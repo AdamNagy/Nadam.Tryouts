@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Nadam.ConsoleTest.Models;
 using NadamLib.Tests.TestModels;
 using Nadam.Lib;
 using static Nadam.Lib.BinaryPredicates;
-//using static Nadam.Lib.BinaryPredicates.BinaryPredicates;
-//using Nadam.Lib.BinaryPredicates;
-
 
 namespace NadamLib.Tests
 {
@@ -220,7 +213,7 @@ namespace NadamLib.Tests
                 var filtered = dbTable.FilterBy("ColorE", ColorEnum.black, Equality);
 
                 // Assert
-                Assert.AreEqual(19, filtered.Count());
+                Assert.AreEqual(16, filtered.Count());
             }
 
             [TestMethod]
@@ -233,7 +226,7 @@ namespace NadamLib.Tests
                 var filtered = dbTable.FilterBy(p => p.ColorE, ColorEnum.black, Equality);
 
                 // Assert
-                Assert.AreEqual(19, filtered.Count());
+                Assert.AreEqual(16, filtered.Count());
             }
         }
         #endregion

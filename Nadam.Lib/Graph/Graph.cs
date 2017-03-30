@@ -8,7 +8,6 @@ namespace Nadam.Lib.Graph
     public abstract class Graph<T, TU> : IEnumerable<GraphNode<TU>>
                                         where T: GraphNode<TU>
                                         where TU: IEquatable<TU>
-                                        
     {
         protected IList<GraphNode<TU>> NodeSet { get; set; }
         public int Count => NodeSet.Count;
@@ -66,7 +65,7 @@ namespace Nadam.Lib.Graph
             return NodeSet.SingleOrDefault(p => p.Value.Equals(reference));
         }
 
-        public GraphNode<TU> FindByValue(GraphNode<TU> reference)
+        public virtual GraphNode<TU> FindByValue(GraphNode<TU> reference)
         {
             return NodeSet.SingleOrDefault(p => p.Equals(reference));
         }
@@ -77,7 +76,7 @@ namespace Nadam.Lib.Graph
         }
         #endregion
 
-        #region Remove..
+        #region Remove node
         public bool Remove(TU value)
         {
             // first remove the node from the nodeset
