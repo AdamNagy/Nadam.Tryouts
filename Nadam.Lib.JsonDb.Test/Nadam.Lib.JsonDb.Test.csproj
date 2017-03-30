@@ -51,8 +51,21 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DatabaseGraphTest.cs" />
+    <Compile Include="JsonDbContextTest.cs" />
+    <Compile Include="TestHelpers\NorthwindJsonContext.cs" />
+    <Compile Include="TestHelpers\NorthwindModel\Category.cs" />
+    <Compile Include="TestHelpers\NorthwindModel\Customer.cs" />
+    <Compile Include="TestHelpers\NorthwindModel\CustomerDemographic.cs" />
+    <Compile Include="TestHelpers\NorthwindModel\Employee.cs" />
+    <Compile Include="TestHelpers\NorthwindModel\Order.cs" />
+    <Compile Include="TestHelpers\NorthwindModel\Order_Detail.cs" />
+    <Compile Include="TestHelpers\NorthwindModel\Product.cs" />
+    <Compile Include="TestHelpers\NorthwindModel\Region.cs" />
+    <Compile Include="TestHelpers\NorthwindModel\Shipper.cs" />
+    <Compile Include="TestHelpers\NorthwindModel\Supplier.cs" />
+    <Compile Include="TestHelpers\NorthwindModel\Territory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NorthwindDbGraphSeeder.cs" />
+    <Compile Include="TestHelpers\NorthwindDbGraphSeeder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Nadam.Lib.JsonDb\Nadam.Lib.JsonDb.csproj">

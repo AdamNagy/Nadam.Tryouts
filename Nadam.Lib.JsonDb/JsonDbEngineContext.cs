@@ -20,8 +20,9 @@ namespace Nadam.Lib.JsonDb
 
         private readonly DatabaseGraph _dbGraph;
         private Dictionary<int, IEnumerable<object>> _dbData;
-
         private IEnumerable<PropertyInfo> _inmemoryDbTableStructure;
+
+        private readonly string fileExtension = ".json";
 
         protected readonly DeferredExecutionPlans ExePlan =
             DeferredExecutionPlans.LazyLoading;   // other execution plan will be implemented later
@@ -29,7 +30,15 @@ namespace Nadam.Lib.JsonDb
         #region <constructors>
         protected JsonDbEngineContext(string configName)
         {
-            RootFolder = ConfigurationManager.AppSettings[configName];
+            if( configName.Contains("path") )
+            {
+                RootFolder = configName.Split('=')[1];
+            }
+            else
+            {
+                RootFolder = ConfigurationManager.AppSettings[configName];
+            }
+            
             FileUtility = new FileUtility();
             _dbGraph = new DatabaseGraph();
 
@@ -47,23 +56,22 @@ namespace Nadam.Lib.JsonDb
         public void SaveChanges(object derived)
         {
             MapDbGraphToData(ref derived);
-            // geting the derived class properties which are the db tables and puting them into a dictionary with their name
-            Type myType = derived.GetType();
+
+            // TODO: delete this part and implement elswhere
+            // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             var tables = new Dictionary<string, IEnumerable<object>>();
 
-            //IList<PropertyInfo> props = new List<PropertyInfo>(myType.GetProperties());
-            //foreach (var table in props.Where(p => p.PropertyType.Name.Contains("IList")))    // TODO define better selection insead of '.Contains("IEnumerable")'
-            //foreach (var table in _inmemoryDbTableStructure)
             foreach (var table in _dbData)
             {
                 var tableName = _dbGraph.FindByNodeId(table.Key).Value;
                 if (!TableExistInRoot(tableName))
                 {
-                    FileUtility.CreateFile(RootFolder, tableName, ".json");
+                    FileUtility.CreateFile(RootFolder, tableName, fileExtension);
                 }
                 var tableRows = table.Value;
                 tables.Add(tableName, tableRows);
             }
+            // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
             // get the table type, and determine if it has any foreign key defined (have any navigation prop)
             foreach (var data in tables.Where(p => p.Value != null && p.Value.Any()).ToList())
@@ -105,11 +113,14 @@ namespace Nadam.Lib.JsonDb
             }
 
             // now we can write the data to files
+            // TODO: extract to method
+            // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>            
             foreach (var table in tables)
             {
                 table.Value.SetIdsFor();
                 SaveTable(table.Key, table.Value.MakeVirtualPropertiesNull());
             }
+            // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         }
 
         public virtual void SaveChanges()
@@ -125,22 +136,31 @@ namespace Nadam.Lib.JsonDb
 
         protected void BuildDatabaseGraph(Type dbContextType)
         {
-
+            // TODO: extract to extension method (getTables)
+            // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             _inmemoryDbTableStructure = new List<PropertyInfo>(dbContextType.GetProperties()
-                                                                           .Where(p => p.PropertyType.Name.Contains("IList"))
+                                                                           .Where(p => p.PropertyType.Name.Contains("IList") || p.PropertyType.Name.Contains("List"))
                                                                            .ToList());
-
+            // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
             foreach (var tableProperty in _inmemoryDbTableStructure)
             {
                 var tableName = tableProperty.Name;
 
-                var propsWithForeignKeyAttr = tableProperty.PropertyType.GetGenericArguments()[0]
-                    .GetProperties()
-                    .Where(prop => Attribute.IsDefined(prop, typeof(ForeignKeyAttribute)))
-                    .Select(q => q.Name.PluralizeString())
-                    .ToList();
-
+                // TODO: extract to extension method (getPropsWithForeignKeyAttr)
+                // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
+                var propsWithForeignKeyAttr = tableProperty.PropertyType
+                                                        .GetGenericArguments()[0]
+                                                        .GetProperties()
+                                                        .Where(prop => Attribute.IsDefined(prop, typeof(ForeignKeyAttribute)))
+                                                        .Select(q => q.Name.PluralizeString())
+                                                        .ToList();
+                // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                 _dbGraph.AddTable(tableName, propsWithForeignKeyAttr);
+            }
+
+            if( Inmemory )
+            {
+                // TODO: read table data from files
             }
         }
 
@@ -178,24 +198,32 @@ namespace Nadam.Lib.JsonDb
 
         protected IList<T> GetTable<T>(string table)
         {
+            throw new NotImplementedException();
+        }
+
+
+        protected IList<T> GetTableData<T>(string table)
+        {
+            var tableData = new List<T>();
             try
             {
                 string jsonStr;
-                using (var fs = new FileStream(RootFolder + "\\" + table + ".json",
-                    FileMode.Open,
-                    FileAccess.Read))
+                using (var fs = new FileStream(RootFolder + "\\" + table + fileExtension,
+                                FileMode.Open,
+                                FileAccess.Read))
                 {
                     using (var sr = new StreamReader(fs, Encoding.UTF8))
                     {
                         jsonStr = sr.ReadToEnd();
                     }
                 }
-                return JsonConvert.DeserializeObject<List<T>>(jsonStr);
+                tableData = JsonConvert.DeserializeObject<List<T>>(jsonStr);
             }
             catch (FileNotFoundException)
             {
                 return null;
             }
+            return tableData;
         }
         // </Db_engine_helper_functions>
     }

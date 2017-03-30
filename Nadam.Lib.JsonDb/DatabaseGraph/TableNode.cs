@@ -12,7 +12,7 @@ namespace Nadam.Lib.DatabaseGraphs
         public bool DependedOn { get; set; }
 
         public TableNode(string tableName) : base(tableName) { }
-        public TableNode(int id, string tableName) : base(tableName, id){}
+        public TableNode(string tableName, int id) : base(tableName, id){}
         public bool Equals(TableNode other)
         {
             return  other?.NodeId != 0 ? NodeId == other?.NodeId : TableName.Equals(other.TableName);

@@ -1,13 +1,16 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Nadam.Lib.Graph;
+using Nadam.Lib.DatabaseGraphs;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace Nadam.Lib.JsonDb.Test
 {
     public class DatabaseGraphTest
     {
         [TestClass]
-        public class DatabaseGraphCreationTest
+        public class DatabaseGraphCreationEndAddTest
         {
             [TestMethod]
             public void CreateAndInitialize()
@@ -19,6 +22,85 @@ namespace Nadam.Lib.JsonDb.Test
 
                 // Assert
                 Assert.AreEqual(13, graph.Count);
+            }
+
+            [TestMethod]
+            public void AddOneTable()
+            {
+                // Arrange
+                var graph = new DatabaseGraph();
+
+                // Act
+                graph.AddNode("Table_A");
+
+                // Assert
+                Assert.AreEqual(graph.Count, 1);
+            }
+
+            [TestMethod]
+            public void AddMoreTable()
+            {
+                // Arrange
+                var graph = new DatabaseGraph();
+
+                // Act
+                graph.AddNode("Table_A");
+                graph.AddNode("Table_B");
+                graph.AddNode("Table_C");
+
+                // Assert
+                Assert.AreEqual(graph.Count, 3);
+            }
+
+            [TestMethod]
+            public void AddOneTableDependency()
+            {
+                // Arrange
+                var graph = new DatabaseGraph();
+
+                // Act
+                graph.AddNode("Table_A");
+                graph.AddNode("Table_B");
+                graph.AddNode("Table_C");
+
+                graph.AddDependecy("Table_A", "Table_B");
+                graph.AddDependecy("Table_A", "Table_C");
+
+                var tableA = graph.FindByNodeId(1);
+                var neightbour = new GraphNode<string>("Table_B", 2) { Neighbors = new List<GraphNode<string>>() };
+                // Assert
+                var f = tableA.Neighbors[0].Equals(neightbour);
+                Assert.AreEqual(tableA.Neighbors.Count, 2);
+                Assert.AreEqual(tableA.Neighbors[0], neightbour);
+
+                CollectionAssert.AreEqual(tableA.Neighbors as ICollection, 
+                                          new List<GraphNode<string>>() {
+                                              new GraphNode<string>("Table_B", 2) { Neighbors = new List<GraphNode<string>>() },
+                                              new GraphNode<string>("Table_C", 3) { Neighbors = new List<GraphNode<string>>() } });
+            }
+
+            [TestMethod]
+            public void AddOneDependencyes()
+            {
+                // Arrange
+                var graph = new DatabaseGraph();
+
+                // Act
+                graph.AddNode("Table_A");
+                graph.AddNode("Table_B");
+                graph.AddNode("Table_C");
+
+                graph.AddDependecy("Table_A", "Table_B");
+                graph.AddDependecy("Table_B", "Table_C");
+
+                var tableA = graph.FindByNodeId(1);
+                var tableB = graph.FindByNodeId(2);
+                var tableC = graph.FindByNodeId(3);
+
+                // Assert
+                Assert.AreEqual(tableA.Neighbors.Count, 1);
+                Assert.AreEqual(tableB.Neighbors.Count, 1);
+                Assert.AreEqual(tableC.Neighbors.Count, 0);
             }
         }
 
@@ -94,7 +176,7 @@ namespace Nadam.Lib.JsonDb.Test
             {
                 // Arrange
                 var graph = NorthwindDbGraphSeeder.GenerateNorthwindDbGraph();
-                var suppliersNode = new GraphNode<string>("Suppliers", 1);
+                var suppliersNode = new TableNode("Suppliers", 1);
 
                 // Action
                 var suppliers = graph.FindByValue(suppliersNode);
