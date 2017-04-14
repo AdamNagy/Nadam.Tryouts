@@ -52,20 +52,25 @@
   <ItemGroup>
     <Compile Include="DatabaseGraphTest.cs" />
     <Compile Include="JsonDbContextTest.cs" />
-    <Compile Include="TestHelpers\NorthwindJsonContext.cs" />
-    <Compile Include="TestHelpers\NorthwindModel\Category.cs" />
-    <Compile Include="TestHelpers\NorthwindModel\Customer.cs" />
-    <Compile Include="TestHelpers\NorthwindModel\CustomerDemographic.cs" />
-    <Compile Include="TestHelpers\NorthwindModel\Employee.cs" />
-    <Compile Include="TestHelpers\NorthwindModel\Order.cs" />
-    <Compile Include="TestHelpers\NorthwindModel\Order_Detail.cs" />
-    <Compile Include="TestHelpers\NorthwindModel\Product.cs" />
-    <Compile Include="TestHelpers\NorthwindModel\Region.cs" />
-    <Compile Include="TestHelpers\NorthwindModel\Shipper.cs" />
-    <Compile Include="TestHelpers\NorthwindModel\Supplier.cs" />
-    <Compile Include="TestHelpers\NorthwindModel\Territory.cs" />
+    <Compile Include="TestHelpers\NorthwindDb\NorthwindJsonContext.cs" />
+    <Compile Include="TestHelpers\NorthwindDb\NorthwindModel\Category.cs" />
+    <Compile Include="TestHelpers\NorthwindDb\NorthwindModel\Customer.cs" />
+    <Compile Include="TestHelpers\NorthwindDb\NorthwindModel\CustomerDemographic.cs" />
+    <Compile Include="TestHelpers\NorthwindDb\NorthwindModel\Employee.cs" />
+    <Compile Include="TestHelpers\NorthwindDb\NorthwindModel\Order.cs" />
+    <Compile Include="TestHelpers\NorthwindDb\NorthwindModel\Order_Detail.cs" />
+    <Compile Include="TestHelpers\NorthwindDb\NorthwindModel\Product.cs" />
+    <Compile Include="TestHelpers\NorthwindDb\NorthwindModel\Region.cs" />
+    <Compile Include="TestHelpers\NorthwindDb\NorthwindModel\Shipper.cs" />
+    <Compile Include="TestHelpers\NorthwindDb\NorthwindModel\Supplier.cs" />
+    <Compile Include="TestHelpers\NorthwindDb\NorthwindModel\Territory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestHelpers\NorthwindDbGraphSeeder.cs" />
+    <Compile Include="TestHelpers\NorthwindDb\NorthwindDbGraphSeeder.cs" />
+    <Compile Include="TestHelpers\SimpleDb\SimpleDbSeeder.cs" />
+    <Compile Include="TestHelpers\SimpleDb\SimpleJsonContext.cs" />
+    <Compile Include="TestHelpers\SimpleDb\SimpleModel\DimensionA.cs" />
+    <Compile Include="TestHelpers\SimpleDb\SimpleModel\DimensionB.cs" />
+    <Compile Include="TestHelpers\SimpleDb\SimpleModel\DimensionC.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Nadam.Lib.JsonDb\Nadam.Lib.JsonDb.csproj">

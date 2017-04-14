@@ -74,7 +74,7 @@ namespace Nadam.Lib.JsonDb.DatabaseGraphs
             SingleTables = SingleTables.Distinct(new TableNodeComparer())
                                        .ToList();
             SingleTables.Reverse();
-            foreach (var item in SingleTables)
+            foreach (var item in SingleTables.Skip(1))  // skip(1) is to skip the root node
             {
                 TableStack.Push(item);
             }

@@ -8,29 +8,31 @@ using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 using Nadam.Lib.DatabaseGraphs;
+using System.Collections;
 
 namespace Nadam.Lib.JsonDb
 {
+    /// <summary>
+    /// Json file based data storage with a context class to access these files.
+    /// CRUD operations are supported
+    /// </summary>
     public abstract class JsonDbEngineContext
     {
-        public FileUtility FileUtility { get; set; }
-
+        private FileUtility fileUtility;
         public readonly string RootFolder;
-        protected readonly bool Inmemory = true;
-
-        private readonly DatabaseGraph _dbGraph;
-        private Dictionary<int, IEnumerable<object>> _dbData;
-        private IEnumerable<PropertyInfo> _inmemoryDbTableStructure;
-
-        private readonly string fileExtension = ".json";
-
+        protected readonly bool Inmemory;
         protected readonly DeferredExecutionPlans ExePlan =
-            DeferredExecutionPlans.LazyLoading;   // other execution plan will be implemented later
+            DeferredExecutionPlans.EagerLoading;
+
+        private readonly DatabaseGraph dbGraph;
+        private readonly string fileExtension = ".json";
+        private Type derivedContextType;
 
         #region <constructors>
-        protected JsonDbEngineContext(string configName)
+        protected JsonDbEngineContext(string configName, bool inmemory = true)
         {
-            if( configName.Contains("path") )
+            Inmemory = inmemory;
+            if ( configName.Contains("path") )
             {
                 RootFolder = configName.Split('=')[1];
             }
@@ -39,110 +41,137 @@ namespace Nadam.Lib.JsonDb
                 RootFolder = ConfigurationManager.AppSettings[configName];
             }
             
-            FileUtility = new FileUtility();
-            _dbGraph = new DatabaseGraph();
+            fileUtility = new FileUtility();
+            dbGraph = new DatabaseGraph();
 
-            var dbContext = this.GetType();
-            BuildDatabaseGraph(dbContext);
-        }
+            derivedContextType = this.GetType();
+            BuildDatabaseGraph();
+            InitListProperties();
 
-        protected JsonDbEngineContext(string configName, bool inmemory) : this(configName)
-        {
-            Inmemory = inmemory;
+            if (Inmemory)
+                LoadAllTable();
         }
         #endregion </constructors>
 
-        // <SaveChanges>
-        public void SaveChanges(object derived)
+        private void InitListProperties()
         {
-            MapDbGraphToData(ref derived);
+            foreach (var table in this.GetType().GetProperties().Select(p => p.Name))
+            {                
+                this.SetValueFor(table, Activator.CreateInstance(this.GetType().GetProperty(table).PropertyType));
+            }            
+        }
 
+        // <SaveChanges>
+        public virtual void SaveChanges()
+        {
+            var props = this.GetType().GetProperties();
             // TODO: delete this part and implement elswhere
             // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-            var tables = new Dictionary<string, IEnumerable<object>>();
+            //var tables = new Dictionary<string, IEnumerable<object>>();
 
-            foreach (var table in _dbData)
-            {
-                var tableName = _dbGraph.FindByNodeId(table.Key).Value;
-                if (!TableExistInRoot(tableName))
-                {
-                    FileUtility.CreateFile(RootFolder, tableName, fileExtension);
-                }
-                var tableRows = table.Value;
-                tables.Add(tableName, tableRows);
-            }
+            //foreach (var table in _dbData)
+            //{
+            //    var tableName = _dbGraph.FindByNodeId(table.Key).Value;
+            //    if (!TableExistInRoot(tableName))
+            //    {
+            //        FileUtility.CreateFile(RootFolder, tableName, fileExtension);
+            //    }
+            //    var tableRows = table.Value;
+            //    tables.Add(tableName, tableRows);
+            //}
             // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+            //var it = _dbGraph.DependecyIteration();
+            //it.Reset();
+            //while (it.MoveNext())
+            //{
+            //    //it.Current.Value
+            //    foreach (var tableRow in (IEnumerable<Object>)this.GetValueFor(it.Current.TableName))
+            //    {
+            //        if (it.Current.HaveDependency)
+            //        {
+            //            foreach (var foreignKey in propsWithForeignKeyAttr)
+            //            {
+            //                var foreignKeyNavigationPropValue = tableRow.GetValueFor(foreignKey.Name);
+            //                if (foreignKeyNavigationPropValue != null)
+            //                {
+            //                    object[] attrs = foreignKey.GetCustomAttributes(true);
+            //                    var foreignKeyAttr = attrs[0] as ForeignKeyAttribute;
+            //                    var foreignKeyPropertyName = foreignKeyAttr.Name;
+
+            //                    tableRow.SetValueFor(foreignKeyPropertyName,
+            //                        foreignKeyNavigationPropValue.GetValueFor("Id"));
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+
             // get the table type, and determine if it has any foreign key defined (have any navigation prop)
-            foreach (var data in tables.Where(p => p.Value != null && p.Value.Any()).ToList())
-            {
-                var tableRowEntity = data.Value?.First();
-                if (tableRowEntity == null)
-                    continue;
+            //foreach (var data in tables.Where(p => p.Value != null && p.Value.Any()).ToList())
+            //{
+            //    var tableRowEntity = data.Value?.First();
+            //    if (tableRowEntity == null)
+            //        continue;
 
-                var propsWithForeignKeyAttr = tableRowEntity
-                    .GetType()
-                    .GetProperties()
-                    .Where(prop => Attribute.IsDefined(prop, typeof(ForeignKeyAttribute)));
+            //    var propsWithForeignKeyAttr = tableRowEntity
+            //        .GetType()
+            //        .GetProperties()
+            //        .Where(prop => Attribute.IsDefined(prop, typeof(ForeignKeyAttribute)));                
 
-                //dbGraph.AddTable(data.Key, propsWithForeignKeyAttr.Select(p => p.Name));
+            //    var haveForeignKey = propsWithForeignKeyAttr.Any();
 
-                var haveForeignKey = propsWithForeignKeyAttr.Any();
+            //    // here we enumerate the tables
+            //    foreach (var tableRow in data.Value)
+            //    {
+            //        // Here we set ForeignKeys for records from the navigation property
+            //        if (haveForeignKey)
+            //        {
+            //            foreach (var foreignKey in propsWithForeignKeyAttr)
+            //            {
+            //                var foreignKeyNavigationPropValue = tableRow.GetValueFor(foreignKey.Name);
+            //                if (foreignKeyNavigationPropValue != null)
+            //                {
+            //                    object[] attrs = foreignKey.GetCustomAttributes(true);
+            //                    var foreignKeyAttr = attrs[0] as ForeignKeyAttribute;
+            //                    var foreignKeyPropertyName = foreignKeyAttr.Name;
 
-                // here we enumerate the tables
-                foreach (var tableRow in data.Value)
-                {
-                    // Here we set ForeignKeys for records from the navigation property
-                    if (haveForeignKey)
-                    {
-                        foreach (var foreignKey in propsWithForeignKeyAttr)
-                        {
-                            var foreignKeyNavigationPropValue = tableRow.GetValueFor(foreignKey.Name);
-                            if (foreignKeyNavigationPropValue != null)
-                            {
-                                object[] attrs = foreignKey.GetCustomAttributes(true);
-                                var foreignKeyAttr = attrs[0] as ForeignKeyAttribute;
-                                var foreignKeyPropertyName = foreignKeyAttr.Name;
-
-                                tableRow.SetValueFor(foreignKeyPropertyName,
-                                    foreignKeyNavigationPropValue.GetValueFor("Id"));
-                            }
-                        }
-                    }
-                }
-            }
+            //                    tableRow.SetValueFor(foreignKeyPropertyName,
+            //                        foreignKeyNavigationPropValue.GetValueFor("Id"));
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
 
             // now we can write the data to files
             // TODO: extract to method
             // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>            
-            foreach (var table in tables)
+            //foreach (var table in tables)
+            //{
+            //    table.Value.SetIdsFor();
+            //    SaveTable(table.Key, table.Value.MakeVirtualPropertiesNull());
+            //}
+
+            var table = dbGraph.DependecyIteration();
+            table.Reset();
+            while (table.MoveNext())
             {
-                table.Value.SetIdsFor();
-                SaveTable(table.Key, table.Value.MakeVirtualPropertiesNull());
+                ((IEnumerable<Object>)this.GetValueFor(table.Current.TableName)).SetIds();
+                SaveTable(table.Current.TableName, (IEnumerable<Object>)this.GetValueFor(table.Current.TableName));
             }
             // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         }
 
-        public virtual void SaveChanges()
-        {
-            SaveChanges(this);
-        }
-
-        protected void BuildDatabaseGraph(object dbContext)
-        {
-            Type myType = this.GetType();
-            BuildDatabaseGraph(myType);
-        }
-
-        protected void BuildDatabaseGraph(Type dbContextType)
+        private void BuildDatabaseGraph()
         {
             // TODO: extract to extension method (getTables)
             // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-            _inmemoryDbTableStructure = new List<PropertyInfo>(dbContextType.GetProperties()
-                                                                           .Where(p => p.PropertyType.Name.Contains("IList") || p.PropertyType.Name.Contains("List"))
+            var inmemoryDbTableStructure = new List<PropertyInfo>(derivedContextType.GetProperties()
+                                                                           .Where(p => p.PropertyType.Name.Contains("IList") || p.PropertyType.Name.Contains("List") || p.PropertyType.Name.Contains("JsonDbTable"))
                                                                            .ToList());
             // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-            foreach (var tableProperty in _inmemoryDbTableStructure)
+            foreach (var tableProperty in inmemoryDbTableStructure)
             {
                 var tableName = tableProperty.Name;
 
@@ -155,12 +184,7 @@ namespace Nadam.Lib.JsonDb
                                                         .Select(q => q.Name.PluralizeString())
                                                         .ToList();
                 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-                _dbGraph.AddTable(tableName, propsWithForeignKeyAttr);
-            }
-
-            if( Inmemory )
-            {
-                // TODO: read table data from files
+                dbGraph.AddTable(tableName, propsWithForeignKeyAttr);
             }
         }
 
@@ -174,33 +198,32 @@ namespace Nadam.Lib.JsonDb
                     NullValueHandling = NullValueHandling.Ignore
                 });
 
-            FileUtility.WriteDataToFileAsJson(RootFolder, tableName, ".json", tableData);
-        }
-
-        private void MapDbGraphToData(ref object dbContext)
-        {
-            _dbData = new Dictionary<int, IEnumerable<object>>();
-            foreach (var tableNode in _dbGraph)
-            {
-                var tableData = (IEnumerable<object>)dbContext.GetValueFor(tableNode.Value);
-                _dbData.Add(tableNode.NodeId, tableData);
-            }
+            fileUtility.WriteDataToFileAsJson(RootFolder, tableName, ".json", tableData);
         }
         // </SaveChanges>
 
         // <Db_engine_helper_functions>
-        private bool TableExistInRoot(string table)
-        {
-            return SavedDbTables.Contains(table);
-        }
+        private bool TableExistInRoot(string table) => SavedDbTables.Contains(table);
 
         private IEnumerable<string> SavedDbTables => Directory.GetFiles(RootFolder);
 
-        protected IList<T> GetTable<T>(string table)
+        private void LoadAllTable()
         {
-            throw new NotImplementedException();
+            InitListProperties();
+            var table = dbGraph.DependecyIteration();
+            table.Reset();
+            while (table.MoveNext())
+            {
+                var tableType = ((IEnumerable<object>)this.GetValueFor(table.Current.TableName)).InnerType();   // Get the type of the table
+                MethodInfo method = typeof(JsonDbEngineContext)     // Get the method from this instance which reads data
+                    .GetMethod("GetTableData", BindingFlags.NonPublic | BindingFlags.Instance);
+                method = method.MakeGenericMethod(tableType);       // Set the generic of it
+                var args = new Object[1];                           // Create args objech[] for the method
+                args[0] = table.Current.TableName;                  // Set args[0] for the "GetTableData<T>(string table)" method
+                var dbTable = method.Invoke(this, args);            // Invoke the method
+                this.SetValueFor(table.Current.TableName, dbTable); // Set the derived class table property with the data
+            }
         }
-
 
         protected IList<T> GetTableData<T>(string table)
         {

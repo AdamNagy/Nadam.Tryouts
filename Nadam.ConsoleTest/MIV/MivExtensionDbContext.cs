@@ -9,11 +9,11 @@ namespace Nadam.ConsoleTest.MIV
         {
             if (inmemory)
             {
-                _sequenceExtensions = GetTable<SequenceExtension>("SequenceExtensions") ?? new List<SequenceExtension>();
-                _places = GetTable<Place>("Places") ?? new List<Place>();
-                _highHeels = GetTable<HighHeel>("HighHeels") ?? new List<HighHeel>();
-                _tightsTypes = GetTable<TightsType>("TightsTypes") ?? new List<TightsType>();
-                _highHeelImages = GetTable<HighHeelImage>("HighHeelImages") ?? new List<HighHeelImage>();
+                _sequenceExtensions = GetTableData<SequenceExtension>("SequenceExtensions") ?? new List<SequenceExtension>();
+                _places = GetTableData<Place>("Places") ?? new List<Place>();
+                _highHeels = GetTableData<HighHeel>("HighHeels") ?? new List<HighHeel>();
+                _tightsTypes = GetTableData<TightsType>("TightsTypes") ?? new List<TightsType>();
+                _highHeelImages = GetTableData<HighHeelImage>("HighHeelImages") ?? new List<HighHeelImage>();
             }
         }
 
@@ -23,7 +23,7 @@ namespace Nadam.ConsoleTest.MIV
             {
                 if (!Inmemory)
                 {
-                    var value = GetTable<SequenceExtension>("SequenceExtensions");
+                    var value = GetTableData<SequenceExtension>("SequenceExtensions");
                     return value ?? new List<SequenceExtension>();
                 }
                 return _sequenceExtensions;
@@ -39,7 +39,7 @@ namespace Nadam.ConsoleTest.MIV
             {
                 if (!Inmemory)
                 {
-                    var value = GetTable<Place>("Places");
+                    var value = GetTableData<Place>("Places");
                     return value ?? new List<Place>();
                 }
                 return _places;
@@ -55,7 +55,7 @@ namespace Nadam.ConsoleTest.MIV
             {
                 if (!Inmemory)
                 {
-                    var value = GetTable<HighHeel>("HighHeels");
+                    var value = GetTableData<HighHeel>("HighHeels");
                     return value ?? new List<HighHeel>();
                 }
                 return _highHeels;
@@ -70,7 +70,7 @@ namespace Nadam.ConsoleTest.MIV
             {
                 if (!Inmemory)
                 {
-                    var value = GetTable<TightsType>("TightsTypes");
+                    var value = GetTableData<TightsType>("TightsTypes");
                     return value ?? new List<TightsType>();
                 }
                 return _tightsTypes;
@@ -86,7 +86,7 @@ namespace Nadam.ConsoleTest.MIV
             {
                 if (!Inmemory)
                 {
-                    var value = GetTable<HighHeelImage>("HighHeelImages");
+                    var value = GetTableData<HighHeelImage>("HighHeelImages");
                     return value ?? new List<HighHeelImage>();
                 }
                 return _highHeelImages;

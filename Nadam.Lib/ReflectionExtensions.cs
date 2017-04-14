@@ -50,7 +50,6 @@ namespace Nadam.Lib
             var propertyInfo = type.GetProperty(property);
             var propType = propertyInfo.PropertyType;
             if (propType.IsGenericType
-                //&& propType.GetGenericTypeDefinition() == typeof(Nullable<>)
                 || propType.IsArray)
             {
                 propertyInfo.SetValue(src, null);
@@ -63,7 +62,6 @@ namespace Nadam.Lib
             {
                 try
                 {
-                    //propertyInfo.SetValue(src, null);
                     propertyInfo.SetValue(src, Activator.CreateInstance(propType));
                 }
                 catch (Exception ex)
@@ -139,6 +137,16 @@ namespace Nadam.Lib
                     .GetProperties()
                     .Where(p => p.GetMethod.IsVirtual)
                     .Select(p => p.Name);
+        }
+
+        public static Type InnerType(this IEnumerable<Object> domain)
+        {
+            Type type = domain.GetType();
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
+            {
+                return type.GetGenericArguments()[0];
+            }
+            return type;
         }
         #endregion
     }

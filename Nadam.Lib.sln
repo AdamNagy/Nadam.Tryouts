@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.Lib.HtmlModules", "Na
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.Lib.JsonDb.Test", "Nadam.Lib.JsonDb.Test\Nadam.Lib.JsonDb.Test.csproj", "{596C9257-F669-4765-B7A2-31BE5306DA65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind", "Northwind\Northwind.csproj", "{6FCE91AD-07F5-47CE-818C-FC29C8278FCC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindEF", "Northwind\NorthwindEF.csproj", "{6FCE91AD-07F5-47CE-818C-FC29C8278FCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

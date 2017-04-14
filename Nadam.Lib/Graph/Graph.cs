@@ -22,14 +22,14 @@ namespace Nadam.Lib.Graph
         #endregion
 
         #region Add node
-        public void AddNode(GraphNode<TU> node)
+        protected void AddNode(GraphNode<TU> node)
         {
             var nextId = Count+1;
             node.NodeId = nextId;
             NodeSet.Add(node);
         }
 
-        public void AddNode(TU value)
+        protected void AddNode(TU value)
         {
             var nextId = Count+1;
             NodeSet.Add(new GraphNode<TU>(value, nextId));
@@ -37,12 +37,12 @@ namespace Nadam.Lib.Graph
         #endregion
 
         #region Add edges
-        public void AddDirectedEdge(GraphNode<TU> from, GraphNode<TU> to)
+        protected void AddDirectedEdge(GraphNode<TU> from, GraphNode<TU> to)
         {
             from.Neighbors.Add(to);
         }
 
-        public void AddUndirectedEdge(GraphNode<TU> from, GraphNode<TU> to)
+        protected void AddUndirectedEdge(GraphNode<TU> from, GraphNode<TU> to)
         {
             from.Neighbors.Add(to);
             to.Neighbors.Add(from);
@@ -50,27 +50,27 @@ namespace Nadam.Lib.Graph
         #endregion
 
         #region Contains and find by..
-        public bool Contains(TU value)
+        protected bool Contains(TU value)
         {
             return NodeSet.SingleOrDefault(p => p.Value.Equals(value)) != null;
         }
 
-        public bool Contains(GraphNode<TU> node)
+        protected bool Contains(GraphNode<TU> node)
         {
             return NodeSet.SingleOrDefault(p => p.NodeId.Equals(node.NodeId)) != null;
         }
 
-        public GraphNode<TU> FindByValue(TU reference)
+        protected GraphNode<TU> FindByValue(TU reference)
         {
             return NodeSet.SingleOrDefault(p => p.Value.Equals(reference));
         }
 
-        public virtual GraphNode<TU> FindByValue(GraphNode<TU> reference)
+        protected virtual GraphNode<TU> FindByValue(GraphNode<TU> reference)
         {
             return NodeSet.SingleOrDefault(p => p.Equals(reference));
         }
 
-        public GraphNode<TU> FindByNodeId(int id)
+        protected GraphNode<TU> FindByNodeId(int id)
         {
             return NodeSet.SingleOrDefault(p => p.NodeId.Equals(id));
         }

@@ -11,9 +11,9 @@
         /// </summary>
         LazyLoading,
         /// <summary>
+        /// It loads only the selected table, and not and dependet entity (foreign key) so virtual properties will remain null
         /// Eager loading is the process whereby a query for one type of entity also loads related entities as part of the query. 
-        /// Eager loading is achieved by use of the Include method. For example, the queries below will load blogs and all the posts 
-        /// related to each blog.
+        /// Eager loading is achieved by use of the Include method.
         /// </summary>
         EagerLoading
     }

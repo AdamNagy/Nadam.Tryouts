@@ -15,18 +15,31 @@ namespace Nadam.Lib.JsonDb
         public static IList<T> Set<T>(this JsonDbEngineContext context)
         {
             var tableName = typeof(T).Name;
-            tableName = tableName.PluralizeString();
-            return (List<T>)context.GetValueFor<JsonDbEngineContext>(tableName);
+            var haveProp = context.HasProperty(tableName);
+            if (context.HasProperty(tableName))
+            {                
+                return (List<T>)context.GetValueFor<JsonDbEngineContext>(tableName);
+            }                
+            else if(!context.HasProperty(tableName.PluralizeString()))
+            {
+                tableName = tableName.PluralizeString();
+                return (List<T>)context.GetValueFor<JsonDbEngineContext>(tableName);
+            }
+
+            throw new ArgumentException("Table does not exist");            
         }
 
-        public static void SetIdsFor(this IEnumerable<object> table)
+        public static void SetIds(this IEnumerable<object> table)
         {
             if(table != null && table.Count() != 0)
             {
-                int lastId = (int)table.Max(p => p.GetValueFor("Id"));
-                foreach (var item in table.Where(p => (int)p.GetValueFor("Id") == 0))
+                if( table.First().HasProperty("Id") )
                 {
-                    item.SetValueFor("Id", ++lastId);
+                    int lastId = (int)table.Max(p => p.GetValueFor("Id"));
+                    foreach (var item in table.Where(p => (int)p.GetValueFor("Id") == 0))
+                    {
+                        item.SetValueFor("Id", ++lastId);
+                    }
                 }
             }
         }

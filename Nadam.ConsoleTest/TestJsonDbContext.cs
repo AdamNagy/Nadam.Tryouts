@@ -10,9 +10,9 @@ namespace Nadam.ConsoleTest
         {
             if (inmemory)
             {
-                _images = GetTable<Image>("Images") ?? new List<Image>();
-                _users = GetTable<User>("Users") ?? new List<User>();
-                _colors = GetTable<Color>("Colors") ?? new List<Color>();
+                _images = GetTableData<Image>("Images") ?? new List<Image>();
+                _users = GetTableData<User>("Users") ?? new List<User>();
+                _colors = GetTableData<Color>("Colors") ?? new List<Color>();
             }
         }
 
@@ -23,7 +23,7 @@ namespace Nadam.ConsoleTest
             {
                 if (!Inmemory || _images == null)
                 {
-                    var value = GetTable<Image>("Images");
+                    var value = GetTableData<Image>("Images");
                     return value ?? new List<Image>();
                 }
                 return _images;
@@ -38,7 +38,7 @@ namespace Nadam.ConsoleTest
             {
                 if (!Inmemory)
                 {
-                    var value = GetTable<User>("Users");
+                    var value = GetTableData<User>("Users");
                     return value ?? new List<User>();
                 }
                 return _users;
@@ -53,7 +53,7 @@ namespace Nadam.ConsoleTest
             {
                 if (!Inmemory)
                 {
-                    var value = GetTable<Color>("Colors");
+                    var value = GetTableData<Color>("Colors");
                     return value ?? new List<Color>();
                 }
                 return _colors;

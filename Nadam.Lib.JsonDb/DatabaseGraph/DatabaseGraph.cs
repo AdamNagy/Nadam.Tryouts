@@ -76,6 +76,21 @@ namespace Nadam.Lib.DatabaseGraphs
             AddDirectedEdge(from, to);
         }
 
+        public TableNode FindByValue(string reference)
+        {
+            return (TableNode)NodeSet.SingleOrDefault(p => p.Value.Equals(reference));
+        }
+
+        public virtual TableNode FindByValue(TableNode reference)
+        {
+            return (TableNode)NodeSet.SingleOrDefault(p => p.Equals(reference));
+        }
+
+        public TableNode FindByNodeId(int id)
+        {
+            return (TableNode)NodeSet.SingleOrDefault(p => p.NodeId.Equals(id));
+        }
+
         public IEnumerable<string> GetDependentTables(string tableName)
         {
             var tableNode = new TableNode(tableName);
