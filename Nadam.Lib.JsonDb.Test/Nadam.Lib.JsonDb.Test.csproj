@@ -50,7 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DatabaseGraphTest.cs" />
+    <Compile Include="TestHelpers\DatabaseGraphTest.cs" />
     <Compile Include="JsonDbContextTest.cs" />
     <Compile Include="TestHelpers\NorthwindDb\NorthwindJsonContext.cs" />
     <Compile Include="TestHelpers\NorthwindDb\NorthwindModel\Category.cs" />

@@ -209,7 +209,7 @@ namespace Nadam.Lib.JsonDb
 
         private void LoadAllTable()
         {
-            InitListProperties();
+            //InitListProperties();
             var table = dbGraph.DependecyIteration();
             table.Reset();
             while (table.MoveNext())
@@ -221,7 +221,8 @@ namespace Nadam.Lib.JsonDb
                 var args = new Object[1];                           // Create args objech[] for the method
                 args[0] = table.Current.TableName;                  // Set args[0] for the "GetTableData<T>(string table)" method
                 var dbTable = method.Invoke(this, args);            // Invoke the method
-                this.SetValueFor(table.Current.TableName, dbTable); // Set the derived class table property with the data
+                if( dbTable != null )
+                    this.SetValueFor(table.Current.TableName, dbTable); // Set the derived class table property with the data
             }
         }
 

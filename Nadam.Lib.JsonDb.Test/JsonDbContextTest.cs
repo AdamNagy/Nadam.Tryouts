@@ -30,6 +30,20 @@ namespace Nadam.Lib.JsonDb.Test
             }
 
             /// <summary>
+            /// This test intented to validate that if a table is not saved, that list shouldn't be null either
+            /// but a freshly initialized list
+            /// </summary>
+            [TestMethod]
+            public void CreateFromExistingWithInMemoryTrue_NotAllTableSaved()
+            {
+                // Arrange
+                var context = new SimpleJsonContext("path=../../app_data/SimpleJson_TestA", true);
+
+                // Assert
+                Assert.AreNotEqual(null, context.DimensionC);
+            }
+
+            /// <summary>
             /// Create empty context, seed test data into it and save it
             /// Check that the json table files contains the seeded data
             /// </summary>
@@ -152,6 +166,8 @@ namespace Nadam.Lib.JsonDb.Test
                 Assert.AreEqual(dimB.Count(), dimBCount + 3);
                 Assert.AreEqual(dimC.Count(), dimCCount + 3);
             }
+
+
         }
 
         [TestClass]
