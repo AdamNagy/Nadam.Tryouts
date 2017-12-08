@@ -1,4 +1,6 @@
-﻿using static System.Console;
+﻿using System.Linq;
+using Northwind;
+using static System.Console;
 
 namespace Nadam.ConsoleTest
 {
@@ -6,29 +8,31 @@ namespace Nadam.ConsoleTest
     {
         static void Main(string[] args)
         {
-            var program = new Program();
-            program.PrintMenu();
-            char input = ReadKey().KeyChar;
-            WriteLine();
-            while (input != 'q')
-            {
-                switch (input)
-                {
-                    case 'a':
-                        JsonDbTestConsole.TestRunner();
-                        break;
-                    case 'b':
-                        GraphTestConsole.TestRunner();
-                        break;
-                    case 'c':
-                        MivDbTestConsole.TestRunner();
-                        break;
-                }
-                program.MenuItemEnd();
-                Clear();
-                program.PrintMenu();
-                input = ReadKey().KeyChar;
-            }
+	        var context = new NORTHWNDEntities();
+	        var someTable = context.Categories.ToList();
+	        //var program = new Program();
+	        //program.PrintMenu();
+	        //char input = ReadKey().KeyChar;
+	        //WriteLine();
+	        //while (input != 'q')
+	        //{
+	        //    switch (input)
+	        //    {
+	        //        case 'a':
+	        //            JsonDbTestConsole.TestRunner();
+	        //            break;
+	        //        case 'b':
+	        //            GraphTestConsole.TestRunner();
+	        //            break;
+	        //        case 'c':
+	        //            MivDbTestConsole.TestRunner();
+	        //            break;
+	        //    }
+	        //    program.MenuItemEnd();
+	        //    Clear();
+	        //    program.PrintMenu();
+	        //    input = ReadKey().KeyChar;
+	        //}
         }
 
         private void PrintMenu()
