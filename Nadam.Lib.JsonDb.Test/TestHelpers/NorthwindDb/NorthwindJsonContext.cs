@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Nadam.Lib.JsonDb;
+﻿using System.Collections.Generic;
 using Nadam.Lib.JsonDb.Test.NorthwindModel;
 
 namespace Nadam.Lib.JsonDb.Test.TestHelpers

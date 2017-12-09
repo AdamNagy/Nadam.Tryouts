@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Northwind;
 using static System.Console;
+using Northwind.CodeFirst;
 
 namespace Nadam.ConsoleTest
 {
@@ -8,31 +8,36 @@ namespace Nadam.ConsoleTest
     {
         static void Main(string[] args)
         {
-	        var context = new NORTHWNDEntities();
-	        var someTable = context.Categories.ToList();
-	        //var program = new Program();
-	        //program.PrintMenu();
-	        //char input = ReadKey().KeyChar;
-	        //WriteLine();
-	        //while (input != 'q')
-	        //{
-	        //    switch (input)
-	        //    {
-	        //        case 'a':
-	        //            JsonDbTestConsole.TestRunner();
-	        //            break;
-	        //        case 'b':
-	        //            GraphTestConsole.TestRunner();
-	        //            break;
-	        //        case 'c':
-	        //            MivDbTestConsole.TestRunner();
-	        //            break;
-	        //    }
-	        //    program.MenuItemEnd();
-	        //    Clear();
-	        //    program.PrintMenu();
-	        //    input = ReadKey().KeyChar;
-	        //}
+         //   var context = new NorthwindContext();
+	     //   var someTable = context.Categories.ToList();
+
+         //   WriteLine($"Categories number: {someTable.Count}");
+         //   WriteLine($"Categories number: {someTable.Count}");
+         //   ReadKey();
+
+            var program = new Program();
+            program.PrintMenu();
+            char input = ReadKey().KeyChar;
+            WriteLine();
+            while (input != 'q')
+            {
+                switch (input)
+                {
+                    case 'a':
+                        JsonDbTestConsole.TestRunner();
+                        break;
+                    case 'b':
+                        GraphTestConsole.TestRunner();
+                        break;
+                    case 'c':
+                        MivDbTestConsole.TestRunner();
+                        break;
+                }
+                program.MenuItemEnd();
+                Clear();
+                program.PrintMenu();
+                input = ReadKey().KeyChar;
+            }
         }
 
         private void PrintMenu()

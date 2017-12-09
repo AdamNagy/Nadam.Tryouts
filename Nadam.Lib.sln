@@ -1,21 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.Lib", "Nadam.Lib\Nadam.Lib.csproj", "{6F9AFE40-62C2-4D40-B143-8AA81BC0C926}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.Lib.JsonDb", "Nadam.Lib.JsonDb\Nadam.Lib.JsonDb.csproj", "{015537B7-AFAA-480D-872D-FAEC01ADF045}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.JsonDb", "Nadam.Lib.JsonDb\Nadam.JsonDb.csproj", "{015537B7-AFAA-480D-872D-FAEC01ADF045}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nadam.Tests", "Nadam.Tests", "{60D34736-40AE-45F3-A424-56340EC79DAC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nadam.Lib.Tests", "Nadam.Lib.Tests", "{60D34736-40AE-45F3-A424-56340EC79DAC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.ConsoleTest", "Nadam.ConsoleTest\Nadam.ConsoleTest.csproj", "{896D0B96-25FB-4708-A150-E9F07D3AA5EA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{C4E8FC89-4A99-4895-82DD-0F08A7C56BA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NadamLib.Test", "NadamLib.Tests\NadamLib.Test.csproj", "{A0ED0AC4-4C63-4E3E-BE6B-4EF5E6DB4739}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.Lib.UTests", "NadamLib.Tests\Nadam.Lib.UTests.csproj", "{A0ED0AC4-4C63-4E3E-BE6B-4EF5E6DB4739}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.Lib.JsonDb.Test", "Nadam.Lib.JsonDb.Test\Nadam.Lib.JsonDb.Test.csproj", "{596C9257-F669-4765-B7A2-31BE5306DA65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.JsonDb.UTests", "Nadam.Lib.JsonDb.Test\Nadam.JsonDb.UTests.csproj", "{596C9257-F669-4765-B7A2-31BE5306DA65}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindEF", "Northwind\NorthwindEF.csproj", "{6FCE91AD-07F5-47CE-818C-FC29C8278FCC}"
 EndProject

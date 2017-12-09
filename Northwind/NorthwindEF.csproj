@@ -11,6 +11,7 @@
     <AssemblyName>Northwind</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -23,7 +24,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -66,85 +66,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Category.cs">
-      <DependentUpon>NorthwindDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Customer.cs">
-      <DependentUpon>NorthwindDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CustomerDemographic.cs">
-      <DependentUpon>NorthwindDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Employee.cs">
-      <DependentUpon>NorthwindDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NorthwindDb.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>NorthwindDb.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NorthwindDb.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>NorthwindDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NorthwindDb.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>NorthwindDb.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Order.cs">
-      <DependentUpon>NorthwindDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Order_Detail.cs">
-      <DependentUpon>NorthwindDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Product.cs">
-      <DependentUpon>NorthwindDb.tt</DependentUpon>
-    </Compile>
+    <Compile Include="CodeFirst\Category.cs" />
+    <Compile Include="CodeFirst\Customer.cs" />
+    <Compile Include="CodeFirst\CustomerDemographic.cs" />
+    <Compile Include="CodeFirst\Employee.cs" />
+    <Compile Include="CodeFirst\NorthwindDb.Context.cs" />
+    <Compile Include="CodeFirst\Order.cs" />
+    <Compile Include="CodeFirst\Order_Detail.cs" />
+    <Compile Include="CodeFirst\Product.cs" />
+    <Compile Include="CodeFirst\Region.cs" />
+    <Compile Include="CodeFirst\Shipper.cs" />
+    <Compile Include="CodeFirst\Supplier.cs" />
+    <Compile Include="CodeFirst\Territory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Region.cs">
-      <DependentUpon>NorthwindDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Shipper.cs">
-      <DependentUpon>NorthwindDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Supplier.cs">
-      <DependentUpon>NorthwindDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>NorthwindDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Territory.cs">
-      <DependentUpon>NorthwindDb.tt</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="NorthwindDb.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>NorthwindDb.Designer.cs</LastGenOutput>
-    </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="NorthwindDb.edmx.diagram">
-      <DependentUpon>NorthwindDb.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app_data\Northwind.MDF">
+    <Content Include="App_Data\Northwind_123.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="NorthwindDb.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>NorthwindDb.Context.cs</LastGenOutput>
-      <DependentUpon>NorthwindDb.edmx</DependentUpon>
-    </Content>
-    <Content Include="NorthwindDb.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>NorthwindDb.edmx</DependentUpon>
-      <LastGenOutput>NorthwindDb.cs</LastGenOutput>
+    <Content Include="App_Data\Northwind_123_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>Northwind_123.mdf</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +108,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

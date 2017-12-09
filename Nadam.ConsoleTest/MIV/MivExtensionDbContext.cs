@@ -5,94 +5,12 @@ namespace Nadam.ConsoleTest.MIV
 {
     class MivExtensionDbContext : JsonDbEngineContext
     {
-        public MivExtensionDbContext(bool inmemory = true) : base("MivJsonDbExtension", inmemory)
-        {
-            if (inmemory)
-            {
-                _sequenceExtensions = GetTableData<SequenceExtension>("SequenceExtensions") ?? new List<SequenceExtension>();
-                _places = GetTableData<Place>("Places") ?? new List<Place>();
-                _highHeels = GetTableData<HighHeel>("HighHeels") ?? new List<HighHeel>();
-                _tightsTypes = GetTableData<TightsType>("TightsTypes") ?? new List<TightsType>();
-                _highHeelImages = GetTableData<HighHeelImage>("HighHeelImages") ?? new List<HighHeelImage>();
-            }
-        }
+        public MivExtensionDbContext(bool inmemory = true) : base("MivJsonDbExtension", inmemory) {}
 
-        public IList<SequenceExtension> SequenceExtensions
-        {
-            get
-            {
-                if (!Inmemory)
-                {
-                    var value = GetTableData<SequenceExtension>("SequenceExtensions");
-                    return value ?? new List<SequenceExtension>();
-                }
-                return _sequenceExtensions;
-            }
-            set { _sequenceExtensions = value; }
-        }
-        private IList<SequenceExtension> _sequenceExtensions;
-
-
-        public IList<Place> Places
-        {
-            get
-            {
-                if (!Inmemory)
-                {
-                    var value = GetTableData<Place>("Places");
-                    return value ?? new List<Place>();
-                }
-                return _places;
-            }
-            set { _places = value; }
-        }
-        private IList<Place> _places;
-
-
-        public IList<HighHeel> HighHeels
-        {
-            get
-            {
-                if (!Inmemory)
-                {
-                    var value = GetTableData<HighHeel>("HighHeels");
-                    return value ?? new List<HighHeel>();
-                }
-                return _highHeels;
-            }
-            set { _highHeels = value; }
-        }
-        private IList<HighHeel> _highHeels;
-
-        public IList<TightsType> TightsTypes
-        {
-            get
-            {
-                if (!Inmemory)
-                {
-                    var value = GetTableData<TightsType>("TightsTypes");
-                    return value ?? new List<TightsType>();
-                }
-                return _tightsTypes;
-            }
-            set { _tightsTypes = value; }
-        }
-        private IList<TightsType> _tightsTypes;
-
-
-        public IList<HighHeelImage> HighHeelImages
-        {
-            get
-            {
-                if (!Inmemory)
-                {
-                    var value = GetTableData<HighHeelImage>("HighHeelImages");
-                    return value ?? new List<HighHeelImage>();
-                }
-                return _highHeelImages;
-            }
-            set { _highHeelImages = value; }
-        }
-        private IList<HighHeelImage> _highHeelImages;
+        public List<SequenceExtension> SequenceExtensions { get; set; }
+        public List<Place> Places { get; set; }
+        public List<HighHeel> HighHeels { get; set; }
+        public List<TightsType> TightsTypes { get; set; }
+        public List<HighHeelImage> HighHeelImages { get; set; }
     }
 }
