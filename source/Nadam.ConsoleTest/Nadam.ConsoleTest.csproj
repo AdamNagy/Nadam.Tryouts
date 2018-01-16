@@ -92,7 +92,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nadam.Lib.JsonDb\Nadam.JsonDb.csproj">
+    <ProjectReference Include="..\Nadam.JsonDb\Nadam.JsonDb.csproj">
       <Project>{015537b7-afaa-480d-872d-faec01adf045}</Project>
       <Name>Nadam.JsonDb</Name>
     </ProjectReference>

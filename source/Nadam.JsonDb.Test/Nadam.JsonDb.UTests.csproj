@@ -73,7 +73,7 @@
     <Compile Include="TestHelpers\SimpleDb\SimpleModel\DimensionC.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nadam.Lib.JsonDb\Nadam.JsonDb.csproj">
+    <ProjectReference Include="..\Nadam.JsonDb\Nadam.JsonDb.csproj">
       <Project>{015537B7-AFAA-480D-872D-FAEC01ADF045}</Project>
       <Name>Nadam.JsonDb</Name>
     </ProjectReference>
