@@ -1,22 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6F9AFE40-62C2-4D40-B143-8AA81BC0C926}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nadam.Lib</RootNamespace>
-    <AssemblyName>Nadam.Lib</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <ProjectGuid>{AA9F5C58-8BEC-4413-92EE-854F64570433}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Nadam.ConsoleShell</RootNamespace>
+    <AssemblyName>Nadam.ConsoleShell</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -26,18 +23,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Nadam.Lib.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -47,22 +42,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleShell\ConsoleCommandAttribute.cs" />
-    <Compile Include="OtherExtensions.cs" />
-    <Compile Include="ReflectionExtensions.cs" />
-    <Compile Include="FilterExtensions.cs" />
-    <Compile Include="Graph\Graph.cs" />
-    <Compile Include="Graph\GraphNode.cs" />
-    <Compile Include="Graph\Node.cs" />
-    <Compile Include="Predicates.cs" />
+    <Compile Include="CommandModels\CommandClass.cs" />
+    <Compile Include="CommandModels\CommandFunction.cs" />
+    <Compile Include="CommandModels\CommandLibrary.cs" />
+    <Compile Include="CommandModels\Command.cs" />
+    <Compile Include="ConsoleCommand\CommandManager.cs" />
+    <Compile Include="ConsoleCommand\CommandRegister.cs" />
+    <Compile Include="DefaultCommands\DefaultCommands.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Nadam.Lib\Nadam.Lib.csproj">
+      <Project>{6f9afe40-62c2-4d40-b143-8aa81bc0c926}</Project>
+      <Name>Nadam.Lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nadam.TestServiceLibrary\Nadam.TestServiceLibrary.csproj">
+      <Project>{2e5a2434-9c74-4456-a705-0506e924e35a}</Project>
+      <Name>Nadam.TestServiceLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
