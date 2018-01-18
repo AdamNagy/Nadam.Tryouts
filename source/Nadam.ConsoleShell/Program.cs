@@ -52,12 +52,12 @@ namespace Nadam.ConsoleShell
 				{
 					// Create a ConsoleCommand instance:
 					var cmd = new Command(consoleInput);
-					cmd.Type = CommandLibrary.CommandClasses.FirstOrDefault(p => p.Name.Equals(cmd.LibraryClassName))?.Type;
+					cmd.Type = CommandLibrary.CommandClasses.FirstOrDefault(p => p.Name.Equals(cmd.ClassName))?.Type;
 
 					var command = commandManager.BuildCommand(consoleInput);
 
 					// Execute the command:
-					string result = Execute(cmd);
+					string result = Execute(command);
 					exitied = result == "Exit";
 
 					// Write out the result:
@@ -79,7 +79,7 @@ namespace Nadam.ConsoleShell
 			string badCommandMessage = string.Format(""
 			                                         + "Unrecognized command \'{0}.{1}\'. "
 			                                         + "Please type a valid command.",
-				command.LibraryClassName, command.Name);
+				command.ClassName, command.FunctionName);
 
 			// Validate the command name:
 			//if (!CommandLibraries.ContainsKey(command.LibraryClassName))
@@ -89,10 +89,10 @@ namespace Nadam.ConsoleShell
 			//}
 			//var methodDictionary = CommandLibraries[command.LibraryClassName];
 			//var methodDictionary = CommandLibraries.Single(p => p.Name == command.LibraryClassName).Commands;
-			var methodDictionary = CommandLibrary.CommandClasses.First(p => p.Name == command.LibraryClassName).CommandFunctions;
+			var methodDictionary = CommandLibrary.CommandClasses.First(p => p.Name == command.ClassName).CommandFunctions;
 
 			// if (!methodDictionary.ContainsKey(command.Name))
-			if (methodDictionary.SingleOrDefault(p => p.Name.Equals(command.Name)) == null)
+			if (methodDictionary.SingleOrDefault(p => p.Name.Equals(command.FunctionName)) == null)
 			{
 				return badCommandMessage;
 			}
@@ -102,7 +102,7 @@ namespace Nadam.ConsoleShell
 
 			var methodParameterValueList = new List<object>();
 			// IEnumerable<ParameterInfo> paramInfoList = methodDictionary[command.Name].ToList();
-			IEnumerable<ParameterInfo> paramInfoList = methodDictionary.SingleOrDefault(p => p.Name.Equals(command.Name)).Parameters;//.ToList()));
+			IEnumerable<ParameterInfo> paramInfoList = methodDictionary.SingleOrDefault(p => p.Name.Equals(command.FunctionName)).Parameters;//.ToList()));
 
 			// Validate proper # of required arguments provided. Some may be optional:
 			var requiredParams = paramInfoList.Where(p => p.IsOptional == false);
@@ -172,7 +172,7 @@ namespace Nadam.ConsoleShell
 
 			// Need the full Namespace for this:
 			Type commandLibaryClass =
-				current.GetType($"Nadam.ConsoleShell.{command.LibraryClassName}.{command.LibraryClassName}");
+				current.GetType($"Nadam.ConsoleShell.{command.ClassName}.{command.ClassName}");
 
 			object[] inputArgs = null;
 			if (methodParameterValueList.Count > 0)
@@ -186,18 +186,19 @@ namespace Nadam.ConsoleShell
 			try
 			{
 				Object result;
-				if (command.Type == null)
+				if (command.IsStatic)
 				{
 					result = typeInfo.InvokeMember(
-						command.Name,
+						command.FunctionName,
 						BindingFlags.InvokeMethod | BindingFlags.Static | BindingFlags.Public,
 						null, null, inputArgs);
 					return result.ToString();
 				}
+
 				var reference = Activator.CreateInstance(command.Type);
 				typeInfo = command.Type;
 
-				var methodInfo = typeInfo.GetMethod(command.Name);
+				var methodInfo = typeInfo.GetMethod(command.FunctionName);
 				result = methodInfo.Invoke(
 					reference,
 					BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly,

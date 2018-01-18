@@ -6,9 +6,9 @@ namespace Nadam.ConsoleShell.CommandModels
 {
     public class Command
     {
-        public IList<string> Arguments { get; private set; }
-        public string Name { get; set; }
-        public string LibraryClassName { get; set; }
+        public IList<string> Arguments { get; set; }
+        public string FunctionName { get; set; }
+        public string ClassName { get; set; }
         public Type Type { get; set; }
         public bool IsStatic { get; set; }
 
@@ -28,15 +28,15 @@ namespace Nadam.ConsoleShell.CommandModels
                 // The first element is always the command:
                 if (i == 0)
                 {
-                    this.Name = stringArray[i];
+                    this.FunctionName = stringArray[i];
 
                     // Set the default:
-                    this.LibraryClassName = "DefaultCommands";
+                    this.ClassName = "DefaultCommands";
                     string[] s = stringArray[0].Split('.');
                     if (s.Length == 2)
                     {
-                        this.LibraryClassName = s[0];
-                        this.Name = s[1];
+                        this.ClassName = s[0];
+                        this.FunctionName = s[1];
                     }
                 }
                 else

@@ -28,10 +28,10 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 
 			var domainTypes = GetDomainClassed();
 			var commandClasses = RegisterInstanceFunctions(ref domainTypes);
-			foreach (var commandClass in RegisterDefaultCommandClasses(ref domainTypes))
-			{
-				commandClasses.Add(commandClass);
-			}
+			//foreach (var commandClass in RegisterDefaultCommandClasses(ref domainTypes))
+			//{
+			//	commandClasses.Add(commandClass);
+			//}
 
 			library.CommandClasses = commandClasses;
 			return library;
@@ -47,24 +47,37 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 
 				try
 				{
-					var methods = commandClass.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly).Where(m => !m.IsSpecialName);
+					var instanceMethods = commandClass.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly).Where(m => !m.IsSpecialName);
+					var staticMethids = commandClass.GetMethods(BindingFlags.Static | BindingFlags.Public);
 					var methodDictionary = new List<CommandFunction>();
-					foreach (var method in methods)
+					foreach (var method in instanceMethods)
 					{
 						if(method.HasIgnoreAsCommandAttribute())
 							continue;
 
-						//var hasCommandAttribute = method.Attributes;
-						string commandName = method.Name;
 						methodDictionary.Add(new CommandFunction
 						{
-							Name = commandName,
+							Name = method.Name,
 							Parameters = method.GetParameters(),
 							IsStatic = false
 						});
 					}
 
-					if(methodDictionary.Count > 0 )
+					foreach (var method in staticMethids)
+					{
+						if (method.HasIgnoreAsCommandAttribute())
+							continue;
+
+						methodDictionary.Add(new CommandFunction
+						{
+							Name = method.Name,
+							Parameters = method.GetParameters(),
+							IsStatic = true
+						});
+					}
+
+
+					if (methodDictionary.Count > 0 )
 						commandLibraries.Add(new CommandClass(commandClass.Name, methodDictionary) { Type = commandClass });
 				}
 				catch (Exception ex)
