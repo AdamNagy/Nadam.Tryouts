@@ -11,6 +11,8 @@ namespace Nadam.ConsoleShell.CommandModels
         public string ClassName { get; set; }
         public Type Type { get; set; }
         public bool IsStatic { get; set; }
+	    public CommandClass CommandClass { get; set; }
+	    public CommandFunction CommandFunction { get; set; }
 
 	    public Command()
 	    {

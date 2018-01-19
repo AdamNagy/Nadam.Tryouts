@@ -10,8 +10,8 @@ namespace Nadam.ConsoleShell
 {
 	class Program
 	{
-		public static CommandLibrary CommandLibrary { get; set; }
-		public static CommandRegister CommandRegister { get; set; }
+		// public static CommandLibrary CommandLibrary { get; set; }
+		public static CommandManager commandManager;
 
 		private const string ReadPrompt = ">>> ";
 		const string CommandNamespace = "DefaultCommands";
@@ -30,15 +30,15 @@ namespace Nadam.ConsoleShell
 			Console.WriteLine(Program.CurrentAssemblyDirectory);
 			#endregion </init_program>
 
-			CommandRegister = new CommandRegister(CommandNamespace);
-			CommandLibrary = CommandRegister.RegisterCommands();
+			//var commandRegister = new CommandRegister(CommandNamespace);
+			//CommandLibrary = commandRegister.RegisterCommands();
+			commandManager = new CommandManager();
 
 			Run();
 		}
 
 		static void Run()
 		{
-			var commandManager = new CommandManager();
 			bool auto = false;
 			var exitied = false;
 			while (!exitied)
@@ -51,8 +51,8 @@ namespace Nadam.ConsoleShell
 				try
 				{
 					// Create a ConsoleCommand instance:
-					var cmd = new Command(consoleInput);
-					cmd.Type = CommandLibrary.CommandClasses.FirstOrDefault(p => p.Name.Equals(cmd.ClassName))?.Type;
+					//var cmd = new Command(consoleInput);
+					//cmd.Type = CommandLibrary.CommandClasses.FirstOrDefault(p => p.Name.Equals(cmd.ClassName))?.Type;
 
 					var command = commandManager.BuildCommand(consoleInput);
 
@@ -89,20 +89,20 @@ namespace Nadam.ConsoleShell
 			//}
 			//var methodDictionary = CommandLibraries[command.LibraryClassName];
 			//var methodDictionary = CommandLibraries.Single(p => p.Name == command.LibraryClassName).Commands;
-			var methodDictionary = CommandLibrary.CommandClasses.First(p => p.Name == command.ClassName).CommandFunctions;
+			//var methodDictionary = CommandLibrary.CommandClasses.First(p => p.Name == command.ClassName).CommandFunctions;
 
 			// if (!methodDictionary.ContainsKey(command.Name))
-			if (methodDictionary.SingleOrDefault(p => p.Name.Equals(command.FunctionName)) == null)
-			{
-				return badCommandMessage;
-			}
+			//if (methodDictionary.SingleOrDefault(p => p.Name.Equals(command.FunctionName)) == null)
+			//{
+			//	return badCommandMessage;
+			//}
 
 			// Make sure the corret number of required arguments are provided:
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 			var methodParameterValueList = new List<object>();
 			// IEnumerable<ParameterInfo> paramInfoList = methodDictionary[command.Name].ToList();
-			IEnumerable<ParameterInfo> paramInfoList = methodDictionary.SingleOrDefault(p => p.Name.Equals(command.FunctionName)).Parameters;//.ToList()));
+			IEnumerable<ParameterInfo> paramInfoList = command.CommandFunction.Parameters; // methodDictionary.SingleOrDefault(p => p.Name.Equals(command.FunctionName)).Parameters;//.ToList()));
 
 			// Validate proper # of required arguments provided. Some may be optional:
 			var requiredParams = paramInfoList.Where(p => p.IsOptional == false);
@@ -171,8 +171,8 @@ namespace Nadam.ConsoleShell
 			Assembly current = typeof(Program).Assembly;
 
 			// Need the full Namespace for this:
-			Type commandLibaryClass =
-				current.GetType($"Nadam.ConsoleShell.{command.ClassName}.{command.ClassName}");
+			Type commandLibaryClass = command.CommandClass.Type;
+				// current.GetType($"Nadam.ConsoleShell.{command.ClassName}.{command.ClassName}");
 
 			object[] inputArgs = null;
 			if (methodParameterValueList.Count > 0)
@@ -195,8 +195,8 @@ namespace Nadam.ConsoleShell
 					return result.ToString();
 				}
 
-				var reference = Activator.CreateInstance(command.Type);
-				typeInfo = command.Type;
+				var reference = Activator.CreateInstance(command.CommandClass.Type);
+				typeInfo = command.CommandClass.Type;
 
 				var methodInfo = typeInfo.GetMethod(command.FunctionName);
 				result = methodInfo.Invoke(

@@ -120,7 +120,7 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 		{
 			var commandClasses = Assembly.GetExecutingAssembly()
 				.GetTypes()
-				.Where(p => p.IsClass && p.Name == CommandNamespace)
+				.Where(p => p.IsClass && p.FullName.Contains("Nadam.ConsoleShell.DefaultCommands"))
 				.ToList();
 
 			//List<Type> commandClasses = new List<Type>();

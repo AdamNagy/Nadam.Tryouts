@@ -12,7 +12,7 @@ namespace Nadam.ConsoleShell.CommandModels
 		public IEnumerable<CommandClass> CommandClasses { get; set; }
 		public Dictionary<string, int> CommandClasseDict { get; set; }
 
-		public CommandClass GetCommandClass(string className)
+		public CommandClass FindCommandClass(string className)
 		{
 			return CommandClasses.SingleOrDefault(p => p.Name.Equals(className));
 		}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 {
 	public class CommandManager
 	{
-		private readonly CommandLibrary commandLibrary;
+		public readonly CommandLibrary commandLibrary;
 
 		public CommandManager()
 		{
@@ -22,7 +23,10 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 		{
 			// Ugly regex to split string on spaces, but preserve quoted text intact:
 			var stringArray = Regex.Split(input, "(?<=^[^\"]*(?:\"[^\"]*\"[^\"]*)*) (?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
-			string commandClass, commandFunction;
+			CommandClass commandClass;
+			IEnumerable<ParameterInfo> parameters;
+			CommandFunction cmdFunction = null;
+			string commandFunction;
 			bool isStatic = false;
 
 			// case 1: input is an alias name, does not contain dot (.)
@@ -31,29 +35,33 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 				var classAndFunc = stringArray[0].Split('.');
 				var className = classAndFunc[0];
 				commandFunction = classAndFunc[1];
-				commandClass = commandLibrary.GetCommandClass(className).Name;
+				commandClass = commandLibrary.FindCommandClass(className);
+				cmdFunction = commandClass.CommandFunctions.Single(p => p.Name.Equals(commandFunction));
 			}
 			// case 2: input is a full reference, contains <class-name>.<function-name>
 			else
 			{
-				commandClass = "DefaultCommands";
+				commandClass = commandLibrary.FindCommandClass("DefaultCommands");
 				commandFunction = stringArray[0];
+				cmdFunction = commandClass.CommandFunctions.Single(p => p.Name.Equals(commandFunction));
 				isStatic = true;
 			}
 			
 			var cmd = new Command()
 			{
 				FunctionName = commandFunction,
-				ClassName = commandClass,
-				IsStatic = isStatic
+				CommandClass = commandClass,
+				IsStatic = isStatic,
+				Arguments = ParseArguments(stringArray),
+				CommandFunction = cmdFunction
 			};
-			ParseArguments(stringArray, ref cmd);
+			// ParseArguments(stringArray, ref cmd);
 			return cmd;
 		}
 
-		private void ParseArguments(string[] input, ref Command cmd)
+		private IList<string> ParseArguments(string[] input)
 		{
-			var Arguments = new List<string>();
+			var arguments = new List<string>();
 			for (int i = 1; i < input.Length; i++)
 			{
 
@@ -77,9 +85,10 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 					// as a single string:
 					argument = quoted.Captures[0].Value;
 				}
-				Arguments.Add(argument);
+				arguments.Add(argument);
 			}
-			cmd.Arguments = Arguments;
+			// cmd.Arguments = Arguments;
+			return arguments;
 		}
 
 		public string ExecuteCommand(Command command)
