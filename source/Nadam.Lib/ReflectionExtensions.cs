@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using Nadam.Lib.ConsoleShell;
 
 namespace Nadam.Lib
 {
@@ -9,7 +11,6 @@ namespace Nadam.Lib
     /// </summary>
     public static partial class Extensions
     {
-        #region Reflection extensions
         /// <summary>
         /// Gets the value of a specific property for an object
         /// </summary>
@@ -148,6 +149,36 @@ namespace Nadam.Lib
             }
             return type;
         }
-        #endregion
-    }
+
+		#region Attribute extensions
+	    public static bool HasIgnoreAsCommandAttribute(this MethodInfo method)
+	    {
+		    if (method.GetCustomAttributes(typeof(IgnoreAsCommandAttribute)).Any())
+			    return true;
+
+		    return false;
+	    }
+
+	    public static bool HasIgnoreAsCommandAttribute(this Type commansClass)
+	    {
+		    if (commansClass.GetCustomAttribute<IgnoreAsCommandAttribute>() != null)
+			    return true;
+		    return false;
+	    }
+
+	    public static string[] GetCommandAliasesFromAttribute(this MethodInfo method)
+	    {
+		    var f = method.GetCustomAttributes(typeof(CommandShellAttribute));
+		    CommandShellAttribute t;
+		    if (f.GetType().Name.Contains("CommandShellAttribute"))
+		    {
+			    t = (CommandShellAttribute)f.First();
+			    return t.CommandAliases;
+		    }
+
+		    return new string[1];
+	    }
+		#endregion
+
+	}
 }
