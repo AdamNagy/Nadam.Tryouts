@@ -48,6 +48,7 @@
     <Compile Include="CommandModels\Command.cs" />
     <Compile Include="ConsoleCommand\CommandManager.cs" />
     <Compile Include="ConsoleCommand\CommandRegister.cs" />
+    <Compile Include="ConsoleShell.cs" />
     <Compile Include="DefaultCommands\DefaultCommands.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

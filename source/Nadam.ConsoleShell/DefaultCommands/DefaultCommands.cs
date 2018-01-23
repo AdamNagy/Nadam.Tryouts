@@ -13,7 +13,7 @@ namespace Nadam.ConsoleShell.DefaultCommands
 	    [CommandShell("help")]
 		public static string GetCommands()
         {
-            var commandLibraries = Program.commandManager.commandLibrary.CommandClasses;        // dont't use static
+            var commandLibraries = Program.ConsoleShell.GetCommandLibrary.CommandClasses;        // dont't use static
             var pen = new StringBuilder();
             foreach (var commandClass in commandLibraries)
             {

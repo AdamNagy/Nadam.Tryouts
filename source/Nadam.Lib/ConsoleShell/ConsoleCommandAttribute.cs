@@ -23,14 +23,4 @@ namespace Nadam.Lib.ConsoleShell
 			CommandType = type;
 		}
 	}
-
-	public enum CommandType
-	{
-		Action, Func
-	}
-
-	public class IgnoreAsCommandAttribute : Attribute
-	{
-		
-	}
 }

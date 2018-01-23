@@ -12,6 +12,13 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 	public class CommandManager
 	{
 		public readonly CommandLibrary commandLibrary;
+		private readonly string commandDomainPath;
+
+		public CommandManager(string domainPath)
+		{
+			var register = new CommandRegister(domainPath);
+			commandLibrary = register.RegisterCommands();
+		}
 
 		public CommandManager()
 		{

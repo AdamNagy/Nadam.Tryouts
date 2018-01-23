@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleShell\CommandType.cs" />
     <Compile Include="ConsoleShell\ConsoleCommandAttribute.cs" />
+    <Compile Include="ConsoleShell\IgnoreAsCommandAttribute.cs" />
     <Compile Include="OtherExtensions.cs" />
     <Compile Include="ReflectionExtensions.cs" />
     <Compile Include="FilterExtensions.cs" />
