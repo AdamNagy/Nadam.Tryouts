@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Nadam.Lib.DatabaseGraphs;
+using Nadam.JsonDb.DatabaseGraph;
 using Nadam.Lib.Graph;
 
 namespace Nadam.ConsoleTest
@@ -18,7 +18,7 @@ namespace Nadam.ConsoleTest
 
         private void Run()
         {
-            //var graph = new DatabaseGraph();
+            //var graph = new DbModelGraph();
             //graph.AddTable("BaseTable", SeedTables());
             //graph.AddTable("Table_B", SeedTables2());
             //var dependecies = graph.GetDependentTables("BaseTable").ToList();
@@ -32,7 +32,7 @@ namespace Nadam.ConsoleTest
             //    Console.WriteLine(it.Current.Value);
             //}
 
-            var northwind = new DatabaseGraph();
+            var northwind = new DbModelGraph();
             northwind.AddTables(SeedNorthwindTables());
 
             // base table connections

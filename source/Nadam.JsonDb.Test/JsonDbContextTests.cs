@@ -4,6 +4,7 @@ using Nadam.Lib.JsonDb.Test.TestHelpers;
 using Nadam.Lib.JsonDb.Test.TestHelpers.SimpleDb;
 using Nadam.Lib.JsonDb.Test.TestHelpers.SimpleDb.SimpleModel;
 using System.Collections.Generic;
+using Nadam.JsonDb;
 
 namespace Nadam.Lib.JsonDb.Test
 {

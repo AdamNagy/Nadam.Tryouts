@@ -7,7 +7,7 @@
     <ProjectGuid>{015537B7-AFAA-480D-872D-FAEC01ADF045}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nadam.Lib.JsonDb</RootNamespace>
+    <RootNamespace>Nadam.JsonDb</RootNamespace>
     <AssemblyName>Nadam.Lib.JsonDb</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -54,9 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common.cs" />
-    <Compile Include="DatabaseGraph\DatabaseGraph.cs" />
+    <Compile Include="DatabaseGraph\DbModelGraph.cs" />
     <Compile Include="DatabaseGraph\DatabaseGraphDependencyEnumerator.cs" />
-    <Compile Include="DatabaseGraph\IDatabaseGraph.cs" />
     <Compile Include="DatabaseGraph\TableNode.cs" />
     <Compile Include="FileUtility.cs" />
     <Compile Include="JsonDbContextExtensions.cs" />

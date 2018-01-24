@@ -5,7 +5,7 @@ using System.Text;
 using Newtonsoft.Json;
 
 
-namespace Nadam.Lib.JsonDb
+namespace Nadam.JsonDb
 {
     public class FileUtility
     {

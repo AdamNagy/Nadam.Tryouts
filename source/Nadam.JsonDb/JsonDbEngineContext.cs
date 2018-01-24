@@ -6,10 +6,11 @@ using System.Configuration;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Nadam.JsonDb.DatabaseGraph;
+using Nadam.Lib;
 using Newtonsoft.Json;
-using Nadam.Lib.DatabaseGraphs;
 
-namespace Nadam.Lib.JsonDb
+namespace Nadam.JsonDb
 {
     /// <summary>
     /// Json file based data storage with a context class to access these files.
@@ -23,7 +24,7 @@ namespace Nadam.Lib.JsonDb
         protected readonly DeferredExecutionPlans ExePlan =
             DeferredExecutionPlans.EagerLoading;
 
-        private readonly DatabaseGraph dbGraph;
+        private readonly DatabaseGraph.DbModelGraph dbGraph;
         private readonly string fileExtension = ".json";
         private Type derivedContextType;
 
@@ -41,7 +42,7 @@ namespace Nadam.Lib.JsonDb
             }
             
             fileUtility = new FileUtility();
-            dbGraph = new DatabaseGraph();
+            dbGraph = new DbModelGraph();
 
             derivedContextType = this.GetType();
             BuildDatabaseGraph();
