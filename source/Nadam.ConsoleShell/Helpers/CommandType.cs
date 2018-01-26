@@ -1,4 +1,4 @@
-﻿namespace Nadam.Lib.ConsoleShell
+﻿namespace Nadam.ConsoleShell.Helpers
 {
 	public enum CommandType
 	{

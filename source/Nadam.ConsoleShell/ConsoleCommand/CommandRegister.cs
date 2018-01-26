@@ -4,8 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Nadam.ConsoleShell.CommandModels;
-using Nadam.Lib.ConsoleShell;
-using Nadam.Lib;
+using Nadam.ConsoleShell.Helpers;
 
 namespace Nadam.ConsoleShell.ConsoleCommand
 {

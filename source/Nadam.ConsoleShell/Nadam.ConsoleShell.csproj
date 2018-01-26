@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AA9F5C58-8BEC-4413-92EE-854F64570433}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{A2250FCD-DB21-444A-8200-925B79C616D6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Nadam.ConsoleShell</RootNamespace>
     <AssemblyName>Nadam.ConsoleShell</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,10 +22,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\dist\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -42,29 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandModels\Command.cs" />
     <Compile Include="CommandModels\CommandClass.cs" />
     <Compile Include="CommandModels\CommandFunction.cs" />
     <Compile Include="CommandModels\CommandLibrary.cs" />
-    <Compile Include="CommandModels\Command.cs" />
     <Compile Include="ConsoleCommand\CommandManager.cs" />
     <Compile Include="ConsoleCommand\CommandRegister.cs" />
-    <Compile Include="ConsoleShell.cs" />
+    <Compile Include="ConsoleShellApp.cs" />
     <Compile Include="DefaultCommands\DefaultCommands.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Helpers\CommandType.cs" />
+    <Compile Include="Helpers\ConsoleCommandAttribute.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Helpers\IgnoreAsCommandAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Nadam.Lib\Nadam.Lib.csproj">
-      <Project>{6f9afe40-62c2-4d40-b143-8aa81bc0c926}</Project>
-      <Name>Nadam.Lib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Nadam.TestServiceLibrary\Nadam.TestServiceLibrary.csproj">
-      <Project>{2e5a2434-9c74-4456-a705-0506e924e35a}</Project>
-      <Name>Nadam.TestServiceLibrary</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

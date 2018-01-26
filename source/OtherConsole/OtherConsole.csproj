@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{59633E0B-172C-41DC-8D56-DF25FA6942AD}</ProjectGuid>
+    <ProjectGuid>{759586AB-D906-4300-AC52-B9751371D28D}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Nadam.ConsoleShellTest</RootNamespace>
-    <AssemblyName>Nadam.ConsoleShellTest</AssemblyName>
+    <RootNamespace>OtherConsole</RootNamespace>
+    <AssemblyName>OtherConsole</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -50,12 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Nadam.ConsoleShell\Nadam.ConsoleShell.csproj">
-      <Project>{aa9f5c58-8bec-4413-92ee-854f64570433}</Project>
+      <Project>{a2250fcd-db21-444a-8200-925b79c616d6}</Project>
       <Name>Nadam.ConsoleShell</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Nadam.Lib\Nadam.Lib.csproj">
-      <Project>{6f9afe40-62c2-4d40-b143-8aa81bc0c926}</Project>
-      <Name>Nadam.Lib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

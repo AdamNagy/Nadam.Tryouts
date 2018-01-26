@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nadam.Lib.ConsoleShell
+namespace Nadam.ConsoleShell.Helpers
 {
 	public class IgnoreAsCommandAttribute : Attribute
 	{

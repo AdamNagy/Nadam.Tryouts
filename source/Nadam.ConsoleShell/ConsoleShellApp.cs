@@ -9,7 +9,7 @@ using Nadam.ConsoleShell.ConsoleCommand;
 
 namespace Nadam.ConsoleShell
 {
-	public class ConsoleShell
+	public class ConsoleShellApp
 	{
 		private  CommandManager commandManager;
 		private const string ReadPrompt = ">>> ";
@@ -17,7 +17,7 @@ namespace Nadam.ConsoleShell
 
 		public CommandLibrary GetCommandLibrary => commandManager.commandLibrary;
 
-		public ConsoleShell(bool _autorun)
+		public ConsoleShellApp(bool _autorun)
 		{
 			autorun = _autorun;
 		}
