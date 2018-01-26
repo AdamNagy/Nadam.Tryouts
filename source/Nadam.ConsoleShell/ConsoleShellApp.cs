@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Nadam.ConsoleShell.CommandModels;
 using Nadam.ConsoleShell.ConsoleCommand;
 
@@ -14,17 +12,19 @@ namespace Nadam.ConsoleShell
 		private  CommandManager commandManager;
 		private const string ReadPrompt = ">>> ";
 		private readonly bool autorun;
+		private string currentLib;
 
 		public CommandLibrary GetCommandLibrary => commandManager.commandLibrary;
 
-		public ConsoleShellApp(bool _autorun)
+		public ConsoleShellApp(bool _autorun, string _currentLib)
 		{
 			autorun = _autorun;
+			currentLib = _currentLib;
 		}
 
 		public void Run()
 		{
-			commandManager = new CommandManager();
+			commandManager = new CommandManager(currentLib);
 
 			var exitied = false;
 			while (!exitied)

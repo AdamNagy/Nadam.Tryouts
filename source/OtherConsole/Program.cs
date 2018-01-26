@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Nadam.ConsoleShell;
+﻿using Nadam.ConsoleShell;
 
 namespace OtherConsole
 {
 	class Program
 	{
+		public static ConsoleShellApp Shell { get; set; }
 		static void Main(string[] args)
 		{
-			var consoleApp = new ConsoleShellApp(false);
-			consoleApp.Run();
+			Shell = new ConsoleShellApp(false, "OtherConsole");
+			Shell.Run();
 		}
 	}
 }
