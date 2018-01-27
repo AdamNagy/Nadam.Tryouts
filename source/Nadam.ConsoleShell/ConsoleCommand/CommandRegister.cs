@@ -5,11 +5,14 @@ using System.Linq;
 using System.Reflection;
 using Nadam.ConsoleShell.CommandModels;
 using Nadam.ConsoleShell.Helpers;
+using Nadam.Lib;
 
 namespace Nadam.ConsoleShell.ConsoleCommand
 {
 	/// <summary>
 	/// Register class that will scan the app domain and gather all classes and turn them into a CommandLibrary
+	/// TODO: Implementation will come from the Program.cs (kind a refactor)
+
 	/// </summary>
 	class CommandRegister
 	{
@@ -26,6 +29,12 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 
 			var domainTypes = GetDomainClassed();
 			var commandClasses = RegisterInstanceFunctions(ref domainTypes);
+
+			//foreach (var commandClass in RegisterDefaultCommandClasses(ref domainTypes))
+			//{
+			//	commandClasses.Add(commandClass);
+			//}
+
 
 			library.CommandClasses = commandClasses;
 			return library;
@@ -83,6 +92,33 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 			return commandLibraries;
 		}
 
+		private IList<CommandClass> RegisterDefaultCommandClasses(ref IList<Type> defaultDomainTypes)
+		{
+			var commandLibraries = new List<CommandClass>();
+			foreach (var commandClass in defaultDomainTypes.Where(p => p.Name.Contains("DefaultCommands")))
+			{
+				// Load the method info from each class into a dictionary:
+				// BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly
+				var methods = commandClass.GetMethods(BindingFlags.Static | BindingFlags.Public);
+				var methodDictionary = new List<CommandFunction>();
+				foreach (var method in methods)
+				{
+					//var hasCommandAttribute = method.Attributes;
+					string commandName = method.Name;
+					methodDictionary.Add(new CommandFunction
+					{
+						Name = commandName,
+						Parameters = method.GetParameters()
+					});
+				}
+				// Add the dictionary of methods for the current class into a dictionary of command classes:
+				//CommandLibraries.Add(commandClass.Name, methodDictionary);
+				commandLibraries.Add(new CommandClass(commandClass.Name, methodDictionary){Type = commandClass});
+			}
+
+			return commandLibraries;
+		}
+
 		private IList<Type> GetDomainClassed()
 		{
 			var commandClasses = Assembly.GetExecutingAssembly()
@@ -99,6 +135,7 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 			foreach (var assemblyName in allAssemblies.Select(p => p.FullName))
 			{
 				if (assemblyName.Contains(CommandNamespace))
+
 				{
 					Assembly assembly = Assembly.Load(assemblyName);
 					foreach (var type in assembly.GetTypes())
