@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Nadam.Lib.JsonDb;
+using Nadam.JsonDb;
 
 namespace Nadam.ConsoleTest.MIV
 {

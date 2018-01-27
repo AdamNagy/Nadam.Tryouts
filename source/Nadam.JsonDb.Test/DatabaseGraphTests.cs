@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Nadam.Lib.Graph;
-using Nadam.Lib.DatabaseGraphs;
+using Nadam.JsonDb.DatabaseGraph;
 using System.Collections.Generic;
 using System.Collections;
 
@@ -252,7 +252,7 @@ namespace Nadam.Lib.JsonDb.Test
             public void AddOneTable()
             {
                 // Arrange
-                var graph = new DatabaseGraph();
+                var graph = new DbModelGraph();
 
                 // Act
                 graph.FindOrAddTable("Table_A");
@@ -265,7 +265,7 @@ namespace Nadam.Lib.JsonDb.Test
             public void AddMoreTable()
             {
                 // Arrange
-                var graph = new DatabaseGraph();
+                var graph = new DbModelGraph();
 
                 // Act
                 graph.FindOrAddTable("Table_A");
@@ -282,7 +282,7 @@ namespace Nadam.Lib.JsonDb.Test
             //public void AddOneTableDependency()
             //{
             //    // Arrange
-            //    var graph = new DatabaseGraph();
+            //    var graph = new DbModelGraph();
 
             //    // Act
             //    graph.FindOrAddTable("Table_A");
@@ -310,7 +310,7 @@ namespace Nadam.Lib.JsonDb.Test
             public void AddOneDependencyes()
             {
                 // Arrange
-                var graph = new DatabaseGraph();
+                var graph = new DbModelGraph();
 
                 // Act
                 graph.FindOrAddTable("Table_A");

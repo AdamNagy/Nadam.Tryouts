@@ -2,7 +2,7 @@
 using Nadam.Lib.Graph;
 using System.Collections.Generic;
 
-namespace Nadam.Lib.DatabaseGraphs
+namespace Nadam.JsonDb.DatabaseGraph
 {
     public class TableNode : GraphNode<string>, IEquatable<TableNode>
     {

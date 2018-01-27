@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using static System.Console;
-using Northwind.CodeFirst;
+﻿using static System.Console;
 
 namespace Nadam.ConsoleTest
 {
@@ -8,14 +6,7 @@ namespace Nadam.ConsoleTest
     {
         static void Main(string[] args)
         {
-         //   var context = new NorthwindContext();
-	     //   var someTable = context.Categories.ToList();
-
-         //   WriteLine($"Categories number: {someTable.Count}");
-         //   WriteLine($"Categories number: {someTable.Count}");
-         //   ReadKey();
-
-            var program = new Program();
+			var program = new Program();
             program.PrintMenu();
             char input = ReadKey().KeyChar;
             WriteLine();

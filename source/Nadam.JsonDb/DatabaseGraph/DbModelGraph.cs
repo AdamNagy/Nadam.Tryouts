@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Nadam.Lib.Graph;
-using Nadam.Lib.JsonDb.DatabaseGraphs;
 
-namespace Nadam.Lib.DatabaseGraphs
+namespace Nadam.JsonDb.DatabaseGraph
 {
-    public class DatabaseGraph : Graph<GraphNode<string>, string>, IDatabaseGraph
+    public class DbModelGraph : Graph<GraphNode<string>, string>
     {
         public TableNode Root { get; set; }
 
-        public DatabaseGraph()
+        public DbModelGraph()
         {
             Root = new TableNode("Root");
         }
@@ -100,9 +99,9 @@ namespace Nadam.Lib.DatabaseGraphs
         }
 
 
-        public DatabaseGraphDependencyEnumerator DependecyIteration()
+        public DbModelGraphDependencyEnumerator DependecyIteration()
         {
-            return new DatabaseGraphDependencyEnumerator(this);
+            return new DbModelGraphDependencyEnumerator(this);
         }
     }
 }

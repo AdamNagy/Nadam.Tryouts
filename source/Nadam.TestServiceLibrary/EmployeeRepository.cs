@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Nadam.Lib.ConsoleShell;
+using Nadam.ConsoleShell.Helpers;
 
 namespace Nadam.TestServiceLibrary
 {
@@ -8,7 +8,7 @@ namespace Nadam.TestServiceLibrary
 	{
 		public string ShouldNotAppear { get; set; }
 
-		[CommandShell("GetEmployees")]
+		[Command("GetEmployees")]
 		public IEnumerable<Employee> Get()
 		{
 			return new List<Employee>()

@@ -12,6 +12,13 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 	public class CommandManager
 	{
 		public readonly CommandLibrary commandLibrary;
+		private readonly string commandDomainPath;
+
+		public CommandManager(string domainPath)
+		{
+			var register = new CommandRegister(domainPath);
+			commandLibrary = register.RegisterCommands();
+		}
 
 		public CommandManager()
 		{
@@ -28,8 +35,8 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 			CommandFunction cmdFunction = null;
 			string commandFunction;
 			bool isStatic = false;
-
-			// case 1: input is an alias name, does not contain dot (.)
+			
+			// case 2: input is a full reference, contains <class-name>.<function-name>
 			if (stringArray[0].Contains('.'))
 			{
 				var classAndFunc = stringArray[0].Split('.');
@@ -38,10 +45,10 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 				commandClass = commandLibrary.FindCommandClass(className);
 				cmdFunction = commandClass.CommandFunctions.Single(p => p.Name.Equals(commandFunction));
 			}
-			// case 2: input is a full reference, contains <class-name>.<function-name>
+			// case 1: input is an alias name, or only contains function and does not contain dot (.)			
 			else
 			{
-				commandClass = commandLibrary.FindCommandClass("DefaultCommands");
+				commandClass = commandLibrary.FindCommandClass("OtherDefaultCommands");
 				commandFunction = stringArray[0];
 				cmdFunction = commandClass.CommandFunctions.Single(p => p.Name.Equals(commandFunction));
 				isStatic = true;

@@ -1,20 +1,19 @@
-﻿using Nadam.Lib.DatabaseGraphs;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nadam.Lib.JsonDb.DatabaseGraphs
+namespace Nadam.JsonDb.DatabaseGraph
 {
-    public class DatabaseGraphDependencyEnumerator : IEnumerator<TableNode>, IEnumerable<TableNode>
+    public class DbModelGraphDependencyEnumerator : IEnumerator<TableNode>, IEnumerable<TableNode>
     {
-        public DatabaseGraph Graph { get; set; }
+        public DbModelGraph Graph { get; set; }
 
         public Stack<TableNode> TableStack { get; set; }
         public List<TableNode> SingleTables { get; set; }
 
         private TableNode _current;
 
-        public DatabaseGraphDependencyEnumerator(DatabaseGraph _graph)
+        public DbModelGraphDependencyEnumerator(DbModelGraph _graph)
         {
             Graph = _graph;            
         }
