@@ -92,13 +92,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nadam.JsonDb\Nadam.JsonDb.csproj">
+    <ProjectReference Include="..\Nadam.JsonDb\Nadam.Global.JsonDb.csproj">
       <Project>{015537b7-afaa-480d-872d-faec01adf045}</Project>
-      <Name>Nadam.JsonDb</Name>
+      <Name>Nadam.Global.JsonDb</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Nadam.Lib\Nadam.Lib.csproj">
+    <ProjectReference Include="..\Nadam.Lib\Nadam.Global.Lib.csproj">
       <Project>{6f9afe40-62c2-4d40-b143-8aa81bc0c926}</Project>
-      <Name>Nadam.Lib</Name>
+      <Name>Nadam.Global.Lib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Northwind\NorthwindEF.csproj">
       <Project>{6fce91ad-07f5-47ce-818c-fc29c8278fcc}</Project>

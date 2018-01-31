@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nadam.Lib
+namespace Nadam.Global.Lib
 {
     /// <summary>
     /// This class contains other extension like forach, and some string extensions

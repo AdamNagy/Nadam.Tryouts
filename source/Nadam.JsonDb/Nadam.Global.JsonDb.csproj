@@ -7,7 +7,7 @@
     <ProjectGuid>{015537B7-AFAA-480D-872D-FAEC01ADF045}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nadam.JsonDb</RootNamespace>
+    <RootNamespace>Nadam.Global.JsonDb</RootNamespace>
     <AssemblyName>Nadam.Lib.JsonDb</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -63,9 +63,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nadam.Lib\Nadam.Lib.csproj">
+    <ProjectReference Include="..\Nadam.Lib\Nadam.Global.Lib.csproj">
       <Project>{6f9afe40-62c2-4d40-b143-8aa81bc0c926}</Project>
-      <Name>Nadam.Lib</Name>
+      <Name>Nadam.Global.Lib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

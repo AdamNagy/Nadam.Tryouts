@@ -1,4 +1,4 @@
-﻿namespace Nadam.JsonDb
+﻿namespace Nadam.Global.JsonDb
 {
     /// <summary>
     /// Entitiy Frameworks load strategies for queryable

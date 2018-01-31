@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace Nadam.ConsoleShell.CommandModels
+namespace Nadam.Global.ConsoleShell.CommandModels
 {
 	/// <summary>
 	/// Represent a function of a class to use as a command later

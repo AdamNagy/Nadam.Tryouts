@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Nadam.Lib.Graph
+namespace Nadam.Global.Lib.Graph
 {
     public class GraphNode<T> : Node<T>, IEquatable<GraphNode<T>>
     {

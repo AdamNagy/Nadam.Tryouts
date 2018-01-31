@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nadam.Lib.Graph;
+using Nadam.Global.Lib.Graph;
 
-namespace Nadam.JsonDb.DatabaseGraph
+namespace Nadam.Global.JsonDb.DatabaseGraph
 {
     public class DbModelGraph : Graph<GraphNode<string>, string>
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nadam.JsonDb.DatabaseGraph
+namespace Nadam.Global.JsonDb.DatabaseGraph
 {
     public class DbModelGraphDependencyEnumerator : IEnumerator<TableNode>, IEnumerable<TableNode>
     {

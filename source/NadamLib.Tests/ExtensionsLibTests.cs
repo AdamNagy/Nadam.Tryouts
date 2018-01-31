@@ -2,8 +2,8 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NadamLib.Tests.TestModels;
-using Nadam.Lib;
-using static Nadam.Lib.BinaryPredicates;
+using Nadam.Global.Lib;
+using static Nadam.Global.Lib.BinaryPredicates;
 
 namespace NadamLib.Tests
 {

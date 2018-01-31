@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Nadam.JsonDb.DatabaseGraph;
+using Nadam.Global.JsonDb.DatabaseGraph;
 
 namespace Nadam.ConsoleTest
 {

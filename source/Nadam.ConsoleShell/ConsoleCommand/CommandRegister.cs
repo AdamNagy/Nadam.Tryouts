@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Nadam.ConsoleShell.CommandModels;
-using Nadam.ConsoleShell.Helpers;
+using Nadam.Global.ConsoleShell.CommandModels;
+using Nadam.Global.ConsoleShell.Helpers;
 
-namespace Nadam.ConsoleShell.ConsoleCommand
+namespace Nadam.Global.ConsoleShell.ConsoleCommand
 {
 	/// <summary>
 	/// Register class that will scan the app domain and gather all classes and turn them into a CommandLibrary
@@ -87,8 +87,8 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 		{
 			var commandClasses = Assembly.GetExecutingAssembly()
 				.GetTypes()
-				.Where(p => p.IsClass && // p.FullName.Contains("Nadam") &&
-							!p.FullName.Contains("Nadam.ConsoleShell"))
+				.Where(p => p.IsClass)// && // p.FullName.Contains("Nadam") &&
+							//!p.FullName.Contains("Nadam.ConsoleShell"))
 				.ToList();
 
 			// need to add logic to filte out unnecessary dll-s
@@ -98,7 +98,7 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 
 			foreach (var assemblyName in allAssemblies.Select(p => p.FullName))
 			{
-				if (assemblyName.Contains(CommandNamespace))
+				if (assemblyName.Contains(""))
 				{
 					Assembly assembly = Assembly.Load(assemblyName);
 					foreach (var type in assembly.GetTypes())

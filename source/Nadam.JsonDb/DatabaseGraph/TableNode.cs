@@ -1,8 +1,8 @@
 ﻿using System;
-using Nadam.Lib.Graph;
+using Nadam.Global.Lib.Graph;
 using System.Collections.Generic;
 
-namespace Nadam.JsonDb.DatabaseGraph
+namespace Nadam.Global.JsonDb.DatabaseGraph
 {
     public class TableNode : GraphNode<string>, IEquatable<TableNode>
     {

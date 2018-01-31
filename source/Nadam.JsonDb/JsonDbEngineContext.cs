@@ -6,11 +6,11 @@ using System.Configuration;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using Nadam.JsonDb.DatabaseGraph;
-using Nadam.Lib;
+using Nadam.Global.JsonDb.DatabaseGraph;
+using Nadam.Global.Lib;
 using Newtonsoft.Json;
 
-namespace Nadam.JsonDb
+namespace Nadam.Global.JsonDb
 {
     /// <summary>
     /// Json file based data storage with a context class to access these files.

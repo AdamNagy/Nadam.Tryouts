@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace Nadam.ConsoleShell.Helpers
+namespace Nadam.Global.ConsoleShell.Helpers
 {
 	public static class Extensions
 	{

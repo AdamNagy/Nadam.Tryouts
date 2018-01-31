@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.Lib", "Nadam.Lib\Nadam.Lib.csproj", "{6F9AFE40-62C2-4D40-B143-8AA81BC0C926}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.Global.Lib", "Nadam.Lib\Nadam.Global.Lib.csproj", "{6F9AFE40-62C2-4D40-B143-8AA81BC0C926}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.JsonDb", "Nadam.JsonDb\Nadam.JsonDb.csproj", "{015537B7-AFAA-480D-872D-FAEC01ADF045}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.Global.JsonDb", "Nadam.JsonDb\Nadam.Global.JsonDb.csproj", "{015537B7-AFAA-480D-872D-FAEC01ADF045}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nadam.Tests", "Nadam.Tests", "{60D34736-40AE-45F3-A424-56340EC79DAC}"
 EndProject
@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.JsonDb.UTests", "Nada
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindEF", "Northwind\NorthwindEF.csproj", "{6FCE91AD-07F5-47CE-818C-FC29C8278FCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.ConsoleShell", "Nadam.ConsoleShell\Nadam.ConsoleShell.csproj", "{A2250FCD-DB21-444A-8200-925B79C616D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.Global.ConsoleShell", "Nadam.ConsoleShell\Nadam.Global.ConsoleShell.csproj", "{A2250FCD-DB21-444A-8200-925B79C616D6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.TestServiceLibrary", "Nadam.TestServiceLibrary\Nadam.TestServiceLibrary.csproj", "{2E5A2434-9C74-4456-A705-0506E924E35A}"
 EndProject

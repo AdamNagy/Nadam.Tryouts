@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Nadam.ConsoleShell.CommandModels
+namespace Nadam.Global.ConsoleShell.CommandModels
 {
     public class Command
     {

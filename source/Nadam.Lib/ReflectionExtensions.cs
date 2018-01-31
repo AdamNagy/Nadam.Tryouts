@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Nadam.Lib
+namespace Nadam.Global.Lib
 {
     /// <summary>
     /// This class contains extension methods for Reflection

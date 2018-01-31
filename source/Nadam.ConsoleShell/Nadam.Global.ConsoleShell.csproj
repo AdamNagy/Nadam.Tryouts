@@ -7,7 +7,7 @@
     <ProjectGuid>{A2250FCD-DB21-444A-8200-925B79C616D6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nadam.ConsoleShell</RootNamespace>
+    <RootNamespace>Nadam.Global.ConsoleShell</RootNamespace>
     <AssemblyName>Nadam.ConsoleShell</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -47,7 +47,6 @@
     <Compile Include="ConsoleCommand\CommandManager.cs" />
     <Compile Include="ConsoleCommand\CommandRegister.cs" />
     <Compile Include="ConsoleShellApp.cs" />
-    <Compile Include="DefaultCommands\DefaultCommands.cs" />
     <Compile Include="Helpers\CommandType.cs" />
     <Compile Include="Helpers\ConsoleCommandAttribute.cs" />
     <Compile Include="Helpers\Extensions.cs" />

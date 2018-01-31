@@ -66,9 +66,9 @@
       <Project>{896D0B96-25FB-4708-A150-E9F07D3AA5EA}</Project>
       <Name>Nadam.ConsoleTest</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Nadam.Lib\Nadam.Lib.csproj">
+    <ProjectReference Include="..\Nadam.Lib\Nadam.Global.Lib.csproj">
       <Project>{6f9afe40-62c2-4d40-b143-8aa81bc0c926}</Project>
-      <Name>Nadam.Lib</Name>
+      <Name>Nadam.Global.Lib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

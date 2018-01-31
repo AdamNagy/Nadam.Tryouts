@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nadam.Lib.Graph
+namespace Nadam.Global.Lib.Graph
 {
     public abstract class Graph<T, TU> : IEnumerable<GraphNode<TU>>
                                         where T: GraphNode<TU>

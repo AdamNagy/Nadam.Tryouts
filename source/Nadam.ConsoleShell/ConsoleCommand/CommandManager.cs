@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Nadam.ConsoleShell.CommandModels;
+using Nadam.Global.ConsoleShell.CommandModels;
 
-namespace Nadam.ConsoleShell.ConsoleCommand
+namespace Nadam.Global.ConsoleShell.ConsoleCommand
 {
 	public class CommandManager
 	{
