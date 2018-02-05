@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Nadam.Global.ConsoleShell</RootNamespace>
-    <AssemblyName>Nadam.ConsoleShell</AssemblyName>
+    <AssemblyName>Nadam.Global.ConsoleShell</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

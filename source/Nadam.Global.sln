@@ -9,19 +9,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.Global.JsonDb", "Nada
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nadam.Tests", "Nadam.Tests", "{60D34736-40AE-45F3-A424-56340EC79DAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.ConsoleTest", "Nadam.ConsoleTest\Nadam.ConsoleTest.csproj", "{896D0B96-25FB-4708-A150-E9F07D3AA5EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "Nadam.ConsoleTest\ConsoleTest.csproj", "{896D0B96-25FB-4708-A150-E9F07D3AA5EA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{C4E8FC89-4A99-4895-82DD-0F08A7C56BA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.Lib.UTests", "NadamLib.Tests\Nadam.Lib.UTests.csproj", "{A0ED0AC4-4C63-4E3E-BE6B-4EF5E6DB4739}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lib.UTests", "NadamLib.Tests\Lib.UTests.csproj", "{A0ED0AC4-4C63-4E3E-BE6B-4EF5E6DB4739}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.JsonDb.UTests", "Nadam.JsonDb.Test\Nadam.JsonDb.UTests.csproj", "{596C9257-F669-4765-B7A2-31BE5306DA65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonDb.UTests", "Nadam.JsonDb.Test\JsonDb.UTests.csproj", "{596C9257-F669-4765-B7A2-31BE5306DA65}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindEF", "Northwind\NorthwindEF.csproj", "{6FCE91AD-07F5-47CE-818C-FC29C8278FCC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.Global.ConsoleShell", "Nadam.ConsoleShell\Nadam.Global.ConsoleShell.csproj", "{A2250FCD-DB21-444A-8200-925B79C616D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.TestServiceLibrary", "Nadam.TestServiceLibrary\Nadam.TestServiceLibrary.csproj", "{2E5A2434-9C74-4456-A705-0506E924E35A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestServiceLibrary", "Nadam.TestServiceLibrary\TestServiceLibrary.csproj", "{2E5A2434-9C74-4456-A705-0506E924E35A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtherConsole", "OtherConsole\OtherConsole.csproj", "{759586AB-D906-4300-AC52-B9751371D28D}"
 EndProject

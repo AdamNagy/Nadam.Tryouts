@@ -5,7 +5,7 @@ using System.Reflection;
 using Nadam.Global.ConsoleShell.CommandModels;
 using Nadam.Global.ConsoleShell.ConsoleCommand;
 
-namespace Nadam.ConsoleShell
+namespace Nadam.Global.ConsoleShell
 {
 	public class ConsoleShellApp
 	{

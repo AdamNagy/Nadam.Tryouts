@@ -20,7 +20,7 @@ namespace Nadam.Global.ConsoleShell.ConsoleCommand
 
 		public CommandManager()
 		{
-			var register = new CommandRegister("Nadam.ConsoleShell.DefaultCommands");
+			var register = new CommandRegister("DefaultCommands");
 			commandLibrary = register.RegisterCommands();
 		}
 

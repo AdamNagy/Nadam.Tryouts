@@ -3,10 +3,10 @@ using Nadam.Global.ConsoleShell.Helpers;
 
 namespace OtherConsole
 {
-	public static class OtherDefaultCommands
+	public class DefaultCommands
 	{
 		[Command(new []{"help", "?"})]
-		public static string GetCommands()
+		public string GetCommands()
 		{
 			var pen = new StringBuilder();
 			var library = Program.Shell.GetCommandLibrary;

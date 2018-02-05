@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OtherDefaultCommands.cs" />
+    <Compile Include="DefaultCommands.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -54,9 +54,9 @@
       <Project>{a2250fcd-db21-444a-8200-925b79c616d6}</Project>
       <Name>Nadam.Global.ConsoleShell</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Nadam.TestServiceLibrary\Nadam.TestServiceLibrary.csproj">
+    <ProjectReference Include="..\Nadam.TestServiceLibrary\TestServiceLibrary.csproj">
       <Project>{2e5a2434-9c74-4456-a705-0506e924e35a}</Project>
-      <Name>Nadam.TestServiceLibrary</Name>
+      <Name>TestServiceLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

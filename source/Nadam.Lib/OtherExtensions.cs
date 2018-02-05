@@ -10,13 +10,13 @@ namespace Nadam.Global.Lib
     public static partial class Extensions
     {
         #region Base extensions
-        public static void Foreach<T>(this IEnumerable<T> list, Action<T> action)
-        {
-            foreach (var listItem in list)
-            {
-                action(listItem);
-            }
-        }
+        //public static void Foreach<T>(this IEnumerable<T> list, Action<T> action)
+        //{
+        //    foreach (var listItem in list)
+        //    {
+        //        action(listItem);
+        //    }
+        //}
 
         public static void Foreach<T>(this IEnumerable<T> list, Func<T, T> action)
         {
