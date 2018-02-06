@@ -18,13 +18,14 @@ namespace Nadam.Global.Lib
         //    }
         //}
 
-        public static void Foreach<T>(this IEnumerable<T> list, Func<T, T> action)
+        public static IEnumerable<T> Foreach<T>(this IEnumerable<T> list, Func<T, T> action)
         {
-            var array = list as List<T>;
-            for (int i = 0; i < list.Count(); i++)
-            {
-                array[i] = action(array[i]);
-            }
+            var array = new List<T>();
+	        foreach (var item in list)
+	        {
+				array.Add(action(item));
+			}
+	        return array;
         }
 
         public static string PluralizeString(this string single)

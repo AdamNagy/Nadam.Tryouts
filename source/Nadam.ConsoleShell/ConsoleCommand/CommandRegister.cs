@@ -104,12 +104,6 @@ namespace Nadam.Global.ConsoleShell.ConsoleCommand
 				}
 			}
 
-
-
-
-
-
-
 			return commandClasses;
 		}
 	}
