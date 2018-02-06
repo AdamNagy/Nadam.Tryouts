@@ -90,6 +90,12 @@ namespace Nadam.Global.ConsoleShell.ConsoleCommand
 											.Where(p => p.FullName.StartsWith(CommandNamespace))
 											.ToList();
 
+			allAssemblies.Add(
+				AppDomain.CurrentDomain
+				.GetAssemblies()
+				.Where(p => p.FullName.StartsWith("OtherConsole"))
+				.ToList().First());
+
 			foreach (var assembly in allAssemblies)
 			{
 				foreach (var type in assembly.GetTypes())
@@ -97,6 +103,12 @@ namespace Nadam.Global.ConsoleShell.ConsoleCommand
 					commandClasses.Add(type);
 				}
 			}
+
+
+
+
+
+
 
 			return commandClasses;
 		}

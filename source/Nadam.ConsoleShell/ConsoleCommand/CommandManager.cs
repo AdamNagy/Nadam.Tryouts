@@ -48,7 +48,7 @@ namespace Nadam.Global.ConsoleShell.ConsoleCommand
 			else
 			{
 				// implement functionality to find command class and function by function name
-				commandClass = commandLibrary.FindCommandClass("OtherDefaultCommands");
+				commandClass = commandLibrary.FindCommandClass("DefaultCommands");
 				commandFunction = stringArray[0];
 				cmdFunction = commandClass.CommandFunctions.Single(p => p.Name.Equals(commandFunction));
 				isStatic = true;

@@ -6,7 +6,7 @@ namespace OtherConsole
 	public class DefaultCommands
 	{
 		[Command(new []{"help", "?"})]
-		public string GetCommands()
+		public static string GetCommands()
 		{
 			var pen = new StringBuilder();
 			var library = Program.Shell.GetCommandLibrary;
