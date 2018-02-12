@@ -9,7 +9,6 @@ namespace Nadam.Global.Lib
     /// </summary>
     public static partial class Extensions
     {
-        #region Filters
         public static IEnumerable<T> FilterBy<T>(this IEnumerable<T> domain,
                                                  string property,
                                                  object reference,
@@ -30,9 +29,9 @@ namespace Nadam.Global.Lib
         }
 
         public static IEnumerable<T> FilterBy<T, TU>(this IEnumerable<T> domain,
-                                            Func<T, TU> property,
-                                            object reference,
-                                            Func<object, object, bool> binaryPred)
+													Func<T, TU> property,
+													object reference,
+													Func<object, object, bool> binaryPred)
         {
             domain = domain as IList<T> ?? domain.ToList();
             if (!domain.Any())
@@ -69,6 +68,5 @@ namespace Nadam.Global.Lib
 
             return domain.Where(p => unaryPred(property(p))).ToList();
         }
-        #endregion
     }
 }

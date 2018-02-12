@@ -1,121 +1,170 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Nadam.Global.Lib.Graph
 {
-    public abstract class Graph<T, TU> : IEnumerable<GraphNode<TU>>
-                                        where T: GraphNode<TU>
-                                        where TU: IEquatable<TU>
+	/// <summary>
+	/// Base graph class, represents an undirected graph
+	/// Nodes and undirected edges can added
+	/// </summary>
+	/// <typeparam name="NodeType"></typeparam>
+	public class Graph<TNode> : IGraph<TNode>
     {
-        protected IList<GraphNode<TU>> NodeSet { get; set; }
-        public int Count => NodeSet.Count;
+        protected IList<Node<TNode>> NodeSet { get; set; }
+		protected IList<Edge> EdgeSet { get; set; }
+
+        public int NodesCount => NodeSet.Count;
+	    public int EdgeCount => EdgeSet.Count;
+
+	    protected int NodeId;
+	    protected int EdgeId;
 
         #region ctors
-        protected Graph() : this(null) { }
+        public Graph() : this(null) { }
 
-        protected Graph(IList<GraphNode<TU>> nodeSet)
+		public Graph(IList<Node<TNode>> nodeSet)
         {
-            NodeSet = nodeSet ?? new List<GraphNode<TU>>();
+            NodeSet = nodeSet ?? new List<Node<TNode>>();
+	        NodeId = 0;
+	        EdgeId = 0;
+
         }
-        #endregion
+		#endregion
 
-        #region Add node
-        protected void AddNode(GraphNode<TU> node)
+		#region Add
+		public virtual void AddNode(Node<TNode> node)
         {
-            var nextId = Count+1;
-            node.NodeId = nextId;
+            node.NodeId = NodeId++;
             NodeSet.Add(node);
         }
 
-        protected void AddNode(TU value)
+		public virtual void AddNode(TNode value)
         {
-            var nextId = Count+1;
-            NodeSet.Add(new GraphNode<TU>(value, nextId));
-        }
-        #endregion
-
-        #region Add edges
-        protected void AddDirectedEdge(GraphNode<TU> from, GraphNode<TU> to)
-        {
-            from.Neighbors.Add(to);
+			NodeSet.Add(new Node<TNode>(value, NodeId++));
         }
 
-        protected void AddUndirectedEdge(GraphNode<TU> from, GraphNode<TU> to)
+	    public virtual void AddEdge(Node<TNode> a, Node<TNode> b)
         {
-            from.Neighbors.Add(to);
-            to.Neighbors.Add(from);
+			EdgeSet.Add(new Edge(a.NodeId, b.NodeId, EdgeId++));
         }
-        #endregion
+		#endregion
 
-        #region Contains and find by..
-        protected bool Contains(TU value)
+		#region Contains
+	    public virtual bool Contains(TNode value)
         {
-            return NodeSet.SingleOrDefault(p => p.Value.Equals(value)) != null;
-        }
-
-        protected bool Contains(GraphNode<TU> node)
-        {
-            return NodeSet.SingleOrDefault(p => p.NodeId.Equals(node.NodeId)) != null;
+            return FindNode(value) != null;
         }
 
-        protected GraphNode<TU> FindByValue(TU reference)
+		public virtual bool Contains(Node<TNode> node)
+        {
+            return FindNode(node.NodeId) != null;
+        }
+
+	    public bool Contains(Edge edge)
+	    {
+		    var lookingFor = FindEdge(edge.ANodeId, edge.BNodeId);
+		    return lookingFor != null;
+	    }
+
+	    #endregion
+
+		#region Find
+	    public virtual Node<TNode> FindNode(TNode reference)
         {
             return NodeSet.SingleOrDefault(p => p.Value.Equals(reference));
         }
 
-        protected virtual GraphNode<TU> FindByValue(GraphNode<TU> reference)
+		public virtual Node<TNode> FindNode(Node<TNode> reference)
         {
             return NodeSet.SingleOrDefault(p => p.Equals(reference));
         }
 
-        protected GraphNode<TU> FindByNodeId(int id)
+		public virtual Node<TNode> FindNode(int nodeId)
         {
-            return NodeSet.SingleOrDefault(p => p.NodeId.Equals(id));
-        }
-        #endregion
-
-        #region Remove node
-        public bool Remove(TU value)
-        {
-            // first remove the node from the nodeset
-            GraphNode<TU> nodeToRemove = FindByValue(value);
-            if (nodeToRemove == null)
-                // node wasn't found
-                return false;
-
-            // otherwise, the node was found
-            NodeSet.Remove(nodeToRemove);
-
-            // enumerate through each node in the nodeSet, removing edges to this node
-            foreach (GraphNode<TU> gnode in NodeSet)
-            {
-                int index = gnode.Neighbors.IndexOf(nodeToRemove);
-                if (index != -1)
-                {
-                    // remove the reference to the node and associated cost
-                    gnode.Neighbors.RemoveAt(index);
-                }
-            }
-
-            return true;
+            return NodeSet.SingleOrDefault(p => p.NodeId.Equals(nodeId));
         }
 
-        protected void RemoveDirectedEdge(GraphNode<TU> from, GraphNode<TU> to)
-        {
-            from.Neighbors.Remove(FindByValue(to.Value));
-        }
-        #endregion
+	    public Edge FindEdge(int aNodeId, int bNodeId)
+	    {
+		    return EdgeSet.SingleOrDefault(p => 
+				p.ANodeId.Equals(aNodeId) && 
+				p.BNodeId.Equals(bNodeId));
+	    }
 
-        public IEnumerator<GraphNode<TU>> GetEnumerator()
-        {
-            return NodeSet.GetEnumerator();
-        }
+	    public Edge FindEdge(int edgeId)
+	    {
+		    return EdgeSet.SingleOrDefault(p => p.EdgeId.Equals(edgeId));
+	    }
+		#endregion
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-    }
+		#region Remove
+		public virtual bool Remove(TNode nodeValue)
+	    {
+			var nodeToRemove = FindNode(nodeValue);
+		    if (nodeToRemove == null)
+			    return false;
+
+		    RemoveEdgesFor(nodeToRemove);
+			Remove(nodeToRemove);
+
+		    return true;
+		}
+
+	    public virtual bool Remove(int nodeId)
+	    {
+			var nodeToRemove = FindNode(nodeId);
+		    if (nodeToRemove == null)
+			    return false;
+
+		    RemoveEdgesFor(nodeToRemove);
+		    Remove(nodeToRemove);
+
+		    return true;
+		}
+
+	    public virtual bool Remove(Node<TNode> nodeToRemove)
+	    {
+			if (nodeToRemove == null)
+			    return false;
+
+		    RemoveEdgesFor(nodeToRemove);
+		    Remove(nodeToRemove);
+
+		    return true;
+		}
+
+	    public virtual bool Remove(Edge edge)
+	    {
+		    var edgeToRemove = FindEdge(edge.EdgeId);
+
+		    if (edgeToRemove == null)
+			    return false;
+
+		    EdgeSet.Remove(edgeToRemove);
+		    return true;
+	    }
+		#endregion
+
+		#region Enumerators
+		public IEnumerator<Node<TNode>> GetNodeSetEnumerator()
+		{
+			return NodeSet.GetEnumerator();
+		}
+
+		public IEnumerator<Edge> GetEdgeSetEnumerator()
+		{
+			return EdgeSet.GetEnumerator();
+		}
+		#endregion
+
+		#region Private
+		private void RemoveEdgesFor(Node<TNode> node)
+	    {
+			foreach (var edge in EdgeSet.Where(p => p.ANodeId.Equals(node) || p.BNodeId.Equals(node)))
+			{
+				EdgeSet.Remove(edge);
+			}
+		}
+		#endregion
+	}
 }

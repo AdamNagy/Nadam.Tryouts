@@ -48,11 +48,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DirectedGraph\DirectedEdge.cs" />
+    <Compile Include="DirectedGraph\DirectedGraph.cs" />
+    <Compile Include="DirectedGraph\DirectedNode.cs" />
+    <Compile Include="DirectedGraph\IDirectedGraph.cs" />
+    <Compile Include="Graph\Edge.cs" />
+    <Compile Include="Graph\IGraph.cs" />
     <Compile Include="OtherExtensions.cs" />
     <Compile Include="ReflectionExtensions.cs" />
     <Compile Include="FilterExtensions.cs" />
     <Compile Include="Graph\Graph.cs" />
-    <Compile Include="Graph\GraphNode.cs" />
     <Compile Include="Graph\Node.cs" />
     <Compile Include="Predicates.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -9,23 +9,14 @@ namespace Nadam.Global.Lib
     /// </summary>
     public static partial class Extensions
     {
-        #region Base extensions
-        //public static void Foreach<T>(this IEnumerable<T> list, Action<T> action)
-        //{
-        //    foreach (var listItem in list)
-        //    {
-        //        action(listItem);
-        //    }
-        //}
-
-        public static IEnumerable<T> Foreach<T>(this IEnumerable<T> list, Func<T, T> action)
+        public static void Each<T>(this IEnumerable<T> domainList, Func<T, T> action)
         {
-            var array = new List<T>();
-	        foreach (var item in list)
-	        {
-				array.Add(action(item));
-			}
-	        return array;
+	        var asList = domainList as IList<T>;
+			if( asList == null || asList.Count == 0 )
+				return;
+
+	        for (int i = 0; i < asList.Count; i++)
+		        asList[i] = action(asList[i]);
         }
 
         public static string PluralizeString(this string single)
@@ -35,8 +26,8 @@ namespace Nadam.Global.Lib
 
             if (single.Last() == 's')
                 return single;
+
             return single + 's';
         }
-        #endregion
     }
 }

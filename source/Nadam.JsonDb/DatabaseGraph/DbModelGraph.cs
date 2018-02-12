@@ -5,13 +5,13 @@ using Nadam.Global.Lib.Graph;
 
 namespace Nadam.Global.JsonDb.DatabaseGraph
 {
-    public class DbModelGraph : Graph<GraphNode<string>, string>
+    public class DbModelGraph : Graph<DbTable>
     {
-        public TableNode Root { get; set; }
+        public DbTable Root { get; set; }
 
         public DbModelGraph()
         {
-            Root = new TableNode("Root");
+            Root = new DbTable("Root");
         }
 
         /// <summary>
@@ -75,25 +75,25 @@ namespace Nadam.Global.JsonDb.DatabaseGraph
             AddDirectedEdge(from, to);
         }
 
-        public TableNode FindByValue(string reference)
+        public DbTable FindByValue(string reference)
         {
-            return (TableNode)NodeSet.SingleOrDefault(p => p.Value.Equals(reference));
+            return (DbTable)NodeSet.SingleOrDefault(p => p.Value.Equals(reference));
         }
 
-        public virtual TableNode FindByValue(TableNode reference)
+        public virtual DbTable FindByValue(DbTable reference)
         {
-            return (TableNode)NodeSet.SingleOrDefault(p => p.Equals(reference));
+            return (DbTable)NodeSet.SingleOrDefault(p => p.Equals(reference));
         }
 
-        public TableNode FindByNodeId(int id)
+        public DbTable FindByNodeId(int id)
         {
-            return (TableNode)NodeSet.SingleOrDefault(p => p.NodeId.Equals(id));
+            return (DbTable)NodeSet.SingleOrDefault(p => p.NodeId.Equals(id));
         }
 
         public IEnumerable<string> GetDependentTables(string tableName)
         {
-            var tableNode = new TableNode(tableName);
-            var dependencies = FindByValue(tableNode.TableName).Neighbors.Select(p => p.Value);
+            var tableNode = new DbTable(tableName);
+            var dependencies = FindByValue(tableNode.TableName).DirectedNeighbors.Select(p => p.Value);
 
             return dependencies;
         }

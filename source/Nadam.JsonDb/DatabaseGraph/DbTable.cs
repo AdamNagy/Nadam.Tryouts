@@ -4,18 +4,32 @@ using System.Collections.Generic;
 
 namespace Nadam.Global.JsonDb.DatabaseGraph
 {
-    public class TableNode : GraphNode<string>, IEquatable<TableNode>
-    {
-        public string TableName => Value;
+    public class DbTable : Node<string> //IEquatable<TableNode>
+	{
+	    public Node<string> Node { get; set; }
+        public string TableName => Node.Value;
 
         public bool HaveDependency { get; set; }
         public bool DependedOn { get; set; }
 
-        public TableNode(string tableName) : base(tableName) { }
-        public TableNode(string tableName, int id) : base(tableName, id){}
+	    public DbTableModel(string tableName)
+	    {
+		    Node = new Node<string>(tableName);
+	    }
+
+	    public DbTableModel(string tableName, int id)
+	    {
+			Node = new Node<string>(tableName, id);
+		}
+
+	    public DbTableModel(Node<string> node)
+	    {
+		    Node = node;
+	    }
+
         public bool Equals(TableNode other)
         {
-            return  other?.NodeId != 0 ? NodeId == other?.NodeId : TableName.Equals(other.TableName);
+            return  other?.Node.NodeId != 0 ? Node.NodeId == other?.Node.NodeId : TableName.Equals(other.TableName);
         }
 
         public static bool operator ==(TableNode a, TableNode b)
@@ -42,7 +56,17 @@ namespace Nadam.Global.JsonDb.DatabaseGraph
         {
             return !(a == b);
         }
-    }
+
+	    public static explicit operator TableNode(Node<string> b)  // explicit byte to digit conversion operator
+	    {
+		    return new TableNode(b);
+	    }
+
+	    public static explicit operator Node<string>(TableNode b)  // explicit byte to digit conversion operator
+	    {
+		    return new Node<string>(b.TableName, b.Node.NodeId);
+	    }
+	}
 
     public class TableNodeComparer : IEqualityComparer<TableNode>
     {
