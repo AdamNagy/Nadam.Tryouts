@@ -33,7 +33,6 @@ namespace Nadam.Global.ConsoleShell.ConsoleCommand
 			CommandFunction cmdFunction = null;
 			string commandFunction;
 			bool isStatic = false;
-
 			
 			// case 2: input is a full reference, contains <class-name>.<function-name>
 			if (stringArray[0].Contains('.'))
@@ -44,11 +43,11 @@ namespace Nadam.Global.ConsoleShell.ConsoleCommand
 				commandClass = commandLibrary.FindCommandClass(className);
 				cmdFunction = commandClass.CommandFunctions.Single(p => p.Name.Equals(commandFunction));
 			}
-			// case 1: input is an alias name, or only contains function and does not contain dot (.)
+			// case 1: input is an alias name, or only contains function and does not contain dot (.)			
 			else
 			{
 				// implement functionality to find command class and function by function name
-				commandClass = commandLibrary.FindCommandClass("DefaultCommands");
+				commandClass = commandLibrary.FindCommandClass("OtherDefaultCommands");
 				commandFunction = stringArray[0];
 				cmdFunction = commandClass.CommandFunctions.Single(p => p.Name.Equals(commandFunction));
 				isStatic = true;

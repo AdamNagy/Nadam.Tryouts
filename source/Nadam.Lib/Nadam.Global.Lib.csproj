@@ -54,6 +54,7 @@
     <Compile Include="DirectedGraph\IDirectedGraph.cs" />
     <Compile Include="Graph\Edge.cs" />
     <Compile Include="Graph\IGraph.cs" />
+    <Compile Include="ConsoleShell\ConsoleCommandAttribute.cs" />
     <Compile Include="OtherExtensions.cs" />
     <Compile Include="ReflectionExtensions.cs" />
     <Compile Include="FilterExtensions.cs" />
