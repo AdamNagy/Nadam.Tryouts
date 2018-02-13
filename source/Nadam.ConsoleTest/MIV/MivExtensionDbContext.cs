@@ -1,9 +1,5 @@
 ﻿using System.Collections.Generic;
-<<<<<<< HEAD
 using Nadam.Global.JsonDb;
-=======
-using Nadam.JsonDb;
->>>>>>> master
 
 namespace Nadam.ConsoleTest.MIV
 {

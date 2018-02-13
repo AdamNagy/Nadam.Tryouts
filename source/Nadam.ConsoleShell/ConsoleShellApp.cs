@@ -2,17 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-<<<<<<< HEAD
 using Nadam.Global.ConsoleShell.CommandModels;
 using Nadam.Global.ConsoleShell.ConsoleCommand;
 
 namespace Nadam.Global.ConsoleShell
-=======
-using Nadam.ConsoleShell.CommandModels;
-using Nadam.ConsoleShell.ConsoleCommand;
 
-namespace Nadam.ConsoleShell
->>>>>>> master
 {
 	public class ConsoleShellApp
 	{

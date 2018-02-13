@@ -19,17 +19,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonDb.UTests", "Nadam.Json
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindEF", "Northwind\NorthwindEF.csproj", "{6FCE91AD-07F5-47CE-818C-FC29C8278FCC}"
 EndProject
-<<<<<<< HEAD:source/Nadam.Global.sln
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.Global.ConsoleShell", "Nadam.ConsoleShell\Nadam.Global.ConsoleShell.csproj", "{A2250FCD-DB21-444A-8200-925B79C616D6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestServiceLibrary", "Nadam.TestServiceLibrary\TestServiceLibrary.csproj", "{2E5A2434-9C74-4456-A705-0506E924E35A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OtherConsole", "OtherConsole\OtherConsole.csproj", "{759586AB-D906-4300-AC52-B9751371D28D}"
-=======
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.TestServiceLibrary", "Nadam.TestServiceLibrary\Nadam.TestServiceLibrary.csproj", "{2E5A2434-9C74-4456-A705-0506E924E35A}"
->>>>>>> master:source/Nadam.Lib.sln
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nadam.ConsoleShell", "Nadam.ConsoleShell\Nadam.ConsoleShell.csproj", "{A2250FCD-DB21-444A-8200-925B79C616D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,28 +52,18 @@ Global
 		{6FCE91AD-07F5-47CE-818C-FC29C8278FCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6FCE91AD-07F5-47CE-818C-FC29C8278FCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6FCE91AD-07F5-47CE-818C-FC29C8278FCC}.Release|Any CPU.Build.0 = Release|Any CPU
-<<<<<<< HEAD:source/Nadam.Global.sln
 		{A2250FCD-DB21-444A-8200-925B79C616D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A2250FCD-DB21-444A-8200-925B79C616D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2250FCD-DB21-444A-8200-925B79C616D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2250FCD-DB21-444A-8200-925B79C616D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E5A2434-9C74-4456-A705-0506E924E35A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E5A2434-9C74-4456-A705-0506E924E35A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E5A2434-9C74-4456-A705-0506E924E35A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{759586AB-D906-4300-AC52-B9751371D28D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{759586AB-D906-4300-AC52-B9751371D28D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{759586AB-D906-4300-AC52-B9751371D28D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{759586AB-D906-4300-AC52-B9751371D28D}.Release|Any CPU.Build.0 = Release|Any CPU
-=======
 		{2E5A2434-9C74-4456-A705-0506E924E35A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E5A2434-9C74-4456-A705-0506E924E35A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E5A2434-9C74-4456-A705-0506E924E35A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E5A2434-9C74-4456-A705-0506E924E35A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A2250FCD-DB21-444A-8200-925B79C616D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2250FCD-DB21-444A-8200-925B79C616D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2250FCD-DB21-444A-8200-925B79C616D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2250FCD-DB21-444A-8200-925B79C616D6}.Release|Any CPU.Build.0 = Release|Any CPU
->>>>>>> master:source/Nadam.Lib.sln
+		{759586AB-D906-4300-AC52-B9751371D28D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{759586AB-D906-4300-AC52-B9751371D28D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{759586AB-D906-4300-AC52-B9751371D28D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{759586AB-D906-4300-AC52-B9751371D28D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

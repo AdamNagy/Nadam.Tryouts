@@ -238,14 +238,14 @@ namespace NadamLib.Tests
 			[TestMethod]
 			public void Foreach1()
 			{
-				// Arrange
-				var testArr = new int[] {1, 2, 3, 4, 5};
+				//// Arrange
+				//var testArr = new int[] {1, 2, 3, 4, 5};
 
-				// Act
-				var result = testArr.Foreach((p) => p * 2);
+				//// Act
+				//var result = testArr.Each((p) => p * 2);
 
-				// Assert
-				result.Equals(new int[]{2,4,6,8,10});
+				//// Assert
+				//result.Equals(new int[]{2,4,6,8,10});
 			}
 		}
 		#endregion

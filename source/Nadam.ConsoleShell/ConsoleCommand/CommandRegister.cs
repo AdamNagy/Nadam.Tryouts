@@ -2,14 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-<<<<<<< HEAD
 using Nadam.Global.ConsoleShell.CommandModels;
 using Nadam.Global.ConsoleShell.Helpers;
-=======
-using Nadam.ConsoleShell.CommandModels;
-using Nadam.ConsoleShell.Helpers;
-using Nadam.Lib;
->>>>>>> master
 
 namespace Nadam.Global.ConsoleShell.ConsoleCommand
 {
@@ -125,7 +119,6 @@ namespace Nadam.Global.ConsoleShell.ConsoleCommand
 
 		private IList<Type> GetDomainClassed()
 		{
-<<<<<<< HEAD
 			List<Type> commandClasses = new List<Type>();
 			List<Assembly> allAssemblies = AppDomain.CurrentDomain
 											.GetAssemblies()
@@ -141,23 +134,6 @@ namespace Nadam.Global.ConsoleShell.ConsoleCommand
 			foreach (var assembly in allAssemblies)
 			{
 				foreach (var type in assembly.GetTypes())
-=======
-			var commandClasses = Assembly.GetExecutingAssembly()
-				.GetTypes()
-				.Where(p => p.IsClass && // p.FullName.Contains("Nadam") &&
-							!p.FullName.Contains("Nadam.ConsoleShell"))
-				.ToList();
-
-			// need to add logic to filte out unnecessary dll-s
-			List<Assembly> allAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
-			foreach (string dll in Directory.GetFiles(CurrentAssemblyDirectory, "*.dll"))
-				allAssemblies.Add(Assembly.LoadFile(dll));
-
-			foreach (var assemblyName in allAssemblies.Select(p => p.FullName))
-			{
-				if (assemblyName.Contains(CommandNamespace))
-
->>>>>>> master
 				{
 					commandClasses.Add(type);
 				}

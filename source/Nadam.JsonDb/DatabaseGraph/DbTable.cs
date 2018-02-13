@@ -2,41 +2,23 @@
 using Nadam.Global.Lib.Graph;
 using System.Collections.Generic;
 
-<<<<<<< HEAD:source/Nadam.JsonDb/DatabaseGraph/DbTable.cs
 namespace Nadam.Global.JsonDb.DatabaseGraph
-=======
-namespace Nadam.JsonDb.DatabaseGraph
->>>>>>> master:source/Nadam.JsonDb/DatabaseGraph/TableNode.cs
 {
     public class DbTable : Node<string> //IEquatable<TableNode>
 	{
-	    public Node<string> Node { get; set; }
-        public string TableName => Node.Value;
+        public string TableName => Value;
 
         public bool HaveDependency { get; set; }
         public bool DependedOn { get; set; }
 
-	    public DbTableModel(string tableName)
-	    {
-		    Node = new Node<string>(tableName);
-	    }
+		public DbTable(string name, int id) : base(name, id) { }
 
-	    public DbTableModel(string tableName, int id)
-	    {
-			Node = new Node<string>(tableName, id);
-		}
-
-	    public DbTableModel(Node<string> node)
-	    {
-		    Node = node;
-	    }
-
-        public bool Equals(TableNode other)
+        public bool Equals(DbTable other)
         {
-            return  other?.Node.NodeId != 0 ? Node.NodeId == other?.Node.NodeId : TableName.Equals(other.TableName);
+            return  other?.NodeId != 0 ? other.NodeId == other?.NodeId : TableName.Equals(other.TableName);
         }
 
-        public static bool operator ==(TableNode a, TableNode b)
+        public static bool operator ==(DbTable a, DbTable b)
         {
             if (Object.ReferenceEquals(a, b))
             {
@@ -56,30 +38,20 @@ namespace Nadam.JsonDb.DatabaseGraph
             return a.TableName == b.TableName;
         }
 
-        public static bool operator !=(TableNode a, TableNode b)
+        public static bool operator !=(DbTable a, DbTable b)
         {
             return !(a == b);
         }
-
-	    public static explicit operator TableNode(Node<string> b)  // explicit byte to digit conversion operator
-	    {
-		    return new TableNode(b);
-	    }
-
-	    public static explicit operator Node<string>(TableNode b)  // explicit byte to digit conversion operator
-	    {
-		    return new Node<string>(b.TableName, b.Node.NodeId);
-	    }
 	}
 
-    public class TableNodeComparer : IEqualityComparer<TableNode>
+    public class TableNodeComparer : IEqualityComparer<DbTable>
     {
-        public bool Equals(TableNode x, TableNode y)
+        public bool Equals(DbTable x, DbTable y)
         {
             return x == y;
         }
 
-        public int GetHashCode(TableNode obj)
+        public int GetHashCode(DbTable obj)
         {
             return obj.TableName.GetHashCode();
         }

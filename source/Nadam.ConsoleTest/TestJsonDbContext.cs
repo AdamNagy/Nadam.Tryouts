@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
-<<<<<<< HEAD
 using Nadam.Global.JsonDb;
-=======
-using Nadam.JsonDb;
->>>>>>> master
+
 using Nadam.ConsoleTest.Models;
 
 namespace Nadam.ConsoleTest

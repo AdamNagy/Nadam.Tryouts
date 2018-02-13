@@ -59,7 +59,6 @@ namespace Nadam.Global.Lib.DirectedGraph
 			EdgeSet.Add(newEdge);
 
 			return nodeB;
-
 		}
 
 		public void AddExistingNodeFor(TNode nodeValA, TNode nodeValB)

@@ -2,11 +2,8 @@
 using System.Linq;
 using System.Reflection;
 
-<<<<<<< HEAD
 namespace Nadam.Global.ConsoleShell.Helpers
-=======
-namespace Nadam.ConsoleShell.Helpers
->>>>>>> master
+
 {
 	public static class Extensions
 	{

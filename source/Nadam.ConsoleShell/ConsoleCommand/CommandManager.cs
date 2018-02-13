@@ -46,10 +46,7 @@ namespace Nadam.Global.ConsoleShell.ConsoleCommand
 			// case 1: input is an alias name, or only contains function and does not contain dot (.)			
 			else
 			{
-<<<<<<< HEAD
 				// implement functionality to find command class and function by function name
-=======
->>>>>>> master
 				commandClass = commandLibrary.FindCommandClass("OtherDefaultCommands");
 				commandFunction = stringArray[0];
 				cmdFunction = commandClass.CommandFunctions.Single(p => p.Name.Equals(commandFunction));

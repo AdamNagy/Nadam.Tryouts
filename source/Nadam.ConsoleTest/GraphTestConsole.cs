@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-<<<<<<< HEAD
 using Nadam.Global.JsonDb.DatabaseGraph;
-=======
-using Nadam.JsonDb.DatabaseGraph;
->>>>>>> master
 
 namespace Nadam.ConsoleTest
 {
@@ -32,26 +28,26 @@ namespace Nadam.ConsoleTest
             //    Console.WriteLine(it.Current.Value);
             //}
 
-            var northwind = new DbModelGraph();
-            northwind.AddTables(SeedNorthwindTables());
+            //var northwind = new DbModelGraph();
+            //northwind.AddTables(SeedNorthwindTables());
 
-            // base table connections
-            northwind.AddDependecy("Productions", "Suppliers");
-            northwind.AddDependecy("Productions", "Customers");
-            northwind.AddDependecy("EmpTerritories", "Employees");
-            northwind.AddDependecy("EmpTerritories", "Territories");
-            northwind.AddDependecy("Territories", "Regions");
-            northwind.AddDependecy("OrderDetails", "Productions");
-            northwind.AddDependecy("OrderDetails", "Orders");
-            northwind.AddDependecy("Orders", "Employees");
-            northwind.AddDependecy("Orders", "Shippers");
-            northwind.AddDependecy("Orders", "Customers");
-            northwind.AddDependecy("Cust", "Customers");
-            northwind.AddDependecy("Cust", "CustomerDemographi");
+            //// base table connections
+            //northwind.AddDependecy("Productions", "Suppliers");
+            //northwind.AddDependecy("Productions", "Customers");
+            //northwind.AddDependecy("EmpTerritories", "Employees");
+            //northwind.AddDependecy("EmpTerritories", "Territories");
+            //northwind.AddDependecy("Territories", "Regions");
+            //northwind.AddDependecy("OrderDetails", "Productions");
+            //northwind.AddDependecy("OrderDetails", "Orders");
+            //northwind.AddDependecy("Orders", "Employees");
+            //northwind.AddDependecy("Orders", "Shippers");
+            //northwind.AddDependecy("Orders", "Customers");
+            //northwind.AddDependecy("Cust", "Customers");
+            //northwind.AddDependecy("Cust", "CustomerDemographi");
 
-            // additional connection for testing
-            northwind.AddDependecy("Cust", "Orders");
-            northwind.AddDependecy("Cust", "EmpTerritories");
+            //// additional connection for testing
+            //northwind.AddDependecy("Cust", "Orders");
+            //northwind.AddDependecy("Cust", "EmpTerritories");
 
             //foreach (TableNode table in northwind)
             //{
@@ -70,10 +66,10 @@ namespace Nadam.ConsoleTest
             //    Console.WriteLine(it.Current.Value);
             //}
             
-            foreach (var it in northwind.DependecyIteration())
-            {
-                Console.WriteLine(it.Value);
-            }
+            //foreach (var it in northwind.DependecyIteration())
+            //{
+            //    Console.WriteLine(it.Value);
+            //}
         }
 
         private IEnumerable<string> SeedNorthwindTables()

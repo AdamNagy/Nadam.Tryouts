@@ -4,18 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-<<<<<<< HEAD:source/OtherConsole/OtherConsole.csproj
     <ProjectGuid>{759586AB-D906-4300-AC52-B9751371D28D}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>OtherConsole</RootNamespace>
     <AssemblyName>OtherConsole</AssemblyName>
-=======
-    <ProjectGuid>{A2250FCD-DB21-444A-8200-925B79C616D6}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nadam.ConsoleShell</RootNamespace>
-    <AssemblyName>Nadam.ConsoleShell</AssemblyName>
->>>>>>> master:source/Nadam.ConsoleShell/Nadam.ConsoleShell.csproj
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -47,7 +39,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD:source/OtherConsole/OtherConsole.csproj
     <Compile Include="DefaultCommands.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -65,21 +56,5 @@
       <Name>TestServiceLibrary</Name>
     </ProjectReference>
   </ItemGroup>
-=======
-    <Compile Include="CommandModels\Command.cs" />
-    <Compile Include="CommandModels\CommandClass.cs" />
-    <Compile Include="CommandModels\CommandFunction.cs" />
-    <Compile Include="CommandModels\CommandLibrary.cs" />
-    <Compile Include="ConsoleCommand\CommandManager.cs" />
-    <Compile Include="ConsoleCommand\CommandRegister.cs" />
-    <Compile Include="ConsoleShellApp.cs" />
-    <Compile Include="DefaultCommands\DefaultCommands.cs" />
-    <Compile Include="Helpers\CommandType.cs" />
-    <Compile Include="Helpers\ConsoleCommandAttribute.cs" />
-    <Compile Include="Helpers\Extensions.cs" />
-    <Compile Include="Helpers\IgnoreAsCommandAttribute.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
->>>>>>> master:source/Nadam.ConsoleShell/Nadam.ConsoleShell.csproj
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

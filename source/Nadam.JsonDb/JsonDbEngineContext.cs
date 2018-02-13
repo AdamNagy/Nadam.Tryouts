@@ -153,13 +153,13 @@ namespace Nadam.Global.JsonDb
             //    SaveTable(table.Key, table.Value.MakeVirtualPropertiesNull());
             //}
 
-            var table = dbGraph.DependecyIteration();
-            table.Reset();
-            while (table.MoveNext())
-            {
-                ((IEnumerable<Object>)this.GetValueFor(table.Current.TableName)).SetIds();
-                SaveTable(table.Current.TableName, (IEnumerable<Object>)this.GetValueFor(table.Current.TableName));
-            }
+            //var table = dbGraph.DependecyIteration();
+            //table.Reset();
+            //while (table.MoveNext())
+            //{
+            //    ((IEnumerable<Object>)this.GetValueFor(table.Current.TableName)).SetIds();
+            //    SaveTable(table.Current.TableName, (IEnumerable<Object>)this.GetValueFor(table.Current.TableName));
+            //}
             // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         }
 
@@ -184,7 +184,7 @@ namespace Nadam.Global.JsonDb
                                                         .Select(q => q.Name.PluralizeString())
                                                         .ToList();
                 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-                dbGraph.AddTable(tableName, propsWithForeignKeyAttr);
+                // dbGraph.AddTable(tableName, propsWithForeignKeyAttr);
             }
         }
 
@@ -210,20 +210,20 @@ namespace Nadam.Global.JsonDb
         private void LoadAllTable()
         {
             //InitListProperties();
-            var table = dbGraph.DependecyIteration();
-            table.Reset();
-            while (table.MoveNext())
-            {
-                var tableType = ((IEnumerable<object>)this.GetValueFor(table.Current.TableName)).InnerType();   // Get the type of the table
-                MethodInfo method = typeof(JsonDbEngineContext)     // Get the method from this instance which reads data
-                    .GetMethod("GetTableData", BindingFlags.NonPublic | BindingFlags.Instance);
-                method = method.MakeGenericMethod(tableType);       // Set the generic of it
-                var args = new Object[1];                           // Create args objech[] for the method
-                args[0] = table.Current.TableName;                  // Set args[0] for the "GetTableData<T>(string table)" method
-                var dbTable = method.Invoke(this, args);            // Invoke the method
-                if( dbTable != null )
-                    this.SetValueFor(table.Current.TableName, dbTable); // Set the derived class table property with the data
-            }
+            //var table = dbGraph.DependecyIteration();
+            //table.Reset();
+            //while (table.MoveNext())
+            //{
+            //    var tableType = ((IEnumerable<object>)this.GetValueFor(table.Current.TableName)).InnerType();   // Get the type of the table
+            //    MethodInfo method = typeof(JsonDbEngineContext)     // Get the method from this instance which reads data
+            //        .GetMethod("GetTableData", BindingFlags.NonPublic | BindingFlags.Instance);
+            //    method = method.MakeGenericMethod(tableType);       // Set the generic of it
+            //    var args = new Object[1];                           // Create args objech[] for the method
+            //    args[0] = table.Current.TableName;                  // Set args[0] for the "GetTableData<T>(string table)" method
+            //    var dbTable = method.Invoke(this, args);            // Invoke the method
+            //    if( dbTable != null )
+            //        this.SetValueFor(table.Current.TableName, dbTable); // Set the derived class table property with the data
+            //}
         }
 
         protected IList<T> GetTableData<T>(string table)

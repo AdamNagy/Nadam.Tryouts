@@ -45,19 +45,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD:source/Nadam.TestServiceLibrary/TestServiceLibrary.csproj
     <ProjectReference Include="..\Nadam.ConsoleShell\Nadam.Global.ConsoleShell.csproj">
       <Project>{a2250fcd-db21-444a-8200-925b79c616d6}</Project>
       <Name>Nadam.Global.ConsoleShell</Name>
     </ProjectReference>
     <ProjectReference Include="..\Nadam.Lib\Nadam.Global.Lib.csproj">
-=======
-    <ProjectReference Include="..\Nadam.ConsoleShell\Nadam.ConsoleShell.csproj">
-      <Project>{a2250fcd-db21-444a-8200-925b79c616d6}</Project>
-      <Name>Nadam.ConsoleShell</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Nadam.Lib\Nadam.Lib.csproj">
->>>>>>> master:source/Nadam.TestServiceLibrary/Nadam.TestServiceLibrary.csproj
       <Project>{6f9afe40-62c2-4d40-b143-8aa81bc0c926}</Project>
       <Name>Nadam.Global.Lib</Name>
     </ProjectReference>
