@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DirectedGraphTests.cs" />
     <Compile Include="ExtensionsLibTests.cs" />
     <Compile Include="BinaryPredicatesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
