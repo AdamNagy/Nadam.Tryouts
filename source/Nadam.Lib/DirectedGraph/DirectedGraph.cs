@@ -29,12 +29,6 @@ namespace Nadam.Global.Lib.DirectedGraph
 		#endregion
 
 		#region Add
-
-		//public int NodesCount()
-		//{
-		//	return 1;
-		//}
-
 		public Node<TNode> AddNewNode(TNode nodeVal)
 		{
 			var newNode = new Node<TNode>(nodeVal, NodeId++);
@@ -44,7 +38,7 @@ namespace Nadam.Global.Lib.DirectedGraph
 
 		public Node<TNode> AddNewNodeFor(TNode nodeValA, TNode nodeValB)
 		{
-			var nodeA = GetNode(nodeValA);
+			var nodeA = GetNodeByValue(nodeValA);
 			if( nodeA == null )
 				throw new Exception("Node A does not belong to graph. Please add first");
 
@@ -53,9 +47,9 @@ namespace Nadam.Global.Lib.DirectedGraph
 			if (nodeBId == -1)
 				nodeB = AddNewNode(nodeValB);
 			else
-				nodeB = GetNode(nodeBId);
+				nodeB = GetNodeById(nodeBId);
 
-			var newEdge = new DirectedEdge(nodeA.NodeId, nodeB.NodeId, NodeId++);
+			var newEdge = new DirectedEdge(nodeA.NodeId, nodeB.NodeId, EdgeId++);
 			EdgeSet.Add(newEdge);
 
 			return nodeB;
@@ -63,8 +57,8 @@ namespace Nadam.Global.Lib.DirectedGraph
 
 		public void AddExistingNodeFor(TNode nodeValA, TNode nodeValB)
 		{
-			var nodeA = GetNode(nodeValA);
-			var nodeB = GetNode(nodeValB);
+			var nodeA = GetNodeByValue(nodeValA);
+			var nodeB = GetNodeByValue(nodeValB);
 
 			if( nodeA == null || nodeB == null )
 				throw new Exception("Nodes does not exist");
@@ -81,7 +75,7 @@ namespace Nadam.Global.Lib.DirectedGraph
 		#region Contains
 		public int Contains(TNode nodeValue)
 		{
-			var node = GetNode(nodeValue);
+			var node = GetNodeByValue(nodeValue);
 			return node?.NodeId ?? -1;
 		}
 
@@ -94,7 +88,7 @@ namespace Nadam.Global.Lib.DirectedGraph
 		#endregion
 
 		#region Get
-		public Node<TNode> GetNode(TNode nodeValue)
+		public Node<TNode> GetNodeByValue(TNode nodeValue)
 		{
 			return NodeSet.SingleOrDefault(p => p.Value.Equals(nodeValue));
 		}
@@ -104,16 +98,16 @@ namespace Nadam.Global.Lib.DirectedGraph
 			return NodeSet.SingleOrDefault(p => p.Equals(node));
 		}
 
-		public Node<TNode> GetNode(int nodeId)
+		public Node<TNode> GetNodeById(int nodeId)
 		{
 			return NodeSet.SingleOrDefault(p => p.NodeId.Equals(nodeId));
 		}
 
 		public IEnumerable<Node<TNode>> GetDirectedNodesFor(TNode nodeA)
 		{
-			var node = GetNode(nodeA);
-			var nodes = EdgeSet.Where(p => p.To.Equals(node.NodeId))
-				.Select(p => GetNode(p.To));
+			var node = GetNodeByValue(nodeA);
+			var nodes = EdgeSet.Where(p => p.From.Equals(node.NodeId))
+				.Select(p => GetNodeById(p.To));
 
 			return nodes;
 		}

@@ -42,7 +42,7 @@ namespace Nadam.Global.Lib.DirectedGraph
 		int Contains(TNode nodeValue);
 
 		/// <summary>
-		/// Check if the given value belongs to the given node or not. Gives back the id of the node if exist,
+		/// Check if the given value belongs to the given node or not. Gives back the id of the node if exist
 		/// </summary>
 		/// <param name="nodeA">The parent, which childre are beeing checked</param>
 		/// <param name="nodeB">The node which is beeing looked for</param>
@@ -51,8 +51,8 @@ namespace Nadam.Global.Lib.DirectedGraph
 		#endregion
 
 		#region Get
-		Node<TNode> GetNode(int nodeId);
-		Node<TNode> GetNode(TNode nodeValue);
+		Node<TNode> GetNodeById(int nodeId);
+		Node<TNode> GetNodeByValue(TNode nodeValue);
 		Node<TNode> GetNode(Node<TNode> node);
 		IEnumerable<Node<TNode>> GetDirectedNodesFor(TNode nodeA);
 		#endregion
