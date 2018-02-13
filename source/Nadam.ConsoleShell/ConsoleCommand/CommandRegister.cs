@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using Nadam.ConsoleShell.CommandModels;
-using Nadam.ConsoleShell.Helpers;
-using Nadam.Lib;
+using Nadam.Global.ConsoleShell.CommandModels;
+using Nadam.Global.ConsoleShell.Helpers;
 
-namespace Nadam.ConsoleShell.ConsoleCommand
+namespace Nadam.Global.ConsoleShell.ConsoleCommand
 {
 	/// <summary>
 	/// Register class that will scan the app domain and gather all classes and turn them into a CommandLibrary
@@ -121,43 +119,27 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 
 		private IList<Type> GetDomainClassed()
 		{
-			var commandClasses = Assembly.GetExecutingAssembly()
-				.GetTypes()
-				.Where(p => p.IsClass && // p.FullName.Contains("Nadam") &&
-							!p.FullName.Contains("Nadam.ConsoleShell"))
-				.ToList();
+			List<Type> commandClasses = new List<Type>();
+			List<Assembly> allAssemblies = AppDomain.CurrentDomain
+											.GetAssemblies()
+											.Where(p => p.FullName.StartsWith(CommandNamespace))
+											.ToList();
 
-			// need to add logic to filte out unnecessary dll-s
-			List<Assembly> allAssemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
-			foreach (string dll in Directory.GetFiles(CurrentAssemblyDirectory, "*.dll"))
-				allAssemblies.Add(Assembly.LoadFile(dll));
+			allAssemblies.Add(
+				AppDomain.CurrentDomain
+				.GetAssemblies()
+				.Where(p => p.FullName.StartsWith("OtherConsole"))
+				.ToList().First());
 
-			foreach (var assemblyName in allAssemblies.Select(p => p.FullName))
+			foreach (var assembly in allAssemblies)
 			{
-				if (assemblyName.Contains(CommandNamespace))
-
+				foreach (var type in assembly.GetTypes())
 				{
-					Assembly assembly = Assembly.Load(assemblyName);
-					foreach (var type in assembly.GetTypes())
-					{
-						// filter out class that are marked [IgnoreAsCommand] attribue
-						commandClasses.Add(type);
-					}
+					commandClasses.Add(type);
 				}
 			}
 
 			return commandClasses;
-		}
-
-		private string CurrentAssemblyDirectory
-		{
-			get
-			{
-				string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-				UriBuilder uri = new UriBuilder(codeBase);
-				string path = Uri.UnescapeDataString(uri.Path);
-				return Path.GetDirectoryName(path);
-			}
 		}
 	}
 }

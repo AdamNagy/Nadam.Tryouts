@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DirectedGraphTests.cs" />
     <Compile Include="ExtensionsLibTests.cs" />
     <Compile Include="BinaryPredicatesTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -62,13 +63,13 @@
     <Compile Include="TestModels\UnitTestingModelType.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nadam.ConsoleTest\Nadam.ConsoleTest.csproj">
+    <ProjectReference Include="..\Nadam.ConsoleTest\ConsoleTest.csproj">
       <Project>{896D0B96-25FB-4708-A150-E9F07D3AA5EA}</Project>
-      <Name>Nadam.ConsoleTest</Name>
+      <Name>ConsoleTest</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Nadam.Lib\Nadam.Lib.csproj">
+    <ProjectReference Include="..\Nadam.Lib\Nadam.Global.Lib.csproj">
       <Project>{6f9afe40-62c2-4d40-b143-8aa81bc0c926}</Project>
-      <Name>Nadam.Lib</Name>
+      <Name>Nadam.Global.Lib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

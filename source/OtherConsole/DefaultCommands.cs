@@ -1,13 +1,12 @@
 ﻿using System.Text;
-using Nadam.ConsoleShell.DefaultCommands;
-using Nadam.ConsoleShell.Helpers;
+using Nadam.Global.ConsoleShell.Helpers;
 
 namespace OtherConsole
 {
-	public class OtherDefaultCommands : DefaultCommands
+	public class DefaultCommands
 	{
-		[Command("help")]
-		public string GetCommands()
+		[Command(new []{"help", "?"})]
+		public static string GetCommands()
 		{
 			var pen = new StringBuilder();
 			var library = Program.Shell.GetCommandLibrary;
@@ -23,5 +22,9 @@ namespace OtherConsole
 
 			return pen.ToString();
 		}
+
+		[Command(new []{ "exit", "Exit", "terminate" })]
+		public static string Exit() => "Exit";
+
 	}
 }

@@ -10,10 +10,8 @@
     <AssemblyName>OtherConsole</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,10 +21,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\dist\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -50,13 +47,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nadam.ConsoleShell\Nadam.ConsoleShell.csproj">
+    <ProjectReference Include="..\Nadam.ConsoleShell\Nadam.Global.ConsoleShell.csproj">
       <Project>{a2250fcd-db21-444a-8200-925b79c616d6}</Project>
-      <Name>Nadam.ConsoleShell</Name>
+      <Name>Nadam.Global.ConsoleShell</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Nadam.TestServiceLibrary\Nadam.TestServiceLibrary.csproj">
+    <ProjectReference Include="..\Nadam.TestServiceLibrary\TestServiceLibrary.csproj">
       <Project>{2e5a2434-9c74-4456-a705-0506e924e35a}</Project>
-      <Name>Nadam.TestServiceLibrary</Name>
+      <Name>TestServiceLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

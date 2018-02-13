@@ -2,29 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nadam.Lib
+namespace Nadam.Global.Lib
 {
     /// <summary>
     /// This class contains other extension like forach, and some string extensions
     /// </summary>
     public static partial class Extensions
     {
-        #region Base extensions
-        public static void Foreach<T>(this IEnumerable<T> list, Action<T> action)
+        public static void Each<T>(this IEnumerable<T> domainList, Func<T, T> action)
         {
-            foreach (var listItem in list)
-            {
-                action(listItem);
-            }
-        }
+	        var asList = domainList as IList<T>;
+			if( asList == null || asList.Count == 0 )
+				return;
 
-        public static void Foreach<T>(this IEnumerable<T> list, Func<T, T> action)
-        {
-            var array = list as List<T>;
-            for (int i = 0; i < list.Count(); i++)
-            {
-                array[i] = action(array[i]);
-            }
+	        for (int i = 0; i < asList.Count; i++)
+		        asList[i] = action(asList[i]);
         }
 
         public static string PluralizeString(this string single)
@@ -34,8 +26,8 @@ namespace Nadam.Lib
 
             if (single.Last() == 's')
                 return single;
+
             return single + 's';
         }
-        #endregion
     }
 }

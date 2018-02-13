@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nadam.Lib;
+using Nadam.Global.Lib;
 
-namespace Nadam.JsonDb
+namespace Nadam.Global.JsonDb
 {
     public static class JsonDbContextExtensions
     {

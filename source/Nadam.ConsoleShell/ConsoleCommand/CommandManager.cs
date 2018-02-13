@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Nadam.ConsoleShell.CommandModels;
+using Nadam.Global.ConsoleShell.CommandModels;
 
-namespace Nadam.ConsoleShell.ConsoleCommand
+namespace Nadam.Global.ConsoleShell.ConsoleCommand
 {
 	public class CommandManager
 	{
@@ -22,7 +20,7 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 
 		public CommandManager()
 		{
-			var register = new CommandRegister("Nadam.ConsoleShell.DefaultCommands");
+			var register = new CommandRegister("DefaultCommands");
 			commandLibrary = register.RegisterCommands();
 		}
 
@@ -48,6 +46,7 @@ namespace Nadam.ConsoleShell.ConsoleCommand
 			// case 1: input is an alias name, or only contains function and does not contain dot (.)			
 			else
 			{
+				// implement functionality to find command class and function by function name
 				commandClass = commandLibrary.FindCommandClass("OtherDefaultCommands");
 				commandFunction = stringArray[0];
 				cmdFunction = commandClass.CommandFunctions.Single(p => p.Name.Equals(commandFunction));

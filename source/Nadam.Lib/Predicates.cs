@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nadam.Lib
+namespace Nadam.Global.Lib
 {
     public static partial class BinaryPredicates
     {

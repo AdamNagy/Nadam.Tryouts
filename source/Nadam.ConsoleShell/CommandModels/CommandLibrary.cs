@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Nadam.ConsoleShell.CommandModels
+namespace Nadam.Global.ConsoleShell.CommandModels
 {
 	/// <summary>
 	/// List type class that represents all the commands with their aliasas

@@ -1,24 +1,24 @@
 ﻿using System;
-using Nadam.Lib.Graph;
+using Nadam.Global.Lib.Graph;
 using System.Collections.Generic;
 
-namespace Nadam.JsonDb.DatabaseGraph
+namespace Nadam.Global.JsonDb.DatabaseGraph
 {
-    public class TableNode : GraphNode<string>, IEquatable<TableNode>
-    {
+    public class DbTable : Node<string> //IEquatable<TableNode>
+	{
         public string TableName => Value;
 
         public bool HaveDependency { get; set; }
         public bool DependedOn { get; set; }
 
-        public TableNode(string tableName) : base(tableName) { }
-        public TableNode(string tableName, int id) : base(tableName, id){}
-        public bool Equals(TableNode other)
+		public DbTable(string name, int id) : base(name, id) { }
+
+        public bool Equals(DbTable other)
         {
-            return  other?.NodeId != 0 ? NodeId == other?.NodeId : TableName.Equals(other.TableName);
+            return  other?.NodeId != 0 ? other.NodeId == other?.NodeId : TableName.Equals(other.TableName);
         }
 
-        public static bool operator ==(TableNode a, TableNode b)
+        public static bool operator ==(DbTable a, DbTable b)
         {
             if (Object.ReferenceEquals(a, b))
             {
@@ -38,20 +38,20 @@ namespace Nadam.JsonDb.DatabaseGraph
             return a.TableName == b.TableName;
         }
 
-        public static bool operator !=(TableNode a, TableNode b)
+        public static bool operator !=(DbTable a, DbTable b)
         {
             return !(a == b);
         }
-    }
+	}
 
-    public class TableNodeComparer : IEqualityComparer<TableNode>
+    public class TableNodeComparer : IEqualityComparer<DbTable>
     {
-        public bool Equals(TableNode x, TableNode y)
+        public bool Equals(DbTable x, DbTable y)
         {
             return x == y;
         }
 
-        public int GetHashCode(TableNode obj)
+        public int GetHashCode(DbTable obj)
         {
             return obj.TableName.GetHashCode();
         }

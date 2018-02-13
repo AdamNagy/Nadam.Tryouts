@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using Nadam.JsonDb;
+using Nadam.Global.JsonDb;
+
 using Nadam.ConsoleTest.Models;
 
 namespace Nadam.ConsoleTest

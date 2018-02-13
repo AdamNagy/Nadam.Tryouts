@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Nadam.ConsoleShell.CommandModels;
-using Nadam.ConsoleShell.ConsoleCommand;
+using Nadam.Global.ConsoleShell.CommandModels;
+using Nadam.Global.ConsoleShell.ConsoleCommand;
 
-namespace Nadam.ConsoleShell
+namespace Nadam.Global.ConsoleShell
+
 {
 	public class ConsoleShellApp
 	{

@@ -2,8 +2,8 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NadamLib.Tests.TestModels;
-using Nadam.Lib;
-using static Nadam.Lib.BinaryPredicates;
+using Nadam.Global.Lib;
+using static Nadam.Global.Lib.BinaryPredicates;
 
 namespace NadamLib.Tests
 {
@@ -229,6 +229,25 @@ namespace NadamLib.Tests
                 Assert.AreEqual(16, filtered.Count());
             }
         }
-        #endregion
-    }
+		#endregion
+
+		#region OtherExtensions
+	    [TestClass]
+		public class OtherExtensionTest
+		{
+			[TestMethod]
+			public void Foreach1()
+			{
+				//// Arrange
+				//var testArr = new int[] {1, 2, 3, 4, 5};
+
+				//// Act
+				//var result = testArr.Each((p) => p * 2);
+
+				//// Assert
+				//result.Equals(new int[]{2,4,6,8,10});
+			}
+		}
+		#endregion
+	}
 }
