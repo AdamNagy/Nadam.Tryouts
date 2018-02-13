@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nadam.Lib.ConsoleShell
+namespace Nadam.Global.Lib.ConsoleShell
 {
 	/// <summary>
 	/// Should go to a common lib (Nadam.Lib)

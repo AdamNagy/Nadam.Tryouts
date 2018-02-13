@@ -11,7 +11,7 @@ using Nadam.Global.Lib;
 using Newtonsoft.Json;
 
 namespace Nadam.Global.JsonDb
-{
+{ 
     /// <summary>
     /// Json file based data storage with a context class to access these files.
     /// CRUD operations are supported
@@ -24,7 +24,7 @@ namespace Nadam.Global.JsonDb
         protected readonly DeferredExecutionPlans ExePlan =
             DeferredExecutionPlans.EagerLoading;
 
-        private readonly DatabaseGraph.DbModelGraph dbGraph;
+        private readonly DbModelGraph dbGraph;
         private readonly string fileExtension = ".json";
         private Type derivedContextType;
 

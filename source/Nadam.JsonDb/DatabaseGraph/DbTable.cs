@@ -2,7 +2,11 @@
 using Nadam.Global.Lib.Graph;
 using System.Collections.Generic;
 
+<<<<<<< HEAD:source/Nadam.JsonDb/DatabaseGraph/DbTable.cs
 namespace Nadam.Global.JsonDb.DatabaseGraph
+=======
+namespace Nadam.JsonDb.DatabaseGraph
+>>>>>>> master:source/Nadam.JsonDb/DatabaseGraph/TableNode.cs
 {
     public class DbTable : Node<string> //IEquatable<TableNode>
 	{

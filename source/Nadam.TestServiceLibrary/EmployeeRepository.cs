@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using Nadam.Global.ConsoleShell.Helpers;
+=======
+using Nadam.ConsoleShell.Helpers;
+>>>>>>> master
 
 namespace Nadam.TestServiceLibrary
 {

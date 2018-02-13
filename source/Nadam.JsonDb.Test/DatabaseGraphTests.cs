@@ -1,7 +1,12 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+<<<<<<< HEAD
 using Nadam.Global.Lib.Graph;
 using Nadam.Global.JsonDb.DatabaseGraph;
+=======
+using Nadam.Lib.Graph;
+using Nadam.JsonDb.DatabaseGraph;
+>>>>>>> master
 using System.Collections.Generic;
 using System.Collections;
 

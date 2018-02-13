@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿using Nadam.Global.JsonDb.DatabaseGraph;
+=======
+﻿using Nadam.JsonDb.DatabaseGraph;
+>>>>>>> master
 using System.Collections.Generic;
 
 namespace Nadam.Lib.JsonDb.Test

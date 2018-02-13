@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using Nadam.Global.JsonDb.DatabaseGraph;
+=======
+using Nadam.JsonDb.DatabaseGraph;
+>>>>>>> master
 
 namespace Nadam.ConsoleTest
 {

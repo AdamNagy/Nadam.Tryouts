@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2E5A2434-9C74-4456-A705-0506E924E35A}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nadam.TestServiceLibrary</RootNamespace>
-    <AssemblyName>Nadam.TestServiceLibrary</AssemblyName>
+    <ProjectGuid>{759586AB-D906-4300-AC52-B9751371D28D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>OtherConsole</RootNamespace>
+    <AssemblyName>OtherConsole</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -40,26 +42,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Employee.cs" />
-    <Compile Include="EmployeeRepository.cs" />
+    <Compile Include="DefaultCommands.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD:source/Nadam.TestServiceLibrary/TestServiceLibrary.csproj
-    <ProjectReference Include="..\Nadam.ConsoleShell\Nadam.Global.ConsoleShell.csproj">
-      <Project>{a2250fcd-db21-444a-8200-925b79c616d6}</Project>
-      <Name>Nadam.Global.ConsoleShell</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Nadam.Lib\Nadam.Global.Lib.csproj">
-=======
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Nadam.ConsoleShell\Nadam.ConsoleShell.csproj">
       <Project>{a2250fcd-db21-444a-8200-925b79c616d6}</Project>
       <Name>Nadam.ConsoleShell</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Nadam.Lib\Nadam.Lib.csproj">
->>>>>>> master:source/Nadam.TestServiceLibrary/Nadam.TestServiceLibrary.csproj
-      <Project>{6f9afe40-62c2-4d40-b143-8aa81bc0c926}</Project>
-      <Name>Nadam.Global.Lib</Name>
+    <ProjectReference Include="..\Nadam.TestServiceLibrary\Nadam.TestServiceLibrary.csproj">
+      <Project>{2e5a2434-9c74-4456-a705-0506e924e35a}</Project>
+      <Name>Nadam.TestServiceLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

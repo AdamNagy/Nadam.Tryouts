@@ -1,6 +1,10 @@
 ﻿using Nadam.Lib.JsonDb.Test.TestHelpers.SimpleDb.SimpleModel;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using Nadam.Global.JsonDb;
+=======
+using Nadam.JsonDb;
+>>>>>>> master
 
 namespace Nadam.Lib.JsonDb.Test.TestHelpers.SimpleDb
 {

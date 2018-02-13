@@ -115,7 +115,7 @@ namespace Nadam.Global.Lib
                                     .First()
                                     .GetVirtualPropertiesOf();
                 
-                root.Foreach(p => p.SetValuesToNullFor(virtualProperties));
+                root.Each(p => p.SetValuesToNullFor(virtualProperties));
 
             }
             return root;

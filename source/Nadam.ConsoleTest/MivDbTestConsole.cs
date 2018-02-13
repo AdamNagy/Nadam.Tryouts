@@ -1,6 +1,10 @@
 ﻿using System;
 using Nadam.ConsoleTest.MIV;
+<<<<<<< HEAD
 using Nadam.Global.JsonDb;
+=======
+using Nadam.JsonDb;
+>>>>>>> master
 
 namespace Nadam.ConsoleTest
 {

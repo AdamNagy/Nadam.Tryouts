@@ -1,6 +1,10 @@
 ﻿using System;
 
+<<<<<<< HEAD
 namespace Nadam.Global.ConsoleShell.Helpers
+=======
+namespace Nadam.ConsoleShell.Helpers
+>>>>>>> master
 {
 	/// <summary>
 	/// Should go to a common lib (Nadam.Lib)

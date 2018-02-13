@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
+<<<<<<< HEAD
 using Nadam.Global.JsonDb;
+=======
+using Nadam.JsonDb;
+>>>>>>> master
 using Nadam.Lib.JsonDb.Test.NorthwindModel;
 
 namespace Nadam.Lib.JsonDb.Test.TestHelpers

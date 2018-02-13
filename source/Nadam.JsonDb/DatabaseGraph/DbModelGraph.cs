@@ -6,6 +6,7 @@ using Nadam.Global.Lib.Graph;
 namespace Nadam.Global.JsonDb.DatabaseGraph
 {
     public class DbModelGraph : Graph<DbTable>
+
     {
         public DbTable Root { get; set; }
 
