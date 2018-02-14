@@ -29,12 +29,6 @@ namespace Nadam.Global.Lib.DirectedGraph
 		#endregion
 
 		#region Add
-
-		//public int NodesCount()
-		//{
-		//	return 1;
-		//}
-
 		public Node<TNode> AddNewNode(TNode nodeVal)
 		{
 			var newNode = new Node<TNode>(nodeVal, NodeId++);
@@ -45,17 +39,19 @@ namespace Nadam.Global.Lib.DirectedGraph
 		public Node<TNode> AddNewNodeFor(TNode nodeValA, TNode nodeValB)
 		{
 			var nodeA = GetNode(nodeValA);
+
 			if( nodeA == null )
 				throw new Exception("Node A does not belong to graph. Please add first");
 
-			var nodeBId = Contains(nodeValB);
+			var nodeBId = GetNode(nodeValB);
 			Node<TNode> nodeB;
-			if (nodeBId == -1)
+			if (nodeBId == null)
 				nodeB = AddNewNode(nodeValB);
 			else
 				nodeB = GetNode(nodeBId);
 
 			var newEdge = new DirectedEdge(nodeA.NodeId, nodeB.NodeId, NodeId++);
+
 			EdgeSet.Add(newEdge);
 
 			return nodeB;
@@ -79,17 +75,17 @@ namespace Nadam.Global.Lib.DirectedGraph
 		#endregion
 
 		#region Contains
-		public int Contains(TNode nodeValue)
+		public bool Contains(TNode nodeValue)
 		{
 			var node = GetNode(nodeValue);
-			return node?.NodeId ?? -1;
+			return node != null;
 		}
 
-		public int ContainsDirectedNode(TNode nodeValA, TNode nodeValB)
+		public bool ContainsDirectedNode(TNode nodeValA, TNode nodeValB)
 		{
-			var referencedNodes = GetDirectedNodesFor(nodeValA);
+			var referencedNodes = GetNodesFor(nodeValA);
 			var node = referencedNodes.SingleOrDefault(p => p.Value.Equals(nodeValB));
-			return node?.NodeId ?? -1;
+			return node != null;
 		}
 		#endregion
 
@@ -104,23 +100,39 @@ namespace Nadam.Global.Lib.DirectedGraph
 			return NodeSet.SingleOrDefault(p => p.Equals(node));
 		}
 
-		public Node<TNode> GetNode(int nodeId)
+		public IEnumerable<Node<TNode>> GetNodesFor(TNode nodeA)
 		{
-			return NodeSet.SingleOrDefault(p => p.NodeId.Equals(nodeId));
-		}
 
-		public IEnumerable<Node<TNode>> GetDirectedNodesFor(TNode nodeA)
-		{
 			var node = GetNode(nodeA);
-			var nodes = EdgeSet.Where(p => p.To.Equals(node.NodeId))
-				.Select(p => GetNode(p.To));
+			var nodes = EdgeSet.Where(p => p.From.Equals(node.NodeId))
+				.Select(p => GetNodeById(p.To));
 
 			return nodes;
 		}
 		#endregion
 
-		#region Private
+		#region Remove
+		public bool Remove(TNode nodeValue, bool withAllReferenced = false)
+		{
+			throw new NotImplementedException();
+		}
 
+		public bool RemoveFor(TNode nodeValue, TNode referencedNodeValue)
+		{
+			throw new NotImplementedException();
+		}
+
+		public bool RemoveAllFor(TNode nodeValue)
+		{
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Private
+		private Node<TNode> GetNodeById(int nodeId)
+		{
+			return NodeSet.SingleOrDefault(p => p.NodeId.Equals(nodeId));
+		}
 		#endregion
 	}
 }

@@ -38,31 +38,45 @@ namespace Nadam.Global.Lib.DirectedGraph
 		/// returns -1 otherwise
 		/// </summary>
 		/// <param name="nodeValue">Value to look for in the graph</param>
-		/// <returns>Id of the node if exist, -1 otherwise</returns>
-		int Contains(TNode nodeValue);
+		/// <returns>true if node found, false otherwise</returns>
+		bool Contains(TNode nodeValue);
 
 		/// <summary>
-		/// Check if the given value belongs to the given node or not. Gives back the id of the node if exist,
+		/// Check if the given value belongs to the given node or not. Gives back the id of the node if exist
 		/// </summary>
 		/// <param name="nodeA">The parent, which childre are beeing checked</param>
 		/// <param name="nodeB">The node which is beeing looked for</param>
-		/// <returns>Id of the node if exist, -1 otherwise</returns>
-		int ContainsDirectedNode(TNode nodeA, TNode nodeB);
+		/// <returns>true if node found, false otherwise</returns>
+		bool ContainsDirectedNode(TNode nodeA, TNode nodeB);
 		#endregion
 
 		#region Get
-		Node<TNode> GetNode(int nodeId);
 		Node<TNode> GetNode(TNode nodeValue);
 		Node<TNode> GetNode(Node<TNode> node);
-		IEnumerable<Node<TNode>> GetDirectedNodesFor(TNode nodeA);
+		IEnumerable<Node<TNode>> GetNodesFor(TNode nodeA);
 		#endregion
 
-		// Add later
-		//bool Remove(TNode nodeValue, bool withAllChildren);
-		//bool Remove(int nodeId, bool withAllChildren);
-		//bool RemoveChild(TNode nodeValue, TNode childValue);
-		//bool RemoveChild(TNode nodeValue, int childId);
-		//bool RemoveChildren(TNode nodeValue);
-		//bool RemoveChildren(int node);
+		#region Remove
+		/// <summary>
+		/// Removes an existing node from the graph. Will remove all edge pointing to the removing node.
+		/// </summary>
+		/// <param name="nodeValue">the value of the node to remove</param>
+		/// <param name="withAllReferenced">if true, will remove all referenced node as well; if false, all referenced node will stay</param>
+		/// <returns>boolean about the reoval success</returns>
+		bool Remove(TNode nodeValue, bool withAllReferenced);
+		/// <summary>
+		/// Removes one referenced node for the given node, only if it references, otherwise, doing nothing
+		/// </summary>
+		/// <param name="nodeValue">the node for which referenced nodes are beeing checked</param>
+		/// <param name="referencedNodeValue">the referenced node beeing looked for</param>
+		/// <returns>boolean about the reoval success</returns>
+		bool RemoveFor(TNode nodeValue, TNode referencedNodeValue);
+		/// <summary>
+		/// Removes all referenced nodes for the given node, but leaves the root node unharmed
+		/// </summary>
+		/// <param name="nodeValue">the value of the node for which referenced nodes should be removed</param>
+		/// <returns>boolean about the reoval success; will be false if any of the referenced nodes fails to be removed</returns>
+		bool RemoveAllFor(TNode nodeValue);
+		#endregion
 	}
 }
