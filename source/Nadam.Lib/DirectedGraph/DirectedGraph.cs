@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Nadam.Global.Lib.DirectedGraph
 {
@@ -114,6 +112,10 @@ namespace Nadam.Global.Lib.DirectedGraph
 		#region Remove
 		public bool Remove(TNode nodeValue, bool withAllReferenced = false)
 		{
+			var nodeToRemove = GetNode(nodeValue);
+			RemoveIncomingReferencesFor(nodeToRemove.NodeId);
+			RemoveOutgoingReferencesFor(nodeToRemove.NodeId);
+
 			throw new NotImplementedException();
 		}
 
@@ -129,6 +131,19 @@ namespace Nadam.Global.Lib.DirectedGraph
 		#endregion
 
 		#region Private
+
+		private void RemoveIncomingReferencesFor(int nodeId)
+		{
+			foreach (var edge in EdgeSet.Where(p => p.To.Equals(nodeId)))
+				EdgeSet.Remove(edge);
+		}
+
+		private void RemoveOutgoingReferencesFor(int nodeId)
+		{
+			foreach (var edge in EdgeSet.Where(p => p.From.Equals(nodeId)))
+				EdgeSet.Remove(edge);
+		}
+
 		private Node<TNode> GetNodeById(int nodeId)
 		{
 			return NodeSet.SingleOrDefault(p => p.NodeId.Equals(nodeId));
