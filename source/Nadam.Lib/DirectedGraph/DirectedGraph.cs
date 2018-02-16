@@ -55,31 +55,20 @@ namespace Nadam.Global.Lib.DirectedGraph
 			return nodeB;
 		}
 
-		public void AddExistingNodeFor(TNode nodeValA, TNode nodeValB)
+		public void AddEdgeFor(TNode startNode, TNode referenced)
 		{
-			var nodeA = GetNode(nodeValA);
-			var nodeB = GetNode(nodeValB);
-
-			if( nodeA == null || nodeB == null )
-				throw new Exception("Nodes does not exist");
-
-			var directedEdge = EdgeSet.SingleOrDefault(p => p.ANodeId.Equals(nodeA.NodeId) && p.BNodeId.Equals(nodeB.NodeId));
-			if( directedEdge != null )
-				return;
-
-			directedEdge = new DirectedEdge(nodeA.NodeId, nodeB.NodeId, EdgeId++);
-			EdgeSet.Add(directedEdge);
+			
 		}
 		#endregion
 
 		#region Contains
-		public bool Contains(TNode nodeValue)
+		public bool ContainsNode(TNode nodeValue)
 		{
 			var node = GetNode(nodeValue);
 			return node != null;
 		}
 
-		public bool ContainsDirectedNode(TNode nodeValA, TNode nodeValB)
+		public bool ContainsEdge(TNode nodeValA, TNode nodeValB)
 		{
 			var referencedNodes = GetNodesFor(nodeValA);
 			var node = referencedNodes.SingleOrDefault(p => p.Value.Equals(nodeValB));
@@ -107,43 +96,60 @@ namespace Nadam.Global.Lib.DirectedGraph
 
 			return nodes;
 		}
+
+		public IEnumerable<Node<TNode>> GetNodesFor(Node<TNode> nodeA)
+		{
+
+			var node = GetNode(nodeA);
+			var nodes = EdgeSet.Where(p => p.From.Equals(node.NodeId))
+				.Select(p => GetNodeById(p.To));
+
+			return nodes;
+		}
 		#endregion
 
 		#region Remove
-		public bool Remove(TNode nodeValue, bool withAllReferenced = false)
+		public bool RemoveNode(TNode nodeValue)
 		{
 			var nodeToRemove = GetNode(nodeValue);
-			RemoveIncomingReferencesFor(nodeToRemove.NodeId);
-			RemoveOutgoingReferencesFor(nodeToRemove.NodeId);
-
-			throw new NotImplementedException();
+			RemoveIncomingEdgesFor(nodeToRemove.Value);
+			RemoveOutgoingEdgesFor(nodeToRemove.Value);
+			return true;
 		}
 
-		public bool RemoveFor(TNode nodeValue, TNode referencedNodeValue)
+		public bool RemoveEdge(TNode a, TNode b)
 		{
-			throw new NotImplementedException();
+			var nodeA = GetNode(a);
+			var nodeB = GetNode(b);
+
+			if (nodeA == null || nodeB == null)
+				return false;
+
+			var edgeToRemove = EdgeSet.SingleOrDefault(p => p.From.Equals(nodeA.NodeId) && p.To.Equals(nodeB.NodeId));
+
+			if (edgeToRemove == null)
+				return false;
+
+			EdgeSet.Remove(edgeToRemove);
+			return true;
 		}
 
-		public bool RemoveAllFor(TNode nodeValue)
+		public void RemoveIncomingEdgesFor(TNode nodeVal)
 		{
-			throw new NotImplementedException();
+			var node = GetNode(nodeVal);
+			foreach (var edge in EdgeSet.Where(p => p.To.Equals(node.NodeId)))
+				EdgeSet.Remove(edge);
+		}
+
+		public void RemoveOutgoingEdgesFor(TNode nodeVal)
+		{
+			var node = GetNode(nodeVal);
+			foreach (var edge in EdgeSet.Where(p => p.From.Equals(node.NodeId)))
+				EdgeSet.Remove(edge);
 		}
 		#endregion
 
 		#region Private
-
-		private void RemoveIncomingReferencesFor(int nodeId)
-		{
-			foreach (var edge in EdgeSet.Where(p => p.To.Equals(nodeId)))
-				EdgeSet.Remove(edge);
-		}
-
-		private void RemoveOutgoingReferencesFor(int nodeId)
-		{
-			foreach (var edge in EdgeSet.Where(p => p.From.Equals(nodeId)))
-				EdgeSet.Remove(edge);
-		}
-
 		private Node<TNode> GetNodeById(int nodeId)
 		{
 			return NodeSet.SingleOrDefault(p => p.NodeId.Equals(nodeId));
