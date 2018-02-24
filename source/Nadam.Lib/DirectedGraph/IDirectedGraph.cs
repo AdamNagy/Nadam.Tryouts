@@ -14,25 +14,9 @@ namespace Nadam.Global.Lib.DirectedGraph
 		/// </summary>
 		/// <param name="nodeVal">The value of node</param>
 		/// <returns></returns>
-		Node<TNode> AddNewNode(TNode nodeVal);
+		Node<TNode> AddNode(TNode nodeVal);
 
-		/// <summary>
-		/// Add a new directed node to an existing one. Node A need to belong to the graph. Node B is added if not belong to it yet.
-		/// </summary>
-		/// <param name="nodeValA">Existing node, FROM</param>
-		/// <param name="nodeValB">New node, created if not exist</param>
-		/// <returns></returns>
-		Node<TNode> AddNewNodeFor(TNode nodeValA, TNode nodeValB);
-
-		// TODO: move to extensions (not atomic operation)
-		///// <summary>
-		///// Binds an existing node to an other. Both need to belong to the graph, if any of the two does not, error throwns.
-		///// </summary>
-		///// <param name="nodeValA">FROM node</param>
-		///// <param name="nodeValB">TO node</param>
-		//void AddExistingNodeFor(TNode nodeValA, TNode nodeValB);
-
-		void AddEdgeFor(TNode startNode, TNode referenced);
+        DirectedEdge AddEdgeFor(TNode startNode, TNode referenced);
 		#endregion
 
 		#region Contains
@@ -54,10 +38,8 @@ namespace Nadam.Global.Lib.DirectedGraph
 		#endregion
 
 		#region Get
-		Node<TNode> GetNode(TNode nodeValue);
-		Node<TNode> GetNode(Node<TNode> node);
-		IEnumerable<Node<TNode>> GetNodesFor(TNode nodeA);
-		IEnumerable<Node<TNode>> GetNodesFor(Node<TNode> nodeA);
+		IList<Node<TNode>> GetNode(TNode nodeValue);
+        IList<DirectedEdge> GetEdgesFor(TNode node);
 		#endregion
 
 		#region Remove
@@ -67,25 +49,39 @@ namespace Nadam.Global.Lib.DirectedGraph
 		/// <param name="nodeValue">the value of the node to remove</param>
 		/// <returns>boolean about the reoval success</returns>
 		bool RemoveNode(TNode nodeValue);
+        bool RemoveEdge(TNode a, TNode b);
+        #endregion
 
-		// TODO: move to extensions (not atomic operation)
-		///// <summary>
-		///// Removes one referenced node for the given node, only if it references, otherwise, doing nothing
-		///// </summary>
-		///// <param name="nodeValue">the node for which referenced nodes are beeing checked</param>
-		///// <param name="referencedNodeValue">the referenced node beeing looked for</param>
-		///// <returns>boolean about the reoval success</returns>
-		//bool RemoveNodeFor(TNode nodeValue, TNode referencedNodeValue);
-		///// <summary>
-		///// Removes all referenced nodes for the given node, but leaves the root node unharmed
-		///// </summary>
-		///// <param name="nodeValue">the value of the node for which referenced nodes should be removed</param>
-		///// <returns>boolean about the reoval success; will be false if any of the referenced nodes fails to be removed</returns>
-		//bool RemoveAllNodeFor(TNode nodeValue);
+        // TODO: move to extensions (not atomic operation)
+        ///// <summary>
+        ///// Add a new directed node to an existing one. Node A need to belong to the graph. Node B is added if not belong to it yet.
+        ///// </summary>
+        ///// <param name="nodeValA">Existing node, FROM</param>
+        ///// <param name="nodeValB">New node, created if not exist</param>
+        ///// <returns></returns>
+        //Node<TNode> AddNewNodeFor(TNode nodeValA, TNode nodeValB);
 
-		bool RemoveEdge(TNode a, TNode b);
-		void RemoveIncomingEdgesFor(TNode nodeVal);
-		void RemoveOutgoingEdgesFor(TNode nodeVal);
-		#endregion
-	}
+        ///// <summary>
+        ///// Binds an existing node to an other. Both need to belong to the graph, if any of the two does not, error throwns.
+        ///// </summary>
+        ///// <param name="nodeValA">FROM node</param>
+        ///// <param name="nodeValB">TO node</param>
+        //void AddExistingNodeFor(TNode nodeValA, TNode nodeValB);
+
+        ///// <summary>
+        ///// Removes one referenced node for the given node, only if it references, otherwise, doing nothing
+        ///// </summary>
+        ///// <param name="nodeValue">the node for which referenced nodes are beeing checked</param>
+        ///// <param name="referencedNodeValue">the referenced node beeing looked for</param>
+        ///// <returns>boolean about the reoval success</returns>
+
+        //bool RemoveNodeFor(TNode nodeValue, TNode referencedNodeValue);
+
+        ///// <summary>
+        ///// Removes all referenced nodes for the given node, but leaves the root node unharmed
+        ///// </summary>
+        ///// <param name="nodeValue">the value of the node for which referenced nodes should be removed</param>
+        ///// <returns>boolean about the reoval success; will be false if any of the referenced nodes fails to be removed</returns>
+        //bool RemoveAllNodeFor(TNode nodeValue);
+    }
 }

@@ -14,65 +14,22 @@ namespace Nadam.ConsoleTest
 
         private void Run()
         {
-            //var graph = new DbModelGraph();
-            //graph.AddTable("BaseTable", SeedTables());
-            //graph.AddTable("Table_B", SeedTables2());
-            //var dependecies = graph.GetDependentTables("BaseTable").ToList();
-            //var dep = graph.GetDependentTables("Table_B").ToList();
-            //graph.AddTable("Table_B");
+            Console.WriteLine();
+            var northwind = new DbModelGraph();
+            foreach (var table in GetNorthwindTables())
+            {
+                northwind.AddTable(table);
+            }
 
-            //var it = graph.DependecyIterator();
-            //it.Reset();
-            //while(it.MoveNext())
-            //{
-            //    Console.WriteLine(it.Current.Value);
-            //}
+            SeedNorthwindTableDependencies(ref northwind);
 
-            //var northwind = new DbModelGraph();
-            //northwind.AddTables(SeedNorthwindTables());
-
-            //// base table connections
-            //northwind.AddDependecy("Productions", "Suppliers");
-            //northwind.AddDependecy("Productions", "Customers");
-            //northwind.AddDependecy("EmpTerritories", "Employees");
-            //northwind.AddDependecy("EmpTerritories", "Territories");
-            //northwind.AddDependecy("Territories", "Regions");
-            //northwind.AddDependecy("OrderDetails", "Productions");
-            //northwind.AddDependecy("OrderDetails", "Orders");
-            //northwind.AddDependecy("Orders", "Employees");
-            //northwind.AddDependecy("Orders", "Shippers");
-            //northwind.AddDependecy("Orders", "Customers");
-            //northwind.AddDependecy("Cust", "Customers");
-            //northwind.AddDependecy("Cust", "CustomerDemographi");
-
-            //// additional connection for testing
-            //northwind.AddDependecy("Cust", "Orders");
-            //northwind.AddDependecy("Cust", "EmpTerritories");
-
-            //foreach (TableNode table in northwind)
-            //{
-            //    Console.WriteLine("\tTable: " + table.TableName);
-            //    foreach (var item in northwind.GetDependentTables(table.Value))
-            //    {
-            //        Console.WriteLine(item);
-            //    }
-            //    Console.WriteLine("---------------------");
-            //}
-            Console.WriteLine("\n**************************");
-            //var it = northwind.DependecyIterator();
-            //it.Reset();
-            //while (it.MoveNext())
-            //{
-            //    Console.WriteLine(it.Current.Value);
-            //}
-            
-            //foreach (var it in northwind.DependecyIteration())
-            //{
-            //    Console.WriteLine(it.Value);
-            //}
+            foreach (var table in northwind.DependecyIteration())
+            {
+                Console.WriteLine(table);
+            }
         }
 
-        private IEnumerable<string> SeedNorthwindTables()
+        private IEnumerable<string> GetNorthwindTables()
         {
             return new List<string>()
             {
@@ -92,23 +49,20 @@ namespace Nadam.ConsoleTest
             };
         }
 
-        private IEnumerable<string> SeedTables()
+        private void SeedNorthwindTableDependencies(ref DbModelGraph northwind)
         {
-            return new List<string>()
-            {
-                "Table_A",
-                "Table_B",
-                "Table_C"
-            };
-        }
-
-        private IEnumerable<string> SeedTables2()
-        {
-            return new List<string>()
-            {
-                "Table_D",
-                "Table_E"
-            };
+            northwind.AddEdgeFor("Productions", "Suppliers");
+            northwind.AddEdgeFor("Productions", "Customers");
+            northwind.AddEdgeFor("EmpTerritories", "Employees");
+            northwind.AddEdgeFor("EmpTerritories", "Territories");
+            northwind.AddEdgeFor("Territories", "Regions");
+            northwind.AddEdgeFor("OrderDetails", "Productions");
+            northwind.AddEdgeFor("OrderDetails", "Orders");
+            northwind.AddEdgeFor("Orders", "Employees");
+            northwind.AddEdgeFor("Orders", "Shippers");
+            northwind.AddEdgeFor("Orders", "Customers");
+            northwind.AddEdgeFor("Cust", "Customers");
+            northwind.AddEdgeFor("Cust", "CustomerDemographi");
         }
     }
 }

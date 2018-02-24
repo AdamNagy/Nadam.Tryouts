@@ -20,9 +20,6 @@ namespace Nadam.ConsoleTest
                     case 'b':
                         GraphTestConsole.TestRunner();
                         break;
-                    case 'c':
-                        MivDbTestConsole.TestRunner();
-                        break;
                 }
                 program.MenuItemEnd();
                 Clear();

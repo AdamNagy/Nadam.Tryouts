@@ -55,8 +55,7 @@
   <ItemGroup>
     <Compile Include="Common.cs" />
     <Compile Include="DatabaseGraph\DbModelGraph.cs" />
-    <Compile Include="DatabaseGraph\DatabaseGraphDependencyEnumerator.cs" />
-    <Compile Include="DatabaseGraph\DbTable.cs" />
+    <Compile Include="DatabaseGraph\DbModelGraphDependencyEnumerator.cs" />
     <Compile Include="FileUtility.cs" />
     <Compile Include="JsonDbContextExtensions.cs" />
     <Compile Include="JsonDbEngineContext.cs" />

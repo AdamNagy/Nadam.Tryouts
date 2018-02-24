@@ -63,9 +63,9 @@
     <Compile Include="TestModels\UnitTestingModelType.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nadam.ConsoleTest\ConsoleTest.csproj">
+    <ProjectReference Include="..\Nadam.ConsoleTest\JsonDb.ConsoleTest.csproj">
       <Project>{896D0B96-25FB-4708-A150-E9F07D3AA5EA}</Project>
-      <Name>ConsoleTest</Name>
+      <Name>JsonDb.ConsoleTest</Name>
     </ProjectReference>
     <ProjectReference Include="..\Nadam.Lib\Nadam.Global.Lib.csproj">
       <Project>{6f9afe40-62c2-4d40-b143-8aa81bc0c926}</Project>

@@ -28,7 +28,7 @@ namespace Nadam.Global.JsonDb
         private readonly string fileExtension = ".json";
         private Type derivedContextType;
 
-        #region <constructors>
+        #region constructors
         protected JsonDbEngineContext(string configName, bool inmemory = true)
         {
             Inmemory = inmemory;
@@ -51,7 +51,7 @@ namespace Nadam.Global.JsonDb
             if (Inmemory)
                 LoadAllTable();
         }
-        #endregion </constructors>
+        #endregion
 
         private void InitListProperties()
         {
@@ -184,7 +184,7 @@ namespace Nadam.Global.JsonDb
                                                         .Select(q => q.Name.PluralizeString())
                                                         .ToList();
                 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-                // dbGraph.AddTable(tableName, propsWithForeignKeyAttr);
+                dbGraph.AddTable(tableName, propsWithForeignKeyAttr);
             }
         }
 

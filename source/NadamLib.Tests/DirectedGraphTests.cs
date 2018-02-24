@@ -1,117 +1,395 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Nadam.Global.Lib.DirectedGraph;
+using System;
+using System.Collections.Generic;
 
 namespace NadamLib.Tests
-{
-	
-	class DirectedGraphTests
+{   
+    public class DirectedGraphTests
 	{
-		[TestClass]
-		class Add
+        [TestClass]
+        public class Add
 		{
-			[TestMethod]
-			public void AddNewNode()
-			{
+            [TestMethod]
+            public void Add3NodesAndNodeIdsIdMusBe012()
+            {
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+                var nodeIds = new List<int> { graph.AddNode(10).NodeId };
+                nodeIds.Add(graph.AddNode(10).NodeId);
+                nodeIds.Add(graph.AddNode(10).NodeId);
 
-			}
+                CollectionAssert.AreEqual(new List<int> {0,1,2 }, nodeIds);
+            }
 
-			[TestMethod]
-			public void AddEdge()
-			{
+            [TestMethod]
+            public void Adding1NodeMustIncrementNodeCountWith1()
+            {
+                // Arrange
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+                graph.AddNode(1);
+                graph.AddNode(2);
+                var startNodeCount = graph.NodesCount();
 
-			}
-		}
+                // Action
+                graph.AddNode(3);
+                graph.AddNode(4);
+                var newNodeCount = graph.NodesCount();
+
+                // Assert
+                Assert.AreEqual((startNodeCount + 2), newNodeCount);
+            }
+
+            [TestMethod]
+            public void Add3EdgesAndIdsMustBe012()
+            {
+                // Arrange
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+                                
+                graph.AddNode(1);
+                graph.AddNode(2);
+                graph.AddNode(3);
+                graph.AddNode(4);
+
+                // Action
+                var nodeIds = new List<int> { graph.AddEdgeFor(1, 3).EdgeId };
+                nodeIds.Add(graph.AddEdgeFor(2, 3).EdgeId);
+                nodeIds.Add(graph.AddEdgeFor(3, 4).EdgeId);
+
+                // Assert
+                CollectionAssert.AreEqual(new List<int> { 0, 1, 2 }, nodeIds);
+            }
+
+            [TestMethod]
+            public void Adding3NodeMustIncrementNodeCountWith3()
+            {
+                // Arrange
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+                graph.AddNode(1);graph.AddNode(2);graph.AddNode(3);graph.AddNode(4);
+                graph.AddEdgeFor(1, 2);
+                graph.AddEdgeFor(1, 3);
+                var startEdgeCount = graph.EdgeCount();
+
+                // Action
+                graph.AddEdgeFor(2, 3);
+                graph.AddEdgeFor(2, 4);
+                var newEdgeCount = graph.EdgeCount();
+
+                // Assert
+                Assert.AreEqual((startEdgeCount+2), newEdgeCount);
+            }
+        }
 
 		[TestClass]
-		class Contains
+		public class Contains
 		{
 			[TestMethod]
 			public void ContainsNodeMustReturnTrue()
-			{
+			{               
 				IDirectedGraph<int> graph = new DirectedGraph<int>();
 
-				var nodeA = graph.AddNewNode(234);
-				var nodeB = graph.AddNewNode(345);
+				var nodeA = graph.AddNode(234);
+				var nodeB = graph.AddNode(345);
 
-				var nodeId = graph.ContainsNode(234);
+				var contains = graph.ContainsNode(234);
 
-				Assert.AreEqual(nodeA.NodeId, nodeId);
+				Assert.IsTrue(contains);
 			}
 
 			[TestMethod]
-			public void ContainsNonExisting()
+			public void ContainsNodeMustReturnFalse()
 			{
 				IDirectedGraph<int> graph = new DirectedGraph<int>();
+				graph.AddNode(234);
+				graph.AddNode(345);
 
-				var nodeA = graph.AddNewNode(234);
-				var nodeB = graph.AddNewNode(345);
+				var contains = graph.ContainsNode(1);
 
-				var nodeId = graph.Contains(2345);
-
-				Assert.AreEqual(nodeId, -1);
+				Assert.IsFalse(contains);
 			}
 
-			[TestMethod]
-			public void ContainsDirectedChild()
-			{
-				IDirectedGraph<int> graph = new DirectedGraph<int>();
-				for (int i = 1; i < 10; i++)
-				{
-					graph.AddNewNode(i * 3);
-				}
+            [TestMethod]
+            public void ContainsEdgeMustReturnTrue()
+            {
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+                graph.AddNode(234);
+                graph.AddNode(345);
+                graph.AddEdgeFor(234, 345);
 
-				var node30 = graph.AddNewNodeFor(3, 30);
-				graph.AddNewNodeFor(3, 31);
-				graph.AddNewNodeFor(3, 32);
+                var contains = graph.ContainsEdge(234, 345);
+                Assert.IsTrue(contains);
+            }
 
-				var node30c = graph.ContainsDirectedNode(3, 30);
+            [TestMethod]
+            public void ContainsEdgeMustReturnFalse()
+            {
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+                var nodeA = graph.AddNode(234);
+                var nodeB = graph.AddNode(345);
 
-				Assert.AreEqual(node30.NodeId, node30c);
-			}
-		}
+                var contains = graph.ContainsEdge(234, 345);
+
+                Assert.IsFalse(contains);
+            }
+        }
+
+        [TestClass]
+        public class Get
+        {
+            [TestMethod]
+            public void GetNodeMustReturn0()
+            {
+                // Arrange
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+                graph.AddNode(1);
+                graph.AddNode(2);
+
+                // Action
+                var nodes = graph.GetNode(3);
+
+                // Assert
+                Assert.AreEqual(0, nodes.Count);
+            }
+
+            [TestMethod]
+            public void GetNodeMustReturn1()
+            {
+                // Arrange
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+                graph.AddNode(1);
+                graph.AddNode(2);
+
+                // Action
+                var nodes = graph.GetNode(2);
+
+                // Assert
+                Assert.AreEqual(1, nodes.Count);
+            }
+
+            [TestMethod]
+            public void GetNodeMustReturn6()
+            {
+                // Arrange
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+                graph.AddNode(1);
+                graph.AddNode(1);
+                graph.AddNode(1);
+                graph.AddNode(1);
+                graph.AddNode(1);
+                graph.AddNode(1);
+
+                // Action
+                var nodes = graph.GetNode(1);
+
+                // Assert
+                Assert.AreEqual(6, nodes.Count);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(Exception))]
+            public void GetEdgesForMustThrowException()
+            {
+                // Arrange
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+                graph.AddNode(1);
+                graph.AddNode(2);
+                graph.AddNode(3);
+                graph.AddNode(4);
+
+                // Action
+                var edges = graph.GetEdgesFor(5);
+            }
+
+            [TestMethod]
+            public void GetEdgesForMustReturn1()
+            {
+                // Arrange
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+                graph.AddNode(1);
+                graph.AddNode(2);
+                graph.AddNode(3);
+                graph.AddNode(4);
+
+                graph.AddEdgeFor(1, 3);
+                graph.AddEdgeFor(2, 3);
+                graph.AddEdgeFor(3, 4);
+                // Action
+                var edges = graph.GetEdgesFor(1);
+
+                // Assert
+                Assert.AreEqual(1, edges.Count);
+            }
+
+            [TestMethod]
+            public void GetEdgesForMustReturn3()
+            {
+                // Arrange
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+                graph.AddNode(1);
+                graph.AddNode(2);
+                graph.AddNode(3);
+                graph.AddNode(4);
+
+                graph.AddEdgeFor(1, 2);
+                graph.AddEdgeFor(1, 3);
+                graph.AddEdgeFor(1, 4);
+                // Action
+                var edges = graph.GetEdgesFor(1);
+
+                // Assert
+                Assert.AreEqual(3, edges.Count);
+            }
+        }
 
 		[TestClass]
-		class Remove
+		public class Remove
 		{
-			
-		}
+            [TestMethod]
+            public void RemoveNodeMustReturnTrue()
+            {
+                // Arrange
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+                graph.AddNode(1);
+                graph.AddNode(2);
+
+                // Action
+                var removal = graph.RemoveNode(1);
+
+                // Assert
+                Assert.IsTrue(removal);
+            }
+
+            [TestMethod]
+            public void RemoveNodeWhenReturnsTrueMustDecrementNodeCount()
+            {
+                // Arrange
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+                graph.AddNode(1);
+                graph.AddNode(2);
+                var startNodeCount = graph.NodesCount();
+
+                // Action
+                graph.RemoveNode(1);
+                var mewNodeCount = graph.NodesCount();
+
+                // Assert
+                Assert.AreEqual((startNodeCount - 1), mewNodeCount);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(Exception))]
+            public void RemoveNodeMustThrowException()
+            {
+                // Arrange
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+                graph.AddNode(1);
+                graph.AddNode(2);
+
+                // Action
+                var removal = graph.RemoveNode(3);
+            }
+
+            [TestMethod]
+            public void RemoveNodeWhenReturnsFalseMustNotChangeNodeCount()
+            {
+                // Arrange
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+                graph.AddNode(1);graph.AddNode(2);graph.AddNode(1);
+                graph.AddNode(2);graph.AddNode(1);graph.AddNode(2);
+
+                var startNodeCount = graph.NodesCount();
+
+                // Action
+                try
+                {
+                    graph.RemoveNode(5);
+                }
+                catch{}
+                
+                var mewNodeCount = graph.NodesCount();
+
+                // Assert
+                Assert.AreEqual(startNodeCount, mewNodeCount);
+            }
+        }
 
 		[TestClass]
-		class Properties
+		public class Properties
 		{
-			[TestMethod]
-			public void NodesCountMustBeEqualTo3()
+            [TestMethod]
+            public void Add3NodesAndNodeCountMustBe0()
+            {
+                // Arrange
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+
+                // Asser
+                Assert.AreEqual(0, graph.NodesCount());
+            }
+
+            [TestMethod]
+            public void Add3NodesAndNodeCountMustBe1()
+            {
+                // Arrange
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+
+                // Action
+                graph.AddNode(1);
+
+                // Asser
+                Assert.AreEqual(1, graph.NodesCount());
+            }
+
+            [TestMethod]
+			public void Add3NodesAndNodeCountMustBe6()
 			{
 				// Arrange
 				IDirectedGraph<int> graph = new DirectedGraph<int>();
 
 				// Action
-				graph.AddNewNode(1);
-				graph.AddNewNode(2);
-				graph.AddNewNode(3);
+				graph.AddNode(1);
+				graph.AddNode(2);
+				graph.AddNode(3);
+                graph.AddNode(1);
+                graph.AddNode(2);
+                graph.AddNode(3);
 
-				// Asser
-				Assert.AreEqual(3, graph.NodesCount());
-				Assert.AreEqual(0, graph.EdgeCount());
+                // Asser
+                Assert.AreEqual(6, graph.NodesCount());
 			}
 
-			[TestMethod]
-			public void EdgesCountMustBeEqualTo2()
+            [TestMethod]
+            public void EdgesCountMustBeEqualTo0()
+            {
+                // Arrange
+                IDirectedGraph<int> graph = new DirectedGraph<int>();
+
+                // Action
+                graph.AddNode(1);
+                graph.AddNode(2);
+                graph.AddNode(3);
+                graph.AddNode(4);
+
+                // Asser
+                Assert.AreEqual(0, graph.EdgeCount());
+            }
+
+            [TestMethod]
+			public void EdgesCountMustBeEqualTo3()
 			{
 				// Arrange
 				IDirectedGraph<int> graph = new DirectedGraph<int>();
 
 				// Action
-				var nodeA = graph.AddNewNode(1);
-				var nodeB = graph.AddNewNode(2);
+				graph.AddNode(1);
+				graph.AddNode(2);
+                graph.AddNode(3);
+                graph.AddNode(4);
 
+                graph.AddEdgeFor(1, 3);
+				graph.AddEdgeFor(2, 3);
+                graph.AddEdgeFor(3, 4);
 
-				graph.AddNewNodeFor(nodeA.Value, 10);
-				graph.AddNewNodeFor(nodeB.Value, 5);
-
-				// Asser
-				Assert.AreEqual(4, graph.NodesCount());
-				Assert.AreEqual(2, graph.EdgeCount());
+                // Asser
+                Assert.AreEqual(3, graph.EdgeCount());
 			}
 		}
 	}

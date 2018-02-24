@@ -27,103 +27,93 @@ namespace Nadam.Global.Lib.DirectedGraph
 		#endregion
 
 		#region Add
-		public Node<TNode> AddNewNode(TNode nodeVal)
+		public Node<TNode> AddNode(TNode nodeVal)
 		{
 			var newNode = new Node<TNode>(nodeVal, NodeId++);
 			NodeSet.Add(newNode);
 			return newNode;
 		}
 
-		public Node<TNode> AddNewNodeFor(TNode nodeValA, TNode nodeValB)
+		public DirectedEdge AddEdgeFor(TNode startNode, TNode referenced)
 		{
-			var nodeA = GetNode(nodeValA);
+            var nodeAs = GetNode(startNode);
+            if (nodeAs.Count != 1)
+                throw new Exception("From node does not exist");
+            var nodeA = nodeAs.First();
 
-			if( nodeA == null )
-				throw new Exception("Node A does not belong to graph. Please add first");
+            var nodeBs = GetNode(referenced);
+            if (nodeBs.Count != 1)
+                throw new Exception("To node does not exist");
+            var nodeB = nodeBs.First();
 
-			var nodeBId = GetNode(nodeValB);
-			Node<TNode> nodeB;
-			if (nodeBId == null)
-				nodeB = AddNewNode(nodeValB);
-			else
-				nodeB = GetNode(nodeBId);
+            var newEdge = new DirectedEdge(nodeA.NodeId, nodeB.NodeId, EdgeId++);
+            if (EdgeSet.SingleOrDefault(p => p.ANodeId.Equals(nodeA.NodeId) && p.BNodeId.Equals(nodeB.NodeId)) != null)
+                throw new Exception("There is already edge between these 2 nodes");
 
-			var newEdge = new DirectedEdge(nodeA.NodeId, nodeB.NodeId, NodeId++);
-
-			EdgeSet.Add(newEdge);
-
-			return nodeB;
-		}
-
-		public void AddEdgeFor(TNode startNode, TNode referenced)
-		{
-			
-		}
+            EdgeSet.Add(newEdge);
+            return newEdge;
+        }
 		#endregion
 
 		#region Contains
 		public bool ContainsNode(TNode nodeValue)
 		{
-			var node = GetNode(nodeValue);
-			return node != null;
+			var nodes = GetNode(nodeValue);
+			return nodes.Count > 0;
 		}
 
 		public bool ContainsEdge(TNode nodeValA, TNode nodeValB)
 		{
-			var referencedNodes = GetNodesFor(nodeValA);
-			var node = referencedNodes.SingleOrDefault(p => p.Value.Equals(nodeValB));
-			return node != null;
+			var edges = GetEdgesFor(nodeValA);
+            var bNode = GetNode(nodeValB).FirstOrDefault();
+			var edge = edges.SingleOrDefault(p => p.BNodeId.Equals(bNode.NodeId));
+			return edge != null;
 		}
 		#endregion
 
 		#region Get
-		public Node<TNode> GetNode(TNode nodeValue)
-		{
-			return NodeSet.SingleOrDefault(p => p.Value.Equals(nodeValue));
+		public IList<Node<TNode>> GetNode(TNode nodeValue)
+        {
+			return NodeSet.Where(p => p.Value.Equals(nodeValue)).ToList();
 		}
 
-		public Node<TNode> GetNode(Node<TNode> node)
-		{
-			return NodeSet.SingleOrDefault(p => p.Equals(node));
-		}
+		public IList<DirectedEdge> GetEdgesFor(TNode nodeVal)
+        {
+			var nodes = GetNode(nodeVal);
+            if (nodes.Count() != 1)
+                throw new Exception("Node does not exist, or belong to graph multiple times");
 
-		public IEnumerable<Node<TNode>> GetNodesFor(TNode nodeA)
-		{
-
-			var node = GetNode(nodeA);
-			var nodes = EdgeSet.Where(p => p.From.Equals(node.NodeId))
-				.Select(p => GetNodeById(p.To));
-
-			return nodes;
-		}
-
-		public IEnumerable<Node<TNode>> GetNodesFor(Node<TNode> nodeA)
-		{
-
-			var node = GetNode(nodeA);
-			var nodes = EdgeSet.Where(p => p.From.Equals(node.NodeId))
-				.Select(p => GetNodeById(p.To));
-
-			return nodes;
+            var node = nodes.First();
+			var edges = EdgeSet.Where(p => p.From.Equals(node.NodeId) || p.To.Equals(node.NodeId));
+			return edges.ToList();
 		}
 		#endregion
 
 		#region Remove
 		public bool RemoveNode(TNode nodeValue)
 		{
-			var nodeToRemove = GetNode(nodeValue);
-			RemoveIncomingEdgesFor(nodeToRemove.Value);
+			var nodes = GetNode(nodeValue);
+            if (nodes.Count() != 1)
+                throw new Exception("Node does not exist, or belong to graph multiple times");
+
+            var nodeToRemove = nodes.First();
+            RemoveIncomingEdgesFor(nodeToRemove.Value);
 			RemoveOutgoingEdgesFor(nodeToRemove.Value);
+            NodeSet.Remove(nodeToRemove);
 			return true;
 		}
 
 		public bool RemoveEdge(TNode a, TNode b)
 		{
-			var nodeA = GetNode(a);
-			var nodeB = GetNode(b);
+			var nodeAs = GetNode(a);
+            if (nodeAs.Count() != 1)
+                throw new Exception("NodeA does not exist, or belong to graph multiple times");
+            var nodeA = nodeAs.First();
 
-			if (nodeA == null || nodeB == null)
-				return false;
+            var nodeBs = GetNode(b);
+            if (nodeBs.Count() != 1)
+                throw new Exception("NodeA does not exist, or belong to graph multiple times");
+            var nodeB = nodeAs.First();
 
 			var edgeToRemove = EdgeSet.SingleOrDefault(p => p.From.Equals(nodeA.NodeId) && p.To.Equals(nodeB.NodeId));
 
@@ -133,26 +123,33 @@ namespace Nadam.Global.Lib.DirectedGraph
 			EdgeSet.Remove(edgeToRemove);
 			return true;
 		}
+        #endregion
 
-		public void RemoveIncomingEdgesFor(TNode nodeVal)
+        #region Private
+        private void RemoveIncomingEdgesFor(TNode nodeVal)
 		{
-			var node = GetNode(nodeVal);
-			foreach (var edge in EdgeSet.Where(p => p.To.Equals(node.NodeId)))
+            var nodeAs = GetNode(nodeVal);
+            if (nodeAs.Count() != 1)
+                throw new Exception("NodeA does not exist, or belong to graph multiple times");
+            var nodeA = nodeAs.First();
+            foreach (var edge in EdgeSet.Where(p => p.To.Equals(nodeA.NodeId)))
 				EdgeSet.Remove(edge);
 		}
 
-		public void RemoveOutgoingEdgesFor(TNode nodeVal)
+        private void RemoveOutgoingEdgesFor(TNode nodeVal)
 		{
-			var node = GetNode(nodeVal);
-			foreach (var edge in EdgeSet.Where(p => p.From.Equals(node.NodeId)))
-				EdgeSet.Remove(edge);
-		}
-		#endregion
+            var nodeAs = GetNode(nodeVal);
+            if (nodeAs.Count() != 1)
+                throw new Exception("NodeA does not exist, or belong to graph multiple times");
+            var nodeA = nodeAs.First();
 
-		#region Private
-		private Node<TNode> GetNodeById(int nodeId)
+            foreach (var edge in EdgeSet.Where(p => p.From.Equals(nodeA.NodeId)))
+				EdgeSet.Remove(edge);
+		}      
+
+        private Node<TNode> GetNodeById(int nodeId)
 		{
-			return NodeSet.SingleOrDefault(p => p.NodeId.Equals(nodeId));
+			return NodeSet[nodeId];
 		}
 		#endregion
 	}

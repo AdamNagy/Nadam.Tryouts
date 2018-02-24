@@ -68,15 +68,7 @@
   <ItemGroup>
     <Compile Include="GraphTestConsole.cs" />
     <Compile Include="JsonDbTestConsole.cs" />
-    <Compile Include="MivDbTestConsole.cs" />
-    <Compile Include="MIV\Models\HighHeel.cs" />
-    <Compile Include="MIV\Models\HighHeelImage.cs" />
-    <Compile Include="MIV\Models\ImageExtension.cs" />
-    <Compile Include="MIV\Models\Place.cs" />
-    <Compile Include="MIV\Models\SequenceExtension.cs" />
-    <Compile Include="MIV\Models\TightsType.cs" />
     <Compile Include="TestJsonDbContext.cs" />
-    <Compile Include="MIV\MivExtensionDbContext.cs" />
     <Compile Include="Models\Color.cs" />
     <Compile Include="Models\ColorHelper.cs" />
     <Compile Include="Models\GlobalEnums.cs" />
