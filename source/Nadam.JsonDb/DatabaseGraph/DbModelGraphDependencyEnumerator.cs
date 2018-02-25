@@ -4,18 +4,19 @@ using System.Linq;
 
 namespace Nadam.Global.JsonDb.DatabaseGraph
 {
-    public class DbModelGraphDependencyEnumerator : IEnumerator<string>, IEnumerable<string>
+    public class DependencyEnumerator<T> : IEnumerator<string>
     {
-        public DbModelGraph Graph { get; set; }
+        public IRelationalDatabaseGraph Graph { get; set; }
 
         public Stack<string> TableStack { get; set; }
-        public List<string> SingleTables { get; set; }
+        public ISet<string> SingleTables { get; set; }
 
         private string _current;
 
-        public DbModelGraphDependencyEnumerator(DbModelGraph _graph)
+        public DependencyEnumerator(IRelationalDatabaseGraph _graph)
         {
             Graph = _graph;
+            Reset();
         }
 
         public string Current
@@ -30,7 +31,7 @@ namespace Nadam.Global.JsonDb.DatabaseGraph
 
         public void Dispose()
         {
-            Dispose();
+            
         }
 
         public bool MoveNext()
@@ -46,9 +47,9 @@ namespace Nadam.Global.JsonDb.DatabaseGraph
         public void Reset()
         {
             TableStack = new Stack<string>();
-            SingleTables = new List<string>();
+            SingleTables = new HashSet<string>();
 
-            BuildTableLis(Graph.Root.Value);
+            BuildTableLis(Graph.GetRoot().Value);
             BuildTableStack();
         }
 
@@ -56,37 +57,19 @@ namespace Nadam.Global.JsonDb.DatabaseGraph
         {
             IEnumerable<string> dependencies;
             string node = currentRoot;
-
+            
             SingleTables.Add(node);
 
             dependencies = Graph.GetDependencyTables(currentRoot);
-            foreach (var table in dependencies)
-            {
-                BuildTableLis(table);
-            }
+            foreach (var table in dependencies)            
+                BuildTableLis(table);            
         }
 
         private void BuildTableStack()
         {
             SingleTables.Reverse();
-
-            SingleTables = SingleTables.Distinct().ToList();
-            SingleTables.Reverse();
-            foreach (var item in SingleTables.Skip(1))  // skip(1) is to skip the root node
-            {
-                TableStack.Push(item);
-            }
-        }
-
-        public IEnumerator<string> GetEnumerator()
-        {
-            Reset();
-            return TableStack.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+            foreach (var item in SingleTables.Skip(1))  // skip(1) is to skip the root node            
+                TableStack.Push(item);            
         }
     }
 }

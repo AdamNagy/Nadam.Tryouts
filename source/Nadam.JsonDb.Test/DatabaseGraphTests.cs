@@ -4,204 +4,191 @@ using Nadam.Global.Lib.Graph;
 using Nadam.Global.JsonDb.DatabaseGraph;
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 
 namespace Nadam.Lib.JsonDb.Test
 {
+    
     public class DatabaseGraphTests
     {
         [TestClass]
-        public class DatabaseGraphCreationEndAddTest
+        public class AddAndTableCounts
         {
             [TestMethod]
-            public void CreateAndInitialize()
+            public void CreatingNewGraphAndCountMustBe0()
             {
-                // Arrange
-                // -
-                // Action
-                var graph = NorthwindDbGraphSeeder.GenerateNorthwindDbGraph();
-
-                // Assert
-                Assert.AreEqual(13, graph.NodesCount());
+                IRelationalDatabaseGraph graph = new RelationalDatabaseGraph();
+                Assert.AreEqual(graph.TablesCount(), 0);
             }
 
             [TestMethod]
-            public void AddOneTable()
+            public void AddOneTableAndCountMustBe1()
             {
                 // Arrange
-                var graph = new DbModelGraph();
+                IRelationalDatabaseGraph graph = new RelationalDatabaseGraph();
 
                 // Act
-                graph.FindOrAddTable("Table_A");
+                graph.AddTable("Table_A");
 
                 // Assert
-                Assert.AreEqual(graph.NodesCount(), 1);
+                Assert.AreEqual(graph.TablesCount(), 1);
             }
 
             [TestMethod]
-            public void AddMoreTable()
+            public void Add3TableAndCountMustBe3()
             {
                 // Arrange
-                var graph = new DbModelGraph();
+                IRelationalDatabaseGraph graph = new RelationalDatabaseGraph();
 
                 // Act
-                graph.FindOrAddTable("Table_A");
-                graph.FindOrAddTable("Table_B");
-                graph.FindOrAddTable("Table_C");
+                graph.AddTable("Table_A");
+                graph.AddTable("Table_B");
+                graph.AddTable("Table_C");
 
                 // Assert
-                Assert.AreEqual(graph.NodesCount(), 3);
-            }
-            // ****
-            // Will fail alwaiys, UnitTest framework .IsEqual calls something that is not correct (neither == operator, neither .Equal() function it is)
-            // ****
-            [TestMethod]
-            public void AddOneTableDependency()
-            {
-                // Arrange
-                var graph = new DbModelGraph();
-
-                // Act
-                var tableA = graph.FindOrAddTable("Table_A");
-                graph.FindOrAddTable("Table_B");
-                graph.FindOrAddTable("Table_C");
-
-                graph.AddEdgeFor("Table_A", "Table_B");
-                graph.AddEdgeFor("Table_A", "Table_C");
-
-                //var tableA = graph.FindByNodeId(1);
-                var neightbour = new TableNode("Table_B", 2) { Neighbors = new List<GraphNode<string>>() };
-                // Assert
-                var f = tableA.Neighbors[0].Equals(neightbour);
-                var g = tableA.Neighbors[0] == neightbour;
-                Assert.AreEqual(tableA.Neighbors.Count, 2);
-                Assert.IsTrue(tableA.Neighbors[0].Equals(neightbour));
-                Assert.AreEqual(tableA.Neighbors[0], neightbour);
-                CollectionAssert.AreEqual(tableA.Neighbors as ICollection,
-                                          new List<TableNode>() {
-                                              new TableNode("Table_B", 2) { Neighbors = new List<GraphNode<string>>() },
-                                              new TableNode("Table_C", 3) { Neighbors = new List<GraphNode<string>>() } });
+                Assert.AreEqual(graph.TablesCount(), 3);
             }
 
             [TestMethod]
-            public void AddOneDependencyes()
+            public void AddOneTableDependencyAndDependentTablesMustBe1()
             {
                 // Arrange
-                var graph = new DbModelGraph();
+                IRelationalDatabaseGraph graph = new RelationalDatabaseGraph();
+                graph.AddTable("Table_A");
+                graph.AddTable("Table_B");
 
                 // Act
-                graph.FindOrAddTable("Table_A");
-                graph.FindOrAddTable("Table_B");
-                graph.FindOrAddTable("Table_C");
-
-                graph.AddDependecy("Table_A", "Table_B");
-                graph.AddDependecy("Table_B", "Table_C");
-
-                var tableA = graph.FindByNodeId(1);
-                var tableB = graph.FindByNodeId(2);
-                var tableC = graph.FindByNodeId(3);
+                graph.AddTable("Table_A", "Table_B");
+                var tableADependencies = graph.GetDependencyTables("Table_A");
 
                 // Assert
-                Assert.AreEqual(tableA.Neighbors.Count, 1);
-                Assert.AreEqual(tableB.Neighbors.Count, 1);
-                Assert.AreEqual(tableC.Neighbors.Count, 0);
+                Assert.AreEqual(1, tableADependencies.Count());
+            }
+
+            [TestMethod]
+            public void Add3TableDependencyAndDependentTablesMustBe3()
+            {
+                // Arrange
+                IRelationalDatabaseGraph graph = new RelationalDatabaseGraph();
+                graph.AddTable("Table_A");
+                graph.AddTable("Table_B");
+                graph.AddTable("Table_C");
+                graph.AddTable("Table_D");
+
+                // Act
+                graph.AddTable("Table_A", "Table_B");
+                graph.AddTable("Table_A", "Table_C");
+                graph.AddTable("Table_A", "Table_D");
+                var tableADependencies = graph.GetDependencyTables("Table_A");
+
+                // Assert
+                Assert.AreEqual(3, tableADependencies.Count());
+            }
+
+            [TestMethod]
+            public void Add3TableDependencyInArrayAndDependentTablesMustBe3()
+            {
+                // Arrange
+                IRelationalDatabaseGraph graph = new RelationalDatabaseGraph();
+                graph.AddTable("Table_A");
+                graph.AddTable("Table_B");
+                graph.AddTable("Table_C");
+                graph.AddTable("Table_D");
+
+                // Act
+                graph.AddTable("Table_A", new string[] { "Table_B", "Table_C", "Table_D" });
+                var tableADependencies = graph.GetDependencyTables("Table_A");
+
+                // Assert
+                Assert.AreEqual(3, tableADependencies.Count());
+            }
+
+            [TestMethod]
+            public void AddingTableMultipleTimesShouldResultIn1()
+            {
+                IRelationalDatabaseGraph graph = new RelationalDatabaseGraph();
+                graph.AddTable("Table_A");
+                graph.AddTable("Table_A");
+                graph.AddTable("Table_A");
+
+
+                Assert.AreEqual(1, graph.TablesCount());
             }
         }
 
         [TestClass]
-        public class DatabaseFindTest
+        public class DependencyEnumeratorTests
         {
             [TestMethod]
-            public void FindByNodeIdTest_valid()
+            public void Given3TablesWithNoDependency()
             {
-                // Arrange
-                var graph = NorthwindDbGraphSeeder.GenerateNorthwindDbGraph();
+                IRelationalDatabaseGraph graph = new RelationalDatabaseGraph();
+                graph.AddTable("Table_A");
+                graph.AddTable("Table_B");
+                graph.AddTable("Table_C");
 
-                // Action
-                var suppliers = graph.FindByNodeId(1);
-                var productions = graph.FindByNodeId(5);
-                var customerDemographi = graph.FindByNodeId(13);
+                var iterationOrder = new List<string>(3);
+                foreach (var table in graph)
+                    iterationOrder.Add(table);
 
-                // Assert
-                Assert.AreEqual("Suppliers", suppliers.Value);
-                Assert.AreEqual("Productions", productions.Value);
-                Assert.AreEqual("CustomerDemographi", customerDemographi.Value);
+                CollectionAssert.AreEqual(new string[] { "Table_C", "Table_B", "Table_A" }, iterationOrder);
             }
 
             [TestMethod]
-            public void FindByNodeIdTest_invalid()
+            public void Given1TableWith1Dependency()
             {
-                // Arrange
-                var graph = NorthwindDbGraphSeeder.GenerateNorthwindDbGraph();
+                IRelationalDatabaseGraph graph = new RelationalDatabaseGraph();
+                graph.AddTable("Table_A", "Table_B");
 
-                // Action
-                var table1 = graph.FindByNodeId(14);
-                var table2 = graph.FindByNodeId(-15);
-                var table3 = graph.FindByNodeId(0);
+                var iterationOrder = new List<string>(2);
+                foreach (var table in graph)                
+                    iterationOrder.Add(table);                
 
-                // Assert
-                Assert.IsNull(table1);
-                Assert.IsNull(table2);
-                Assert.IsNull(table3);
+                CollectionAssert.AreEqual(new string[] { "Table_B", "Table_A" }, iterationOrder);
             }
 
             [TestMethod]
-            public void FindByTableNameTest_valid()
+            public void Given1TableWith3Dependency()
             {
-                // Arrange
-                var graph = NorthwindDbGraphSeeder.GenerateNorthwindDbGraph();
+                IRelationalDatabaseGraph graph = new RelationalDatabaseGraph();
+                graph.AddTable("Table_A", "Table_B");
+                graph.AddTable("Table_A", "Table_C");
+                graph.AddTable("Table_A", "Table_D");
 
-                // Action
-                var suppliers = graph.FindByValue("Suppliers");
-                var productions = graph.FindByValue("Productions");
-                var customerDemographi = graph.FindByValue("CustomerDemographi");
+                var iterationOrder = new List<string>(2);
+                foreach (var table in graph)
+                    iterationOrder.Add(table);
 
-                // Assert
-                Assert.AreEqual(1, suppliers.NodeId);
-                Assert.AreEqual(5, productions.NodeId);
-                Assert.AreEqual(13, customerDemographi.NodeId);
+                CollectionAssert.AreEqual(new string[] { "Table_D", "Table_C", "Table_B", "Table_A" }, iterationOrder);
             }
 
             [TestMethod]
-            public void FindByTableNameTest_invalid()
+            public void Given1TableWith1DependencyWith1Dependency()
             {
-                // Arrange
-                var graph = NorthwindDbGraphSeeder.GenerateNorthwindDbGraph();
+                IRelationalDatabaseGraph graph = new RelationalDatabaseGraph();
+                graph.AddTable("Table_A", "Table_B");
+                graph.AddTable("Table_B", "Table_C");
 
-                // Action
-                var suppliers = graph.FindByValue("NotExistTable");
+                var iterationOrder = new List<string>(2);
+                foreach (var table in graph)
+                    iterationOrder.Add(table);
 
-                // Assert
-                Assert.IsNull(suppliers);
+                CollectionAssert.AreEqual(new string[] { "Table_C", "Table_B", "Table_A" }, iterationOrder);
             }
 
             [TestMethod]
-            public void FindByNodeTest_valid()
+            public void Complex()
             {
-                // Arrange
-                var graph = NorthwindDbGraphSeeder.GenerateNorthwindDbGraph();
-                var suppliersNode = new TableNode("Suppliers", 1);
+                IRelationalDatabaseGraph graph = new RelationalDatabaseGraph();
+                graph.AddTable("Table_A", "Table_B");
+                graph.AddTable("Table_B", "Table_C");
+                graph.AddTable("Table_A", "Table_C");
 
-                // Action
-                var suppliers = graph.FindByValue(suppliersNode);
+                var iterationOrder = new List<string>(2);
+                foreach (var table in graph)
+                    iterationOrder.Add(table);
 
-                // Assert
-                Assert.AreEqual(suppliers.NodeId, suppliersNode.NodeId);
-                Assert.AreEqual(suppliers.Value, suppliersNode.Value);
-            }
-
-            [TestMethod]
-            public void FindByNodeTest_valid_b()
-            {
-                // Arrange
-                var graph = NorthwindDbGraphSeeder.GenerateNorthwindDbGraph();
-                var suppliersNode = graph.FindByNodeId(1);
-
-                // Action
-                var suppliers = graph.FindByValue(suppliersNode);
-
-                // Assert
-                Assert.AreEqual(suppliers.NodeId, suppliersNode.NodeId);
-                Assert.AreEqual(suppliers.Value, suppliersNode.Value);
+                CollectionAssert.AreEqual(new string[] { "Table_C", "Table_B", "Table_A" }, iterationOrder);
             }
         }
     }

@@ -15,7 +15,7 @@ namespace Nadam.ConsoleTest
         private void Run()
         {
             Console.WriteLine();
-            var northwind = new DbModelGraph();
+            var northwind = new RelationalDatabaseGraph();
             foreach (var table in GetNorthwindTables())
             {
                 northwind.AddTable(table);
@@ -23,7 +23,7 @@ namespace Nadam.ConsoleTest
 
             SeedNorthwindTableDependencies(ref northwind);
 
-            foreach (var table in northwind.DependecyIteration())
+            foreach (var table in northwind)
             {
                 Console.WriteLine(table);
             }
@@ -49,7 +49,7 @@ namespace Nadam.ConsoleTest
             };
         }
 
-        private void SeedNorthwindTableDependencies(ref DbModelGraph northwind)
+        private void SeedNorthwindTableDependencies(ref RelationalDatabaseGraph northwind)
         {
             northwind.AddEdgeFor("Productions", "Suppliers");
             northwind.AddEdgeFor("Productions", "Customers");

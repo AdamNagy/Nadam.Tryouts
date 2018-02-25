@@ -24,7 +24,7 @@ namespace Nadam.Global.JsonDb
         protected readonly DeferredExecutionPlans ExePlan =
             DeferredExecutionPlans.EagerLoading;
 
-        private readonly DbModelGraph dbGraph;
+        private readonly RelationalDatabaseGraph dbGraph;
         private readonly string fileExtension = ".json";
         private Type derivedContextType;
 
@@ -42,7 +42,7 @@ namespace Nadam.Global.JsonDb
             }
             
             fileUtility = new FileUtility();
-            dbGraph = new DbModelGraph();
+            dbGraph = new RelationalDatabaseGraph();
 
             derivedContextType = this.GetType();
             BuildDatabaseGraph();

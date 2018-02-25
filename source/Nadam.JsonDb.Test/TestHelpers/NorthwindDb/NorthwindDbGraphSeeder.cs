@@ -5,13 +5,13 @@ namespace Nadam.Lib.JsonDb.Test
 {
     public class NorthwindDbGraphSeeder
     {
-        public static DbModelGraph GenerateNorthwindDbGraph()
+        public static RelationalDatabaseGraph GenerateNorthwindDbGraph()
         {
             var northwindSeeder = new NorthwindDbGraphSeeder();
-            var northwind = new DbModelGraph();
+            var northwind = new RelationalDatabaseGraph();
             foreach (var table in northwindSeeder.GetNorthwindTables())
             {
-                northwind.AddTable(table, null);
+                northwind.AddTable(table);
             }
             
             northwindSeeder.SeedNorthwindTableDependencies(ref northwind);
@@ -39,7 +39,7 @@ namespace Nadam.Lib.JsonDb.Test
             };
         }
 
-        private void SeedNorthwindTableDependencies(ref DbModelGraph northwind)
+        private void SeedNorthwindTableDependencies(ref RelationalDatabaseGraph northwind)
         {
             northwind.AddEdgeFor("Productions", "Suppliers");
             northwind.AddEdgeFor("Productions", "Customers");
