@@ -61,6 +61,7 @@
     <Compile Include="TestModels\TestDataSeed.cs" />
     <Compile Include="TestModels\UnitTestingModelBase.cs" />
     <Compile Include="TestModels\UnitTestingModelType.cs" />
+    <Compile Include="TreeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Nadam.ConsoleTest\JsonDb.ConsoleTest.csproj">

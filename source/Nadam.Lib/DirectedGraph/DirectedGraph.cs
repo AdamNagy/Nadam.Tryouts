@@ -125,8 +125,8 @@ namespace Nadam.Global.Lib.DirectedGraph
 		}
         #endregion
 
-        #region Private
-        private void RemoveIncomingEdgesFor(TNode nodeVal)
+        #region Protected
+        protected void RemoveIncomingEdgesFor(TNode nodeVal)
 		{
             var nodeAs = GetNode(nodeVal);
             if (nodeAs.Count() != 1)
@@ -136,7 +136,7 @@ namespace Nadam.Global.Lib.DirectedGraph
 				EdgeSet.Remove(edge);
 		}
 
-        private void RemoveOutgoingEdgesFor(TNode nodeVal)
+        protected void RemoveOutgoingEdgesFor(TNode nodeVal)
 		{
             var nodeAs = GetNode(nodeVal);
             if (nodeAs.Count() != 1)
@@ -145,12 +145,25 @@ namespace Nadam.Global.Lib.DirectedGraph
 
             foreach (var edge in EdgeSet.Where(p => p.From.Equals(nodeA.NodeId)))
 				EdgeSet.Remove(edge);
-		}      
-
-        private Node<TNode> GetNodeById(int nodeId)
-		{
-			return NodeSet[nodeId];
 		}
+
+        protected IEnumerable<TNode> GetReferencedNodesFor(TNode nodeVal)
+        {
+            if (!ContainsNode(nodeVal))
+                throw new Exception($"Node with value {nodeVal} does not exist in the current graph");
+
+            var referencedNodes = new List<TNode>();
+
+            var node = GetNode(nodeVal).First();
+            var outgoingEdges = EdgeSet.Where(p => p.From.Equals(node.NodeId)).ToList();
+
+            if (outgoingEdges.Count == 0)
+                return referencedNodes;
+
+            outgoingEdges.ForEach(p => referencedNodes.Add(NodeSet.Single(q => q.NodeId.Equals(p.To)).Value));
+
+            return referencedNodes;
+        }
 		#endregion
 	}
 }
