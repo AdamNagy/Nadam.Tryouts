@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Nadam.Global.JsonDb</RootNamespace>
-    <AssemblyName>Nadam.Lib.JsonDb</AssemblyName>
+    <AssemblyName>Nadam.Global.JsonDb</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -34,7 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Nadam.Lib\bin\Release\Nadam.Lib.JsonDb.XML</DocumentationFile>
+    <DocumentationFile>..\Nadam.Lib\bin\Release\Nadam.Global.JsonDb.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
