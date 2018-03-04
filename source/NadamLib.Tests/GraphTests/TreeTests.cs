@@ -3,8 +3,6 @@ using Nadam.Global.Lib.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NadamLib.Tests
 {
@@ -316,7 +314,7 @@ namespace NadamLib.Tests
 
                 var iterationOrder = new List<int>();
 
-                var treeIterator = tree.PreOrder();
+                var treeIterator = tree.LevelOrder();
                 treeIterator.Reset();
                 while (treeIterator.MoveNext())
                 {
@@ -337,7 +335,7 @@ namespace NadamLib.Tests
 
                 var iterationOrder = new List<int>();
 
-                var treeIterator = tree.PreOrder();
+                var treeIterator = tree.LevelOrder();
                 treeIterator.Reset();
                 while (treeIterator.MoveNext())
                 {
@@ -413,7 +411,7 @@ namespace NadamLib.Tests
             /// https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Sorted_binary_tree_preorder.svg/336px-Sorted_binary_tree_preorder.svg.png
             /// </summary>
             [TestMethod]
-            public void BinaryTreeExampleFromWiki()
+            public void TreeExampleFromWiki()
             {
                 ITree<char> tree = new Tree<char>();
                 tree.AddRoot('F');
@@ -436,7 +434,7 @@ namespace NadamLib.Tests
                     iterationOrder.Add(treeIterator.Current);
                 }
 
-                CollectionAssert.AreEqual(new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I' }, iterationOrder);
+                CollectionAssert.AreEqual(new char[] { 'F', 'B', 'G', 'A', 'D', 'I', 'C', 'E', 'H' }, iterationOrder);
             }
 
             [TestMethod]
@@ -450,7 +448,7 @@ namespace NadamLib.Tests
 
                 var iterationOrder = new List<int>();
 
-                var treeIterator = tree.PreOrder();
+                var treeIterator = tree.LevelOrder();
                 treeIterator.Reset();
                 while (treeIterator.MoveNext())
                 {

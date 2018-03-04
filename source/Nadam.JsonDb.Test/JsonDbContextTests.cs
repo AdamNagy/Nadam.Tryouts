@@ -160,7 +160,7 @@ namespace Nadam.Lib.JsonDb.Test
                 context.SaveChanges();
 
                 // Assert
-                Assert.AreEqual(context.DimensionA.Count, dimACount+3);
+                Assert.AreEqual(context.DimensionA.Count, dimACount + 3);
                 Assert.AreEqual(context.DimensionB.Count, dimBCount + 3);
                 Assert.AreEqual(context.DimensionC.Count, dimCCount + 3);
 

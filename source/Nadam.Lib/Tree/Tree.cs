@@ -2,9 +2,6 @@
 using Nadam.Global.Lib.Tree.Iterators;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Nadam.Global.Lib.Tree
 {
@@ -27,15 +24,16 @@ namespace Nadam.Global.Lib.Tree
 
         public void AddChildFor(TNode parent, TNode child)
         {
-            if (ContainsNode(parent) == false)
-                throw new Exception("Parent node does not exist in the graph");
+            if (!ContainsNode(parent))
+                throw new Exception("Parent node does not exist");
 
-            if (ContainsNode(child) == false)
+            if (!ContainsNode(child))
                 AddNode(child);
-            else if (ContainsEdge(child, parent))
-                throw new Exception("Child node is already parent node for the given 'parent', thus not possible to add.");
 
-            AddEdgeFor(parent, child);
+            if (ContainsEdge(child, parent))
+                throw new Exception("There is already and edge from child to parent");
+
+            AddReferenceFor(parent, child);
         }
 
         public TNode GetRoot()
@@ -62,7 +60,7 @@ namespace Nadam.Global.Lib.Tree
 
         public IEnumerator<TNode> LevelOrder()
         {
-            return new LevelOrderEnumerator<TNode>(this);
+            return new LevelOrderTreeEnumerator<TNode>(this);
         }
     }
 }

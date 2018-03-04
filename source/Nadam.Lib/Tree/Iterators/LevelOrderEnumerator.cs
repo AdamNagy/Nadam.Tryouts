@@ -7,28 +7,22 @@ using System.Threading.Tasks;
 
 namespace Nadam.Global.Lib.Tree.Iterators
 {
-    public class LevelOrderEnumerator<T> : IEnumerator<T>
+    public class LevelOrderTreeEnumerator<T> : IEnumerator<T>
     {
-        private Tree<T> tree;
+        private ITree<T> tree;
         private T current;
 
         private Queue<T> queue;
         private Dictionary<int, List<T>> dict;
         private int currentLevel;
 
-        public LevelOrderEnumerator(Tree<T> _tree)
+        public LevelOrderTreeEnumerator(ITree<T> _tree)
         {
             tree = _tree;
             Reset();
         }
 
-        public T Current
-        {
-            get
-            {
-                return current;
-            }
-        }
+        public T Current => current;
 
         object IEnumerator.Current
         {
@@ -57,15 +51,15 @@ namespace Nadam.Global.Lib.Tree.Iterators
             dict = new Dictionary<int, List<T>>();
             currentLevel = 1;
 
-            //queue.Enqueue(current);
             dict.Add(currentLevel, new List<T> { current });
             LevelOrder(current);
+            BuildQueue();
         }
 
         private void LevelOrder(T currentRoot)
         {
             currentLevel++;
-            if( !dict.Keys.Contains(currentLevel) )
+            if (!dict.Keys.Contains(currentLevel))
                 dict.Add(currentLevel, new List<T>());
 
             foreach (var node in tree.GetChildrenFor(currentRoot))
@@ -74,6 +68,15 @@ namespace Nadam.Global.Lib.Tree.Iterators
             foreach (var node in tree.GetChildrenFor(currentRoot))
                 LevelOrder(node);
             currentLevel--;
+        }
+
+        private void BuildQueue()
+        {
+            foreach (var level in dict)
+            {
+                foreach (var node in level.Value)
+                    queue.Enqueue(node);
+            }
         }
     }
 }

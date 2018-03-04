@@ -6,21 +6,21 @@ namespace Nadam.ConsoleTest
     {
         static void Main(string[] args)
         {
-			var program = new Program();
+            var program = new Program();
             program.PrintMenu();
             char input = ReadKey().KeyChar;
             WriteLine();
             while (input != 'q')
             {
-                switch (input)
-                {
-                    case 'a':
-                        JsonDbTestConsole.TestRunner();
-                        break;
-                    case 'b':
-                        GraphTestConsole.TestRunner();
-                        break;
-                }
+                //switch (input)
+                //{
+                //    case 'a':
+                //        JsonDbTestConsole.TestRunner();
+                //        break;
+                //    case 'b':
+                //        GraphTestConsole.TestRunner();
+                //        break;
+                //}
                 program.MenuItemEnd();
                 Clear();
                 program.PrintMenu();

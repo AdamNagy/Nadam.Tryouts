@@ -1,12 +1,10 @@
-﻿using Nadam.Global.Lib.DirectedGraph;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Nadam.Global.Lib.Tree
 {
     public interface ITree<TNode>
     {
-        int NodesCount();
-                
+        int NodesCount();                
 
         void AddRoot(TNode rootNode);
         void AddChildFor(TNode parent, TNode child);

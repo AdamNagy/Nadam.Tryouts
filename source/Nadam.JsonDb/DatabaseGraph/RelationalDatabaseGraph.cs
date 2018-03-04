@@ -9,14 +9,14 @@ namespace Nadam.Global.JsonDb.DatabaseGraph
     public class RelationalDatabaseGraph : DirectedGraph<string>, IEnumerable<string>, IRelationalDatabaseGraph
     {
         private Node<string> root { get; set; }
-        
+
         public RelationalDatabaseGraph()
         {
             root = AddNode("root");
         }
 
         // Because of the root bode, ned to substract 1
-        public int TablesCount() => NodesCount()-1;
+        public int TablesCount() => NodesCount() - 1;
         public Node<string> GetRoot() { return root; }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Nadam.Global.JsonDb.DatabaseGraph
             foreach (var dependecy in dependecies)
             {
                 AddTable(dependecy);
-                AddEdgeFor(newTable, dependecy);
+                AddReferenceFor(newTable, dependecy);
             }
         }
 
@@ -39,7 +39,7 @@ namespace Nadam.Global.JsonDb.DatabaseGraph
         {
             AddTable(newTable);
             AddTable(dependecy);
-            AddEdgeFor(newTable, dependecy);
+            AddReferenceFor(newTable, dependecy);
         }
 
         public void AddTable(string newTable)
@@ -48,34 +48,19 @@ namespace Nadam.Global.JsonDb.DatabaseGraph
             if (!tableNode)
             {
                 AddNode(newTable);
-                AddEdgeFor(root.Value, newTable);
-            }            
+                AddReferenceFor(root.Value, newTable);
+            }
         }
-
-        //public IEnumerable<string> GetDependentTables(string tableName)
-        //{
-        //    var tableNode = GetNode(tableName).First();
-            
-        //    var edgesTo = EdgeSet.Where(p => p.To.Equals(tableNode.NodeId));
-        //    var dependencies = edgesTo.Select(p => NodeSet.Single(q => q.NodeId.Equals(p.From)));
-
-        //    return dependencies.Select(p => p.Value);
-        //}
 
         public IEnumerable<string> GetDependencyTables(string tableName)
         {
             var tableNode = GetNode(tableName).First();
-            
-            var edgesTo = EdgeSet.Where(p => p.From.Equals(tableNode.NodeId));
-            var dependencies = edgesTo.Select(p => NodeSet.Single(q => q.NodeId.Equals(p.To)));
+
+            var edgesTo = tableNode.GetReferences();
+            var dependencies = edgesTo.Select(p => NodeSet.Single(q => q.NodeId.Equals(p)));
 
             return dependencies.Select(p => p.Value);
         }
-
-        //public DbModelGraphDependencyEnumerator DependecyIteration()
-        //{
-        //    return new DbModelGraphDependencyEnumerator(this);
-        //}
 
         public IEnumerator<string> GetEnumerator()
         {

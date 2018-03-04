@@ -6,12 +6,12 @@ namespace Nadam.Global.Lib.Tree.Iterators
 {
     public class PreOrderTreeEnumerator<T> : IEnumerator<T>
     {
-        private Tree<T> tree;
+        private ITree<T> tree;
         private T current;
 
         private Queue<T> queue;
 
-        public PreOrderTreeEnumerator(Tree<T> _tree)
+        public PreOrderTreeEnumerator(ITree<T> _tree)
         {
             tree = _tree;
             Reset();
@@ -49,16 +49,14 @@ namespace Nadam.Global.Lib.Tree.Iterators
         {
             current = tree.GetRoot();
             queue = new Queue<T>();
-            BuildQueue(current);
+            PreOrder(current);
         }
 
-        private void BuildQueue(T currentRoot)
+        private void PreOrder(T currentRoot)
         {
             queue.Enqueue(currentRoot);
-            foreach (var node in tree.GetChildrenFor(currentRoot))
-            {
-                BuildQueue(node);
-            }
+            foreach (var node in tree.GetChildrenFor(currentRoot))            
+                PreOrder(node);            
         }
     }
 }

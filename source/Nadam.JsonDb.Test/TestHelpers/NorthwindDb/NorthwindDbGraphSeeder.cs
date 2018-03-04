@@ -13,7 +13,7 @@ namespace Nadam.Lib.JsonDb.Test
             {
                 northwind.AddTable(table);
             }
-            
+
             northwindSeeder.SeedNorthwindTableDependencies(ref northwind);
 
             return northwind;
@@ -41,18 +41,18 @@ namespace Nadam.Lib.JsonDb.Test
 
         private void SeedNorthwindTableDependencies(ref RelationalDatabaseGraph northwind)
         {
-            northwind.AddEdgeFor("Productions", "Suppliers");
-            northwind.AddEdgeFor("Productions", "Customers");
-            northwind.AddEdgeFor("EmpTerritories", "Employees");
-            northwind.AddEdgeFor("EmpTerritories", "Territories");
-            northwind.AddEdgeFor("Territories", "Regions");
-            northwind.AddEdgeFor("OrderDetails", "Productions");
-            northwind.AddEdgeFor("OrderDetails", "Orders");
-            northwind.AddEdgeFor("Orders", "Employees");
-            northwind.AddEdgeFor("Orders", "Shippers");
-            northwind.AddEdgeFor("Orders", "Customers");
-            northwind.AddEdgeFor("Cust", "Customers");
-            northwind.AddEdgeFor("Cust", "CustomerDemographi");
+            northwind.AddReferenceFor("Productions", "Suppliers");
+            northwind.AddReferenceFor("Productions", "Customers");
+            northwind.AddReferenceFor("EmpTerritories", "Employees");
+            northwind.AddReferenceFor("EmpTerritories", "Territories");
+            northwind.AddReferenceFor("Territories", "Regions");
+            northwind.AddReferenceFor("OrderDetails", "Productions");
+            northwind.AddReferenceFor("OrderDetails", "Orders");
+            northwind.AddReferenceFor("Orders", "Employees");
+            northwind.AddReferenceFor("Orders", "Shippers");
+            northwind.AddReferenceFor("Orders", "Customers");
+            northwind.AddReferenceFor("Cust", "Customers");
+            northwind.AddReferenceFor("Cust", "CustomerDemographi");
         }
     }
 }

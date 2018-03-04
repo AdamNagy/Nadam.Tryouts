@@ -1,57 +1,45 @@
-﻿using Nadam.Global.Lib.Graph;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Nadam.Global.Lib.DirectedGraph
 {
-	public class DirectedGraph<TNode> : IDirectedGraph<TNode>
+	public class DirectedGraph<TNode> : IDirectedGraph<TNode> 
 	{
-		protected IList<Node<TNode>> NodeSet { get; set; }
-		protected IList<DirectedEdge> EdgeSet { get; set; }
+		protected IList<DirectedNode<TNode>> NodeSet { get; set; }
 
-		public int NodesCount() { return NodeSet.Count; }
-		protected int NodeId;
-
-		public int EdgeCount() { return EdgeSet.Count; }
-		protected int EdgeId;
+        public int NodesCount() { return NodeSet.Count; }
+		protected int NodeId;    
 
 		#region ctors
 		public DirectedGraph()
 		{
-			NodeSet = new List<Node<TNode>>();
-			EdgeSet = new List<DirectedEdge>();
+			NodeSet = new List<DirectedNode<TNode>>();
 			NodeId = 0;
-			EdgeId = 0;
 		}
 		#endregion
 
 		#region Add
-		public Node<TNode> AddNode(TNode nodeVal)
+		public DirectedNode<TNode> AddNode(TNode nodeVal)
 		{
-			var newNode = new Node<TNode>(nodeVal, NodeId++);
+			var newNode = new DirectedNode<TNode>(nodeVal, NodeId++);
 			NodeSet.Add(newNode);
 			return newNode;
 		}
 
-		public DirectedEdge AddEdgeFor(TNode startNode, TNode referenced)
+		public virtual void AddReferenceFor(TNode startNode, TNode referenced)
 		{
             var nodeAs = GetNode(startNode);
-            if (nodeAs.Count != 1)
+            if (nodeAs.Count < 1)
                 throw new Exception("From node does not exist");
             var nodeA = nodeAs.First();
 
             var nodeBs = GetNode(referenced);
-            if (nodeBs.Count != 1)
+            if (nodeBs.Count < 1)
                 throw new Exception("To node does not exist");
             var nodeB = nodeBs.First();
 
-            var newEdge = new DirectedEdge(nodeA.NodeId, nodeB.NodeId, EdgeId++);
-            if (EdgeSet.SingleOrDefault(p => p.ANodeId.Equals(nodeA.NodeId) && p.BNodeId.Equals(nodeB.NodeId)) != null)
-                throw new Exception("There is already edge between these 2 nodes");
-
-            EdgeSet.Add(newEdge);
-            return newEdge;
+            nodeA.AddReference(nodeB.NodeId);       
         }
 		#endregion
 
@@ -64,33 +52,28 @@ namespace Nadam.Global.Lib.DirectedGraph
 
 		public bool ContainsEdge(TNode nodeValA, TNode nodeValB)
 		{
-			var edges = GetEdgesFor(nodeValA);
-            var bNode = GetNode(nodeValB).FirstOrDefault();
-			var edge = edges.SingleOrDefault(p => p.BNodeId.Equals(bNode.NodeId));
-			return edge != null;
+            var nodeB = GetNode(nodeValB).First();
+			return GetNode(nodeValA).First().HasReferenceFor(nodeB.NodeId);
 		}
 		#endregion
 
 		#region Get
-		public IList<Node<TNode>> GetNode(TNode nodeValue)
+		public IList<DirectedNode<TNode>> GetNode(TNode nodeValue)
         {
 			return NodeSet.Where(p => p.Value.Equals(nodeValue)).ToList();
 		}
 
-		public IList<DirectedEdge> GetEdgesFor(TNode nodeVal)
+        public TNode this[int index]
         {
-			var nodes = GetNode(nodeVal);
-            if (nodes.Count() != 1)
-                throw new Exception("Node does not exist, or belong to graph multiple times");
+            get
+            {
+                return NodeSet[index].Value;
+            }
+        }
+        #endregion
 
-            var node = nodes.First();
-			var edges = EdgeSet.Where(p => p.From.Equals(node.NodeId) || p.To.Equals(node.NodeId));
-			return edges.ToList();
-		}
-		#endregion
-
-		#region Remove
-		public bool RemoveNode(TNode nodeValue)
+        #region Remove
+        public bool RemoveNode(TNode nodeValue)
 		{
 			var nodes = GetNode(nodeValue);
             if (nodes.Count() != 1)
@@ -98,12 +81,12 @@ namespace Nadam.Global.Lib.DirectedGraph
 
             var nodeToRemove = nodes.First();
             RemoveIncomingEdgesFor(nodeToRemove.Value);
-			RemoveOutgoingEdgesFor(nodeToRemove.Value);
+            nodeToRemove.RemoveReferences();
             NodeSet.Remove(nodeToRemove);
 			return true;
 		}
 
-		public bool RemoveEdge(TNode a, TNode b)
+		public bool RemoveReferenceFor(TNode a, TNode b)
 		{
 			var nodeAs = GetNode(a);
             if (nodeAs.Count() != 1)
@@ -115,12 +98,7 @@ namespace Nadam.Global.Lib.DirectedGraph
                 throw new Exception("NodeA does not exist, or belong to graph multiple times");
             var nodeB = nodeAs.First();
 
-			var edgeToRemove = EdgeSet.SingleOrDefault(p => p.From.Equals(nodeA.NodeId) && p.To.Equals(nodeB.NodeId));
-
-			if (edgeToRemove == null)
-				return false;
-
-			EdgeSet.Remove(edgeToRemove);
+            nodeA.RemoveReference(nodeB.NodeId);
 			return true;
 		}
         #endregion
@@ -132,19 +110,9 @@ namespace Nadam.Global.Lib.DirectedGraph
             if (nodeAs.Count() != 1)
                 throw new Exception("NodeA does not exist, or belong to graph multiple times");
             var nodeA = nodeAs.First();
-            foreach (var edge in EdgeSet.Where(p => p.To.Equals(nodeA.NodeId)))
-				EdgeSet.Remove(edge);
-		}
 
-        protected void RemoveOutgoingEdgesFor(TNode nodeVal)
-		{
-            var nodeAs = GetNode(nodeVal);
-            if (nodeAs.Count() != 1)
-                throw new Exception("NodeA does not exist, or belong to graph multiple times");
-            var nodeA = nodeAs.First();
-
-            foreach (var edge in EdgeSet.Where(p => p.From.Equals(nodeA.NodeId)))
-				EdgeSet.Remove(edge);
+            foreach (var nodes in NodeSet)            
+                nodes.RemoveReference(nodeA.NodeId);            
 		}
 
         protected IEnumerable<TNode> GetReferencedNodesFor(TNode nodeVal)
@@ -155,12 +123,9 @@ namespace Nadam.Global.Lib.DirectedGraph
             var referencedNodes = new List<TNode>();
 
             var node = GetNode(nodeVal).First();
-            var outgoingEdges = EdgeSet.Where(p => p.From.Equals(node.NodeId)).ToList();
 
-            if (outgoingEdges.Count == 0)
-                return referencedNodes;
-
-            outgoingEdges.ForEach(p => referencedNodes.Add(NodeSet.Single(q => q.NodeId.Equals(p.To)).Value));
+            foreach (var p in node.GetReferences())            
+                referencedNodes.Add(NodeSet[p].Value);            
 
             return referencedNodes;
         }

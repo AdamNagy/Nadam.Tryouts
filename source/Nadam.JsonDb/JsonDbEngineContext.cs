@@ -11,7 +11,7 @@ using Nadam.Global.Lib;
 using Newtonsoft.Json;
 
 namespace Nadam.Global.JsonDb
-{ 
+{
     /// <summary>
     /// Json file based data storage with a context class to access these files.
     /// CRUD operations are supported
@@ -32,7 +32,7 @@ namespace Nadam.Global.JsonDb
         protected JsonDbEngineContext(string configName, bool inmemory = true)
         {
             Inmemory = inmemory;
-            if ( configName.Contains("path") )
+            if (configName.Contains("path"))
             {
                 RootFolder = configName.Split('=')[1];
             }
@@ -40,7 +40,7 @@ namespace Nadam.Global.JsonDb
             {
                 RootFolder = ConfigurationManager.AppSettings[configName];
             }
-            
+
             fileUtility = new FileUtility();
             dbGraph = new RelationalDatabaseGraph();
 
@@ -56,9 +56,9 @@ namespace Nadam.Global.JsonDb
         private void InitListProperties()
         {
             foreach (var table in this.GetType().GetProperties().Select(p => p.Name))
-            {                
+            {
                 this.SetValueFor(table, Activator.CreateInstance(this.GetType().GetProperty(table).PropertyType));
-            }            
+            }
         }
 
         // <SaveChanges>

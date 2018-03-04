@@ -48,8 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DirectedGraph\DirectedEdge.cs" />
+    <Compile Include="BinaryTree\BinaryNode.cs" />
+    <Compile Include="BinaryTree\BinaryTree.cs" />
+    <Compile Include="BinaryTree\IBinaryTree.cs" />
+    <Compile Include="BinaryTree\InOrderTreeEnumerator.cs" />
     <Compile Include="DirectedGraph\DirectedGraph.cs" />
+    <Compile Include="DirectedGraph\DirectedNode.cs" />
     <Compile Include="DirectedGraph\IDirectedGraph.cs" />
     <Compile Include="Graph\Edge.cs" />
     <Compile Include="Graph\IGraph.cs" />
@@ -66,7 +70,6 @@
     <Compile Include="Tree\Iterators\PreOrderTreeEnumerator.cs" />
     <Compile Include="Tree\ITree.cs" />
     <Compile Include="Tree\Tree.cs" />
-    <Compile Include="Tree\TreeNode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

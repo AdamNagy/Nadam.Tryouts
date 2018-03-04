@@ -1,14 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Nadam.Global.Lib.Graph;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Nadam.Global.JsonDb.DatabaseGraph;
 using System.Collections.Generic;
-using System.Collections;
 using System.Linq;
 
 namespace Nadam.Lib.JsonDb.Test
 {
-    
+
     public class DatabaseGraphTests
     {
         [TestClass]
@@ -141,8 +138,8 @@ namespace Nadam.Lib.JsonDb.Test
                 graph.AddTable("Table_A", "Table_B");
 
                 var iterationOrder = new List<string>(2);
-                foreach (var table in graph)                
-                    iterationOrder.Add(table);                
+                foreach (var table in graph)
+                    iterationOrder.Add(table);
 
                 CollectionAssert.AreEqual(new string[] { "Table_B", "Table_A" }, iterationOrder);
             }

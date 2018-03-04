@@ -29,10 +29,7 @@ namespace Nadam.Global.JsonDb.DatabaseGraph
             get { return Current; }
         }
 
-        public void Dispose()
-        {
-            
-        }
+        public void Dispose() {}
 
         public bool MoveNext()
         {

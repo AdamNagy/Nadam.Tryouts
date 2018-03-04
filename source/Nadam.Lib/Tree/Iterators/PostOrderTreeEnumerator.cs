@@ -6,12 +6,12 @@ namespace Nadam.Global.Lib.Tree.Iterators
 {
     public class PostOrderTreeEnumerator<T> : IEnumerator<T>
     {
-        private Tree<T> tree;
+        private ITree<T> tree;
         private T current;
 
         private Queue<T> queue;
 
-        public PostOrderTreeEnumerator(Tree<T> _tree)
+        public PostOrderTreeEnumerator(ITree<T> _tree)
         {
             tree = _tree;
             Reset();
@@ -49,15 +49,14 @@ namespace Nadam.Global.Lib.Tree.Iterators
         {
             current = tree.GetRoot();
             queue = new Queue<T>();
-            BuildQueue(current);
+            PostOrder(current);
         }
 
-        private void BuildQueue(T currentRoot)
+        private void PostOrder(T currentRoot)
         {            
-            foreach (var node in tree.GetChildrenFor(currentRoot))
-            {
-                BuildQueue(node);
-            }
+            foreach (var node in tree.GetChildrenFor(currentRoot))            
+                PostOrder(node);
+            
             queue.Enqueue(currentRoot);
         }
     }

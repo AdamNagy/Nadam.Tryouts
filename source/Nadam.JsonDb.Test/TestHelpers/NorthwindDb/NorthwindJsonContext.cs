@@ -6,7 +6,7 @@ namespace Nadam.Lib.JsonDb.Test.TestHelpers
 {
     public class NorthwindJsonContext : JsonDbEngineContext
     {
-        public NorthwindJsonContext(string path, bool inmemory = true) : base(path, inmemory) {}
+        public NorthwindJsonContext(string path, bool inmemory = true) : base(path, inmemory) { }
 
         public List<Category> Categories { get; set; }
         public List<CustomerDemographic> CustomerDemographics { get; set; }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Nadam.Global.Lib.DirectedGraph;
+using Nadam.Global.Lib.Graph;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NadamLib.Tests
 {   
@@ -40,42 +42,21 @@ namespace NadamLib.Tests
             }
 
             [TestMethod]
-            public void Add3EdgesAndIdsMustBe012()
-            {
-                // Arrange
-                IDirectedGraph<int> graph = new DirectedGraph<int>();
-                                
-                graph.AddNode(1);
-                graph.AddNode(2);
-                graph.AddNode(3);
-                graph.AddNode(4);
-
-                // Action
-                var nodeIds = new List<int> { graph.AddEdgeFor(1, 3).EdgeId };
-                nodeIds.Add(graph.AddEdgeFor(2, 3).EdgeId);
-                nodeIds.Add(graph.AddEdgeFor(3, 4).EdgeId);
-
-                // Assert
-                CollectionAssert.AreEqual(new List<int> { 0, 1, 2 }, nodeIds);
-            }
-
-            [TestMethod]
             public void Adding3NodeMustIncrementNodeCountWith3()
             {
                 // Arrange
                 IDirectedGraph<int> graph = new DirectedGraph<int>();
-                graph.AddNode(1);graph.AddNode(2);graph.AddNode(3);graph.AddNode(4);
-                graph.AddEdgeFor(1, 2);
-                graph.AddEdgeFor(1, 3);
-                var startEdgeCount = graph.EdgeCount();
+                graph.AddNode(1); graph.AddNode(2); graph.AddNode(3); graph.AddNode(4);
+                var startEdgeCount = graph.NodesCount();
 
                 // Action
-                graph.AddEdgeFor(2, 3);
-                graph.AddEdgeFor(2, 4);
-                var newEdgeCount = graph.EdgeCount();
+                graph.AddNode(4);
+                graph.AddNode(5);
+                graph.AddNode(6);
+                var newEdgeCount = graph.NodesCount();
 
                 // Assert
-                Assert.AreEqual((startEdgeCount+2), newEdgeCount);
+                Assert.AreEqual((startEdgeCount + 3), newEdgeCount);
             }
         }
 
@@ -113,7 +94,7 @@ namespace NadamLib.Tests
                 IDirectedGraph<int> graph = new DirectedGraph<int>();
                 graph.AddNode(234);
                 graph.AddNode(345);
-                graph.AddEdgeFor(234, 345);
+                graph.AddReferenceFor(234, 345);
 
                 var contains = graph.ContainsEdge(234, 345);
                 Assert.IsTrue(contains);
@@ -185,58 +166,25 @@ namespace NadamLib.Tests
             }
 
             [TestMethod]
-            [ExpectedException(typeof(Exception))]
-            public void GetEdgesForMustThrowException()
+            public void NodeIdAndListIndexMustBeSame()
             {
                 // Arrange
                 IDirectedGraph<int> graph = new DirectedGraph<int>();
-                graph.AddNode(1);
-                graph.AddNode(2);
-                graph.AddNode(3);
-                graph.AddNode(4);
+                var nodes = new List<Node<int>>();
+                nodes.Add(graph.AddNode(1));
+                nodes.Add(graph.AddNode(2));
+                nodes.Add(graph.AddNode(3));
+                nodes.Add(graph.AddNode(4));
 
                 // Action
-                var edges = graph.GetEdgesFor(5);
-            }
-
-            [TestMethod]
-            public void GetEdgesForMustReturn1()
-            {
-                // Arrange
-                IDirectedGraph<int> graph = new DirectedGraph<int>();
-                graph.AddNode(1);
-                graph.AddNode(2);
-                graph.AddNode(3);
-                graph.AddNode(4);
-
-                graph.AddEdgeFor(1, 3);
-                graph.AddEdgeFor(2, 3);
-                graph.AddEdgeFor(3, 4);
-                // Action
-                var edges = graph.GetEdgesFor(1);
+                var nodesByIdxer = new List<int>();
+                nodesByIdxer.Add(graph[0]);
+                nodesByIdxer.Add(graph[1]);
+                nodesByIdxer.Add(graph[2]);
+                nodesByIdxer.Add(graph[3]);
 
                 // Assert
-                Assert.AreEqual(1, edges.Count);
-            }
-
-            [TestMethod]
-            public void GetEdgesForMustReturn3()
-            {
-                // Arrange
-                IDirectedGraph<int> graph = new DirectedGraph<int>();
-                graph.AddNode(1);
-                graph.AddNode(2);
-                graph.AddNode(3);
-                graph.AddNode(4);
-
-                graph.AddEdgeFor(1, 2);
-                graph.AddEdgeFor(1, 3);
-                graph.AddEdgeFor(1, 4);
-                // Action
-                var edges = graph.GetEdgesFor(1);
-
-                // Assert
-                Assert.AreEqual(3, edges.Count);
+                CollectionAssert.AreEqual(nodesByIdxer, nodes.Select(p => p.Value).ToList());
             }
         }
 
@@ -354,42 +302,6 @@ namespace NadamLib.Tests
 
                 // Asser
                 Assert.AreEqual(6, graph.NodesCount());
-			}
-
-            [TestMethod]
-            public void EdgesCountMustBeEqualTo0()
-            {
-                // Arrange
-                IDirectedGraph<int> graph = new DirectedGraph<int>();
-
-                // Action
-                graph.AddNode(1);
-                graph.AddNode(2);
-                graph.AddNode(3);
-                graph.AddNode(4);
-
-                // Asser
-                Assert.AreEqual(0, graph.EdgeCount());
-            }
-
-            [TestMethod]
-			public void EdgesCountMustBeEqualTo3()
-			{
-				// Arrange
-				IDirectedGraph<int> graph = new DirectedGraph<int>();
-
-				// Action
-				graph.AddNode(1);
-				graph.AddNode(2);
-                graph.AddNode(3);
-                graph.AddNode(4);
-
-                graph.AddEdgeFor(1, 3);
-				graph.AddEdgeFor(2, 3);
-                graph.AddEdgeFor(3, 4);
-
-                // Asser
-                Assert.AreEqual(3, graph.EdgeCount());
 			}
 		}
 	}
