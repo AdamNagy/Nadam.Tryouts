@@ -1,0 +1,21 @@
+<div class="slider-container">
+    <h1>Hello Angular2 slider</h1>
+
+    <div class="row slider-navbar">
+        <button *ngFor="let slide of slides" class="slider-navbar-button" [attr.selected]="slide.active" (click)="selectSlide(slide)">{{slide.title}}</button>
+    </div>
+
+    <div class="right-slider" (click)="slideToNextPage()">
+        <div class="vcenter">
+            <span class="glyphicon glyphicon-menu-right"></span>
+        </div>
+    </div>
+
+    <div class="left-slider" (click)="slideToPrevPage()">
+        <div class="vcenter">
+            <span class="glyphicon glyphicon-menu-left"></span>
+        </div>
+    </div>
+
+    <ng-content></ng-content>
+</div>

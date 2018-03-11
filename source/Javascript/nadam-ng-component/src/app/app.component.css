@@ -1,0 +1,40 @@
+header {
+    margin: 0 auto;
+    padding-left: 10px;
+    margin-bottom: 15px;
+}
+
+header a,
+header a:visited,
+header a:active,
+header a:link {
+    text-decoration: none;
+    padding: 10px;
+}
+
+header a:hover {
+    text-decoration: none;
+    color: red;
+    border: 1px solid red;
+}
+
+body {
+    background-image: url("./content/modern-wallpapers.jpg");
+    color: rgb(220, 200, 220);
+}
+
+.toast-success {
+    background-color: #51a351;
+}
+
+.toast-error {
+    background-color: #bd362f;
+}
+
+.toast-info {
+    background-color: #2f96b4;
+}
+
+.toast-warning {
+    background-color: #f89406;
+}
