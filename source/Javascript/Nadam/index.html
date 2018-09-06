@@ -4,10 +4,20 @@
     <script src="./Nadam.ArrayExtensions.js"></script>
     <script src="./Nadam.ObjectExtensions.js"></script>
     <script src="./Nadam.GlobalFunctions.js"></script>
+    <script src="./Nadam.ElementExtensions.js"></script>
 </head>
 
 <body>
     <div id="test-id"></div>
+
+    <div id="parent-div">
+        <div id="1st">1st<span></span></div>
+
+        <div id="2nd">2nd
+            <h1></h1>
+        </div>
+        <div id="3rd">3rd</div>
+    </div>
 
     <script>
         var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -16,7 +26,7 @@
         var double = numbers.ForEach((item) => item * 2);
 
         var names = ["1qwe", "2asd", "3yxc", "4wer", "5sdf", "6qwe", "7asd", "8yxc", "9wer", "5sdf"];
-        var projected = numbers.Select((item) => {
+        var projected = numbers.ForEach((item) => {
             var i = -1;
             return {
                 prop1: item * 5,
@@ -24,7 +34,7 @@
             }
         });
 
-        var projected2 = numbers.Select((item, idx) => {
+        var projected2 = numbers.ForEach((item, idx) => {
             return {
                 prop1: item * 5,
                 prop2: names[idx]
@@ -32,6 +42,10 @@
         });
 
         var div_testId = GetById("test-id");
+
+        /**************************************************/
+        var parentDiv = GetById("parent-div");
+        var directChildren = parentDiv.GetDirectChildren();
     </script>
 </body>
 

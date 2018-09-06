@@ -52,6 +52,20 @@
         return projected;
     }
 
+    Array.prototype.ForEach = function(action, idx) {
+        if (action == null || typeof action !== 'function') {
+            throw "Action is not a function!";
+        }
+
+        var projected = new Array();
+
+        for (var i = 0; i < this.length; ++i) {
+            projected.push(action(this[i], i));
+        }
+
+        return projected;
+    }
+
     Array.prototype.Each = function(action) {
 
         if (action == null || typeof action !== 'function') {
@@ -63,32 +77,21 @@
         }
     }
 
-    Array.prototype.Select = function(projector) {
-        if (projector == null || typeof projector !== 'function') {
-            throw "Projector is not a function!";
+    Array.prototype.Any = function(predicate) {
+
+        if (predicate == null || typeof predicate !== 'function') {
+            throw "Predicate is not a function!";
         }
 
-        var projected = new Array();
+        var any = false;
 
         for (var i = 0; i < this.length; ++i) {
-            projected.push(projector(this[i]));
+            if (predicate(i)) {
+                any = true;
+            }
         }
 
-        return projected;
-    }
-
-    Array.prototype.Select = function(projector, idx) {
-        if (projector == null || typeof projector !== 'function') {
-            throw "Projector is not a function!";
-        }
-
-        var projected = new Array();
-
-        for (var i = 0; i < this.length; ++i) {
-            projected.push(projector(this[i], i));
-        }
-
-        return projected;
+        return any;
     }
 
 })();

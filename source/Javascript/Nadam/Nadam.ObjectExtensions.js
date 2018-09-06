@@ -15,4 +15,22 @@
         return false;
     }
 
+    Object.prototype.HasProperty = function(name) {
+        return this[name] !== undefined;
+    }
+
+    Object.prototype.AddProperty = function(name, value) {
+        if (this[name] == undefined) {
+            this[name] = value;
+        }
+    }
+
+    /// <summary>
+    /// Extends the object with properties coming from the extension object with thise values
+    /// </summary>
+    /// <returns>nothing</returns>
+    Object.prototype.ExtendWith = function(extension) {
+
+    }
+
 })();
