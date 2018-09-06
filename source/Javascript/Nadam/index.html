@@ -1,0 +1,38 @@
+<html>
+
+<head>
+    <script src="./Nadam.ArrayExtensions.js"></script>
+    <script src="./Nadam.ObjectExtensions.js"></script>
+    <script src="./Nadam.GlobalFunctions.js"></script>
+</head>
+
+<body>
+    <div id="test-id"></div>
+
+    <script>
+        var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        var even = numbers.Where((item) => item % 2 == 0);
+        var number5 = numbers.FirstOrDefault((item) => item == 6);
+        var double = numbers.ForEach((item) => item * 2);
+
+        var names = ["1qwe", "2asd", "3yxc", "4wer", "5sdf", "6qwe", "7asd", "8yxc", "9wer", "5sdf"];
+        var projected = numbers.Select((item) => {
+            var i = -1;
+            return {
+                prop1: item * 5,
+                prop2: names[++i]
+            }
+        });
+
+        var projected2 = numbers.Select((item, idx) => {
+            return {
+                prop1: item * 5,
+                prop2: names[idx]
+            }
+        });
+
+        var div_testId = GetById("test-id");
+    </script>
+</body>
+
+</html>
