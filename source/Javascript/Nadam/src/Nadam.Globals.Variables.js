@@ -4,5 +4,7 @@
 var HtmlTags = {
     div: "div",
     image: "img",
-    link: "a"
+	link: "a",
+	script: "script",
+	iframe: "iframe"
 }
