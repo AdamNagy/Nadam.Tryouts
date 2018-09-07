@@ -17,6 +17,10 @@ var GetByClass = function(className) {
     return document.getElementsByClassName(className);
 }
 
+var GetByTagName = function(tagName) {
+    return document.getElementsByTagName(tagName);
+}
+
 var IsPrimitive = function(variable) {
     var type = typeof variable;
 
@@ -27,10 +31,14 @@ var IsPrimitive = function(variable) {
     return false;
 }
 
-var IsFunction = function(variable) {
+var IsUndefined = function(variable) {
+    return typeof variable === "undefined"
+}
 
+var IsFunction = function(variable) {
+    return typeof variable === "function";
 }
 
 var IsObject = function(variable) {
-
+    return typeof variable === "object";
 }

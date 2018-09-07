@@ -7,7 +7,7 @@
     /// 
     /// </summary>
     /// <returns></returns>
-    Element.prototype.GetDirectChildren = function() {
+    Element.prototype.GetChildren = function() {
         var firstChild = this.firstElementChild;
         var directchildren = new Array();
 
@@ -36,7 +36,7 @@
 
         var filteredArray = new Array();
 
-        var children = this.GetDirectChildren();
+        var children = this.GetChildren();
         if (children.length < 1) {
             return filteredArray;
         }
@@ -48,6 +48,10 @@
         }
 
         return filteredArray;
+    }
+
+    Element.prototype.IsDiv = function() {
+        return this.tagName == HtmlTags.div;
     }
 
 })();

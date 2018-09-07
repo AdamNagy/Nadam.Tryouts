@@ -1,10 +1,12 @@
 <html>
 
 <head>
-    <script src="./Nadam.ArrayExtensions.js"></script>
-    <script src="./Nadam.ObjectExtensions.js"></script>
-    <script src="./Nadam.GlobalFunctions.js"></script>
-    <script src="./Nadam.ElementExtensions.js"></script>
+    <script src="./Nadam.Globals.Variables.js"></script>
+    <script src="./Nadam.Globals.Functions.js"></script>
+
+    <script src="./Nadam.Extensions.Array.js"></script>
+    <script src="./Nadam.Extensions.Object.js"></script>
+    <script src="./Nadam.Extensions.Element.js"></script>
 </head>
 
 <body>
@@ -45,7 +47,7 @@
 
         /**************************************************/
         var parentDiv = GetById("parent-div");
-        var directChildren = parentDiv.GetDirectChildren();
+        var directChildren = parentDiv.GetChildren();
     </script>
 </body>
 
