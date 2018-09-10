@@ -7,19 +7,6 @@
     <script src="./src/Nadam.Extensions.Array.js"></script>
     <script src="./src/Nadam.Extensions.Object.js"></script>
     <script src="./src/Nadam.Extensions.Element.js"></script>
-</head>
-
-<body>
-    <div id="test-id"></div>
-
-    <div id="parent-div">
-        <div id="1st">1st<span></span></div>
-
-        <div id="2nd">2nd
-            <h1></h1>
-        </div>
-        <div id="3rd">3rd</div>
-    </div>
 
     <script>
         var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -48,7 +35,49 @@
         /**************************************************/
         var parentDiv = GetById("parent-div");
         var directChildren = parentDiv.GetChildren();
+
+        var depth = -1;
+        // var treeTraversal = GetById("tree-traversal").WhereMany((element) => element.Type === HtmlTags.div, -1)
     </script>
+</head>
+
+<body>
+    <div id="test-id"></div>
+
+    <div id="parent-div">
+        <div id="1st">1st<span></span></div>
+
+        <div id="2nd">2nd
+            <h1></h1>
+        </div>
+        <div id="3rd">3rd</div>
+    </div>
+
+    <section id="tree-traversal">
+        <div>a
+            <div>aa
+                <div>aaa</div>
+                <div>aab</div>
+                <div>aac</div>
+            </div>
+            <div>ab</div>
+            <div>ac</div>
+        </div>
+        <div>b
+            <div>ba</div>
+            <div>bb</div>
+            <div>bc</div>
+        </div>
+        <div>c</div>
+        <div>d</div>
+    </section>
+
+    <h3>Comment documentation style</h3>
+    /// &lt;summary&gt;
+    <br> /// Short description
+    <br> /// &lt;/summary&gt;
+    <br> /// &lt;returns&gt;return info&lt;/returns&gt;
+
 </body>
 
 </html>

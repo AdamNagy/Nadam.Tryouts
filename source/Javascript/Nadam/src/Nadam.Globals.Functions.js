@@ -1,25 +1,18 @@
 ;
 "use strict";
 
-/// <summary>
-/// 
-/// </summary>
-/// <returns></returns>
+/// <DOM_related_function>
 var GetById = function(id) {
 
     var sameIds = document.getElementById(id);
 
     if (sameIds.length !== undefined && sameIds.length >= 1) {
-        return sameIds[0].AddProperty("Type", sameIds[0].nodeName);
+        return sameIds[0].AddProperty("Type", sameIds[0].nodeName.toLowerCase());
     }
 
-    return sameIds.AddProperty("Type", sameIds.nodeName);
+    return sameIds.AddProperty("Type", sameIds.nodeName.toLowerCase());
 }
 
-/// <summary>
-/// 
-/// </summary>
-/// <returns></returns>
 var GetByClass = function(className) {
 
     return document.getElementsByClassName(className);
@@ -30,6 +23,18 @@ var GetByTagName = function(tagName) {
     return document.getElementsByTagName(tagName);
 }
 
+var RemoveAllFromDom = function(tagName) {
+
+    var script = GetByTagName(tagName)[0];
+    while (script !== null) {
+        script.remove();
+        script = GetByTagName(tagName)[0];
+    }
+}
+
+/// </DOM_related_function>
+
+/// <Type_related_function>
 var IsPrimitive = function(variable) {
 
     var type = typeof variable;
@@ -56,18 +61,4 @@ var IsObject = function(variable) {
     return typeof variable === "object";
 }
 
-var RemoveScripts = function() {
-
-    var script = GetByTagName(HtmlTags.script)[0];
-    while (script !== null) {
-        script.remove();
-    }
-}
-
-var RemoveIFrames = function() {
-
-    var iframe = GetByTagName(HtmlTags.iframe)[0];
-    while (iframe !== null) {
-        iframe.remove();
-    }
-}
+/// </Type_related_function>
