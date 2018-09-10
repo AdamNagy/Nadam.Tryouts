@@ -6,13 +6,14 @@
 /// </summary>
 /// <returns></returns>
 var GetById = function(id) {
-	var sameIds = document.getElementById(id);
 
-	if(sameIds.length !== undefined && sameIds.length >= 1) {
-		sameIds[0];
-	}
+    var sameIds = document.getElementById(id);
 
-	return sameIds;
+    if (sameIds.length !== undefined && sameIds.length >= 1) {
+        return sameIds[0].AddProperty("Type", sameIds[0].nodeName);
+    }
+
+    return sameIds.AddProperty("Type", sameIds.nodeName);
 }
 
 /// <summary>
@@ -20,15 +21,17 @@ var GetById = function(id) {
 /// </summary>
 /// <returns></returns>
 var GetByClass = function(className) {
+
     return document.getElementsByClassName(className);
 }
 
 var GetByTagName = function(tagName) {
+
     return document.getElementsByTagName(tagName);
 }
 
 var IsPrimitive = function(variable) {
-	
+
     var type = typeof variable;
 
     if (type === "number" || type === "string" || type === "boolean") {
@@ -55,16 +58,16 @@ var IsObject = function(variable) {
 
 var RemoveScripts = function() {
 
-	var script = GetByTagName(HtmlTags.script)[0];
-	while(script !== null){
-		script.remove();
-	}
+    var script = GetByTagName(HtmlTags.script)[0];
+    while (script !== null) {
+        script.remove();
+    }
 }
 
 var RemoveIFrames = function() {
 
-	var iframe = GetByTagName(HtmlTags.iframe)[0];
-	while(iframe !== null){
-		iframe.remove();
-	}
+    var iframe = GetByTagName(HtmlTags.iframe)[0];
+    while (iframe !== null) {
+        iframe.remove();
+    }
 }

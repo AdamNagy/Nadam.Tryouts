@@ -20,9 +20,10 @@
     }
 
     Object.prototype.AddProperty = function(name, value) {
-        if (this[name] == undefined) {
+        if (this.HasProperty(name)) {
             this[name] = value;
         }
+        return this;
     }
 
     /// <summary>
@@ -30,7 +31,7 @@
     /// </summary>
     /// <returns>nothing</returns>
     Object.prototype.ExtendWith = function(extension) {
-
+        return this;
     }
 
 })();
