@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "gulp": "3.9.0",
+    "del": "2.2.0"
+  },
+  "devDependencies": {
+    "gulp": "3.9.0",
+    "del": "2.2.0"
+  }
+}

@@ -1,0 +1,39 @@
+<h3>
+	Angular 2 Seed
+</h3>
+
+<main class="container">
+	<button class="btn btn-primary">Just push me!</button>
+	<div id="qwe">Hello word of JQuery from Angular2</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div style="display: block;">
+				<canvas baseChart width="400" height="400" [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+				 [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)"
+				 (chartClick)="chartClicked($event)"></canvas>
+			</div>
+		</div>
+		<div class="col-md-6" style="margin-bottom: 10px">
+			<table class="table table-responsive table-condensed">
+				<tr>
+					<th *ngFor="let label of lineChartLabels">{{label}}</th>
+				</tr>
+				<tr *ngFor="let d of lineChartData">
+					<td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>
+				</tr>
+			</table>
+			<button (click)="randomize()">CLICK</button>
+		</div>
+	</div>
+
+	<div class="row">
+			<div class="col-md-6">
+					<bar-chart-demo></bar-chart-demo>
+				</div>
+	</div>
+
+</main>
+
+<footer>
+	© 2017
+</footer>

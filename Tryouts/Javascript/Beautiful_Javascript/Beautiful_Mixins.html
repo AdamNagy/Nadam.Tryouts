@@ -1,0 +1,215 @@
+<html>
+
+<head>
+	<style>
+		body {
+			margin: 15px;
+			background-color: lightgrey;
+		}
+	</style>
+
+
+</head>
+
+<body>
+	<h1>
+		Beautiful Mixins
+	</h1>
+	<script>
+		// Prototypes
+		var circle1 = Object.create({
+			area: function () {
+				return Math.PI * this.radius * this.radius;
+			},
+			grow: function () {
+				this.radius++;
+			},
+			shrink: function () {
+				this.radius--;
+			}
+		}, {
+				radius: {
+					writable: true, configurable: true, value: 7
+				}
+			});
+
+		// Mixins
+		// Classic Mixins
+		var Circle2 = function () { };
+		Circle2.prototype = {
+			area: function () {
+				return Math.PI * this.radius * this.radius;
+			},
+			grow: function () {
+				this.radius++;
+			},
+			shrink: function () {
+				this.radius--;
+			}
+		};
+
+		var circle2Fns = {
+			area: function () {
+				return Math.PI * this.radius * this.radius;
+			},
+			grow: function () {
+				this.radius++;
+			},
+			shrink: function () {
+				this.radius--;
+			}
+		};
+
+		var clickableFns = {
+
+			action: {
+				fire: function(){
+					console.log("Firing");
+				}
+			},
+
+			hover: function () {
+				console.log('hovering');
+			},
+			press: function () {
+				console.log('button pressed');
+			},
+			release: function () {
+				console.log('button released');
+			},
+			fire: function () {
+				this.action.fire();
+			}
+		};
+
+		// The extend Function
+		function extend(destination, source) {
+			for (var key in source) {
+				if (source.hasOwnProperty(key)) {
+					destination[key] = source[key];
+				}
+			}
+			return destination;
+		};
+
+		var RoundButton = function (radius, label) {
+			this.radius = radius;
+			this.label = label;
+		};
+
+		extend(RoundButton.prototype, circle2Fns);
+		extend(RoundButton.prototype, clickableFns);
+		var roundButton = new RoundButton(3, 'send');
+		roundButton.grow();
+		roundButton.fire();
+
+		// Functional Mixins
+		var withCircle = function () {
+			this.area = function () {
+				return Math.PI * this.radius * this.radius;
+			};
+			this.grow = function () {
+				this.radius++;
+			};
+			this.shrink = function () {
+				this.radius--;
+			};
+		};
+		var withClickable = function () {
+			this.hover = function () {
+				console.log('hovering');
+			};
+			this.press = function () {
+				console.log('button pressed');
+			};
+			this.release = function () {
+				console.log('button released');
+			};
+			this.fire = function () {
+				this.action.fire();
+			};
+		}
+
+		var RoundButton2 = function (radius, label, action) {
+			this.radius = radius;
+			this.label = label;
+			this.action = action;
+		};
+		extend(RoundButton2.prototype, circle2Fns);
+		extend(RoundButton2.prototype, clickableFns);
+		withCircle.call(RoundButton2.prototype);
+		withClickable.call(RoundButton2.prototype);
+
+
+		var button1 = new RoundButton(4, 'yes!', function () { return 'you said yes!' });
+		button1.fire(); //'you said yes!'
+
+		// Adding Options
+		var withOval = function (options) {
+			this.area = function () {
+				return Math.PI * this.longRadius * this.shortRadius;
+			};
+			this.ratio = function () {
+				return this.longRadius / this.shortRadius;
+			};
+			this.grow = function () {
+				this.shortRadius += (options.growBy / this.ratio());
+				this.longRadius += options.growBy;
+			};
+			this.shrink = function () {
+				this.shortRadius -= (options.shrinkBy / this.ratio());
+				this.longRadius -= options.shrinkBy;
+			};
+		}
+		var OvalButton = function (longRadius, shortRadius, label, action) {
+			this.longRadius = longRadius;
+			this.shortRadius = shortRadius;
+			this.label = label;
+			this.action = action;
+		};
+		
+		withOval.call(OvalButton.prototype);	// Uncaught TypeError: withButton.call is not a function
+		withOval.call(OvalButton.prototype, { growBy: 2, shrinkBy: 2 });
+		var button2 = new OvalButton(3, 2, 'send', function () { return 'message sent' });
+		button2.area(); //18.84955592153876
+		button2.grow();
+		button2.area(); //52.35987755982988
+		// button2.fire(); //'message sent'	// Uncaught TypeError: button2.fire is not a function
+
+		// Adding Caching
+		var withRectangle = (function () {
+			function area() {
+				return this.length * this.width;
+			}
+			function grow() {
+				this.length++ , this.width++;
+			}
+			function shrink() {
+				this.length-- , this.width--;
+			}
+			return function () {
+				this.area = area;
+				this.grow = grow;
+				this.shrink = shrink;
+				return this;
+			};
+		})();
+
+		var RectangularButton = function (length, width, label, action) {
+			this.length = length;
+			this.width = width;
+			this.label = label;
+			this.action = action;
+		}
+
+		withClickable.call(RectangularButton.prototype);
+		withRectangle.call(RectangularButton.prototype);
+		var button3 = new RectangularButton(4, 2, 'delete', function () { return 'deleted' });
+		button3.area(); //8
+		button3.grow();
+		button3.area(); //15
+		// button3.fire(); //'deleted'	// Uncaught TypeError: button2.fire is not a function
+	</script>
+</body>
+
+</html>
