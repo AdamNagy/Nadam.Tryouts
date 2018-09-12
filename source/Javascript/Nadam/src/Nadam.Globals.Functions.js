@@ -6,7 +6,7 @@ var GetById = function(id) {
 
     var sameIds = document.getElementById(id);
 
-    if (sameIds.length !== undefined && sameIds.length >= 1) {
+    if (sameIds !== null && sameIds.length !== undefined && sameIds.length >= 1) {
         return sameIds[0].AddProperty("Type", sameIds[0].nodeName.toLowerCase());
     }
 
@@ -15,7 +15,10 @@ var GetById = function(id) {
 
 var GetByClass = function(className) {
 
-    return document.getElementsByClassName(className);
+    var sameClasses = document.getElementsByClassName(className);
+    sameClasses.Each((item) => item.AddProperty("Type", item.nodeName.toLowerCase()))
+
+    return sameClasses;
 }
 
 var GetByTagName = function(tagName) {

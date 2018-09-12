@@ -8,40 +8,46 @@
     <script src="./src/Nadam.Extensions.Object.js"></script>
     <script src="./src/Nadam.Extensions.Element.js"></script>
 
+    <!-- Test -->
+    <script src="./src/Tests/Extensions.Array.Tests.js"></script>
+
     <script>
-        var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-        var even = numbers.Where((item) => item % 2 == 0);
-        var number5 = numbers.FirstOrDefault((item) => item == 6);
-        var double = numbers.ForEach((item) => item * 2);
+        function main() {
 
-        var names = ["1qwe", "2asd", "3yxc", "4wer", "5sdf", "6qwe", "7asd", "8yxc", "9wer", "5sdf"];
-        var projected = numbers.ForEach((item) => {
-            var i = -1;
-            return {
-                prop1: item * 5,
-                prop2: names[++i]
-            }
-        });
+            Nadam.JsLib.Tests.WhereTests.Test1();
+            Nadam.JsLib.Tests.FirstOrDefaultTests.Test1();
 
-        var projected2 = numbers.ForEach((item, idx) => {
-            return {
-                prop1: item * 5,
-                prop2: names[idx]
-            }
-        });
+            var double = numbers.ForEach((item) => item * 2);
 
-        var div_testId = GetById("test-id");
+            var names = ["1qwe", "2asd", "3yxc", "4wer", "5sdf", "6qwe", "7asd", "8yxc", "9wer", "5sdf"];
+            var projected = numbers.ForEach((item) => {
+                var i = -1;
+                return {
+                    prop1: item * 5,
+                    prop2: names[++i]
+                }
+            });
 
-        /**************************************************/
-        var parentDiv = GetById("parent-div");
-        var directChildren = parentDiv.GetChildren();
+            var projected2 = numbers.ForEach((item, idx) => {
+                return {
+                    prop1: item * 5,
+                    prop2: names[idx]
+                }
+            });
 
-        var depth = -1;
-        // var treeTraversal = GetById("tree-traversal").WhereMany((element) => element.Type === HtmlTags.div, -1)
+            var div_testId = GetById("test-id");
+
+            /**************************************************/
+            var parentDiv = GetById("parent-div");
+            var directChildren = parentDiv.GetChildren();
+
+            var depth = -1;
+            // var treeTraversal = GetById("tree-traversal").WhereMany((element) => element.Type === HtmlTags.div, -1)
+        }
     </script>
 </head>
 
-<body>
+<body onload="main()">
     <div id="test-id"></div>
 
     <div id="parent-div">

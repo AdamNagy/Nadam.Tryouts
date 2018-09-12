@@ -50,6 +50,7 @@
         return filteredArray;
     }
 
+    // TODO: finish
     Element.prototype.WhereMany = function(predicate, depth) {
 
         if (depth === undefined || depth <= 1) {
