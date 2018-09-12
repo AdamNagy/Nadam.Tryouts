@@ -3,6 +3,7 @@
 
 (function() {
 
+    /// Use Array.proptotype.filter
     Array.prototype.Where = function(predicate) {
 
         if (predicate == null || typeof predicate !== 'function') {
@@ -37,45 +38,45 @@
         return found;
     }
 
-    Array.prototype.ForEach = function(action) {
+    // Array.prototype.ForEach = function(action) {
 
-        if (action == null || typeof action !== 'function') {
-            throw "Action is not a function!";
-        }
+    //     if (action == null || typeof action !== 'function') {
+    //         throw "Action is not a function!";
+    //     }
 
-        var projected = new Array();
+    //     var projected = new Array();
 
-        for (var i = 0; i < this.length; ++i) {
-            projected.push(action(this[i]));
-        }
+    //     for (var i = 0; i < this.length; ++i) {
+    //         projected.push(action(this[i]));
+    //     }
 
-        return projected;
-    }
+    //     return projected;
+    // }
 
-    Array.prototype.ForEach = function(action, idx) {
-        if (action == null || typeof action !== 'function') {
-            throw "Action is not a function!";
-        }
+    // Array.prototype.ForEach = function(action, idx) {
+    //     if (action == null || typeof action !== 'function') {
+    //         throw "Action is not a function!";
+    //     }
 
-        var projected = new Array();
+    //     var projected = new Array();
 
-        for (var i = 0; i < this.length; ++i) {
-            projected.push(action(this[i], i));
-        }
+    //     for (var i = 0; i < this.length; ++i) {
+    //         projected.push(action(this[i], i));
+    //     }
 
-        return projected;
-    }
+    //     return projected;
+    // }
 
-    Array.prototype.Each = function(action) {
+    // Array.prototype.Each = function(action) {
 
-        if (action == null || typeof action !== 'function') {
-            throw "Action is not a function!";
-        }
+    //     if (action == null || typeof action !== 'function') {
+    //         throw "Action is not a function!";
+    //     }
 
-        for (var i = 0; i < this.length; ++i) {
-            action(this[i]);
-        }
-    }
+    //     for (var i = 0; i < this.length; ++i) {
+    //         action(this[i]);
+    //     }
+    // }
 
     Array.prototype.Any = function(predicate) {
 
