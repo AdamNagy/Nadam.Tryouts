@@ -67,16 +67,16 @@
     //     return projected;
     // }
 
-    // Array.prototype.Each = function(action) {
+    Array.prototype.Each = function(action) {
 
-    //     if (action == null || typeof action !== 'function') {
-    //         throw "Action is not a function!";
-    //     }
+        if (action == null || typeof action !== 'function') {
+            throw "Action is not a function!";
+        }
 
-    //     for (var i = 0; i < this.length; ++i) {
-    //         action(this[i]);
-    //     }
-    // }
+        for (var i = 0; i < this.length; ++i) {
+            action(this[i]);
+        }
+    }
 
     Array.prototype.Any = function(predicate) {
 

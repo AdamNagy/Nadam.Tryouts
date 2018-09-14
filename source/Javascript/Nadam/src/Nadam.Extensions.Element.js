@@ -69,6 +69,7 @@
         }
 
         for (var i = 0; i < children.length; ++i) {
+
             if (predicate(children[i])) {
                 filteredArray.push(children[i]);
             }

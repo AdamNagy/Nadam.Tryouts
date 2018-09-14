@@ -22,7 +22,7 @@ gulp.task('rel', function(cb) {
                 'src/Nadam.Extensions.*.js'
             ]),
             concat('Nadam.JsLib.Index.js'),
-            uglify(),
+            // uglify(),	// arrow function are not supported for uglify (its ES6)
             minify(),
             gulp.dest('./../../../dist/Javascript/')
         ],

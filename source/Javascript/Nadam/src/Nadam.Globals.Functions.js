@@ -9,14 +9,14 @@ var GetById = function(id) {
     if (sameIds !== null && sameIds.length !== undefined && sameIds.length >= 1) {
         return sameIds[0].AddProperty("Type", sameIds[0].nodeName.toLowerCase());
     }
-
+    [1, 2, 3, 4, 5].filter((item) => item / 2 === 0);
     return sameIds.AddProperty("Type", sameIds.nodeName.toLowerCase());
 }
 
 var GetByClass = function(className) {
 
     var sameClasses = document.getElementsByClassName(className);
-    sameClasses.Each((item) => item.AddProperty("Type", item.nodeName.toLowerCase()))
+    // sameClasses.Each((item) => item.AddProperty("Type", item.nodeName.toLowerCase()));
 
     return sameClasses;
 }
@@ -28,10 +28,10 @@ var GetByTagName = function(tagName) {
 
 var RemoveAllFromDom = function(tagName) {
 
-    var script = GetByTagName(tagName)[0];
-    while (script !== null) {
-        script.remove();
-        script = GetByTagName(tagName)[0];
+    var element = GetByTagName(tagName)[0];
+    while (element !== null) {
+        element.remove();
+        element = GetByTagName(tagName)[0];
     }
 }
 
