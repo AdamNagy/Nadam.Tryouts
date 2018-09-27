@@ -6,8 +6,10 @@
     NodeIterator.prototype.ToList = function() {
 
         var list = new Array();
-        while ((node = this.nextNode())) {
-            list.push(ndoe);
+        var node = this.nextNode();
+        while (node != null) {
+            list.push(node);
+            node = this.nextNode();
         }
 
         return list;

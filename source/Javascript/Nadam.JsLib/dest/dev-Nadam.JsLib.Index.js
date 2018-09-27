@@ -16,7 +16,6 @@ var GetById = function(id) {
 var GetByClass = function(className) {
 
     var sameClasses = document.getElementsByClassName(className);
-    sameClasses.Each((item) => item.AddProperty("Type", item.nodeName.toLowerCase()))
 
     return sameClasses;
 }
@@ -28,10 +27,10 @@ var GetByTagName = function(tagName) {
 
 var RemoveAllFromDom = function(tagName) {
 
-    var script = GetByTagName(tagName)[0];
-    while (script !== null) {
-        script.remove();
-        script = GetByTagName(tagName)[0];
+    var element = GetByTagName(tagName)[0];
+    while (element !== null) {
+        element.remove();
+        element = GetByTagName(tagName)[0];
     }
 }
 
@@ -65,6 +64,39 @@ var IsObject = function(variable) {
 }
 
 /// </Type_related_function>
+var Children = {
+
+    isImage: function(element) {
+        if (element == null || element.firstElementChild == null) {
+            return false;
+        }
+        return element.firstElementChild.tagName.toLocaleLowerCase() === HtmlTags.image;
+    },
+
+    isDiv: function(element) {
+        if (element == null || element.firstElementChild == null) {
+            return false;
+        }
+        return element.firstElementChild.tagName.toLocaleLowerCase() === HtmlTags.div;
+    },
+
+    // teszting shit
+    isThumbnail: function(element) {
+        if (element == null || element.firstElementChild == null) {
+            return false;
+        }
+
+        var firstChild = element.firstElementChild;
+        var secondLevelChild = firstChild.firstElementChild;
+
+        if (firstChild == null || secondLevelChild == null) {
+            return false;
+        }
+
+        return firstChild.tagName.toLocaleLowerCase() === HtmlTags.div &&
+            secondLevelChild.tagName.toLocaleLowerCase() === HtmlTags.image;
+    }
+}
 ;
 "use strict";
 
@@ -80,25 +112,7 @@ var HtmlTags = {
 
 (function() {
 
-    /// Use Array.proptotype.filter
-    Array.prototype.Where = function(predicate) {
-
-        if (predicate == null || typeof predicate !== 'function') {
-            throw "Predicate is not a function!";
-        }
-
-        var filteredArray = new Array();
-
-        for (var i = 0; i < this.length; ++i) {
-            if (predicate(this[i])) {
-                filteredArray.push(this[i])
-            }
-        }
-
-        return filteredArray;
-    }
-
-    Array.prototype.FirstOrDefault = function(predicate) {
+    Array.prototype.FirstOrNull = function(predicate) {
 
         if (predicate == null || typeof predicate !== 'function') {
             throw "Predicate is not a function!";
@@ -115,61 +129,21 @@ var HtmlTags = {
         return found;
     }
 
-    // Array.prototype.ForEach = function(action) {
+    Array.prototype.Each = function(action) {
 
-    //     if (action == null || typeof action !== 'function') {
-    //         throw "Action is not a function!";
-    //     }
-
-    //     var projected = new Array();
-
-    //     for (var i = 0; i < this.length; ++i) {
-    //         projected.push(action(this[i]));
-    //     }
-
-    //     return projected;
-    // }
-
-    // Array.prototype.ForEach = function(action, idx) {
-    //     if (action == null || typeof action !== 'function') {
-    //         throw "Action is not a function!";
-    //     }
-
-    //     var projected = new Array();
-
-    //     for (var i = 0; i < this.length; ++i) {
-    //         projected.push(action(this[i], i));
-    //     }
-
-    //     return projected;
-    // }
-
-    // Array.prototype.Each = function(action) {
-
-    //     if (action == null || typeof action !== 'function') {
-    //         throw "Action is not a function!";
-    //     }
-
-    //     for (var i = 0; i < this.length; ++i) {
-    //         action(this[i]);
-    //     }
-    // }
-
-    Array.prototype.Any = function(predicate) {
-
-        if (predicate == null || typeof predicate !== 'function') {
-            throw "Predicate is not a function!";
+        if (action == null || typeof action !== 'function') {
+            throw "Action is not a function!";
         }
-
-        var any = false;
 
         for (var i = 0; i < this.length; ++i) {
-            if (predicate(i)) {
-                any = true;
-            }
+            this[i] = action(this[i]);
         }
 
-        return any;
+        return this;
+    }
+
+    Array.prototype.Where = function(predicate) {
+        return this.filter(predicate);
     }
 
 })();
@@ -179,9 +153,26 @@ var HtmlTags = {
 (function() {
 
     /// <summary> 
-    /// Puts a DOM element all direct children in an array, and returns it. Only the direct children, so depth is 1
+    /// Iterates throught the sub tree of the node, and flattens it into a list. 
+    /// Optionally filters the list
+    /// </summary> 
+    Element.prototype.All = function(predicate) {
+
+        if (predicate == null || typeof predicate !== 'function') {
+            throw "Predicate is not a function!";
+        }
+
+        var nodeIterator = this.GetIterator(predicate);
+        var nodeList = nodeIterator.ToList();
+
+        return nodeList;
+    }
+
+    /// <summary> 
+    /// Iterates throught the direct childrend of the node, and flattens it into a list
+    /// Optionally filters the list
     /// </summary>
-    Element.prototype.GetChildren = function() {
+    Element.prototype.AllChildren = function(predicate) {
         var firstChild = this.firstElementChild;
         var directchildren = new Array();
 
@@ -200,64 +191,7 @@ var HtmlTags = {
         return directchildren;
     }
 
-    /// <summary> 
-    /// Gets the direct children of the given element, and filter them with the given predicate
-    /// </summary> 
-    Element.prototype.Where = function(predicate) {
-
-        if (predicate == null || typeof predicate !== 'function') {
-            throw "Predicate is not a function!";
-        }
-
-        var filteredArray = new Array();
-
-        var children = this.GetChildren();
-        if (children.length < 1) {
-            return filteredArray;
-        }
-
-        for (var i = 0; i < children.length; ++i) {
-            if (predicate(children[i])) {
-                filteredArray.push(children[i]);
-            }
-        }
-
-        return filteredArray;
-    }
-
-    // TODO: finish
-    Element.prototype.WhereMany = function(predicate, depth) {
-
-        if (depth === undefined || depth <= 1) {
-            return this.Where(predicate);
-        }
-
-        if (predicate == null || typeof predicate !== 'function') {
-            throw "Predicate is not a function!";
-        }
-
-        var filteredArray = new Array();
-
-        var children = this.GetChildren();
-        if (children.length < 1) {
-            return filteredArray;
-        }
-
-        for (var i = 0; i < children.length; ++i) {
-            if (predicate(children[i])) {
-                filteredArray.push(children[i]);
-            }
-        }
-
-        for (var i = 0; i < children.length; ++i) {
-            var subFilteredChildren = children[i].Where(predicate);
-            filteredArray = filteredArray.concat(subFilteredChildren);
-        }
-
-        return filteredArray;
-    }
-
-    Element.prototype.Each = function(action, depth) {
+    Element.prototype.Each = function(action) {
 
         if (action == null || typeof action !== 'function' && typeof depth !== "number") {
             throw "Action is not a function!";
@@ -275,6 +209,48 @@ var HtmlTags = {
                 children[i].Each(action);
             }
         }
+    }
+
+    Element.prototype.EachChildren = function(action) {
+
+    }
+
+    // Element.prototype.GetIterator = function(filter) {
+
+    //     var iterator = document.createNodeIterator(this, NodeFilter.SHOW_ELEMENT, filter);
+    //     return iterator;
+    // }
+
+    // Element.prototype.Find = function(predicate) {
+
+    //     var found = this.GetIterator().ToList().find(predicate);
+
+    //     return found[0];
+    // }
+
+    // Element.prototype.FindAll = function(predicate) {
+
+    //     var found = this.GetIterator().ToList().filter(predicate);
+
+    //     return found;
+    // }
+
+})();
+;
+"use strict";
+
+(function() {
+
+    NodeIterator.prototype.ToList = function() {
+
+        var list = new Array();
+        var node = this.nextNode();
+        while (node != null) {
+            list.push(node);
+            node = this.nextNode();
+        }
+
+        return list;
     }
 
 })();
@@ -300,6 +276,23 @@ var HtmlTags = {
             this[name] = value;
         }
         return this;
+    }
+
+})();
+;
+"use strict";
+
+(function() {
+
+    HTMLCollection.prototype.ToList = function() {
+
+        var list = new Array();
+
+        for (var i = 0; i < this.length; ++i) {
+            list.push(this.item(i));
+        }
+
+        return list;
     }
 
 })();

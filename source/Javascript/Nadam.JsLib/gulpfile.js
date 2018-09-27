@@ -7,7 +7,8 @@ var pump = require('pump');
 gulp.task('dev', function(cb) {
     pump([
             gulp.src(['src/Nadam.Globals.*.js',
-                'src/Nadam.Extensions.*.js'
+                'src/Nadam.Extensions.*.js',
+                'src/Nadam.Extensions.HTMLCollection.Js'
             ]),
             concat('dev-Nadam.JsLib.Index.js'),
             gulp.dest('./dest/')
@@ -22,7 +23,6 @@ gulp.task('rel', function(cb) {
                 'src/Nadam.Extensions.*.js'
             ]),
             concat('Nadam.JsLib.Index.js'),
-            // uglify(),	// arrow function are not supported for uglify (its ES6)
             minify(),
             gulp.dest('./../../../dist/Javascript/')
         ],

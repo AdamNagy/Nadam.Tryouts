@@ -9,26 +9,14 @@
     /// </summary> 
     Element.prototype.All = function(predicate) {
 
-        // HINT
-        // var nodeIterator = document.createNodeIterator(root, whatToShow, filter);
         if (predicate == null || typeof predicate !== 'function') {
             throw "Predicate is not a function!";
         }
 
-        var filteredArray = new Array();
+        var nodeIterator = this.GetIterator(predicate);
+        var nodeList = nodeIterator.ToList();
 
-        var children = this.GetChildren();
-        if (children.length < 1) {
-            return filteredArray;
-        }
-
-        for (var i = 0; i < children.length; ++i) {
-            if (predicate(children[i])) {
-                filteredArray.push(children[i]);
-            }
-        }
-
-        return filteredArray;
+        return nodeList;
     }
 
     /// <summary> 
@@ -54,7 +42,7 @@
         return directchildren;
     }
 
-    Element.prototype.Each = function(action, depth) {
+    Element.prototype.Each = function(action) {
 
         if (action == null || typeof action !== 'function' && typeof depth !== "number") {
             throw "Action is not a function!";
@@ -74,25 +62,28 @@
         }
     }
 
-    Element.prototype.GetIterator = function(filter) {
+    Element.prototype.EachChildren = function(action) {
 
-        var iterator = document.createNodeIterator(this, NodeFilter.SHOW_ELEMENT, filter);
-        iterator.ToList = ToList();
-        return iterator;
     }
 
-    Element.prototype.Find = function(predicate) {
+    // Element.prototype.GetIterator = function(filter) {
 
-        var found = this.GetIterator().ToList().find(predicate);
+    //     var iterator = document.createNodeIterator(this, NodeFilter.SHOW_ELEMENT, filter);
+    //     return iterator;
+    // }
 
-        return found[0];
-    }
+    // Element.prototype.Find = function(predicate) {
 
-    Element.prototype.FindAll = function(predicate) {
+    //     var found = this.GetIterator().ToList().find(predicate);
 
-        var found = this.GetIterator().ToList().find(predicate);
+    //     return found[0];
+    // }
 
-        return found[0];
-    }
+    // Element.prototype.FindAll = function(predicate) {
+
+    //     var found = this.GetIterator().ToList().filter(predicate);
+
+    //     return found;
+    // }
 
 })();
