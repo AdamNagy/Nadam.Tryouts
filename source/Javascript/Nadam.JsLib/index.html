@@ -14,8 +14,8 @@
     <script>
         function main() {
 
-            Nadam.JsLib.Tests.WhereTests.Test1();
-            Nadam.JsLib.Tests.FirstOrDefaultTests.Test1();
+            // Nadam.JsLib.Tests.WhereTests.Test1();
+            // Nadam.JsLib.Tests.FirstOrDefaultTests.Test1();
 
             var double = numbers.ForEach((item) => item * 2);
 
@@ -41,8 +41,8 @@
             var parentDiv = GetById("parent-div");
             var directChildren = parentDiv.GetChildren();
 
-            var depth = -1;
-            // var treeTraversal = GetById("tree-traversal").WhereMany((element) => element.Type === HtmlTags.div, -1)
+            // find a node which all child is link tag
+            var a = document.body.Find((element) => element.GetChildren().IsAll((child) => child.Type === HtmlTags.aTag));
         }
     </script>
 </head>
