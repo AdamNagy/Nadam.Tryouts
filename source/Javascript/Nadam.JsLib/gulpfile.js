@@ -6,11 +6,8 @@ var pump = require('pump');
 
 gulp.task('dev', function(cb) {
     pump([
-            gulp.src(['src/Nadam.Globals.*.js',
-                'src/Nadam.Extensions.*.js',
-                'src/Nadam.Extensions.HTMLCollection.Js'
-            ]),
-            concat('dev-Nadam.JsLib.Index.js'),
+            gulp.src(['src/*.js', ]),
+            concat('Nadam.JsLib.Index.js'),
             gulp.dest('./dest/')
         ],
         cb
@@ -19,9 +16,7 @@ gulp.task('dev', function(cb) {
 
 gulp.task('rel', function(cb) {
     pump([
-            gulp.src(['src/Nadam.Globals.*.js',
-                'src/Nadam.Extensions.*.js'
-            ]),
+            gulp.src(['src/*.js', ]),
             concat('Nadam.JsLib.Index.js'),
             minify(),
             gulp.dest('./../../../dist/Javascript/')

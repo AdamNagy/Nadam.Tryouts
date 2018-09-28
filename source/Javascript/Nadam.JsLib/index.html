@@ -43,11 +43,8 @@
 
             /**************************************************/
             var parentDiv = GetById("parent-div");
-            var directChildren = parentDiv.AllChildren();
 
-            // find a node which all child is link tag
-            // setAttributeNS()
-            var linkThumbnails = GetByTagName("a").ToList().Where(Children.isThumbnail).Select((element) => element.getAttribute("src")));
+            var linkThumbnails = GetByTagName("a").ToList().Where(Children.isThumbnail).Select(Thumbail.ToDownloadable);
         }
     </script>
 </head>

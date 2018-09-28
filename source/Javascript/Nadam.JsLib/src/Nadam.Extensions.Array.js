@@ -3,7 +3,7 @@
 
 (function() {
 
-    Array.prototype.FirstOrNull = function(predicate) {
+    Array.prototype.First = function(predicate) {
 
         if (predicate == null || typeof predicate !== 'function') {
             throw "Predicate is not a function!";
@@ -20,34 +20,32 @@
         return found;
     }
 
-    // Array.prototype.Each = function(action) {
+    Array.prototype.Last = function(predicate) {
 
-    //     if (action == null || typeof action !== 'function') {
-    //         throw "Action is not a function!";
-    //     }
+        if (predicate !== null) {
+            var filtered = this.filter(predicate);
+            return filtered[filtered.length - 1];
+        }
 
-    //     for (var i = 0; i < this.length; ++i) {
-    //         this[i] = action(this[i]);
-    //     }
-
-    //     return this;
-    // }
+        return this[this.length - 1];
+    }
 
     Array.prototype.Where = function(predicate) {
         return this.filter(predicate);
     }
 
-    Array.prototype.Select = function(action) {
+    Array.prototype.Select = function(action, args) {
 
+        var list = new Array();
         if (action == null || typeof action !== 'function') {
             throw "Action is not a function!";
         }
 
         for (var i = 0; i < this.length; ++i) {
-            this[i] = action(this[i]);
+            list.push(action(this[i], args));
         }
 
-        return this;
+        return list;
     }
 
 })();

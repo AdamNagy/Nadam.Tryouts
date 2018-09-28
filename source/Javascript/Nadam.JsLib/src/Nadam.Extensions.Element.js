@@ -42,48 +42,4 @@
         return directchildren;
     }
 
-    Element.prototype.Each = function(action) {
-
-        if (action == null || typeof action !== 'function' && typeof depth !== "number") {
-            throw "Action is not a function!";
-        }
-
-        var children = this.GetChildren(),
-            currentDepth = 1;
-        if (children === null || children == undefined) {
-            return;
-        }
-
-        for (var i = 0; i < children.length; ++i) {
-            action(children[i]);
-            if (currentDepth < depth) {
-                children[i].Each(action);
-            }
-        }
-    }
-
-    Element.prototype.EachChildren = function(action) {
-
-    }
-
-    // Element.prototype.GetIterator = function(filter) {
-
-    //     var iterator = document.createNodeIterator(this, NodeFilter.SHOW_ELEMENT, filter);
-    //     return iterator;
-    // }
-
-    // Element.prototype.Find = function(predicate) {
-
-    //     var found = this.GetIterator().ToList().find(predicate);
-
-    //     return found[0];
-    // }
-
-    // Element.prototype.FindAll = function(predicate) {
-
-    //     var found = this.GetIterator().ToList().filter(predicate);
-
-    //     return found;
-    // }
-
 })();
