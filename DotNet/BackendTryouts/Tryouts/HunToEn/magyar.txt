@@ -1,0 +1,17 @@
+jegy-és bérletpénztár,utility
+eleven gyógyszertár,pharmacy
+hbk gyógyszertár,pharmacy
+eb közös költség,utility
+eb számla fedezet,utility
+nemzeti dohánybol,entertainment
+mandarina török ét,restaurant
+kp.felvét/-befiz,utility
+eseti megbízások költsége,utility
+játékudvar,gift
+signal öngondoskodási,saving
+idõszakos költségek,utility
+széll k.tér ügyfélközpont,utility
+papír-sziget,gift
+régiposta,other
+munkabér,salary
+eötvös loránd tudományegyetem,education
