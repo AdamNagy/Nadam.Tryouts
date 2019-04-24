@@ -1,0 +1,19 @@
+﻿<section id="control-panel">
+    <button onclick="Request()" class="btn btn-primary">Go!</button>
+    <input type="text" id="requestUrl" size="100" list="history">
+    <datalist id="history">
+        <option value="jenni">
+        <option value="keira">
+        <option value="emma">
+        <option value="tillie">
+    </datalist>
+    <button onclick="Clear()" class="btn btn-danger">Clear</button>
+
+    <button onclick="FilterClick()" class="btn btn-primary">Filter</button>
+    <input type="text" id="filter-predicate-value" size="30" list="history">
+    <button onclick="ResetFilterClick()" class="btn btn-danger">Reset</button>
+    <button onclick="Global.sidePager.CloseAll()" class="btn btn-primary">Close side pages</button>
+</section>
+
+<div id="content">
+</div>

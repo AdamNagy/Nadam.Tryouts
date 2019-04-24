@@ -1,0 +1,92 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+#side-pages-manager .side-page {
+    transition: right 0.4s;
+    position: fixed;
+    top: 0;
+    height: 1920px; /* change to height of the screen;*/
+    width: 720px;    
+    border-left: 1px solid lightblue;
+}
+
+#side-pages-manager .side-page-closed {
+    background: rgb(100,100,100);
+    opacity: 0.6;
+    overflow-y: hidden;
+}
+
+#side-pages-manager .side-page-open {
+    background-color: lightgray;
+    opacity: 1;
+    overflow-y: scroll;
+}
+
+#content {
+    padding: 3px;
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery-thumb {
+    display: block;
+    float: left;
+    margin: 10px;
+    background-color: rgba(30,255,255, 0.4);
+    border: 10px solid rgba(0,255,255, 0.8);
+    width: 600px;
+    height: 350px;
+}
+
+    .gallery-thumb h3 {
+        text-align: center;
+    }
+
+        .gallery-thumb h3 a {
+            text-decoration: none;
+        }
+
+    .gallery-thumb img {
+        margin: 10px;
+        max-width: 180px;
+        max-height: 250px;
+    }
+
+#control-panel {
+    position: fixed;
+    height: auto;
+    top: -10px;
+    left: 0;
+    opacity: 0.6;
+    transition: all 0.4s;
+    width: 100%;
+    background-color: lightslategray;
+    padding: 5px;
+}
+
+    #control-panel:hover {
+        top: 0;
+        opacity: 1;
+    }

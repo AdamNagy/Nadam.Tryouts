@@ -1,0 +1,14 @@
+@import "./variables.scss";
+
+#navigation {
+
+	& nav {
+		width: 80%;
+		margin: 0 auto;
+
+		& div {
+			float: right;
+			color: $primary-font-color;
+		}
+	}
+}

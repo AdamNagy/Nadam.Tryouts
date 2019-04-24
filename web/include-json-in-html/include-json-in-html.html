@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+	</head>
+<body>
+	<h1>My First Heading</h1>
+	<p>My first paragraph.</p>
+	
+	<json src="hello2.json" var-name="nadam.other.ab.cd"></json>
+	<json src="hello.json" var-name="nadam.global.people"></json>
+
+	<csv src="test-csv.csv" hasHeader var-name="nadam.global.testCsv"></csv>
+
+	<script>
+		function ReadFile(src) {			
+			return new Promise((resolve, reject) => {
+
+				const oReq = new XMLHttpRequest();
+				oReq.onload = function(e) {
+					resolve(oReq.response);
+				}
+
+				oReq.open("GET", src);
+				oReq.send();
+			});
+		}
+
+		function CreateVariableFor(root, varName) {
+			if( root[varName] === undefined )
+				root[varName] = {}			
+
+			return root[varName];
+		}
+
+		function GenerateNameSpace(varName) {
+			var varNames = varName.split('.');
+
+			var root = CreateVariableFor(window, varNames[0]);
+			for(var i = 1; i < varNames.length; ++i)
+				root = CreateVariableFor(root, varNames[i]);			
+		}
+
+		function GetReferenceFor(varNames) {
+			var root = window;
+
+			for(var i = 0; i < varNames.length; ++i)
+				root = root[varNames[i]];			
+
+			return root;
+		}
+
+		function ReadJsons() {
+			var jsonElements = document.getElementsByTagName("json");
+			for(var i = 0; i < jsonElements.length; ++i) {
+				var varName = jsonElements[i].getAttribute("var-name");
+				GenerateNameSpace(varName);
+				var src = jsonElements[i].getAttribute("src");			
+
+				var promise = ReadFile(src);
+				promise.then (
+					(function(_src, _varName) {
+						return function(result) {
+							var varNames = _varName.split('.');
+							var jsonVar = GetReferenceFor(varNames);
+
+							jsonVar['value'] =  JSON.parse(result);
+							jsonVar['src'] = _src;
+							jsonVar['varName'] = _varName;
+						}
+					})(src, varName)
+				);
+			}
+		}
+
+		function CreateObject(properties, record) {
+			var obj = {};
+
+			for(var i = 0; i < properties.length; ++i) {
+				obj[properties[i]] = record[i];
+			}
+
+			return obj;
+		}
+
+		function ReadCsvs() {
+			
+			var csvElements = document.getElementsByTagName("csv");
+			for(var i = 0; i < csvElements.length; ++i) {
+				var varName = csvElements[i].getAttribute("var-name");
+				GenerateNameSpace(varName);
+				var src = csvElements[i].getAttribute("src");
+				var hasHeader = csvElements[i].hasAttribute("hasHeader");
+
+				var promise = ReadFile(src);
+				promise.then (
+					(function(_src, _varName, _hasHeader) {
+						return function(result) {
+							console.log(result + " " + _hasHeader);
+							var lines = result.split('\n');
+
+							var records = new Array();
+							var recordSchema = lines[0].split(',');
+							if( _hasHeader ) {
+								for(var i = 1; i < lines.length; ++i) {
+									records.push(CreateObject(recordSchema, lines[i].split(',')));									
+								}
+							}
+							
+							var varNames = _varName.split('.');
+							var jsonVar = GetReferenceFor(varNames);
+							jsonVar['value'] =  records;
+							jsonVar['src'] = _src;
+							jsonVar['varName'] = _varName;
+						}
+					})(src, varName, hasHeader)
+				);
+
+			}
+
+		}
+
+		(function() {
+			ReadJsons();
+			ReadCsvs();
+		})();
+	</script>
+</body>
+</html>

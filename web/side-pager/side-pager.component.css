@@ -1,0 +1,8 @@
+#side-pages-manager .side-page {
+    transition: right 0.4s;
+    position: fixed;
+    top: 0;
+    height: 1920px; /* change to height of the screen;*/
+    width: 720px;
+    background: rgba(100,100,100,0.5);
+}
