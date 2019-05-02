@@ -140,39 +140,42 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ScraperApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\GalleryThumbnail.cs" />
+    <Compile Include="Models\ImageThumbnail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Scripts\app.js" />
-    <Content Include="Scripts\nadam.dom-filter.js" />
-    <Content Include="Scripts\nadam.http.js" />
-    <Content Include="Scripts\nadam.side-pager.js" />
+    <Content Include="web_modules\bootstrap\bootstrap-grid.css" />
+    <Content Include="web_modules\bootstrap\bootstrap-grid.min.css" />
+    <Content Include="web_modules\bootstrap\bootstrap-reboot.css" />
+    <Content Include="web_modules\bootstrap\bootstrap-reboot.min.css" />
+    <Content Include="web_modules\bootstrap\bootstrap.css" />
+    <Content Include="web_modules\bootstrap\bootstrap.min.css" />
+    <Content Include="web_modules\app\app.js" />
+    <Content Include="web_modules\bootstrap\bootstrap.bundle.js" />
+    <Content Include="web_modules\bootstrap\bootstrap.bundle.min.js" />
+    <Content Include="web_modules\bootstrap\bootstrap.js" />
+    <Content Include="web_modules\bootstrap\bootstrap.min.js" />
+    <Content Include="web_modules\jquery\jquery-ui.css" />
+    <Content Include="web_modules\jquery\jquery-ui.js" />
+    <Content Include="web_modules\jquery\jquery-ui.min.css" />
+    <Content Include="web_modules\jquery\jquery-ui.min.js" />
+    <Content Include="web_modules\jquery\jquery-ui.structure.css" />
+    <Content Include="web_modules\jquery\jquery-ui.structure.min.css" />
+    <Content Include="web_modules\jquery\jquery-ui.theme.css" />
+    <Content Include="web_modules\jquery\jquery-ui.theme.min.css" />
+    <Content Include="web_modules\jquery\jquery-v3.4.0.js" />
+    <Content Include="web_modules\nadam\nadam.dom-filter.js" />
+    <Content Include="web_modules\nadam\nadam.http.js" />
+    <Content Include="web_modules\nadam\nadam.side-pager.component.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.3.1.js" />
-    <Content Include="Scripts\jquery-3.3.1.min.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.js" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="web_modules\app\app.css" />
+    <Content Include="web_modules\nadam\nadam.side-pager.component.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -185,6 +188,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="web_modules\nadam\nadam.webhack.urlgalleries.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -194,14 +198,24 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="web_modules\bootstrap\bootstrap-grid.css.map" />
+    <Content Include="web_modules\bootstrap\bootstrap-grid.min.css.map" />
+    <Content Include="web_modules\bootstrap\bootstrap-reboot.css.map" />
+    <Content Include="web_modules\bootstrap\bootstrap-reboot.min.css.map" />
+    <Content Include="web_modules\bootstrap\bootstrap.css.map" />
+    <Content Include="web_modules\bootstrap\bootstrap.min.css.map" />
+    <Content Include="package-lock.json" />
+    <Content Include="package.json" />
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="web_modules\bootstrap\bootstrap.bundle.js.map" />
+    <Content Include="web_modules\bootstrap\bootstrap.bundle.min.js.map" />
+    <Content Include="web_modules\bootstrap\bootstrap.js.map" />
+    <Content Include="web_modules\bootstrap\bootstrap.min.js.map" />
+    <Content Include="Views\Shared\_bootstrap.cshtml" />
+    <Content Include="Views\Shared\_nadam.cshtml" />
+    <Content Include="Views\Shared\_jquery.cshtml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -7,30 +7,46 @@ namespace Scraper
     {
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
-        {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+        {        
+            // <bootstrap>
+            bundles.Add(new ScriptBundle("~/scripts/bootstrap").Include(
+                      "~/web_modules/bootstrap/bootstrap.min.js",
+                      "~/web_modules/bootstrap/bootstrap.bundle.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+            bundles.Add(new StyleBundle("~/styles/bootstrap").Include(
+                      "~/web_modules/bootstrap/bootstrap.min.css",
+                      "~/web_modules/bootstrap/bootstrap-grid.min.css",
+                      "~/web_modules/bootstrap/bootstrap-reboot.min.css"));
+            // </bootstrap>
 
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
+            // <jquery>
+            bundles.Add(new ScriptBundle("~/scripts/jquery").Include(
+                        "~/web_modules/jquery/jquery-v3.4.0.js",
+                        "~/web_modules/jquery/jquery-ui.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+            bundles.Add(new StyleBundle("~/styles/jquery").Include(
+                    "~/web_modules/jquery/jquery-ui.min.css",
+                    "~/web_modules/jquery/jquery-ui.structure.min.css",
+                    "~/web_modules/jquery/jquery-ui.theme.min.css"));
+            // </jquery>
 
-            bundles.Add(new ScriptBundle("~/bundles/nadam").Include(
-                      "~/Scripts/nadam.*"));
+            // <nadam>
+            bundles.Add(new ScriptBundle("~/scripts/nadam").Include(
+                        "~/web_modules/nadam/nadam.dom-filter.js",
+                        "~/web_modules/nadam/nadam.http.js",
+                        "~/web_modules/nadam/nadam.side-pager.component.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/app").Include(
-                    "~/Scripts/app.js"));
+            bundles.Add(new StyleBundle("~/styles/nadam").Include(
+                        "~/web_modules/nadam/nadam.side-pager.component.css"));
+            // </nadam>
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+            // <app>
+            bundles.Add(new StyleBundle("~/styles/app").Include(
+                    "~/web_modules/app/app.css"));
+
+            bundles.Add(new ScriptBundle("~/scripts/app").Include(
+                    "~/web_modules/app/app.js"));
+            // </app>
         }
     }
 }

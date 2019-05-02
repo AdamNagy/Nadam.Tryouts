@@ -1,0 +1,72 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+#content {
+    padding: 3px;
+    width: 80%;
+}
+
+.gallery-thumb {
+    float: left;
+    margin: 10px;
+    background-color: rgba(30,255,255, 0.4);
+    border: 10px solid rgba(0,255,255, 0.8);
+    width: 600px;
+    height: 350px;
+}
+
+    .gallery-thumb h3 {
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .gallery-thumb img {
+        margin: 5px;
+        max-width: 180px;
+        max-height: 250px;
+    }
+
+#control-panel {
+    position: fixed;
+    height: auto;
+    top: -10px;
+    left: 0;
+    opacity: 0.6;
+    transition: all 0.4s;
+    width: 100%;
+    background-color: lightslategray;
+    padding: 5px;
+}
+
+    #control-panel:hover {
+        top: 0;
+        opacity: 1;
+    }
+
+#control-panel div{
+    float: left;
+}
+
+.separator {
+
+    background-color: royalblue;
+    width: 100%;
+    float: left;
+}

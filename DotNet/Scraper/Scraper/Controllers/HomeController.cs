@@ -88,10 +88,65 @@ namespace Scraper.Controllers
 
         async public Task<string> Gallery(string url)
         {
+            // https://moggy.urlgalleries.net/blog_gallery.php?id=6984513&p=2
+            var imageThumbs = new List<ImageThumbnail>();
+            var otherThumbs = new List<ImageThumbnail>();
             var page = await web.LoadFromWebAsync(url);
-            var imageLinks = page.DocumentNode.SelectNodes("//img").Select(p => p.Attributes["src"].Value).ToList();
+            ConvertToImageThumbnails(page, out imageThumbs);
 
-            return JsonConvert.SerializeObject(imageLinks);
+            var galleryId = getGalleryIdFromUrl(url);
+            var nextPage = 2;
+            var otherPage = await web.LoadFromWebAsync($"https://nylon-passion.urlgalleries.net/blog_gallery.php?id={galleryId}&p={nextPage}");
+            while(ConvertToImageThumbnails(page, out otherThumbs) && nextPage < 3)
+            {
+                ++nextPage;
+                otherPage = await web.LoadFromWebAsync($"https://nylon-passion.urlgalleries.net/blog_gallery.php?id={galleryId}&p={nextPage}");
+                imageThumbs.AddRange(otherThumbs);
+            }
+
+            return JsonConvert.SerializeObject(imageThumbs);
+        }
+
+        private bool ConvertToImageThumbnails(HtmlDocument page, out List<ImageThumbnail> imageThumbnails)
+        {
+            imageThumbnails = new List<ImageThumbnail>();
+            var hasThumbnails = false; 
+
+            var a_tags = page.DocumentNode.SelectNodes("//a");
+            foreach (var a_tag in a_tags)
+            {
+                var image_tag = a_tag.SelectNodes("img");
+                if (image_tag != null)
+                {
+                    var imageSrc = image_tag.First().Attributes["src"].Value;
+                    imageThumbnails.Add(new ImageThumbnail()
+                    {
+                        LinkHref = a_tag.Attributes["href"].Value,
+                        SampleImageSrc = imageSrc
+                    });
+
+                    hasThumbnails = true;
+                }
+            }
+
+            return hasThumbnails;
+        }
+
+        private string getGalleryIdFromUrl(string url)
+        {
+            var splitted = url.Split('/');
+            var idx = 0;
+            string galleryId = "";
+            while(string.IsNullOrEmpty(galleryId) || idx < splitted.Length)
+            {
+                if( splitted[idx].IndexOf("porn-gallery") > -1 )
+                {
+                    galleryId = splitted[idx].Split('-').Last();
+                }
+                ++idx;
+            }
+
+            return galleryId;
         }
     }
 }
