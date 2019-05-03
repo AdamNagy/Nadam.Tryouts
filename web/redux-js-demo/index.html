@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Getting Started</title>
+  </head>
+  <body>
+	<script src="./dist/main.js"></script>
+	
+	<button onclick="increment()">Increment</button>
+
+	<button onclick="decrement(new Decrement())">Decrement</button>
+
+	<button onclick="reset(new Reset())">Reset Counter</button>
+
+	<script>
+		// function reset(action) {
+	
+		// 	store.dispatch(action);
+		// }
+	
+		function increment() {
+	
+			store.dispatch(addTodo('Learn about actions'));
+		}
+	
+		// function decrement(action) {
+	
+		// 	store.dispatch(action);
+		// }
+	</script>
+  </body>
+</html>

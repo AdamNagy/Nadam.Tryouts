@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+
+	<style>
+		  body, html {
+			overflow: hidden;
+		}
+
+		.parallax {
+			height: 100vh;
+			overflow-x: hidden;
+			overflow-y: auto;
+			perspective: 300px;
+		}   
+
+		.static-section {
+			height: 600px;
+			background-color: rgba(110, 120, 130,1);	
+			z-index: 3;
+
+		}
+
+		.window {
+			position: relative;
+			height: 300px;
+			z-index: -2;
+			-webkit-transform-style: preserve-3d;
+			transform-style: preserve-3d;
+		}
+
+		.inner {
+			position: absolute;
+			width: 100%;
+			bottom: -20%;
+			background-image: url("./content/main-bg-1080w.jpg");
+			height: 800px;
+			z-index: -1;
+			-webkit-transform: translateZ(-300px) scale(2);
+			transform: translateZ(-300px) scale(2);
+		}
+
+		ol{
+			font-size: 32px;
+		}
+	</style>
+</head>
+
+<body>
+	<section class="parallax">
+
+		<section class="static-section">
+		</section>
+
+
+		<section class="window">
+			<h1> world </h1>
+			<ol>
+				<li>Item 1</li>
+				<li>Item 2</li>
+				<li>Item 3</li>
+				<li>Item 4</li>
+			</ol>
+			<section class="inner">
+			</section>
+		</section>
+
+		<section class="static-section">
+		</section>
+	</section>
+</body>
+
+</html>
