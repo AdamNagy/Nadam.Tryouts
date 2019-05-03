@@ -1,0 +1,18 @@
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+  <div class="my-list">
+      <img src="http://hpservicecenterschennai.in/images/hp_laptop_service_centers_in_guindy.png" alt="" />
+      <h3>{{product.name}}</h3>
+      <span>$</span>
+      <span class="pull-right">{{product.price}}</span>
+      <div class="offer">
+        Extra 5% Off. Cart value $ {{0.5 * product.price}}
+      </div>
+      <div class="offer">
+        <a (click)="addToCart(product)" class="btn btn-info">Add To Cart</a>
+      </div>
+
+      <div class="offer">
+          <a (click)="incrisePrice(product)" class="btn btn-info">Incrise price</a>
+        </div>
+  </div>
+</div>
