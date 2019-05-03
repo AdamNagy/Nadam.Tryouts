@@ -32,9 +32,17 @@
 		<div id="users">
 
 		</div>
+		<div id="counter">
+		</div>
+
+		<button id="inc-count">Increment</button>
+
 		<script>
 			var ControllerClass = function() {
-				var User = {
+
+				var self = this;
+				var root = {};
+				this.User = {
 					list: [],
 					loadList: function() {
 						return m.request({
@@ -43,7 +51,7 @@
 							withCredentials: true,
 						})
 						.then(function(result) {
-							User.list = result.data
+							self.User.list = result.data
 						})
 					},
 				};
@@ -51,7 +59,7 @@
 				var UserView = {
 					// oninit: User.loadList,
 					view: function() {
-						return m(".user-list", User.list.map(function(user) {
+						return m(".user-list", self.User.list.map(function(user) {
 							return m(".user-list-item", user.firstName + " " + user.lastName)
 						}))
 					}
@@ -59,13 +67,46 @@
 				
 				this.Render = function() {
 					
-					User.loadList();
-					m.mount(document.body, UserView);
-				}
+					self.User.loadList();
+					m.mount(root, UserView);
+				};
+
+				(function(){
+					root = document.createElement("div");
+					document.body.append(root);
+				})();
 			}
 
 			var ctrl = new ControllerClass();
 			ctrl.Render();
+		</script>
+
+		<script>
+		var count = 0 // added a variable
+
+		var Hello = {
+			view: function() {
+				return m("main", [
+					m("h1", {
+						class: "title"
+					}, "My first app"),
+					m("button", {
+						onclick: function() { count++ }
+					}, count + " clicks")
+				])
+			}
+		}
+		// var root = document.getElementById("counter");
+		// var root = document.body
+		var root = document.createElement("div");
+		m.mount(root, Hello);
+		count = 14;
+		document.body.append(root);
+
+		document.getElementById("inc-count").addEventListener("click", () => {
+			count = count + 3;
+			m.redraw();
+		});
 		</script>
 	</body>
 </html>
