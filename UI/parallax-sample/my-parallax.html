@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+
+	<style>
+		.parallax {
+			height: 500px;
+			height: 100vh;
+			overflow-x: hidden;
+			overflow-y: auto;
+			-webkit-perspective: 300px;
+			perspective: 300px;
+		}
+
+		.parallax__group {
+			position: relative;
+			height: 500px;
+			height: 100vh;
+			-webkit-transform-style: preserve-3d;
+			transform-style: preserve-3d;
+		}
+
+		.parallax__layer {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+		}
+
+		.parallax__layer--base {
+			-webkit-transform: translateZ(0);
+			transform: translateZ(0);
+			z-index: 4;
+		}
+
+		.parallax__layer--back {
+			-webkit-transform: translateZ(-300px) scale(2);
+			transform: translateZ(-300px) scale(2);
+			z-index: 3;
+		}
+
+		body, html {
+			overflow: hidden;
+		}
+
+		.static-section {
+			z-index: 5; /* slide over group 2 */
+		}
+
+		.static-section .parallax__layer--base {
+			background: rgb(102,204,102);
+		}
+
+		.window {
+			z-index: 3; /* slide under groups 1 and 3 */
+		}
+
+		.window .parallax__layer--back {
+			background-image: url("./content/main-bg-1080w.jpg");
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="parallax">
+		<div class="static-section parallax__group">
+			<div class="parallax__layer parallax__layer--base">
+			<div class="title">Base Layer</div>
+			</div>
+		</div>		
+	
+		<div class="window parallax__group">
+			<div class="parallax__layer parallax__layer--base">
+			<div class="title">Window to parallax background</div>
+			</div>
+			<div class="parallax__layer parallax__layer--back">
+			<div class="title">Background Layer</div>
+			</div>
+		</div>
+	
+		<div class="static-section parallax__group">
+			<div class="parallax__layer parallax__layer--base">
+				<div class="title">Base Layer</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
