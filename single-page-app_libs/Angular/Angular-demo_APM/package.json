@@ -1,0 +1,29 @@
+{
+    "name": "product-management",
+    "version": "1.0.0",
+    "author": "Adam Nagy",
+    "description": "Package for the Acme Product Management sample application",
+    "scripts": {        
+        "start": "concurrently \"npm run tsc:w\" \"npm run lite\" ",
+        "tsc": "tsc",
+        "tsc:w": "tsc -w",
+        "lint": "tslint ./app/**/*.ts -t verbose",
+        "lite": "lite-server",
+        "typings": "typings",
+        "postinstall": "typings install"
+    },
+    "license": "ISC",
+	"dependencies": {
+    },
+    "devDependencies": {
+        "concurrently": "^2.2.0",
+        "lite-server": "^2.2.0",
+        "tslint": "^3.7.4",
+        "typescript": "^2.4.0",
+        "typings": "^1.0.4"
+    },
+	"repository": {},
+	"directories": {
+		"bin": "./../node-modules/"
+	}
+}

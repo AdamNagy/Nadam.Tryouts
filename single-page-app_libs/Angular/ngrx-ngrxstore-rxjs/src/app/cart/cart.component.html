@@ -1,0 +1,13 @@
+Your cart
+<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" *ngFor="let product of cart">
+  <div>
+      <img src="http://hpservicecenterschennai.in/images/hp_laptop_service_centers_in_guindy.png" alt="" />
+      <h3>{{product.name}}</h3>
+      <span>$</span>
+      <span class="pull-right">{{product.price}}</span>
+      <div class="offer">
+        Extra 5% Off. Cart value $ {{0.5 * product.price}}
+        <a (click)="removeFromCart(product)" class="btn btn-info">Remove From Cart</a>
+      </div>
+  </div>
+</div>

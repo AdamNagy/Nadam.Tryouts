@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="./nadam.http.js"></script>
+</head>
+<body>
+
+
+	<script>
+		var urls = [ "https://www.w3schools.com/html/default.asp", 
+			"https://www.w3schools.com/html/html_intro.asp",
+			"https://www.w3schools.com/html/html_editors.asp",
+			"https://www.w3schools.com/html/html_basic.asp",
+			// "https://www.w3schools.com/html/html_elements.asp",
+			// "https://www.w3schools.com/html/html_attributes.asp",
+			// "https://www.w3schools.com/html/html_headings.asp",
+			// "https://www.w3schools.com/html/html_paragraphs.asp",
+			// "https://www.w3schools.com/html/html_styles.asp",
+			// "https://www.w3schools.com/html/html_formatting.asp",
+			"https://www.w3schools.com/html/html_quotation_elements.asp",
+			"https://www.w3schools.com/html/html_comments.asp"]
+			//"https://invalid.url", "sdfasg"];
+
+
+
+
+		function action() {
+
+
+			Print(queueState.idx);
+		}
+
+		function Print(message) {
+			var p = document.createElement("p");
+			p.innerText = message
+			document.body.append(p);
+		}
+
+		(function() {
+			Print("app starts");
+			Nadam.Http.QueuedGet(urls, 3, action)
+			.then(
+				function(response) {
+					Print(response);
+				}, 
+				function(response){
+					Print(response.failed);
+					Print(response.message);
+				});
+		})()
+
+	</script>
+
+</body>
+</html>
