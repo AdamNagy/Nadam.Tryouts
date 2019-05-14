@@ -1,23 +1,142 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script src="masonry-docs/masonry.pkgd.min.js"></script>
-		</head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.min.js"></script>
+
+		<style>
+			* { box-sizing: border-box; }
+
+			/* force scrollbar */
+			html { 
+				overflow-y: scroll;
+			}
+
+			body {
+				font-family: sans-serif;
+			}
+
+			/* ---- grid ---- */
+			.grid {
+				margin: 0 auto;
+				background: #DDD;
+			}
+
+			/* clear fix */
+			.grid:after {
+				content: '';
+				display: block;
+				clear: both;
+			}
+
+			/* ---- .grid-item ---- */
+
+			/* .grid-sizer,
+			.grid-item {
+				width: 200px;
+			} */
+			.grid-item--landscape {
+				width: 300px; 
+			} 
+
+			.grid-item--portrait {
+				width: 200px; 
+			} 
+
+			.grid-item {
+				float: left;
+			}
+
+			.grid-item img {
+				display: block;
+				max-width: 100%;
+			}
+		</style>
+	</head>
 	<body>
 		<div class="grid">
-			<div class="grid-item">
-				<img src="./content/rectangle1.png">
-				<img src="./content/tall1.png">
+
+			<div class="grid-item grid-item--portrait">
+				<img src="./content/portrait.png">
+			</div>
+			<div class="grid-item grid-item--landscape">
+				<img src="./content/landscape.png">
+			</div>
+			<div class="grid-item grid-item--landscape">
+				<img src="./content/landscape.png">
+			</div>
+			<div class="grid-item grid-item--portrait">
+				<img src="./content/portrait.png">
+			</div>
+			<div class="grid-item grid-item--landscape">
+				<img src="./content/landscape.png">
+			</div>
+			<div class="grid-item grid-item--landscape">
+				<img src="./content/landscape.png">
+			</div>
+			<div class="grid-item grid-item--portrait">
+				<img src="./content/portrait.png">
+			</div>
+			<div class="grid-item grid-item--landscape">
+				<img src="./content/landscape.png">
 			</div>
 			<div class="grid-item grid-item--width2">
-				<img src="./content/wide1.png">
-				<img src="./content/tall2.png">
+				<img src="./content/landscape.png">
+			</div>		
+			<div class="grid-item grid-item--portrait">
+				<img src="./content/portrait.png">
 			</div>
-			<div class="grid-item">
-				<img src="./content/wide2.png">
-				<img src="./content/tall2.png">
+			<div class="grid-item grid-item--portrait">
+				<img src="./content/portrait.png">
 			</div>
-			
-		  </div>
+		</div>
+
+			<!-- <div class="grid">
+				<div class="grid-sizer"></div>
+				<div class="grid-item">
+					<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/orange-tree.jpg" />
+				</div>
+				<div class="grid-item">
+					<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/submerged.jpg" />
+				</div>
+				<div class="grid-item">
+					<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/look-out.jpg" />
+				</div>
+				<div class="grid-item">
+					<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/one-world-trade.jpg" />
+				</div>
+				<div class="grid-item">
+					<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/drizzle.jpg" />
+				</div>
+				<div class="grid-item">
+					<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/cat-nose.jpg" />
+				</div>
+				<div class="grid-item">
+					<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/contrail.jpg" />
+				</div>
+				<div class="grid-item">
+					<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/golden-hour.jpg" />
+				</div>
+				<div class="grid-item">
+					<img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/82/flight-formation.jpg" />
+				</div>
+			</div> -->
+
+			  <script>
+					// init Masonry
+					var $grid = $('.grid').masonry({
+
+						itemSelector: '.grid-item',
+						// percentPosition: true,
+						columnWidth: 100,
+						//fitWidth: true
+					});
+						
+					// layout Masonry after each image loads
+					$grid.imagesLoaded().progress( function() {
+						$grid.masonry();
+					});  
+				</script>
 	</body>
 </html>
