@@ -24,3 +24,4 @@ clearBtn.addEventListener("click", () => {
 // request-p10-btn
 
 document.getElementById("page-input").value = 1;
+

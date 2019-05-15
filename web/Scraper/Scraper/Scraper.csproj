@@ -150,6 +150,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="lib\masonry.pkgd.min.js" />
     <Content Include="web-app-v1\app\Scripts\webhack.gallery.component.js" />
     <Content Include="web-app-v1\app\Scripts\webhack.global-vars.js" />
     <Content Include="web-app-v1\app\Scripts\webhack.ftp-helper.js" />

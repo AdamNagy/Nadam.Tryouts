@@ -3,22 +3,39 @@ import { RemovableElement } from "./../nadam/nadam.removable.element";
 
 export class GalleryComponent {   
 
+
+
 	constructor(_galleryModel) {
 
 		this.model = _galleryModel;
-		this.item = document.createElement("div");
-        this.item.classList.add("d-flex");
-        this.item.classList.add("justify-content-center");
-        this.item.classList.add("flex-wrap");
+        this.item = document.createElement("div");
+        this.item.classList.add("grid");
+        //this.item.classList.add("d-flex");
+        //this.item.classList.add("justify-content-center");
+        //this.item.classList.add("flex-wrap");
 
-		for (var i = 0; i < this.model.ImagesMetaData.length; ++i) {
-			var newImg = document.createElement("img");
-			// newImg.style.display = "inline";
-			newImg.setAttribute("src", this.model.ImagesMetaData[i].ThumbnailImageSrc);
+        for (var i = 0; i < this.model.ImagesMetaData.length; ++i) {
+            var newImg = new Image();// document.createElement("img");
+            //newImg.name = this.model.ImagesMetaData[i].ThumbnailImageSrc;
+            
+            //newImg.setAttribute("src", this.model.ImagesMetaData[i].ThumbnailImageSrc);
 			newImg.setAttribute("data-image-link-href", this.model.ImagesMetaData[i].LinkHref);
-			newImg.classList.add("p-1");
-			var removable = new RemovableElement(newImg);
-			this.item.append(removable.item);
+            // newImg.classList.add("p-1");
+            var removable = new RemovableElement(newImg);
+            removable.item.classList.add("grid-item");
+            newImg.onload = (function (_imgContainer) {
+                return function () {
+                    if (this.height > this.width)
+                        _imgContainer.classList.add("grid-item--portrait");
+                    else
+                        _imgContainer.classList.add("grid-item--landscape");
+                };
+            })(removable.item);
+
+            newImg.src = this.model.ImagesMetaData[i].ThumbnailImageSrc;
+            this.item.append(removable.item);
+
+
 		}
 
         this.hacker = FtpHelper.GetFtpHandler(this.model.ImagesMetaData);

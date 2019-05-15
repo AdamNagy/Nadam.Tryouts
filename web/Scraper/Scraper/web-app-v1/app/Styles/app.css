@@ -53,3 +53,32 @@ textarea {
     width: 100%;
     float: left;
 }
+
+.grid {
+    margin: 0 auto;
+    background: #DDD;
+}
+
+    /* clear fix */
+    .grid:after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+
+.grid-item--landscape {
+    width: 300px;
+}
+
+.grid-item--portrait {
+    width: 200px;
+}*/
+
+.grid-item {
+    float: left;
+}
+
+    .grid-item img {
+        display: block;
+        max-width: 100%;
+    }
