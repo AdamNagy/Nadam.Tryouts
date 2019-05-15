@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+
+    <script src="../web-app-v1/jquery/jquery-v3.4.0.js"></script>
+    <script src="../web-app-v1/jquery/jquery-ui.min.js"></script>
+
+    <script src="../web-app-v1/bootstrap/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../web-app-v1/bootstrap/bootstrap.min.css">
+
+    <link rel="stylesheet" href="../web-app-v1/app/Styles/app.css">
+    <link rel="stylesheet" href="../web-app-v1/nadam/nadam.side-pager.component.css">
+
+</head>
+<body>
+<div id="control-panel" class="row position-fixed">
+    <div class="col-6 d-flex align-items-center">
+        <input type="text" id="requestUrl" size="100" list="babes">
+
+        <button id="request-btn" class="btn btn-primary ml-1 mr-1">Go</button>
+        <button id="request-p10-btn" class="btn btn-primary ml-1 mr-1">Go+10</button>
+
+        <label for="page" class="ml-1 mr-1">Page</label>
+        <input type="number" name="page" min="1" max="999" id="page-input" class="ml-1 mr-1">
+
+        <datalist id="babes">
+            <option value="jenni">
+            <option value="keira">
+            <option value="emma">
+            <option value="tillie">
+            <option value="jessica">
+            <option value="stacey">
+            <option value="victoria">
+            <option value="katya">
+            <option value="abbie">
+        </datalist>
+
+        <button id="clear-btn" class="btn btn-danger ml-1 mr-1">Clear</button>
+    </div>
+
+    <div class="col-6 d-flex align-items-center">
+        <input type="text" id="filter-predicate-value" size="30" list="babes" class="ml-1 mr-1">
+        <button onclick="FilterClick()" class="btn btn-primary ml-1 mr-1">Filter</button>
+        <button onclick="ResetFilterClick()" class="btn btn-danger ml-1 mr-1">Reset</button>
+        &nbsp;
+        <button onclick="AppControls.sidePager.CloseAll()" class="btn btn-primary ml-3 mr-1">Close side pages</button>
+    </div>
+</div>
+
+<div class="row pt-5">
+    <div class="m-1" id="content">
+    </div>
+</div>
+		
+<script src="../web-app-v2/dist/index.bundle.js"></script>
+</body>
+</html>

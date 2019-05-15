@@ -1,5 +1,6 @@
 #side-pages-manager {
 	position: fixed;
+    z-index: 10;
 }
 
 #side-pages-manager .side-page {
@@ -11,6 +12,11 @@
 	background: rgba(100,100,100,0.5);
 	border-left:1px solid lightskyblue; 
 }
+
+    #side-pages-manager .side-page .ui-resizable-w {
+        width: 5px;
+        background: linear-gradient(to right, blue, lightskyblue);
+    }
 
 #side-pages-manager .side-page-closed {
     background: rgb(100,100,100);

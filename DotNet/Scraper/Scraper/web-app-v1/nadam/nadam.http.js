@@ -1,3 +1,5 @@
+
+
 function Sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -121,6 +123,8 @@ Nadam.Http = new function () {
 
                     queueState.queue.push(queueItem);
                     ++queueState.inTheQueue;
+
+                    --attempts;
                 }
                 else
                     await Sleep(600);

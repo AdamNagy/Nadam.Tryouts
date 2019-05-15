@@ -5,19 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
 
-    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>*@
-
     @Html.Partial("_jquery")
     @Html.Partial("_bootstrap")
-    @Html.Partial("_nadam")
-
+    @Styles.Render("~/styles/app")
 </head>
 <body>
     <div class="container-fluid">
         @RenderBody()
     </div>
-
-    @Scripts.Render("~/scripts/app")
-    @Styles.Render("~/styles/app")
 </body>
 </html>

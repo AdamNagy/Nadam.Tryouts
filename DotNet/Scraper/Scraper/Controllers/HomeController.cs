@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Scraper.Controllers
@@ -19,32 +18,6 @@ namespace Scraper.Controllers
         public HomeController()
         {
             web = new HtmlWeb();
-        }
-
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        async public Task<String> GetHome(string url, int p)
-        {
-            var page = await web.LoadFromWebAsync($"{url}?p={p}");
-            var scripts = page.DocumentNode.SelectNodes("//script");
-            var iframes = page.DocumentNode.SelectNodes("//iframe");
-
-            if(scripts != null)
-            {
-                foreach (var script in scripts)            
-                    script.Remove();
-            }
-
-            if(iframes != null)
-            {
-                foreach (var iframe in iframes)
-                    iframe.Remove();
-            }
-
-            return page.ParsedText;
         }
 
         /// <summary>
@@ -77,10 +50,10 @@ namespace Scraper.Controllers
 
                 galleryThumbnails.Add(new GalleryThumbnail()
                 {
-                    Link = galleryLink,
+                    SourceUrl = galleryLink,
                     Title = galleryTitle,
-                    ImageLinks = sampleImages
-                });                
+                    ThumbnailImageSources = sampleImages
+                });
             }
 
             return JsonConvert.SerializeObject(galleryThumbnails);
@@ -89,28 +62,29 @@ namespace Scraper.Controllers
         async public Task<string> Gallery(string url)
         {
             // https://moggy.urlgalleries.net/blog_gallery.php?id=6984513&p=2
-            var imageThumbs = new List<ImageThumbnail>();
-            var otherThumbs = new List<ImageThumbnail>();
+            var imageThumbs = new List<ImageMetaData>();
+            var otherThumbs = new List<ImageMetaData>();
             var page = await web.LoadFromWebAsync(url);
             ConvertToImageThumbnails(page, out imageThumbs);
 
             var galleryId = getGalleryIdFromUrl(url);
             var nextPage = 2;
-            var otherPage = await web.LoadFromWebAsync($"https://nylon-passion.urlgalleries.net/blog_gallery.php?id={galleryId}&p={nextPage}");
-            while(ConvertToImageThumbnails(page, out otherThumbs) && nextPage < 3)
+            var domain = GetDomainFromUrl(url);
+            var otherPage = await web.LoadFromWebAsync($"https://{domain}/blog_gallery.php?id={galleryId}&p={nextPage}");
+            while (ConvertToImageThumbnails(otherPage, out otherThumbs) && nextPage < 3)
             {
                 ++nextPage;
-                otherPage = await web.LoadFromWebAsync($"https://nylon-passion.urlgalleries.net/blog_gallery.php?id={galleryId}&p={nextPage}");
+                otherPage = await web.LoadFromWebAsync($"https://{domain}/blog_gallery.php?id={galleryId}&p={nextPage}");
                 imageThumbs.AddRange(otherThumbs);
             }
 
             return JsonConvert.SerializeObject(imageThumbs);
         }
 
-        private bool ConvertToImageThumbnails(HtmlDocument page, out List<ImageThumbnail> imageThumbnails)
+        private bool ConvertToImageThumbnails(HtmlDocument page, out List<ImageMetaData> imageThumbnails)
         {
-            imageThumbnails = new List<ImageThumbnail>();
-            var hasThumbnails = false; 
+            imageThumbnails = new List<ImageMetaData>();
+            var hasThumbnails = false;
 
             var a_tags = page.DocumentNode.SelectNodes("//a");
             foreach (var a_tag in a_tags)
@@ -119,10 +93,10 @@ namespace Scraper.Controllers
                 if (image_tag != null)
                 {
                     var imageSrc = image_tag.First().Attributes["src"].Value;
-                    imageThumbnails.Add(new ImageThumbnail()
+                    imageThumbnails.Add(new ImageMetaData()
                     {
                         LinkHref = a_tag.Attributes["href"].Value,
-                        SampleImageSrc = imageSrc
+                        ThumbnailImageSrc = imageSrc
                     });
 
                     hasThumbnails = true;
@@ -137,9 +111,9 @@ namespace Scraper.Controllers
             var splitted = url.Split('/');
             var idx = 0;
             string galleryId = "";
-            while(string.IsNullOrEmpty(galleryId) || idx < splitted.Length)
+            while (string.IsNullOrEmpty(galleryId) || idx < splitted.Length)
             {
-                if( splitted[idx].IndexOf("porn-gallery") > -1 )
+                if (splitted[idx].IndexOf("porn-gallery") > -1)
                 {
                     galleryId = splitted[idx].Split('-').Last();
                 }
@@ -147,6 +121,12 @@ namespace Scraper.Controllers
             }
 
             return galleryId;
+        }
+
+        private string GetDomainFromUrl(string url)
+        {
+            var splitted = url.Split('/');
+            return splitted[2];
         }
     }
 }

@@ -1,3 +1,9 @@
+// Type: Domain logic
+// File name: nadam.dom-filter.js
+// Class name: DomFilter
+// Namespace: Nadam
+
+;
 "use strict";
 
 window.Nadam = window.Nadam || {}

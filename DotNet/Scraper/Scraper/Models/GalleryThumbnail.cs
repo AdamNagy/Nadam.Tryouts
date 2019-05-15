@@ -4,8 +4,8 @@ namespace Scraper.Models
 {
     public class GalleryThumbnail
     {
+        public string SourceUrl { get; set; }
         public string Title { get; set; }
-        public string Link { get; set; }
-        public IEnumerable<string> ImageLinks { get; set; }
+        public IEnumerable<string> ThumbnailImageSources { get; set; }
     }
 }

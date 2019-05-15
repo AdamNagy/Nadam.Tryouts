@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Scraper.Models
+﻿namespace Scraper.Models
 {
-    public class ImageThumbnail
+    public class ImageMetaData
     {
         public string LinkHref { get; set; }
-        public string SampleImageSrc { get; set; }
+        public string ThumbnailImageSrc { get; set; }
     }
 }

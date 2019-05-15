@@ -1,7 +1,8 @@
 ﻿var AppControls = {
 
     domFilter: {},
-    sidePager: {}
+    sidePager: {},
+    components: new Array()
 }
 
 
@@ -87,7 +88,7 @@ function HandleHtmlResponse(response) {
 var pages = 1;
 function HandleUrlGalleriesPage(responseJson) {
 
-    var galleryThumbs = JSON.parse(responseJson);
+    var galleryThumbnails = JSON.parse(responseJson);
     var contentDiv = document.getElementById("content");
 
     var separator = document.createElement("div");
@@ -97,52 +98,59 @@ function HandleUrlGalleriesPage(responseJson) {
 
     separator.append(pageNum);
     contentDiv.append(separator);
-    for (var i = 0; i < galleryThumbs.length; ++i) {
-        contentDiv.append(ConvertGalleryThumb(galleryThumbs[i]));
+    for (var i = 0; i < galleryThumbnails.length; ++i) {
+        contentDiv.append(ConvertGalleryThumb(galleryThumbnails[i]));
     }
 }
 
-function ConvertGalleryThumb(galleryThumbData) {
-    var galleryThumb = document.createElement("div");
-    var flexContainer = document.createElement("div");
+function ConvertGalleryThumb(galleryThumbnail) {
+    var galleryThumb_element = document.createElement("div");
 
-    var title = document.createElement("h3");
-    title.innerText = galleryThumbData.Title;
-    title.setAttribute("data-link", galleryThumbData.Link);
-    title.setAttribute("onclick", "OpenPage(this)");
-    galleryThumb.append(title);
+    var title_element = document.createElement("h3");
+    title_element.innerText = galleryThumbnail.Title;
+    title_element.setAttribute("data-link", galleryThumbnail.SourceUrl);
+    title_element.setAttribute("onclick", "OpenPage(this)");
+    galleryThumb_element.append(title_element);
+
+    var sampleImageContainer_element = document.createElement("div");
+    sampleImageContainer_element.classList.add("d-flex");
+    sampleImageContainer_element.classList.add("justify-content-center");
 
     for (var i = 0; i < 3; ++i) {
+        var imgContainer_element = document.createElement("div");
+        imgContainer_element.classList.add("imgContainer_element");
+
         var newImg = document.createElement("img");
-        newImg.setAttribute("src", galleryThumbData.ImageLinks[i]);
-        flexContainer.append(newImg);
+        newImg.setAttribute("src", galleryThumbnail.ThumbnailImageSources[i]);
+        imgContainer_element.append(newImg);
+        sampleImageContainer_element.append(imgContainer_element);
     }
 
-    galleryThumb.classList.add("gallery-thumb");
-
-
-    galleryThumb.append(flexContainer);
-    return galleryThumb;
-}
+    galleryThumb_element.append(sampleImageContainer_element);
+    galleryThumb_element.classList.add("gallery-thumb");
+    return galleryThumb_element;
+};
 
 function OpenPage(element) {
-    var href = "https:" + element.getAttribute("data-link");
+    galleryUrl = element.getAttribute("data-link");
+    galleryTitle = element.getAttribute("data-title");
+    var href = "https:" + galleryUrl;
 
     var httpRequest = Nadam.Http.Get(AppConfig.galleryScraper + "?url=" + href);
 
     httpRequest.then(function (response) {
-        var imageSrcs = JSON.parse(response);
+        var imageMetas = JSON.parse(response);
 
-        var sidePage = document.createElement("div");
-        for (var i = 0; i < imageSrcs.length; ++i) {
-            var newImg = document.createElement("img");
-            newImg.setAttribute("src", imageSrcs[i].SampleImageSrc);
-            sidePage.append(newImg);
-        }
+        var galleryModel = new Nadam.Webhack.GalleryModel();
+        galleryModel.SourceUrl = galleryUrl;
+        galleryModel.ImagesMetaData = imageMetas;
+        galleryModel.Title = galleryTitle;
+        var galleryComponent = new Nadam.Webhack.GalleryComponent(galleryModel);
 
-        AppControls.sidePager.CreatePage(sidePage);
+        AppControls.sidePager.CreatePage(galleryComponent.item);
+        AppControls.components.push(galleryComponent);
     });
-}
+};
 
 function Clear() {
 

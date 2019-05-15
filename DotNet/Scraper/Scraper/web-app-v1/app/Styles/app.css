@@ -1,9 +1,4 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
-
-/* Override the default bootstrap behavior where horizontal description lists 
+﻿/* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
 .dl-horizontal dt {
@@ -18,8 +13,8 @@ textarea {
 }
 
 #content {
-    padding: 3px;
-    width: 80%;
+
+    width: 1240px;
 }
 
 .gallery-thumb {
@@ -38,30 +33,18 @@ textarea {
     }
 
     .gallery-thumb img {
+        display:inline-block;
         margin: 5px;
         max-width: 180px;
         max-height: 250px;
     }
 
 #control-panel {
-    position: fixed;
-    height: auto;
-    top: -10px;
-    left: 0;
-    opacity: 0.6;
-    transition: all 0.4s;
+
     width: 100%;
-    background-color: lightslategray;
     padding: 5px;
-}
-
-    #control-panel:hover {
-        top: 0;
-        opacity: 1;
-    }
-
-#control-panel div{
-    float: left;
+    background-color: lightslategray;
+    z-index: 10;
 }
 
 .separator {
