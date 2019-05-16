@@ -76,7 +76,12 @@ export class SidePager {
         }
 
         document.body.style.overflowY = "hidden";
-        this.openPages++;
+		this.openPages++;
+		
+		$('.grid').masonry({
+			itemSelector: '.grid-item',
+			columnWidth: 180,
+		});
     }
 
     closePage(pageId) {

@@ -65,15 +65,7 @@ textarea {
         display: block;
         clear: both;
     }
-
-.grid-item--landscape {
-    width: 300px;
-}
-
-.grid-item--portrait {
-    width: 200px;
-}*/
-
+       
 .grid-item {
     float: left;
 }
