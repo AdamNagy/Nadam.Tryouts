@@ -14,6 +14,8 @@ export class GalleryComponent {
         //this.item.classList.add("justify-content-center");
         //this.item.classList.add("flex-wrap");
 
+		this.imagePromises = new Array();
+
         for (var i = 0; i < this.model.ImagesMetaData.length; ++i) {
             var newImg = new Image();// document.createElement("img");
             //newImg.name = this.model.ImagesMetaData[i].ThumbnailImageSrc;
@@ -35,8 +37,25 @@ export class GalleryComponent {
             newImg.src = this.model.ImagesMetaData[i].ThumbnailImageSrc;
             this.item.append(removable.item);
 
+			var imgPromise = (function(imgSrc) {
+				return new Promise(function(resolve, reject) {
 
+					var newImage = new Image();
+					newImage.onload = resolve;
+					newImage.src = imgSrc;
+					newImage.onfail = reject;
+				});
+			})(this.model.ImagesMetaData[i].ThumbnailImageSrc);
+
+			this.imagePromises.push(imgPromise);
 		}
+
+		// todo: preserve 'this'
+		// finish implementation
+		Promise.all(this.imagePromises).then(function() {
+
+			
+		});
 
         this.hacker = FtpHelper.GetFtpHandler(this.model.ImagesMetaData);
 
