@@ -1,6 +1,6 @@
 This is very simple single page web site project
 
-Tech stack: html, sass, javascript, jquery, gulp
+Tech stack: html, scss, javascript, jquery, gulp, bootstrap
 
 Development:
 - Copy the whole project
