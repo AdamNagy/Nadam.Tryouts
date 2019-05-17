@@ -1,12 +1,12 @@
 export class RemovableElement {
 
 	constructor(_element) {
-        this.element = _element;
-        this.item = document.createElement("div");
+        // this.element = _element;
+        this.view = document.createElement("div");
 
-        this.item.append(_element);
-        this.item.style.position = "relative";
-        this.item.style.display = _element.style.display;
+        
+        this.view.style.position = "relative";
+        this.view.style.display = _element.style.display;
 
         var remover = document.createElement("div");
         remover.style.position = "absolute";
@@ -18,8 +18,9 @@ export class RemovableElement {
 
         remover.addEventListener("click", () => {
 
-            this.item.remove();
+            this.view.remove();
         });
-        this.element.append(remover);
+		this.view.append(remover);
+		this.view.append(_element);
 	}
 };

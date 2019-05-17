@@ -168,7 +168,7 @@ export class App {
         galleryModel.Title = galleryResponseModel.Title;
         let galleryComponent = new GalleryComponent(galleryModel);
 
-        this.Controls.sidePager.CreatePage(galleryComponent.item);
+        this.Controls.sidePager.CreatePage(galleryComponent.view);
         this.Controls.components.push(galleryComponent);
     }
 
