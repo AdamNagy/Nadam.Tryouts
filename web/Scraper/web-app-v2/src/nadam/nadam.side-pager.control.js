@@ -1,7 +1,13 @@
 // v.1.0.1
 
 import 'jquery-ui/ui/widgets/resizable';
-import * as masonry from './../lib/masonry.pkgd.min';
+import $ from 'jquery';
+import Masonry from 'masonry-layout';
+import jQueryBridget from 'jquery-bridget';
+import imagesLoaded from 'imagesloaded';
+
+jQueryBridget('masonry', Masonry, $);
+jQueryBridget( 'imagesLoaded', imagesLoaded, $ );
 
 /// usage:
 /// var pageManager = new SidePager();
@@ -141,10 +147,20 @@ export class SidePager {
     CreatePage(rootElement) {
 
         this.createPage();
-        var addedPage = this.pages[this.pages.length - 1].element;
+		var addedPage = this.pages[this.pages.length - 1].element;
+		
+		var $grid = $('.grid').masonry({
+
+			itemSelector: '.grid-item',
+			// percentPosition: true,
+			columnWidth: 100,
+			gutter: 5
+			//fitWidth: true
+		});
+
         $(addedPage).resizable({
 			handles: 'w',
-			end: masonry.masonry()
+			stop: $grid.masonry()
         });
         addedPage.querySelector("div[class=side-page-content]").append(rootElement);
 	}
