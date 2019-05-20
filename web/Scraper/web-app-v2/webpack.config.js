@@ -1,4 +1,5 @@
 const path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
 	mode: 'development',
@@ -14,6 +15,10 @@ module.exports = {
 				    presets: ['@babel/preset-env']
 				    }
 			    }
+			},
+			{
+				test: /\.css$/,
+				use: ['style-loader', 'css-loader']
 			}
 		]
 	},
@@ -22,5 +27,13 @@ module.exports = {
 	},
 	output: {
 		filename: 'index.bundle.js',
-		path: path.resolve(__dirname, 'dist')}
-	};
+		path: path.resolve(__dirname, 'dist')
+	},
+	plugins: [
+		new webpack.ProvidePlugin({
+			$: 'jquery',
+			jQuery: 'jquery',
+			'window.jQuery': 'jquery'
+		})
+	],
+};

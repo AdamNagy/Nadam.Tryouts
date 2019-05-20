@@ -1,5 +1,8 @@
 // v.1.0.1
 
+import 'jquery-ui/ui/widgets/resizable';
+import * as masonry from './../lib/masonry.pkgd.min';
+
 /// usage:
 /// var pageManager = new SidePager();
 ///	pageManager.CreatePage(document.createElement("div").innerText = "Hello world");
@@ -140,7 +143,8 @@ export class SidePager {
         this.createPage();
         var addedPage = this.pages[this.pages.length - 1].element;
         $(addedPage).resizable({
-            handles: 'w'
+			handles: 'w',
+			end: masonry.masonry()
         });
         addedPage.querySelector("div[class=side-page-content]").append(rootElement);
 	}
