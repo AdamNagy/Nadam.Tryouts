@@ -29,11 +29,11 @@ module.exports = {
 		filename: 'index.bundle.js',
 		path: path.resolve(__dirname, 'dist')
 	},
-	plugins: [
-		new webpack.ProvidePlugin({
-			$: 'jquery',
-			jQuery: 'jquery',
-			'window.jQuery': 'jquery'
-		})
-	],
+	// plugins: [
+	// 	new webpack.ProvidePlugin({
+	// 		$: 'jquery',
+	// 		jQuery: 'jquery',
+	// 		'window.jQuery': 'jquery'
+	// 	})
+	// ],
 };

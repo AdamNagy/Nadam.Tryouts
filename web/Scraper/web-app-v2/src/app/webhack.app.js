@@ -4,6 +4,8 @@ import { SidePager } from "../nadam/nadam.side-pager.control";
 import { GalleryModel } from "./webhack.galley.model";
 import { GalleryComponent } from "./webhack.gallery.component";
 
+
+
 export class App {
 
     constructor() {
