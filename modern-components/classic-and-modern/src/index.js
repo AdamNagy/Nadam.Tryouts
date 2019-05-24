@@ -2,6 +2,12 @@
 import 'jquery-ui/ui/widgets/draggable';
 import 'jquery-ui/ui/widgets/resizable';
 
+// var $ = require('jquery');
+// var jQueryBridget = require('jquery-bridget');
+// var Masonry = require('masonry-layout');
+
+jQueryBridget( 'masonry', Masonry, $ );
+
 
 (function() {
 
@@ -9,4 +15,8 @@ import 'jquery-ui/ui/widgets/resizable';
 
 	$( "#draggable" ).draggable();
 	$( "#resizable" ).resizable();
+
+	$('.grid').masonry({
+		columnWidth: 100
+	  });
 })()
