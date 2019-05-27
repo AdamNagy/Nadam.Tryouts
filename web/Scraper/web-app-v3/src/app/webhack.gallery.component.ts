@@ -1,5 +1,5 @@
 import { FtpHelper } from "./webhack.ftp-helper.lib";
-import { RemovableElement } from "./../nadam/nadam.removable.element";
+import { RemovableElement } from "../nadam/nadam.removable.element";
 
 export class GalleryComponent { 
 

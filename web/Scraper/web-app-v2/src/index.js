@@ -1,6 +1,7 @@
 import "babel-polyfill";
 import { App } from "./app/webhack.app";
 
+jQueryBridget( 'masonry', Masonry, $ );
 
 console.log("app starting");
 var app = new App();
@@ -18,7 +19,8 @@ requestP10Btn.addEventListener("click", () => {
 
 var clearBtn = document.getElementById("clear-btn");
 clearBtn.addEventListener("click", () => {
-    app.Clear();
+	app.Clear();
+	document.getElementById("page-input").value = 1;
 });
 
 // request-p10-btn

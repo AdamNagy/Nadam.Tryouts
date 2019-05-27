@@ -3,75 +3,77 @@ import { Http } from "../nadam/nadam.http.lib";
 import { SidePager } from "../nadam/nadam.side-pager.control";
 import { GalleryModel } from "./webhack.galley.model";
 import { GalleryComponent } from "./webhack.gallery.component";
-
-
+import { GalleryThumbnailModel } from "./webhack.gallery.model";
 
 export class App {
 
-    constructor() {
+	View: HTMLElement;
+	Pages: Number = 1;
 
-		this.view = document.getElementById("content");
-        this.pages = 1;
-        this.Controls = {
+	Controls: any = {
 
-            domFilter: {},
-            sidePager: {},
-            components: new Array(),
-            http: new Http()
-        };
+		DomFilter: DomFilter,
+		SidePager: SidePager,
+		Components: new Array(),
+		Http: new Http()
+	};
 
-        this.Config = {
+	Config: any = {
 
-            scraper: "/home/get",
-            galleryScraper: "/home/gallery",
-            base: "https://urlgalleries.net"
-        };
+		Scraper: "/home/get",
+		GalleryScraper: "/home/gallery",
+		Base: "https://urlgalleries.net"
+	};
 
-        this.State = {
+	State: any = {
 
-            actualUrl: "",
-            searchTerm: "",
-            currentPage: 0
+		ActualUrl: "",
+		SearchTerm: "",
+		CurrentPage: 0
 
-        };
+	};
+
+	constructor() {
+
+		this.View = document.getElementById("content") || document.createElement("div");
+
 
 		this.Controls.domFilter = new DomFilter("#content .gallery-thumb h3", "#content .gallery-thumb");
 		document.getElementById("control-panel-slot-2").append(this.Controls.domFilter.view);
         this.Controls.sidePager = new SidePager();
     }
 
-    Request() {
+    public Request(): void {
 
-        this.State.currentPage = document.getElementById("page-input").value;
-        let searchTerm = document.getElementById("requestUrl").value;
+        this.State.currentPage = (document.getElementById("page-input") as HTMLInputElement).value;
+        let searchTerm: string = (document.getElementById("requestUrl") as HTMLInputElement).value;
         if (searchTerm === "") {
             this.State.actualUrl = "/home/GetHome"
                 + "?url=" + this.Config.base
                 + "&p=" + this.State.currentPage;
 
-            let httpRequest = Http.Get(this.State.actualUrl);
+            let httpRequest: Promise<any> = Http.Get(this.State.actualUrl);
             httpRequest.then(this.HandleHtmlResponse);
-        }
-        else {
+        } else {
             this.State.searchTerm = searchTerm;
             this.State.actualUrl = this.Config.scraper
                 + "/?p=" + this.State.currentPage
                 + "&t=10"
                 + "&q=" + this.State.searchTerm;
 
-            let httpRequest = Http.Get(this.State.actualUrl);
+            let httpRequest: Promise<any> = Http.Get(this.State.actualUrl);
             httpRequest.then((result) => { this.HandleUrlGalleriesPage(result); });
         }
 
-        document.getElementById("page-input").value = Number(this.State.currentPage) + 1;
+        (document.getElementById("page-input") as HTMLInputElement).value = (Number(this.State.currentPage) + 1).toString();
     }
 
-    HandleUrlGalleriesPage(responseJson) {
+    public HandleUrlGalleriesPage(responseJson: string): void {
 
-        let galleryThumbnails = JSON.parse(responseJson);
-        let contentDiv = document.getElementById("content");
+        let galleryThumbnails: Array<GalleryThumbnailModel> = JSON.parse(responseJson);
+        let contentDiv: HtmlDivElement = document.getElementById("content");
 
-        let separator = document.createElement("div");
+        let separator: Valami = document.createElement("div");
         separator.classList.add("separator");
         let pageNum = document.createElement("h1");
         pageNum.innerText = "Page: " + Number(this.pages++);

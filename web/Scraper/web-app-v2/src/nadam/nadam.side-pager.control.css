@@ -1,0 +1,43 @@
+#side-pages-manager {
+	position: fixed;
+	z-index: 10;
+	top: 0;
+	height: 1080px;
+}
+
+#side-pages-manager .side-page {
+    transition: right 0.4s;
+    position: fixed;
+    top: 0;
+    height: 1080px; /* change to height of the screen;*/
+    width: 720px;
+	background: rgba(100,100,100,0.5);
+	border-left:1px solid lightskyblue; 
+}
+
+    #side-pages-manager .side-page .ui-resizable-w {
+        width: 5px;
+        background: linear-gradient(to right, blue, lightskyblue);
+    }
+
+#side-pages-manager .side-page-closed {
+    background: rgb(100,100,100);
+    opacity: 0.6;
+    overflow-y: hidden;
+}
+
+#side-pages-manager .side-page-open {
+    background-color: lightgray;
+    opacity: 1;
+}
+
+#side-pages-manager .side-page-opener {
+	height: 100%;
+	width: 30px;
+	float: left;
+}
+
+#side-pages-manager .side-page-content {
+	overflow-y: scroll;
+	height: 90vh;
+}

@@ -140,6 +140,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\V1Controller.cs" />
     <Compile Include="Controllers\V2Controller.cs" />
+    <Compile Include="Controllers\V3Controller.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -184,6 +185,7 @@
     <Content Include="web-app-v1\nadam\nadam.side-pager.component.css" />
     <Content Include="Views\V1\Index.cshtml" />
     <None Include="Views\V2\Index.cshtml" />
+    <Content Include="web-app-v3_dist\index.bundle.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -196,6 +198,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="web-app-v1\app\Scripts\webhack.urlgalleries-hacker.js" />
+    <Content Include="Views\V3\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
