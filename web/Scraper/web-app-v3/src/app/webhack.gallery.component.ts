@@ -1,53 +1,57 @@
 import { FtpHelper } from "./webhack.ftp-helper.lib";
 import { RemovableElement } from "../nadam/nadam.removable.element";
+import { GalleryModel } from "./webhack.galley.model";
 
-export class GalleryComponent { 
 
-	constructor(_galleryModel) {
 
-		this.model = _galleryModel;
-		this.imagePromises = new Array();
+export class GalleryComponent {
 
-        this.view = document.createElement("div");
-        this.view.classList.add("grid");
+	Model: GalleryModel;
+	ImagePromises: Array<Promise<any>> = new Array();
+	View = document.createElement("div");
 
-        for (var i = 0; i < this.model.ImagesMetaData.length; ++i) {
+	constructor(_galleryModel: GalleryModel) {
 
-			var imgPromise = (function(imgSrc) {
-				return new Promise(function(resolve, reject) {
+		this.Model = _galleryModel;
+        this.View.classList.add("grid");
 
-					var newImage = new Image();
-					newImage.onload = () => {resolve(newImage)};
+        for (var i: number = 0; i < this.Model.ImagesMetaData.length; ++i) {
+
+			var imgPromise: Promise<any> = (function(imgSrc: string): any {
+				let promise: Promise<any> = new Promise(function(resolve: any, reject: any): any {
+
+					var newImage: HTMLImageElement = new Image();
+					newImage.onload = () => {resolve(newImage);};
 					newImage.src = imgSrc;
-					newImage.onerror = () => {resolve()};
-				})
-				
-			})(this.model.ImagesMetaData[i].ThumbnailImageSrc);
-			this.imagePromises.push(imgPromise);
+					newImage.onerror = () => {resolve();};
+				});
+			})(this.Model.ImagesMetaData[i].ThumbnailImageSrc);
+			this.ImagePromises.push(imgPromise);
 		}
 
-		var masterPromise = Promise.all(this.imagePromises)
-		masterPromise.then((values) => {this.allImagesOnload(values);});
-	}    
+		var masterPromise: Promise<any> = Promise.all(this.ImagePromises);
+		masterPromise.then((values) => {this.AllImagesOnload(values);});
+	}
 
-	allImagesOnload(imageElements) {
+	private AllImagesOnload(imageElements: Array<HTMLImageElement>): void {
 
-		this.hacker = FtpHelper.GetFtpHandler(this.model.ImagesMetaData);
+		let hacker: any = FtpHelper.GetFtpHandler(this.Model.ImagesMetaData);
 
-		for (var i = 0; i < imageElements.length; ++i) {
+		for (let i: number = 0; i < imageElements.length; ++i) {
 
 			if( imageElements[i] !== undefined ) {
-				var removable = new RemovableElement(imageElements[i]);
-				removable.view.classList.add("grid-item");
-				this.view.append(removable.view);
-			}		
+				var removable: RemovableElement = new RemovableElement(imageElements[i]);
+				removable.View.classList.add("grid-item");
+				this.View.append(removable.View);
+			}
 		}
-		
-        if (this.hacker.ftpHandler !== undefined) {
-			
-			for (var i = 0; i < imageElements.length; ++i) {
-				if( imageElements[i] !== undefined )
-					imageElements[i].setAttribute("real-src", this.hacker.ftpHandler(imageElements[i].getAttribute('src')));				
+
+        if (hacker.ftpHandler !== undefined) {
+
+			for (let i: number = 0; i < imageElements.length; ++i) {
+				if( imageElements[i] !== undefined ) {
+					imageElements[i].setAttribute("real-src", hacker.ftpHandler(imageElements[i].getAttribute("src")));
+				}
 			}
 		}
 	}

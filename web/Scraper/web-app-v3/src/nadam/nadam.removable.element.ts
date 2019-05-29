@@ -1,26 +1,24 @@
 export class RemovableElement {
 
-	constructor(_element) {
-        // this.element = _element;
-        this.view = document.createElement("div");
+	public View: HTMLElement = document.createElement("div");
 
-        
-        this.view.style.position = "relative";
-        this.view.style.display = _element.style.display;
+	constructor(element: HTMLElement) {
 
-        var remover = document.createElement("div");
-        remover.style.position = "absolute";
-        remover.style.right = "10px";
-        remover.style.top = "10px";
-        remover.style.fontSize = "20px";
-        remover.style.cursor = "pointer";
-        remover.innerText = "X";
+		this.View.style.position = "relative";
+		this.View.style.display = element.style.display;
 
-        remover.addEventListener("click", () => {
+		const remover: HTMLElement = document.createElement("div");
+		remover.style.position = "absolute";
+		remover.style.right = "10px";
+		remover.style.top = "10px";
+		remover.style.fontSize = "20px";
+		remover.style.cursor = "pointer";
+		remover.innerText = "X";
 
-            this.view.remove();
-        });
-		this.view.append(remover);
-		this.view.append(_element);
+		remover.addEventListener("click", () => {
+			this.View.remove();
+		});
+		this.View.append(remover);
+		this.View.append(element);
 	}
-};
+}

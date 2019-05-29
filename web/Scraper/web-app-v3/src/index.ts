@@ -1,11 +1,7 @@
 import "babel-polyfill";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { App } from "./app/webhack.app";
-
-import $ from "jquery";
-import jQueryBridget from "jquery-bridget";
-import masonry from "masonry-layout";
-
-jQueryBridget( "masonry", masonry, $ );
 
 console.log("app starting");
 var app: App = new App();

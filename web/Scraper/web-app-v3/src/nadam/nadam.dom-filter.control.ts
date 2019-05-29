@@ -7,66 +7,73 @@
 /// <elementSelector> is a dom selector, the actual elements that the filter (hide or show) will apply
 export class DomFilter {
 
-	constructor (_predicateSelector, _elementSelector) {
+	PredicateSelector: string;
+	ElementSelector: string;
+	View: HTMLElement;
 
-		this.predicateSelector = _predicateSelector;
-		this.elementSelector = _elementSelector || _predicateSelector;
+	Template = `
+		<div id=nadam-domfilter>
+			<input type="text" data-local-id="filter-predicate-value" size="30" list="babes" class="ml-1 mr-1">
+			<button data-local-id="apply-filter-btn" class="btn btn-primary ml-1 mr-1">Filter</button>
+			<button data-local-id="reset-filter-btn" class="btn btn-danger ml-1 mr-1">Reset</button>
+		</div>`;
 
-		var template = `
-			<div id=nadam-domfilter>
-				<input type="text" data-local-id="filter-predicate-value" size="30" list="babes" class="ml-1 mr-1">
-				<button data-local-id="apply-filter-btn" class="btn btn-primary ml-1 mr-1">Filter</button>
-				<button data-local-id="reset-filter-btn" class="btn btn-danger ml-1 mr-1">Reset</button>			
-			</div>`;
-		
-		var domParser = new DOMParser();
-		this.view = domParser.parseFromString(template, "text/html")
+	constructor (_predicateSelector: string, _elementSelector: string) {
+
+		this.PredicateSelector = _predicateSelector;
+		this.ElementSelector = _elementSelector || _predicateSelector;
+		let domParser: DOMParser = new DOMParser();
+
+		this.View = domParser.parseFromString(this.Template, "text/html")
 			.querySelector("div#nadam-domfilter");
-			
-		this.view.querySelector("button[data-local-id='apply-filter-btn']")
+
+		this.View.querySelector("button[data-local-id='apply-filter-btn']")
 			.addEventListener("click", (() => {
-				return () => { this.Filter(this.FilterValue()); };
+				return () => { this.Filter(); };
 			})());
 
-		this.view.querySelector("button[data-local-id='reset-filter-btn']")
+		this.View.querySelector("button[data-local-id='reset-filter-btn']")
 			.addEventListener("click", (() => {
 				return () => { this.ResetFilter(); };
 			})());
 	}
-	
-	FilterValue() {
-		return this.view.querySelector("input[data-local-id='filter-predicate-value']").value;
+
+	FilterValue(): string {
+		return (this.View.querySelector("input[data-local-id='filter-predicate-value']") as HTMLInputElement).value;
 	}
 
-    FilterPredicate(element) {
-		var filterPredicateValue = this.FilterValue();
+    FilterPredicate(element: HTMLElement): boolean {
+		var filterPredicateValue: string = this.FilterValue();
 		if (element) {
-			filterPredicateValue = filterPredicateValue.replace(' ', '').toLowerCase();
-			let actual = element.innerText.replace(' ', '').toLowerCase();
-			if (filterPredicateValue.lastIndexOf('*') > 0)
+			filterPredicateValue = filterPredicateValue.replace(" ", "").toLowerCase();
+			let actual: string = element.innerText.replace(" ", "").toLowerCase();
+			if (filterPredicateValue.lastIndexOf("*") > 0) {
 				return actual.startsWith(filterPredicateValue.substr(0, filterPredicateValue.length - 1));
-			else
+			} else {
 				return actual === filterPredicateValue;
+			}
 		}
 		return false;
 	}
 
-	Filter() {
-		var predicateElements = document.querySelectorAll(this.predicateSelector);
-		var elements = document.querySelectorAll(this.elementSelector);
+	Filter(): void {
+		var predicateElements: NodeListOf<any> = document.querySelectorAll(this.PredicateSelector);
+		var elements: NodeListOf<any> = document.querySelectorAll(this.ElementSelector);
 
-		for(var i = 0; i < elements.length; ++i) {
-			if( this.FilterPredicate(predicateElements[i]) )
+		for(let i: number = 0; i < elements.length; ++i) {
+			if( this.FilterPredicate(predicateElements[i]) ) {
 				continue;
-			
+			}
+
 			elements[i].style.display = "none";
 		}
-	};
+	}
 
-	ResetFilter() {
-		this.view.querySelector("input[data-local-id='filter-predicate-value']").value = "";
-		var elements = document.querySelectorAll(this.elementSelector);
-		for(var i = 0; i < elements.length; ++i)	
-			elements[i].style.display = "block";			
-	};
+	ResetFilter(): void {
+		(this.View.querySelector("input[data-local-id='filter-predicate-value']") as HTMLInputElement).value = "";
+		var elements: NodeListOf<any> = document.querySelectorAll(this.ElementSelector);
+		for(let i: number = 0; i < elements.length; ++i) {
+			elements[i].style.display = "block";
+		}
+	}
 }

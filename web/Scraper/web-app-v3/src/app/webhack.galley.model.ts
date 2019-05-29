@@ -1,8 +1,8 @@
-export class IGalleryModel {
+export class GalleryModel {
 
 	SourceUrl: string = "";
 	Title: string = "";
-	ImagesMetaData: Array<string> = new Array();
+	ImagesMetaData: Array<ImageMetadataModel> = new Array();
 	FtpSite: string = "";
 
     get Domain(): string {
@@ -15,6 +15,13 @@ export class IGalleryModel {
 
         return domain;
     }
+}
+
+export class ImageMetadataModel {
+
+	LinkHref: string = "";
+	ThumbnailImageSrc: string = "";
+	RealImageSrc: string = "";
 }
 
 export class GalleryThumbnailModel {

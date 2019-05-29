@@ -1,4 +1,8 @@
-﻿<div id="control-panel" class="row position-fixed">
+﻿@Html.Partial("_jquery")
+@Html.Partial("_bootstrap")
+@Styles.Render("~/styles/app")
+
+<div id="control-panel" class="row position-fixed">
     <div class="col-6 d-flex align-items-center">
         <input type="text" id="requestUrl" size="100" list="babes">
 

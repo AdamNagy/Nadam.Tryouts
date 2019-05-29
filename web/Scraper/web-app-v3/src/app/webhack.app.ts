@@ -1,14 +1,26 @@
 ﻿import { DomFilter } from "../nadam/nadam.dom-filter.control";
 import { Http } from "../nadam/nadam.http.lib";
 import { SidePager } from "../nadam/nadam.side-pager.control";
-import { GalleryModel } from "./webhack.galley.model";
+import { GalleryModel, GalleryThumbnailModel, ImageMetadataModel } from "./webhack.galley.model";
 import { GalleryComponent } from "./webhack.gallery.component";
-import { GalleryThumbnailModel } from "./webhack.gallery.model";
+
+import "./webhack.app.scss";
+
+export class Dom {
+
+	public static GetElementById(id: string): HTMLElement {
+		return (document.getElementById(id) as HTMLElement);
+	}
+
+	public static GetInputElementById(id: string): HTMLInputElement {
+		return this.GetElementById(id) as HTMLInputElement;
+	}
+}
 
 export class App {
 
 	View: HTMLElement;
-	Pages: Number = 1;
+	Pages: number = 1;
 
 	Controls: any = {
 
@@ -20,8 +32,8 @@ export class App {
 
 	Config: any = {
 
-		Scraper: "/home/get",
-		GalleryScraper: "/home/gallery",
+		Scraper: "http://localhost:36344/home/get",
+		GalleryScraper: "http://localhost:36344/home/gallery",
 		Base: "https://urlgalleries.net"
 	};
 
@@ -35,11 +47,11 @@ export class App {
 
 	constructor() {
 
-		this.View = document.getElementById("content") || document.createElement("div");
-
+		this.View = document.createElement("div");
+		this.View.classList.add("content");
 
 		this.Controls.domFilter = new DomFilter("#content .gallery-thumb h3", "#content .gallery-thumb");
-		document.getElementById("control-panel-slot-2").append(this.Controls.domFilter.view);
+		Dom.GetElementById("control-panel-slot-2")!.append(this.Controls.domFilter.view);
         this.Controls.sidePager = new SidePager();
     }
 
@@ -56,7 +68,7 @@ export class App {
             httpRequest.then(this.HandleHtmlResponse);
         } else {
             this.State.searchTerm = searchTerm;
-            this.State.actualUrl = this.Config.scraper
+            this.State.actualUrl = this.Config.Scraper
                 + "/?p=" + this.State.currentPage
                 + "&t=10"
                 + "&q=" + this.State.searchTerm;
@@ -71,25 +83,25 @@ export class App {
     public HandleUrlGalleriesPage(responseJson: string): void {
 
         let galleryThumbnails: Array<GalleryThumbnailModel> = JSON.parse(responseJson);
-        let contentDiv: HtmlDivElement = document.getElementById("content");
+        let contentDiv: HTMLElement = Dom.GetElementById("content");
 
-        let separator: Valami = document.createElement("div");
+        let separator: HTMLElement = document.createElement("div");
         separator.classList.add("separator");
-        let pageNum = document.createElement("h1");
-        pageNum.innerText = "Page: " + Number(this.pages++);
+        let pageNum: HTMLElement = document.createElement("h1");
+        pageNum.innerText = "Page: " + Number(this.Pages++);
 
         separator.append(pageNum);
         contentDiv.append(separator);
-        for (let i = 0; i < galleryThumbnails.length; ++i) {
+        for (let i: number = 0; i < galleryThumbnails.length; ++i) {
             contentDiv.append(this.ConvertGalleryThumb(galleryThumbnails[i]));
         }
     }
 
-    ConvertGalleryThumb(galleryThumbnail) {
+    ConvertGalleryThumb(galleryThumbnail: GalleryThumbnailModel): HTMLElement {
 
-        let galleryThumb_element = document.createElement("div");
+        let galleryThumb_element: HTMLElement = document.createElement("div");
 
-        let title_element = document.createElement("h3");
+        let title_element: HTMLElement = document.createElement("h3");
         title_element.innerText = galleryThumbnail.Title;
         title_element.setAttribute("data-link", galleryThumbnail.SourceUrl);
 
@@ -99,15 +111,15 @@ export class App {
 
         galleryThumb_element.append(title_element);
 
-        let sampleImageContainer_element = document.createElement("div");
+        let sampleImageContainer_element: HTMLElement = document.createElement("div");
         sampleImageContainer_element.classList.add("d-flex");
         sampleImageContainer_element.classList.add("justify-content-center");
 
-        for (let i = 0; i < 3; ++i) {
-            let imgContainer_element = document.createElement("div");
+        for (let i: number = 0; i < 3; ++i) {
+            let imgContainer_element: HTMLElement = document.createElement("div");
             imgContainer_element.classList.add("imgContainer_element");
 
-            let newImg = document.createElement("img");
+            let newImg: HTMLElement = document.createElement("img");
             newImg.setAttribute("src", galleryThumbnail.ThumbnailImageSources[i]);
             imgContainer_element.append(newImg);
             sampleImageContainer_element.append(imgContainer_element);
@@ -118,17 +130,17 @@ export class App {
         return galleryThumb_element;
     }
 
-    RequestP10() {
+    RequestP10(): void {
 
-        let searchTerm = document.getElementById("requestUrl").value;
-        this.State.currentPage = document.getElementById("page-input").value;
+        let searchTerm: string = (document.getElementById("requestUrl") as HTMLInputElement).value;
+        this.State.currentPage = (document.getElementById("page-input") as HTMLInputElement).value;
         this.State.searchTerm = searchTerm;
-        let lastPage = Number(document.getElementById("page-input").value) + 10;
-        let requestUrls = new Array();
+        let lastPage: number = Number(Dom.GetInputElementById("page-input").value) + 10;
+        let requestUrls: Array<string> = new Array();
 
         while (this.State.currentPage < lastPage) {
 
-            this.State.actualUrl = this.Config.scraper
+            this.State.actualUrl = this.Config.Scraper
                 + "/?p=" + this.State.currentPage
                 + "&t=10"
                 + "&q=" + this.State.searchTerm;
@@ -138,48 +150,48 @@ export class App {
             this.State.currentPage++;
         }
 
-        this.Controls.http.QueuedGet(requestUrls, 3, (response) => { return this.HandleUrlGalleriesPage(response); });
-        document.getElementById("page-input").value = Number(lastPage) + 1;
+        this.Controls.http.QueuedGet(requestUrls, 3, (response: string) => { return this.HandleUrlGalleriesPage(response); });
+        Dom.GetInputElementById("page-input").value = (Number(lastPage) + 1).toString();
     }
 
-    HandleHtmlResponse(response) {
+    HandleHtmlResponse(response: string): void {
 
-        let parser = new DOMParser();
-        let doc = parser.parseFromString(response, "text/html");
-        let contentDiv = document.getElementById("content");
+        let parser: DOMParser = new DOMParser();
+        let doc: Document = parser.parseFromString(response, "text/html");
+        let contentDiv: HTMLElement = Dom.GetElementById("content");
 
-        let contents = doc.body.childNodes;
-        for (let i = 0; i < contents.length; ++i) {
+        let contents: NodeListOf<ChildNode> = doc.body.childNodes;
+        for (let i: number = 0; i < contents.length; ++i) {
             contentDiv.append(contents[i]);
         }
     }
 
-    OpenPage(galleryModel) {
-        let galleryUrl = galleryModel.SourceUrl;
-        let galleryTitle = galleryModel.Title;
-        let href = "https:" + galleryUrl;
+    OpenPage(galleryModel: GalleryThumbnailModel): void {
+        let galleryUrl: string = galleryModel.SourceUrl;
+        let galleryTitle: string = galleryModel.Title;
+        let href: string = "https:" + galleryUrl;
 
-        let httpRequest = Http.Get(this.Config.galleryScraper + "?url=" + href);
+        let httpRequest: Promise<string> = Http.Get(this.Config.GalleryScraper + "?url=" + href);
 
         httpRequest.then((response) => { return this.HandleNewGalleryCreation(response, galleryModel); });
     }
 
-    HandleNewGalleryCreation(response, galleryResponseModel) {
+    HandleNewGalleryCreation(response: string, galleryResponseModel: GalleryThumbnailModel): void {
 
-        var imageMetas = JSON.parse(response);
+        var imageMetas: Array<ImageMetadataModel> = JSON.parse(response);
 
-        let galleryModel = new GalleryModel();
+        let galleryModel: GalleryModel = new GalleryModel();
         galleryModel.SourceUrl = galleryResponseModel.SourceUrl;
         galleryModel.ImagesMetaData = imageMetas;
         galleryModel.Title = galleryResponseModel.Title;
-        let galleryComponent = new GalleryComponent(galleryModel);
+        let galleryComponent: GalleryComponent = new GalleryComponent(galleryModel);
 
-        this.Controls.sidePager.CreatePage(galleryComponent.view);
+        this.Controls.sidePager.CreatePage(galleryComponent.View);
         this.Controls.components.push(galleryComponent);
     }
 
     Clear() {
 
-        this.view.innerHTML = "";
+        this.View.innerHTML = "";
     }
 }

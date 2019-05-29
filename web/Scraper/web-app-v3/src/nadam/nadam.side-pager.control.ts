@@ -1,157 +1,145 @@
 // v.1.0.1
 
-import 'jquery-ui/ui/widgets/resizable';
-import './nadam.side-pager.control.css';
+// import "jquery-ui/ui/widgets/resizable";
+import "./nadam.side-pager.control.scss";
+
+export interface IPage {
+
+	id: number;
+	element: HTMLElement;
+}
 
 /// usage:
 /// var pageManager = new SidePager();
-///	pageManager.CreatePage(document.createElement("div").innerText = "Hello world");
+/// pageManager.CreatePage(document.createElement("div").innerText = "Hello world");
 export class SidePager {
 
+	private PageManager = document.createElement("div");
+	private Pages: Array<IPage>;
+	private PageWidth = 720;
+	private SpaceBetweenPages = 50;
+	private Template =
+		`<div class="side-page">
+			<h3>#title#</h3>
+			<button data-local-id='close-btn'>Close</button>
+			<button data-local-id='remove-btn'>Remove</button>
+			<div class="side-page-opener"></div>
+			<div class="side-page-content"></div>
+		</div>`;
 	constructor() {
 
-		this.pageManager = document.createElement('div');
-		this.pageManager.style.position = 'fixed';
-		this.pageManager.id = "side-pages-manager";
-		document.body.append(this.pageManager);
+		this.PageManager.style.position = "fixed";
+		this.PageManager.id = "side-pages-manager";
+		document.body.append(this.PageManager);
 
-		this.pages = new Array();
-		this.domParser = new DOMParser();
-		this.openPages = 0;
-	
-		this.pageWidth = 720;
-		this.spaceBetweenPages = 50;
-
-		this.template =
-			`<div class="side-page">
-				<h3>#title#</h3> 
-				<button data-local-id='close-btn'>Close</button>
-				<button data-local-id='remove-btn'>Remove</button>
-				<div class="side-page-opener"></div>
-				<div class="side-page-content"></div>
-			</div>`;
+		this.Pages = new Array();
 	}
 
-    createPage(title) {
+	private createPage(title: string): void {
 
-        if (title === undefined)
-            title = "";
+		if (title === undefined || title === "") {
+			title = "";
+		}
 
-        var instanceTemplate = this.template.replace("#title#", title);
-        var pageElement = this.domParser.parseFromString(instanceTemplate, "text/html")
-            .querySelector("div:first-child");
-        pageElement.style.zIndex = 11 + this.pages.length;
+		const domParser: DOMParser = new DOMParser();
+		const instanceTemplate: string = this.Template.replace("#title#", title);
+		const pageElement: HTMLElement = domParser.parseFromString(instanceTemplate, "text/html")
+												.querySelector("div:first-child") || document.createElement("div");
 
-        pageElement.querySelector("div[class='side-page-opener']")
-            .addEventListener("click", ((idx) => {
-                return () => { this.openPage(idx); };
-            })(this.pages.length));
+		pageElement.style.zIndex = (11 + this.Pages.length).toString();
 
-        pageElement.querySelector("button[data-local-id='close-btn']")
-            .addEventListener("click", ((idx) => {
-                return () => { this.closePage(idx); };
-            })(this.pages.length));
+		pageElement.querySelector("div[class='side-page-opener']")
+			.addEventListener("click", ((idx) => {
+				return () => { this.openPage(idx); };
+			})(this.Pages.length));
+
+		pageElement.querySelector("button[data-local-id='close-btn']")
+			.addEventListener("click", ((idx) => { return () => { 
+					this.closePage(idx); }; 
+			})(this.Pages.length));
 
         pageElement.querySelector("button[data-local-id='remove-btn']")
             .addEventListener("click", ((idx) => {
                 return () => { this.RemovePage(idx); };
-            })(this.pages.length));
+            })(this.Pages.length));
 
-        this.pages.push({ id: this.pages.length, element: pageElement });
-        this.pageManager.append(pageElement);
+        this.Pages.push({ id: this.Pages.length, element: pageElement } as IPage);
+        this.PageManager.append(pageElement);
         this.CloseAll();
     }
 
-    openPage(pageId) {
+    openPage(pageId: number): void {
 
-        var index = this.getIndex(pageId);
-        var closedPagesWidth = (this.pages.length - 1 - index) * this.spaceBetweenPages;
-        var openPages_buffer = index * this.spaceBetweenPages;
+        var index: number = this.getIndex(pageId);
+        var closedPagesWidth: number = (this.Pages.length - 1 - index) * this.SpaceBetweenPages;
+        var openPages_buffer: number = index * this.SpaceBetweenPages;
 
-        var pageRightPosition = closedPagesWidth + openPages_buffer;
-        for (var i = 0; i <= index; ++i) {
+        var pageRightPosition: number = closedPagesWidth + openPages_buffer;
+        for (let i: number = 0; i <= index; ++i) {
 
-            var currentElement = this.pages[i];
+            var currentElement: IPage = this.Pages[i];
             currentElement.element.style.right = pageRightPosition + "px";
             currentElement.element.classList.add("side-page-open");
             currentElement.element.classList.remove("side-page-closed");
             pageRightPosition -= 50;
         }
-
-        // document.body.style.overflowY = "hidden";
-		this.openPages++;
     }
 
-    closePage(pageId) {
+    closePage(pageId: number): void {
 
-        var index = this.getIndex(pageId);
+        var index: number = this.getIndex(pageId);
 
-        var buffer = this.pages.length - index - 1;
-        var pageRightPosition = buffer * 50 + 50;
-        for (var i = index; i < this.pages.length; ++i) {
-            var actual = this.pages[i];
+        var buffer: number = this.Pages.length - index - 1;
+        var pageRightPosition: number = buffer * 50 + 50;
+        for (let i: number = index; i < this.Pages.length; ++i) {
+            var actual: IPage = this.Pages[i];
             actual.element.style.left = null;
-            actual.element.style.width = this.pageWidth + "px";
+            actual.element.style.width = this.PageWidth + "px";
             actual.element.style.right = "-" + (720 - pageRightPosition) + "px";
 
             actual.element.classList.remove("side-page-open");
             actual.element.classList.add("side-page-closed");
             pageRightPosition -= 50;
         }
-
-        this.openPages--;
-
-        if (this.openPages <= 0) {
-            // document.body.style.overflowY = "auto";
-            this.openPages = 0;
-        }
     }
 
-    getIndex(pageId) {
+    getIndex(pageId: number): number {
 
-        var actual = this.pages.find(item => item.id === pageId);
-        var index = this.pages.indexOf(actual);
+        var actual: IPage = this.Pages.find(item => item.id === pageId);
+        var index: number = this.Pages.indexOf(actual);
         return index;
     }
 
-    RemovePage(pageId) {
+    RemovePage(pageId: number): void {
 
-        var index = this.getIndex(pageId);
-        var toRemove = this.pages[index];
-        this.pages.splice(index, 1);
+        var index: number = this.getIndex(pageId);
+        var toRemove: IPage = this.Pages[index];
+        this.Pages.splice(index, 1);
         toRemove.element.remove();
-        --this.openPages;
-        if (index > 0)
-            this.openPage(--index);
     }
 
-    CloseAll() {
+    CloseAll(): void {
 
         this.closePage(0);
-
-        // document.body.style.overflowY = "auto";
-        this.openPages = 0;
     }
 
-    CreatePage(rootElement) {
+    CreatePage(rootElement: HTMLElement): void {
 
-        this.createPage();
-		var addedPage = this.pages[this.pages.length - 1].element;
-		
-		$(addedPage).resizable({
-			handles: 'w',
-			stop: function( event, ui ) {
+        this.createPage("");
+		var addedPage: HTMLElement = this.Pages[this.Pages.length - 1].element;
 
-				var $grid = $('.grid').masonry({
+		// $(addedPage).resizable({
+		// 	handles: 'w',
+		// 	stop: function( event, ui ) {
 
-					itemSelector: '.grid-item',
-					columnWidth: 200,
-					gutter: 5
-				});
+		// 		var $grid = $('.grid').masonry({
 
-				// $grid.masonry();
-			}
-		});
+		// 			itemSelector: '.grid-item',
+		// 			columnWidth: 200,
+		// 			gutter: 5
+		// 		});
+		// 	}
+		// });
 
         addedPage.querySelector("div[class=side-page-content]").append(rootElement);
 	}
