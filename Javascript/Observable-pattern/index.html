@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	</head>
+	<body>
+		<button id="addNewObserver">Add New Observer checkbox</button>
+		<input id="mainCheckbox" type="checkbox"/>
+		<div id="observersContainer"></div>
+
+		<div class="newMessageCounter"></div>
+		<section>
+			<span>sender</span><div class="messageSender"></div>
+			<span>Message</span><div class="messagePreview"></div>
+		</section>
+		
+		<script src="observable.js"></script>
+		<script>
+			var controlCheckbox = document.getElementById( "mainCheckbox" ),
+				addBtn = document.getElementById( "addNewObserver" ),
+				container = document.getElementById( "observersContainer" );
+
+			// Concrete Subject
+	
+			// Extend the controlling checkbox with the Subject class
+			extend( controlCheckbox, new Subject() );
+			
+			// Clicking the checkbox will trigger notifications to its observers
+			controlCheckbox.onclick = function() {
+				controlCheckbox.notify( controlCheckbox.checked );
+			};
+			
+			addBtn.onclick = addNewObserver;
+			
+			// Concrete Observer
+			
+			function addNewObserver() {
+			
+				// Create a new checkbox to be added
+				var check = document.createElement( "input" );
+				check.type = "checkbox";
+				
+				// Extend the checkbox with the Observer class
+				extend( check, new Observer() );
+				
+				// Override the virtual method with custom update behaviour
+				check.update = function( value ) {
+					this.checked = value;
+				};
+				
+				// Add the new observer to our list of observers
+				// for our main subject
+				controlCheckbox.addObserver( check );
+				
+				// Append the item to the container
+				container.appendChild( check );
+			}
+		</script>
+
+		<script src="./publish-subscribe.js"></script>
+		<script>
+			// A very simple new mail handler
+ 
+			// A count of the number of messages received
+			var mailCounter = 0;
+			
+			// Initialize subscribers that will listen out for a topic
+			// with the name "inbox/newMessage".
+			
+			// Render a preview of new messages
+			var subscriber1 = pubsub.subscribe( "inbox/newMessage", function( topic, data ) {
+			
+				// Log the topic for debugging purposes
+				console.log( "A new message was received: ", topic );
+				
+				// Use the data that was passed from our subject
+				// to display a message preview to the user
+				$( ".messageSender" ).html( data[0].sender );
+				$( ".messagePreview" ).html( data[0].body );			
+			});
+			
+			// Here's another subscriber using the same data to perform
+			// a different task.
+			
+			// Update the counter displaying the number of new
+			// messages received via the publisher
+			
+			var subscriber2 = pubsub.subscribe( "inbox/newMessage", function( topic, data ) {			
+				$('.newMessageCounter').html( ++mailCounter );			
+			});
+			
+			pubsub.publish( "inbox/newMessage", [{
+				sender: "hello@google.com",
+				body: "Hey there! How are you doing today?"
+			}]);
+			
+			// We could then at a later point unsubscribe our subscribers
+			// from receiving any new topic notifications as follows:
+			// unsubscribe( subscriber1 );
+			// unsubscribe( subscriber2 );
+		</script>
+	</body>
+</html>

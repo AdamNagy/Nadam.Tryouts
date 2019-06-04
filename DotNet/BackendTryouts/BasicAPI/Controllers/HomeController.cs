@@ -13,39 +13,9 @@ namespace BasicAPI.Controllers
         {
             ViewBag.Title = "Home Page";
 
-            return View();
-        }
+            var result = new ViewResult();
 
-        [HttpGet]
-        
-        public string GetProducts()
-        {
-            var ser = new JsonSerializer();
-            return ReadFromFile();
-        }
-
-        //private List<Product> ReadFromFile()
-        private string ReadFromFile()
-        {
-            string jsonStr;
-            try
-            {
-                using (var fs = new FileStream(@"C:\Documents\Angular2\APM\api\products\products.json",
-                                FileMode.Open,
-                                FileAccess.Read))
-                {
-                    using (var sr = new StreamReader(fs, Encoding.Default))
-                    {
-                        jsonStr = sr.ReadToEnd();
-                    }
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                return null;
-            }
-            //return tableData;
-            return jsonStr;
+            return result;
         }
     }
 }
