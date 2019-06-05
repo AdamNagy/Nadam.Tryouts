@@ -3,11 +3,11 @@ function ObserverList(){
 	this.observerList = [];
 }
 
-ObserverList.prototype.add = function( obj ){
+ObserverList.prototype.add = function( obj ) {
 	return this.observerList.push( obj );
 };
 
-ObserverList.prototype.count = function(){
+ObserverList.prototype.count = function() {
 	return this.observerList.length;
 };
 
@@ -30,12 +30,12 @@ ObserverList.prototype.indexOf = function( obj, startIndex ) {
 	return -1;
 };
 
-ObserverList.prototype.removeAt = function( index ){
+ObserverList.prototype.removeAt = function( index ) {
 	this.observerList.splice( index, 1 );
 };
 
 // Subject
-function Subject(){
+function Subject() {
 	this.observers = new ObserverList();
 }
 
@@ -68,4 +68,3 @@ function extend( obj, extension ) {
 		obj[key] = extension[key];
 	}
 }
-
