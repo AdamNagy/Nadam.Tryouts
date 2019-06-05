@@ -1,8 +1,8 @@
 import m from "mithril";
-import { MyComponent } from "./my-component/my-component.js";
-import { MyView } from "./my-component/bigComponent";
+import { MyJSXComponent } from "./my-component/my-jsx.component";
+import { StandardComponent } from "./my-component/standard.component";
 
 m.render(document.body, "hello world");
-var myComp = new MyComponent(document.body);
+var myComp = new StandardComponent(document.body);
 myComp.Render();
-m.mount(document.body, MyView);
+m.mount(document.body, MyJSXComponent);

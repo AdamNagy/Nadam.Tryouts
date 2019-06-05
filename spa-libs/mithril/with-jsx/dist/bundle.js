@@ -106,31 +106,31 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var mithril__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mithril */ \"./node_modules/mithril/mithril.mjs\");\n/* harmony import */ var _my_component_my_component_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./my-component/my-component.js */ \"./src/my-component/my-component.js\");\n/* harmony import */ var _my_component_bigComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./my-component/bigComponent */ \"./src/my-component/bigComponent.js\");\n\n\n\nmithril__WEBPACK_IMPORTED_MODULE_0__[\"default\"].render(document.body, \"hello world\");\nvar myComp = new _my_component_my_component_js__WEBPACK_IMPORTED_MODULE_1__[\"MyComponent\"](document.body);\nmyComp.Render();\nmithril__WEBPACK_IMPORTED_MODULE_0__[\"default\"].mount(document.body, _my_component_bigComponent__WEBPACK_IMPORTED_MODULE_2__[\"MyView\"]);\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var mithril__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mithril */ \"./node_modules/mithril/mithril.mjs\");\n/* harmony import */ var _my_component_my_jsx_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./my-component/my-jsx.component */ \"./src/my-component/my-jsx.component.js\");\n/* harmony import */ var _my_component_standard_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./my-component/standard.component */ \"./src/my-component/standard.component.js\");\n\n\n\nmithril__WEBPACK_IMPORTED_MODULE_0__[\"default\"].render(document.body, \"hello world\");\nvar myComp = new _my_component_standard_component__WEBPACK_IMPORTED_MODULE_2__[\"StandardComponent\"](document.body);\nmyComp.Render();\nmithril__WEBPACK_IMPORTED_MODULE_0__[\"default\"].mount(document.body, _my_component_my_jsx_component__WEBPACK_IMPORTED_MODULE_1__[\"MyJSXComponent\"]);\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ }),
 
-/***/ "./src/my-component/bigComponent.js":
-/*!******************************************!*\
-  !*** ./src/my-component/bigComponent.js ***!
-  \******************************************/
-/*! exports provided: MyView */
+/***/ "./src/my-component/my-jsx.component.js":
+/*!**********************************************!*\
+  !*** ./src/my-component/my-jsx.component.js ***!
+  \**********************************************/
+/*! exports provided: MyJSXComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"MyView\", function() { return MyView; });\n/* harmony import */ var mithril__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mithril */ \"./node_modules/mithril/mithril.mjs\");\n\nvar MyView = {\n  view: function view() {\n    return Object(mithril__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(\"main\", null, Object(mithril__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(\"h1\", null, \"Hello world\"));\n  }\n};\n\n//# sourceURL=webpack:///./src/my-component/bigComponent.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"MyJSXComponent\", function() { return MyJSXComponent; });\n/* harmony import */ var mithril__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mithril */ \"./node_modules/mithril/mithril.mjs\");\n\nvar MyJSXComponent = {\n  content: \"Hello World JSX from component property\",\n  view: function view() {\n    return Object(mithril__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(\"main\", null, Object(mithril__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(\"h1\", null, this.content));\n  }\n};\n\n//# sourceURL=webpack:///./src/my-component/my-jsx.component.js?");
 
 /***/ }),
 
-/***/ "./src/my-component/my-component.js":
-/*!******************************************!*\
-  !*** ./src/my-component/my-component.js ***!
-  \******************************************/
-/*! exports provided: MyComponent */
+/***/ "./src/my-component/standard.component.js":
+/*!************************************************!*\
+  !*** ./src/my-component/standard.component.js ***!
+  \************************************************/
+/*! exports provided: StandardComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"MyComponent\", function() { return MyComponent; });\n/* harmony import */ var mithril__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mithril */ \"./node_modules/mithril/mithril.mjs\");\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\n\nvar MyComponent =\n/*#__PURE__*/\nfunction () {\n  function MyComponent(parent) {\n    _classCallCheck(this, MyComponent);\n\n    this.model = {\n      title: \"My title\",\n      subTitle: \"This is a sub title\",\n      todos: [\"Todo1\", \"Todo2\", \"Todo3\"]\n    }, this.container = parent;\n  }\n\n  _createClass(MyComponent, [{\n    key: \"Render\",\n    value: function Render() {\n      mithril__WEBPACK_IMPORTED_MODULE_0__[\"default\"].render(this.container, this.model.title);\n    }\n  }]);\n\n  return MyComponent;\n}();\n\n//# sourceURL=webpack:///./src/my-component/my-component.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"StandardComponent\", function() { return StandardComponent; });\n/* harmony import */ var mithril__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mithril */ \"./node_modules/mithril/mithril.mjs\");\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\n\nvar StandardComponent =\n/*#__PURE__*/\nfunction () {\n  function StandardComponent(parent) {\n    _classCallCheck(this, StandardComponent);\n\n    this.model = {\n      title: \"My title\",\n      subTitle: \"This is a sub title\",\n      todos: [\"Todo1\", \"Todo2\", \"Todo3\"]\n    }, this.container = parent;\n  }\n\n  _createClass(StandardComponent, [{\n    key: \"Render\",\n    value: function Render() {\n      mithril__WEBPACK_IMPORTED_MODULE_0__[\"default\"].render(this.container, this.model.title);\n    }\n  }]);\n\n  return StandardComponent;\n}();\n\n//# sourceURL=webpack:///./src/my-component/standard.component.js?");
 
 /***/ })
 
