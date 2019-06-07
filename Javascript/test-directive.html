@@ -24,9 +24,12 @@
 				var componentAttr = myAngObject[i].getAttribute("component");
 				
 				var innerDiv = document.createElement("div");
-				innerDiv.innerText = window[componentAttr]
+				innerDiv.innerText = window[componentAttr];
 				myAngObject[i].innerText = window[componentAttr];
 			}
+
+			var newComp = document.createElement("my-directive");
+			document.body.appendChild(newComp);
 		})()
 	</script>
 </body>
