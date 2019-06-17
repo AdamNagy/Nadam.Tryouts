@@ -252,3 +252,5 @@ paket-files/
 *.sln.iml
 
 **/app_data/*
+
+**/dist/*
