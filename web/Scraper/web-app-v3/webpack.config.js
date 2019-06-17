@@ -31,7 +31,7 @@ module.exports = {
 	output: {
 		filename: '[name].bundle.js',
 		chunkFilename: '[name].chunk.js',
-		path: path.resolve(__dirname, '../web-app-v3_dist')
+		path: path.resolve(__dirname, './dist')
 	  },
 	plugins: [
 		new webpack.ProvidePlugin({

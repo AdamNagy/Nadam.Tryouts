@@ -185,8 +185,6 @@
     <Content Include="web-app-v1\nadam\nadam.side-pager.component.css" />
     <Content Include="Views\V1\Index.cshtml" />
     <None Include="Views\V2\Index.cshtml" />
-    <Content Include="web-app-v3_dist\app.bundle.js" />
-    <Content Include="web-app-v3_dist\bootstrap.bundle.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -204,6 +202,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="web-app-v2\dist\" />
+    <Folder Include="web-app-v3\dist\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
