@@ -1,11 +1,14 @@
-export class RemovableElement {
-
-	public View: HTMLElement = document.createElement("div");
+export class RemovableElement extends HTMLElement {
 
 	constructor(element: HTMLElement) {
 
-		this.View.style.position = "relative";
-		this.View.style.display = element.style.display;
+		super();
+
+		var shadow = this.attachShadow({mode: 'open'});
+
+		var view = document.createElement('span');
+		view.style.position = "relative";
+		view.style.display = element.style.display;
 
 		const remover: HTMLElement = document.createElement("div");
 		remover.style.position = "absolute";
@@ -16,9 +19,14 @@ export class RemovableElement {
 		remover.innerText = "X";
 
 		remover.addEventListener("click", () => {
-			this.View.remove();
+			view.remove();
 		});
-		this.View.append(remover);
-		this.View.append(element);
+		view.append(remover);
+		view.append(element);
+
+		var style = document.createElement('style');
+
+		shadow.appendChild(style);
+		shadow.appendChild(view);
 	}
 }

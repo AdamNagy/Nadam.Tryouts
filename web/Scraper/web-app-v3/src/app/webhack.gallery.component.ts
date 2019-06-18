@@ -41,8 +41,9 @@ export class GalleryComponent {
 
 			if( imageElements[i] !== undefined ) {
 				var removable: RemovableElement = new RemovableElement(imageElements[i]);
-				removable.View.classList.add("grid-item");
-				this.View.append(removable.View);
+
+				removable.classList.add("grid-item");
+				this.View.append(removable);
 			}
 		}
 

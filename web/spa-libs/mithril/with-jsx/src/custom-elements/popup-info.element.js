@@ -26,14 +26,14 @@ export class PopUpInfo extends HTMLElement {
 		} else {
 			imgUrl = 'img/default.png';
 		}
-		var img = document.createElement('img');
-		img.src = imgUrl;
+		var img = document.createElement('p');
+		img.innerText = "Hello from custom element hardcoded text";
 		icon.appendChild(img);
 
 		// Create some CSS to apply to the shadow dom
 		var style = document.createElement('style');
 
-		style.textContent = '.wrapper {' +
+		style.textContent = '.wrapper {';
 		// CSS truncated for brevity
 
 		// attach the created elements to the shadow dom

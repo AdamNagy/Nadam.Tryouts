@@ -10,7 +10,6 @@ export class DomFilter {
 	PredicateSelector: string;
 	ElementSelector: string;
 	View: HTMLElement;
-
 	Template = `
 		<div id=nadam-domfilter>
 			<input type="text" data-local-id="filter-predicate-value" size="30" list="babes" class="ml-1 mr-1">

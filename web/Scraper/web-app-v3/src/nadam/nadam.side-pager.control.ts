@@ -12,7 +12,7 @@ export interface IPage {
 /// usage:
 /// var pageManager = new SidePager();
 /// pageManager.CreatePage(document.createElement("div").innerText = "Hello world");
-export class SidePager {
+export class SidePagerControl extends HTMLElement  {
 
 	private PageManager = document.createElement("div");
 	private Pages: Array<IPage>;
@@ -27,6 +27,8 @@ export class SidePager {
 			<div class="side-page-content"></div>
 		</div>`;
 	constructor() {
+
+		super();
 
 		this.PageManager.style.position = "fixed";
 		this.PageManager.id = "side-pages-manager";

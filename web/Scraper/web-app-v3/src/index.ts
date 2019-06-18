@@ -2,7 +2,10 @@ import "babel-polyfill";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { App } from "./app/webhack.app";
+import { RegisterCustomElements } from "./nadam/nadam.custom-elements.index";
 
+
+RegisterCustomElements();
 console.log("app starting");
 var app: App = new App();
 
