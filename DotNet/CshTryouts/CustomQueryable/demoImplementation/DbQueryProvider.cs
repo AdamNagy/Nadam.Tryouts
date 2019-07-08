@@ -21,8 +21,8 @@ namespace CustomQueryable
 
         public override object Execute(Expression expression)
         {
-            DbCommand cmd = this.connection.CreateCommand();
-            cmd.CommandText = this.Translate(expression);
+            DbCommand cmd = connection.CreateCommand();
+            cmd.CommandText = Translate(expression);
             DbDataReader reader = cmd.ExecuteReader();
             Type elementType = TypeSystem.GetElementType(expression.Type);
 

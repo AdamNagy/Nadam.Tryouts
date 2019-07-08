@@ -23,11 +23,9 @@ namespace CustomQueryable
 
         private static Expression StripQuotes(Expression e)
         {
-            while (e.NodeType == ExpressionType.Quote)
-            {
-                e = ((UnaryExpression)e).Operand;
-            }
-
+            while (e.NodeType == ExpressionType.Quote)            
+                e = ((UnaryExpression)e).Operand;            
+    
             return e;
         }
 
@@ -36,13 +34,10 @@ namespace CustomQueryable
             if (m.Method.DeclaringType == typeof(Queryable) && m.Method.Name == "Where")
             {
                 sb.Append("SELECT * FROM (");
-
                 Visit(m.Arguments[0]);
-
                 sb.Append(") AS T WHERE ");
 
                 LambdaExpression lambda = (LambdaExpression)StripQuotes(m.Arguments[1]);
-
                 Visit(lambda.Body);
 
                 return m;
@@ -56,11 +51,10 @@ namespace CustomQueryable
             switch (u.NodeType)
             {
                 case ExpressionType.Not:
-
                     sb.Append(" NOT ");
-
                     Visit(u.Operand);
                     break;
+
                 default:
                     throw new NotSupportedException(string.Format("The unary operator '{0}' is not supported", u.NodeType));
             }
@@ -104,7 +98,6 @@ namespace CustomQueryable
             }
 
             Visit(b.Right);
-
             sb.Append(")");
 
             return b;
@@ -132,13 +125,16 @@ namespace CustomQueryable
                     case TypeCode.Boolean:
                         sb.Append(((bool)c.Value) ? 1 : 0);
                         break;
+
                     case TypeCode.String:
                         sb.Append("'");
                         sb.Append(c.Value);
                         sb.Append("'");
                         break;
+
                     case TypeCode.Object:
                         throw new NotSupportedException(string.Format("The constant for '{0}' is not supported", c.Value));
+
                     default:
                         sb.Append(c.Value);
                         break;
@@ -147,22 +143,15 @@ namespace CustomQueryable
             return c;
         }
 
-        // No sutable method found to override
-        //protected override Expression VisitMemberAccess(MemberExpression m)
-        //{
+        protected override Expression VisitMemberAccess(MemberExpression m)
+        {
+            if (m.Expression != null && m.Expression.NodeType == ExpressionType.Parameter)
+            {
+                sb.Append(m.Member.Name);
+                return m;
+            }
 
-        //    if (m.Expression != null && m.Expression.NodeType == ExpressionType.Parameter)
-        //    {
-
-        //        sb.Append(m.Member.Name);
-
-        //        return m;
-
-        //    }
-
-        //    throw new NotSupportedException(string.Format("The member '{0}' is not supported", m.Member.Name));
-
-        //}
-
+            throw new NotSupportedException(string.Format("The member '{0}' is not supported", m.Member.Name));
+        }
     }
 }

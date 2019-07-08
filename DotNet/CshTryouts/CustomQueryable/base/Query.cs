@@ -26,26 +26,26 @@ namespace CustomQueryable
             get { return provider; }
         }
 
-        public Query(QueryProvider provider)
+        public Query(QueryProvider _provider)
         {
-            provider = provider ?? throw new ArgumentNullException("provider");
+            provider = _provider ?? throw new ArgumentNullException("provider");
 
             expression = Expression.Constant(this);
         }
 
-        public Query(QueryProvider provider, Expression expression)
+        public Query(QueryProvider _provider, Expression _expression)
         {
-            if (provider == null)
+            if (_provider == null)
                 throw new ArgumentNullException("provider");
 
-            if (expression == null)
+            if (_expression == null)
                 throw new ArgumentNullException("expression");
 
-            if (!typeof(IQueryable<T>).IsAssignableFrom(expression.Type))
+            if (!typeof(IQueryable<T>).IsAssignableFrom(_expression.Type))
                 throw new ArgumentOutOfRangeException("expression");
 
-            provider = provider;
-            expression = expression;
+            provider = _provider;
+            expression = _expression;
         }
 
         public IEnumerator<T> GetEnumerator()
