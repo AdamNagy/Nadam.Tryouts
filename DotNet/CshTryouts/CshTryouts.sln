@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CshTryouts", "CshTryouts\CshTryouts.csproj", "{3B10D42F-AA1C-4381-B651-AD6D00129AD9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomQueryable", "CustomQueryable\CustomQueryable.csproj", "{FE5538CA-F664-40F2-9D18-2D814C2A270B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3B10D42F-AA1C-4381-B651-AD6D00129AD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B10D42F-AA1C-4381-B651-AD6D00129AD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B10D42F-AA1C-4381-B651-AD6D00129AD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B10D42F-AA1C-4381-B651-AD6D00129AD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE5538CA-F664-40F2-9D18-2D814C2A270B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE5538CA-F664-40F2-9D18-2D814C2A270B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE5538CA-F664-40F2-9D18-2D814C2A270B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE5538CA-F664-40F2-9D18-2D814C2A270B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7FF85C2C-6F94-47EE-9818-BDA8455D3A3F}
+	EndGlobalSection
+EndGlobal
