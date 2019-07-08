@@ -1,6 +1,6 @@
 <div id="control-panel" class="row position-fixed">
     <div class="col-6 d-flex align-items-center">
-        <input type="text" id="requestUrl" size="100" list="babes">
+        <input type="text" id="requestUrl" size="100">
 
         <button id="request-btn" class="btn btn-primary ml-1 mr-1">Go</button>
         <button id="request-p10-btn" class="btn btn-primary ml-1 mr-1">Go+10</button>
@@ -8,17 +8,6 @@
         <label for="page" class="ml-1 mr-1">Page</label>
         <input type="number" name="page" min="1" max="999" id="page-input" class="ml-1 mr-1">
 
-        <datalist id="babes">
-            <option value="jenni">
-            <option value="keira">
-            <option value="emma">
-            <option value="tillie">
-            <option value="jessica">
-            <option value="stacey">
-            <option value="victoria">
-            <option value="katya">
-            <option value="abbie">
-        </datalist>
 
         <button id="clear-btn" class="btn btn-danger ml-1 mr-1">Clear</button>
     </div>
@@ -26,13 +15,6 @@
     <div id="control-panel-slot-2" class="col-6 d-flex align-items-center">
         <button onclick="AppControls.sidePager.CloseAll()" class="btn btn-primary ml-3 mr-1">Close side pages</button>
     </div>
-    @*<div class="col-6 d-flex align-items-center">
-        <input type="text" id="filter-predicate-value" size="30" list="babes" class="ml-1 mr-1">
-        <button onclick="FilterClick()" class="btn btn-primary ml-1 mr-1">Filter</button>
-        <button onclick="ResetFilterClick()" class="btn btn-danger ml-1 mr-1">Reset</button>
-        &nbsp;
-        <button onclick="AppControls.sidePager.CloseAll()" class="btn btn-primary ml-3 mr-1">Close side pages</button>
-    </div>*@
 </div>
 
 <div class="row pt-5" id="content">
