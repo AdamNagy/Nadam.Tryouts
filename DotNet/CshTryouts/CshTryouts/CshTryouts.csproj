@@ -43,11 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomFileSystemQueryable\ExpressionTreeModifier.cs" />
-    <Compile Include="CustomFileSystemQueryable\FileSystemContext .cs" />
-    <Compile Include="CustomFileSystemQueryable\FileSystemElement.cs" />
-    <Compile Include="CustomFileSystemQueryable\FileSystemProvider .cs" />
-    <Compile Include="CustomFileSystemQueryable\FileSystemQueryContext.cs" />
     <Compile Include="EnumerablePattern\MyEnumerable.cs" />
     <Compile Include="EnumerablePattern\YieldUseage.cs" />
     <Compile Include="Program.cs" />

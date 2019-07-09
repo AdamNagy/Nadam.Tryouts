@@ -5,7 +5,7 @@ using System.Linq;
 namespace CustomQueryable.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class LinqToSqlTests
     {
         [TestMethod]
         public void TestMethod1()

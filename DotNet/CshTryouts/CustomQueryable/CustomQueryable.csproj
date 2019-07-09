@@ -41,17 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="base\ExpressionVisitor.cs" />
-    <Compile Include="implementation\Customers.cs" />
-    <Compile Include="implementation\DbQueryProvider.cs" />
-    <Compile Include="base\ObjectReader.cs" />
-    <Compile Include="implementation\Northwind.cs" />
-    <Compile Include="implementation\Orders.cs" />
+    <Compile Include="LinqToFolderSystem\ExpressionTreeModifier.cs" />
+    <Compile Include="LinqToFolderSystem\FileSystemContext .cs" />
+    <Compile Include="LinqToFolderSystem\FileSystemElement.cs" />
+    <Compile Include="LinqToFolderSystem\FileSystemProvider .cs" />
+    <Compile Include="LinqToFolderSystem\FileSystemQueryContext.cs" />
+    <Compile Include="LinqToSql\base\ExpressionVisitor.cs" />
+    <Compile Include="LinqToSql\implementation\Customers.cs" />
+    <Compile Include="LinqToSql\implementation\DbQueryProvider.cs" />
+    <Compile Include="LinqToSql\base\ObjectReader.cs" />
+    <Compile Include="LinqToSql\implementation\Northwind.cs" />
+    <Compile Include="LinqToSql\implementation\Orders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="base\Query.cs" />
-    <Compile Include="base\QueryProvider.cs" />
-    <Compile Include="base\QueryTranslator.cs" />
-    <Compile Include="base\TypeSystem.cs" />
+    <Compile Include="LinqToSql\base\Query.cs" />
+    <Compile Include="LinqToSql\base\QueryProvider.cs" />
+    <Compile Include="LinqToSql\base\QueryTranslator.cs" />
+    <Compile Include="LinqToSql\base\TypeSystem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

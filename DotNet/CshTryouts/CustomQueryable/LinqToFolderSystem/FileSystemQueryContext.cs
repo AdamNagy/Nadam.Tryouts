@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CshTryouts.CustomQueryable
+namespace CustomQueryable
 {
     public class FileSystemQueryContext
     {
@@ -17,7 +17,7 @@ namespace CshTryouts.CustomQueryable
             // Copy the expression tree that was passed in, changing only the first
             // argument of the innermost MethodCallExpression.
             var treeCopier = new ExpressionTreeModifier(queryableElements);
-            var newExpressionTree = treeCopier.CopyAndModify(expression);
+            var newExpressionTree = treeCopier.Visit(expression);
 
             // This step creates an IQueryable that executes by replacing Queryable methods with Enumerable methods.
             if (isEnumerable)

@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace CshTryouts.CustomQueryable
+namespace CustomQueryable
 {
     public class FileSystemContext : IOrderedQueryable<FileSystemElement>
     {
+        public Expression Expression { get; private set; }
+        public IQueryProvider Provider { get; private set; }
+
         public FileSystemContext(string root)
         {
             Provider = new FileSystemProvider(root);
@@ -34,8 +37,5 @@ namespace CshTryouts.CustomQueryable
         {
             get { return typeof(FileSystemElement); }
         }
-
-        public Expression Expression { get; private set; }
-        public IQueryProvider Provider { get; private set; }
     }
 }
