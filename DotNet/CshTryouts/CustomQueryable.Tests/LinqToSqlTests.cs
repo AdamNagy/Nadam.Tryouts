@@ -8,9 +8,9 @@ namespace CustomQueryable.Tests
     public class LinqToSqlTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void Test1()
         {
-            using (SqlConnection con = new SqlConnection("Server=NADAM-DESKTOP\\SQLEXPRESS;Database=MIV;Trusted_Connection=True;"))
+            using (SqlConnection con = new SqlConnection(""))
             {
                 Northwind db = new Northwind(con);
                 var query = db.Customers.Where(c => c.City == "London");
