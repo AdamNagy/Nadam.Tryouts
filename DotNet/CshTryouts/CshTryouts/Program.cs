@@ -12,6 +12,8 @@ namespace CshTryouts
 
             ValueAnRefTypeDemo();
 
+            var x = new StringNum("123");
+
             // Console.ReadKey();
         }
 
