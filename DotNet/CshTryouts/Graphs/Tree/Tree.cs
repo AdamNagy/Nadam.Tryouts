@@ -24,15 +24,9 @@ namespace Tree
 
         public void AddChildFor(TNode parent, TNode child)
         {
-            if (!ContainsNode(parent))
+            if (!ContainsNode(parent) || !ContainsNode(child) || ContainsEdge(child, parent))
                 throw new Exception("Parent node does not exist");
-
-            if (!ContainsNode(child))
-                AddNode(child);
-
-            if (ContainsEdge(child, parent))
-                throw new Exception("There is already and edge from child to parent");
-
+            
             AddReferenceFor(parent, child);
         }
 
@@ -40,7 +34,8 @@ namespace Tree
         {
             if (hasRoot)
                 return root;
-            throw new Exception("Current graph does not hav a root");
+
+            return default(TNode);
         }
 
         public IEnumerable<TNode> GetChildrenFor(TNode parent)

@@ -5,6 +5,7 @@ namespace DirectedGraph
 {
     public class DirectedNode<T> : Node<T>
     {
+        // int is an index in the mediator classes node list array
         protected IList<int> References;
 
         public DirectedNode(T value, int id) : base(value, id)
@@ -17,7 +18,7 @@ namespace DirectedGraph
             References = new List<int>(size);
         }
 
-        public IList<int> GetReferences() => References;        
+        public IList<int> GetReferences() => References;
 
         public bool AddReference(int id)
         {

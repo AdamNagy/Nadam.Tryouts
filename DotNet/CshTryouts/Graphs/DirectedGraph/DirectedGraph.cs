@@ -4,6 +4,11 @@ using System.Linq;
 
 namespace DirectedGraph
 {
+    /// <summary>
+    /// Mediator like graph implementation as this class holds the all the node references.
+    /// Nodes can point to each other, but the control is in the mediator -this- class
+    /// </summary>
+    /// <typeparam name="TNode">type of the data the graph holds</typeparam>
 	public class DirectedGraph<TNode> : IDirectedGraph<TNode> 
 	{
 		protected IList<DirectedNode<TNode>> NodeSet { get; set; }
@@ -115,17 +120,17 @@ namespace DirectedGraph
                 nodes.RemoveReference(nodeA.NodeId);            
 		}
 
-        protected IEnumerable<TNode> GetReferencedNodesFor(TNode nodeVal)
+        protected IEnumerable<DirectedNode<TNode>> GetReferencedNodesFor(TNode nodeVal)
         {
             if (!ContainsNode(nodeVal))
                 throw new Exception($"Node with value {nodeVal} does not exist in the current graph");
 
-            var referencedNodes = new List<TNode>();
+            var referencedNodes = new List<DirectedNode<TNode>>();
 
             var node = GetNode(nodeVal).First();
 
             foreach (var p in node.GetReferences())            
-                referencedNodes.Add(NodeSet[p].Value);            
+                referencedNodes.Add(NodeSet[p]);            
 
             return referencedNodes;
         }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Graphs.Tests
 {
-    class BinaryTreeTests
+    public class BinaryTreeTests
     {
         [TestClass]
         public class Add
