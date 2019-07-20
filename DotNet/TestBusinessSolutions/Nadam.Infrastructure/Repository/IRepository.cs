@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Nadam.Infrastructure.Repository
+namespace InfrastructureDemo.Repository
 {
     /// <summary>
     /// Defines various methods for working with data in the system.

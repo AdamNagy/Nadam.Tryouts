@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text;
-using Nadam.Infrastructure.Logging;
+using InfrastructureDemo.Logging;
 
-namespace Nadam.Infrastructure.Email
+namespace InfrastructureDemo.Email
 {
     public class TextLoggingEmailService : IEmailService
     {

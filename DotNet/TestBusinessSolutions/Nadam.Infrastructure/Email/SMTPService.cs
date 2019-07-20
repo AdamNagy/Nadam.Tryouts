@@ -1,6 +1,6 @@
 ﻿using System.Net.Mail;
 
-namespace Nadam.Infrastructure.Email
+namespace InfrastructureDemo.Email
 {
     public class SMTPService : IEmailService
     {

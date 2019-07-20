@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Threading;
 
-namespace Nadam.Infrastructure.DataContextStorage
+namespace InfrastructureDemo.DataContextStorage
 {
     /// <summary>
     /// A Helper class to store objects like a DataContext in a static HashTable indexed by the name of a thread.

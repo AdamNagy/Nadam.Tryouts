@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nadam.Infrastructure.Logging
+namespace InfrastructureDemo.Logging
 {
     /// <summary>
     /// This is a concrete logger API adapter named Log4Net

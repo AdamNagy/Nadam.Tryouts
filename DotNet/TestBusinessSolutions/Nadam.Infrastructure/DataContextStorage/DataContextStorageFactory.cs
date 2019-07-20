@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace Nadam.Infrastructure.DataContextStorage
+namespace InfrastructureDemo.DataContextStorage
 {
     /// <summary>
     /// A helper class to create application platform specific storage containers.

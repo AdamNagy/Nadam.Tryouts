@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Nadam.Infrastructure.Domain
+namespace InfrastructureDemo.Domain
 {
     /// <summary>
     /// Serves as the base class for all entities in the system.

@@ -1,4 +1,4 @@
-﻿namespace Nadam.Infrastructure.Email
+﻿namespace InfrastructureDemo.Email
 {
     public interface IEmailService
     {

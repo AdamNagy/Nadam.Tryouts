@@ -1,4 +1,4 @@
-﻿namespace Nadam.Infrastructure.Logging
+﻿namespace InfrastructureDemo.Logging
 {
     public class LoggingFactory
     {

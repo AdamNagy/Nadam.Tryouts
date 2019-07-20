@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 
-namespace Nadam.Infrastructure.Domain
+namespace InfrastructureDemo.Domain
 {
     /// <summary>
     /// Base class for value objects in the domain.

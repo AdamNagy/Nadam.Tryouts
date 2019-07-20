@@ -1,4 +1,4 @@
-﻿namespace Nadam.Infrastructure.UnitOfWork
+﻿namespace InfrastructureDemo.UnitOfWork
 {
     /// <summary>
     /// Creates new instances of a unit of Work.

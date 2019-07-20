@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace Nadam.Infrastructure.DataContextStorage
+namespace InfrastructureDemo.DataContextStorage
 {
     /// <summary>
     /// A Helper class to store objects like a DataContext in the HttpContext.Current.Items collection.

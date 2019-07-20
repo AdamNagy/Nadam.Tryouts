@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nadam.Infrastructure.UnitOfWork
+namespace InfrastructureDemo.UnitOfWork
 {
     /// <summary>
     /// Represents a unit of work

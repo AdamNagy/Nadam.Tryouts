@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace Nadam.Infrastructure.Domain
+namespace InfrastructureDemo.Domain
 {
     /// <summary>
     /// A base class for validation exceptions thrown from a model.

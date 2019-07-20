@@ -1,4 +1,4 @@
-﻿namespace Nadam.Infrastructure.DataContextStorage
+﻿namespace InfrastructureDemo.DataContextStorage
 {
     /// <summary>
     /// Defines methods to create, store and create objects from a storage container.

@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace Nadam.Infrastructure.Configuration
+namespace InfrastructureDemo.Configuration
 {
     public class WebConfigApplicationSettings : IApplicationSettings
     {

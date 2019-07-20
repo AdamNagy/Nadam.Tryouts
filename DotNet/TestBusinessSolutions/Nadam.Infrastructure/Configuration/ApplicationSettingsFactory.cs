@@ -1,4 +1,4 @@
-﻿namespace Nadam.Infrastructure.Configuration
+﻿namespace InfrastructureDemo.Configuration
 {
     public class ApplicationSettingsFactory
     {

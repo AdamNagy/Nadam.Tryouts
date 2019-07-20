@@ -7,8 +7,8 @@
     <ProjectGuid>{8EC390FE-EB8A-4C34-B892-704CE18D15B5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nadam.Infrastructure</RootNamespace>
-    <AssemblyName>Infrastructure</AssemblyName>
+    <RootNamespace>InfrastructureDemo</RootNamespace>
+    <AssemblyName>InfrastructureDemo</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
