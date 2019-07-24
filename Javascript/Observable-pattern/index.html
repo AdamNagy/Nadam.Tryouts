@@ -4,8 +4,8 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 	</head>
 	<body>
-	<button onclick="handler()">window.globals.prop1 + 1</button>
-	<button onclick="handler2()">Observable</button>
+		<button onclick="handler()">window.globals.prop1 + 1</button>
+		<button onclick="handler2()">Observable</button>
 
 		<button id="addNewObserver">Add New Observer checkbox</button>
 		<input id="mainCheckbox" type="checkbox"/>
@@ -17,7 +17,7 @@
 			<span>Message</span><div class="messagePreview"></div>
 		</section>
 		
-		<script src="./change-detection1.js"></script>
+		<script src="./self-implementations.js"></script>
 		<script>
 			function handler() {
 				window.store.prop1 = {val: window.store.prop1.val + 1};
@@ -26,7 +26,11 @@
 
 			function handler2() {
 				let prop2 = propSelector("prop2");
-				prop2.changeValue({number: prop2.value.number + 1});
+
+				if( prop2.value !== undefined )
+					prop2.changeValue({number: prop2.value.number + 1});
+				else 
+					prop2.changeValue({number: 1});				
 			}
 		</script>
 		<!-- <script src="observable.js"></script>

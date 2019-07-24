@@ -14,7 +14,7 @@ namespace CshTryouts
         {
             isLessThanZero = _val.StartsWith("-") ? true : false;
 
-            if (StringNum.Validate(_val.TrimStart(new char[] { '-'})))
+            if (_val.TrimStart(new char[] { '-'}).IsNumber() )
                 digits = _val.ToDigits();
             else            
                 throw new ArgumentException($"Given string contains non numerical characters: {_val}");
@@ -28,30 +28,30 @@ namespace CshTryouts
 
         public static StringNum operator +(StringNum a, StringNum b)
         {
-            var digits = new LinkedList<int>();
+            var sumDigits = new LinkedList<int>();
             int[] a_reversed = a.digits.Reverse().ToArray(),
-                   b_reversed = b.digits.Reverse().ToArray();
+                  b_reversed = b.digits.Reverse().ToArray();
 
-            int idx = 0,
-                master = Math.Max(a_reversed.Length, b_reversed.Length),
+            int digitIdx = 0,
+                biggerNumberLengh = Math.Max(a_reversed.Length, b_reversed.Length),
                 remainder = 0;
 
-            for (; idx < master; ++idx)
+            for (; digitIdx < biggerNumberLengh; ++digitIdx)
             {
-                int digA = a_reversed.Length > idx ? a_reversed[idx] : 0,
-                    digB = b_reversed.Length > idx ? b_reversed[idx] : 0;
+                int digA = a_reversed.Length > digitIdx ? a_reversed[digitIdx] : 0,
+                    digB = b_reversed.Length > digitIdx ? b_reversed[digitIdx] : 0;
 
                 var sum = (digA + digB + remainder).ToDigits();
                 remainder = sum.Length > 1 ? sum[0] : 0;
 
-                digits.AddFirst(sum.Length > 1 ? sum[1] : sum[0]);
+                sumDigits.AddFirst(sum.Length > 1 ? sum[1] : sum[0]);
             }
 
             if (remainder > 0)
-                digits.AddFirst(remainder);
+                sumDigits.AddFirst(remainder);
 
             var builder = new StringBuilder();
-            foreach (var digit in digits)
+            foreach (var digit in sumDigits)
                 builder.Append(digit);
 
             return new StringNum(builder.ToString());
@@ -82,7 +82,7 @@ namespace CshTryouts
         #region Equality operators
         public static bool operator ==(StringNum left, string right)
         {
-            if (!Validate(right))
+            if (!right.IsNumber())
                 return false;
 
             var rightAsDigits = right.ToDigits();
@@ -134,20 +134,6 @@ namespace CshTryouts
 
             return builder.ToString();
         }
-
-        public static bool Validate(string value)
-            => Validate(value.ToCharArray());
-
-        public static bool Validate(char[] value)
-        {
-            foreach (var digit in value)
-            {
-                if (digit < 48 || digit > 87)
-                    return false;
-            }
-
-            return true;
-        }   
     }
 
     public static class ExtensionsForStringNumber
@@ -186,6 +172,20 @@ namespace CshTryouts
             // Ascii 48 = Decimal 0
             // Ascii 57 = Decimal 9
             return digit - 48;
+        }
+
+        public static bool IsNumber(this string value)
+            => IsNumber(value.ToCharArray());
+
+        public static bool IsNumber(this char[] value)
+        {
+            foreach (var digit in value)
+            {
+                if (digit < 48 || digit > 87)
+                    return false;
+            }
+
+            return true;
         }
     }
 }
