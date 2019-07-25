@@ -4,6 +4,9 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 	</head>
 	<body>
+	<button onclick="handler()">window.globals.prop1 + 1</button>
+	<button onclick="handler2()">Observable</button>
+
 		<button id="addNewObserver">Add New Observer checkbox</button>
 		<input id="mainCheckbox" type="checkbox"/>
 		<div id="observersContainer"></div>
@@ -14,7 +17,19 @@
 			<span>Message</span><div class="messagePreview"></div>
 		</section>
 		
-		<script src="observable.js"></script>
+		<script src="./change-detection1.js"></script>
+		<script>
+			function handler() {
+				window.store.prop1 = {val: window.store.prop1.val + 1};
+				window.pubsub.fire('someEventName', window.store.prop1);
+			}
+
+			function handler2() {
+				let prop2 = propSelector("prop2");
+				prop2.changeValue({number: prop2.value.number + 1});
+			}
+		</script>
+		<!-- <script src="observable.js"></script>
 		<script>
 			var controlCheckbox = document.getElementById( "mainCheckbox" ),
 				addBtn = document.getElementById( "addNewObserver" ),
@@ -76,7 +91,7 @@
 				// Use the data that was passed from our subject
 				// to display a message preview to the user
 				$( ".messageSender" ).html( data[0].sender );
-				$( ".messagePreview" ).html( data[0].body );			
+				$( ".messagePreview" ).html( data[0].body );
 			});
 			
 			// Here's another subscriber using the same data to perform
@@ -85,7 +100,7 @@
 			// Update the counter displaying the number of new
 			// messages received via the publisher
 			
-			var subscriber2 = pubsub.subscribe( "inbox/newMessage", function( topic, data ) {			
+			var subscriber2 = pubsub.subscribe( "inbox/newMessage", function( topic, data ) {
 				$('.newMessageCounter').html( ++mailCounter );			
 			});
 			
@@ -98,6 +113,6 @@
 			// from receiving any new topic notifications as follows:
 			// unsubscribe( subscriber1 );
 			// unsubscribe( subscriber2 );
-		</script>
+		</script> -->
 	</body>
 </html>
