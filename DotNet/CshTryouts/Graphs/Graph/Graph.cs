@@ -6,6 +6,7 @@ namespace Graph
 	/// <summary>
 	/// Base graph class, represents an undirected graph
 	/// Nodes and undirected edges can added
+    /// This is a moderator type data structure
 	/// </summary>
 	/// <typeparam name="NodeType"></typeparam>
 	public class Graph<TNode> : IGraph<TNode>
