@@ -9,7 +9,7 @@ namespace MyCollection.AssociativeArrays
         private IEqualityComparer<TKey> comparer;
         private DoubleLinkedList<KVPair> backbone;
         // Value that is updated everytime the list is updated.
-        private int m_updateCode;
+        private int updateCode;
 
         /// <summary>
         /// Initializes a new instance of the AssociativeList(TKey,TValue) class that is empty.
@@ -93,7 +93,7 @@ namespace MyCollection.AssociativeArrays
         public void Clear()
         {
             backbone.Clear();
-            ++m_updateCode;
+            ++updateCode;
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace MyCollection.AssociativeArrays
 
             backbone.AddToBeginning(kvp);
 
-            ++m_updateCode;
+            ++updateCode;
         }
 
         /// <summary>
@@ -302,7 +302,7 @@ namespace MyCollection.AssociativeArrays
 
             backbone.Remove(node);
 
-            ++m_updateCode;
+            ++updateCode;
 
             return true;
         }

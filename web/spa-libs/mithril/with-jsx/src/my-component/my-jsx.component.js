@@ -1,3 +1,5 @@
+import m from "mithril";
+
 export const MyJSXComponent = {
 	content: "Hello World JSX from component property",
 	view: function() {
