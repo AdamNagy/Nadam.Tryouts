@@ -40,7 +40,8 @@ namespace Tree
 
         public IEnumerable<TNode> GetChildrenFor(TNode parent)
         {
-            return GetReferencedNodesFor(parent);            
+            throw new NotImplementedException();
+            // return GetReferencedNodesFor(parent);
         }
 
         public IEnumerator<TNode> PreOrder()

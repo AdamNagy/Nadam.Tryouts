@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Graphs.Graph2;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -456,6 +457,58 @@ namespace Graphs.Tests
                 }
 
                 CollectionAssert.AreEqual(new int[] { 1, 2, 3, 4 }, iterationOrder);
+            }
+        }
+    }
+
+    class Tree2Tests
+    {
+        [TestClass]
+        public class DefaultTest
+        {
+            [TestMethod]
+            public void CreateAndAddingElements()
+            {
+                var root = new LinkedNode<int>(1);
+                LinkedNode<int>.AddNode(root, new LinkedNode<int>(2));
+                LinkedNode<int>.AddNode(root, new LinkedNode<int>(3));
+                LinkedNode<int>.AddNode(root, new LinkedNode<int>(4));
+
+                Assert.IsNotNull(root);
+            }
+
+            [TestMethod]
+            public void Find()
+            {
+                var root = new LinkedNode<int>(1);
+                LinkedNode<int>.AddNode(root, new LinkedNode<int>(2));
+                LinkedNode<int>.AddNode(root, new LinkedNode<int>(3));
+                LinkedNode<int>.AddNode(root, new LinkedNode<int>(4));
+
+                var found = LinkedNode<int>.FindNode(root, 3);
+
+                Assert.AreEqual(3, found.Value);
+            }
+
+            [TestMethod]
+            public void Find2()
+            {
+                var root = new LinkedNode<int>(1);
+                for (int i = 2; i < 100; i++)
+                {
+                    var child = new LinkedNode<int>(i);
+                    LinkedNode<int>.AddNode(root, child);
+                    for (int j = 100; j < 200; j++)
+                    {
+                        var subChild = new LinkedNode<int>(i+j);
+                        LinkedNode<int>.AddNode(child, subChild);
+                    }
+                }
+
+                // i: 50, j: 150
+                var found = LinkedNode<int>.FindNode(root, 200);
+
+                Assert.AreEqual(200, found.Value);
             }
         }
     }

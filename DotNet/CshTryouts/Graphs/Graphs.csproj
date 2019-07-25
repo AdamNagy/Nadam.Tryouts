@@ -48,6 +48,7 @@
     <Compile Include="DirectedGraph\DirectedGraph.cs" />
     <Compile Include="DirectedGraph\DirectedNode.cs" />
     <Compile Include="DirectedGraph\IDirectedGraph.cs" />
+    <Compile Include="Tree2\LinkedNode.cs" />
     <Compile Include="Graph\Edge.cs" />
     <Compile Include="Graph\Graph.cs" />
     <Compile Include="Graph\IGraph.cs" />
