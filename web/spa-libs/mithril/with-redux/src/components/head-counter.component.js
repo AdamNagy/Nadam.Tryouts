@@ -1,36 +1,35 @@
 import m from "mithril";
 import { addTask } from '../store/actions/head-counter.actions';
 
-export const HeadCounterComponent = {
-	add: function(e) {
+
+
+class _HeadCounterComponent {
+
+	content = "Hello World JSX from component property";
+	tasks = [];
+	
+	add() {
 		window.store.dispatch(addTask({a: 3, b: 5, sum: 8}))
-	},
-	content: "Hello World JSX from component property",
-	tasks: [],
-	// oninit: function() {
-	// 	this.tasks = window.store.getState();
-	// },
-	oncreate: function(vnode) {
+	}
+	
+	oncreate(vnode) {
         this.tasks = window.store.getState();
-    },
-	// onbeforeupdate: state.computed,
-	// view: () =>	 (
-	// 		<div>
-	// 			<div>
-	// 				<button click='this.add'>Dispatch action</button>
-	// 			</div>
-	// 			<div>{this.tasks}</div>
-	// 		</div>
-	// 	)
-	view: function() {
+	}
+	
+	view(ctrl, {a, b, c}) {
 		return (
 			<main>
-				<h1>{this.content}</h1>
+				<h1>{ this.content }</h1>
 				<ol>
-					{this.tasks.map(task => <li>{task}</li>)}
+					{ this.tasks.map(task => <li>{task}</li>) }
 				</ol>
 			</main>
 		)
-	}
-			
+	}			
 }
+
+export const HeadCounterComponent = connect(
+	(state) => ({a: state.a, b: state.b, c: state.c}),	// seelctor function
+	{ inc: addTask }	// controller object that maps events (button click) to actions
+  )(_HeadCounterComponent);
+  
