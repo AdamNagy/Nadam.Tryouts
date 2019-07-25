@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssociativeArrays\AssociativeList.cs" />
+    <Compile Include="AssociativeArrays\MyHashTable.cs" />
     <Compile Include="DoubleLinkedList\DoubleLinkedList.cs" />
     <Compile Include="DoubleLinkedList\DoubleLinkedListNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
