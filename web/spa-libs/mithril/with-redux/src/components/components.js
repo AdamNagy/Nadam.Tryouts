@@ -1,26 +1,42 @@
 import m from 'mithril';
-import {connect} from 'mithril-redux';
+import { connect } from 'mithril-redux';
 import {incrementAge, decrementAge, resetAge} from '../store/actions';
 
-var JsxChildComponentFactory = {
+class JsxChildComponentFactory {
 
-	selector: (state) => ({name: state.name, age: state.age}),
-	eventActionMapping: {
-		inc: incrementAge,
-	},
-	view: function() {
-		return (
-			<jsx-child>
-				<p>Hello from nested child cop</p>
-			</jsx-child>
-		)
+	constructor(attribute) {
+		this.attr = attribute;
+		this.eventActionMapping = {
+			inc: incrementAge,
+		};
+		
+	}
+	
+	getProp() {return this.someProp}
+	selector(state) {return {name: state.name, age: state.age}}
+	
+	getComponent() {
+		let someProp = "somewhat class property";
+		let classProp = this.attr;
+
+		return {
+			view: function(ctrl, stateProjection, attributes) { return (
+				<jsx-child>
+					<h3>class property: {someProp}</h3>
+					<h2>this is class dependecy: {classProp}</h2>
+					<p>Hello from nested child cop</p>
+					<p>attributes: {attributes}</p>
+				</jsx-child>
+			)}
+		}
 	}
 }
 
+var comp = new JsxChildComponentFactory("some given ctor attribute");
 export const ChildComp = connect(
-	JsxChildComponentFactory.selector,
-	JsxChildComponentFactory.eventActionMapping
-)(JsxChildComponentFactory);
+	comp.selector,
+	comp.eventActionMapping
+)(comp.getComponent());
 
 var JsxComponentFactory = {
 
@@ -35,8 +51,8 @@ var JsxComponentFactory = {
 				Hello from Jsx compoent
 				<p>from function parameter {stateProjection.name} age: {stateProjection.age}</p>
 				<button onclick={ctrl.inc()}>Increment something</button>
-				<jsx-child>
-				</jsx-child>
+				<ChildComp some-attribute={stateProjection.age}>
+				</ChildComp>
 			</jsx-person>
 		)
 	}
