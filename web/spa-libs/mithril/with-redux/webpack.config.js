@@ -1,25 +1,35 @@
 const path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+		app: './src/index.js'
+	},
   module: {
     rules: [
-      {
-        test: /\.js?$/,
-		exclude: /node_modules/,
-		loader: 'babel-loader',
-		query: {
-			presets: ['@babel/preset-env']
-		}
-      }
+    //   {
+    //     test: /\.tsx?$/,
+    //     use: 'ts-loader',
+    //     exclude: /node_modules/
+	//   }
+		{
+		test: /\.js$/,
+		exclude: /\/node_modules\//,
+		loader: 'babel-loader'
+        }
     ]
   },
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ]
   },
   output: {
-    filename: 'bundle.js',
+	filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
-  mode: "development"
+//   optimization: {
+// 		splitChunks: {
+// 			chunks: 'all'
+// 		}
+// 	},
+	mode: 'development'
 };

@@ -1,6 +1,8 @@
-import m from "mithril";
+import m from 'mithril';
+import {Provider} from 'mithril-redux';
+import configStore from './store/store';
+import Root from './components/root';
 
-window.store = configStore([]);
+const store = configStore({name: 'World!', age: 30});
 
-import { HeadCounterComponent } from './components/head-counter.component';
-m.mount(document.body, HeadCounterComponent);
+m.mount(document.body, Provider.init(store, m, Root));
