@@ -1,17 +1,20 @@
 import m from 'mithril';
 import { connect } from 'mithril-redux';
 import { incrementAge } from '../store/actions';
-
+import { MithrilComponent } from "./mithril.component";
 // <Conmponent-1>
-class ChildComponentFactory {
+class ChildComponentFactory implements MithrilComponent {
 	
-	constructor(stringAttribute) {
+	attr: string;
+	eventActionMapping: any;
+
+	constructor(stringAttribute: any) {
 		this.attr = stringAttribute;
 		this.eventActionMapping = {
 			// its because this 'mithril-redux' shit wires up all events in the markeup as a store action,
 			// and need to use the thunk middleware
 			dispatchNewAge: () => () => {
-				window.store.dispatch({type: 'INCREMENT_AGE'})
+				(window as any).store.dispatch({type: 'INCREMENT_AGE'})
 			}
 		}
 	}
