@@ -1,9 +1,9 @@
 import m from 'mithril';
-import {NameBox, AgeBox, NameBoxJsx} from './components';
+import {BaseComp, ChildComp} from './components';
 
 class Root {
   view() {
-    return m('div', [NameBox, AgeBox, NameBoxJsx]);
+    return m('div', [BaseComp]);
   }
 }
 

@@ -3,10 +3,10 @@ export const DECREMENT_AGE = 'DECREMENT_AGE';
 export const RESET_AGE = 'RESET_AGE';
 
 export function incrementAge() {
-	console.log(INCREMENT_AGE);
-  return {
-    type: INCREMENT_AGE
-  };
+	return {
+		type: INCREMENT_AGE,
+		redraw: false
+	};	
 }
 
 export function decrementAge() {
