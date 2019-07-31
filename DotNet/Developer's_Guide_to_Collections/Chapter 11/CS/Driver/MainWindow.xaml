@@ -1,0 +1,20 @@
+﻿<Window x:Class="Driver.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="WPF Binding Examples" Height="147" Width="300" ResizeMode="CanMinimize">
+    <Grid>
+        <Grid.RowDefinitions >
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+
+        </Grid.RowDefinitions>
+            <Button x:Name="ComboBoxButton" Grid.Row="0" Click="ComboBoxButton_Click">ComboBox Example</Button>
+            <Button x:Name="ListViewButton" Grid.Row="1" Click="ListViewButton_Click">ListView Example</Button>
+            <Button x:Name="ListBoxButton" Grid.Row="2" Click="ListBoxButton_Click">ListBox Example</Button>
+            <Button x:Name="TreeViewButton" Grid.Row="3" Click="TreeViewButton_Click">TreeView Example</Button>
+            <Button x:Name="CollectionViewButton" Grid.Row="4" Click="CollectionViewButton_Click">CollectionView Example</Button>
+    </Grid>
+</Window>
