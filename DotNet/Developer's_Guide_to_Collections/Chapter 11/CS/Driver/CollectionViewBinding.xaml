@@ -1,0 +1,73 @@
+﻿<Window x:Class="Driver.CollectionViewBinding"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="CollectionViewWindow" Height="617" Width="1220">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions >
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <ListView x:Name="ExampleListView1" Grid.Row="0" Grid.Column="0" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
+            <ListView.View>
+                <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Company Information">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Id}"  Header="Id" Width="50" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}"  Header="Name" Width="250"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Website}"  Header="Website" Width="200" />
+                </GridView>
+
+            </ListView.View>
+        </ListView>
+        <ListView x:Name="ExampleListView2" Grid.Row="0" Grid.Column="1" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
+            <ListView.View>
+                <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Company Information">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Id}"  Header="Id" Width="50"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}"  Header="Name" Width="250"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Website}"  Header="Website" Width="200" />
+                </GridView>
+
+            </ListView.View>
+        </ListView>
+        <ListView x:Name="ExampleListView3" Grid.Row="1" Grid.Column="0" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
+            <ListView.View>
+                <GridView AllowsColumnReorder="true" ColumnHeaderToolTip="Company Information">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Id}"  Header="Id" Width="50"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}"  Header="Name" Width="250"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Website}"  Header="Website" Width="200" />
+                </GridView>
+
+            </ListView.View>
+        </ListView>
+
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
+                <TextBlock Margin="3">View:</TextBlock>
+                <ComboBox Margin="3" x:Name="FilterView" SelectionChanged="FilterView_SelectionChanged">
+                    <ComboBoxItem>1</ComboBoxItem>
+                    <ComboBoxItem>2</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
+                <TextBlock Margin="3">Filter:</TextBlock>
+                <ComboBox Margin="3" x:Name="FilterProperty" SelectionChanged="FilterProperty_SelectionChanged" />
+                <ComboBox Margin="3" x:Name="FilterOperator" SelectionChanged="FilterOperator_SelectionChanged">
+                    <ComboBoxItem>&lt;</ComboBoxItem>
+                    <ComboBoxItem>&lt;=</ComboBoxItem>
+                    <ComboBoxItem>=</ComboBoxItem>
+                    <ComboBoxItem>&gt;=</ComboBoxItem>
+                    <ComboBoxItem>&gt;</ComboBoxItem>
+                </ComboBox>
+                <TextBox Margin="3" Width="300" x:Name="FilterText"></TextBox>
+                <Button x:Name="FilterButton" Click="FilterButton_Click" IsEnabled="False">Filter</Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
