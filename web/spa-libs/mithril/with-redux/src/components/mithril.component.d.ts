@@ -1,6 +1,6 @@
-export interface MithrilComponent {
+export abstract class MithrilComponent {
 
-	selector(state): any;
-	eventActionMapping: any;
-	getComponent(): any;
+	static selector(state): any;
+	static eventActionMapping: any;
+	static getComponent(): any;
 }

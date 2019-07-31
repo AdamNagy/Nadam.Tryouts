@@ -1,8 +1,8 @@
 import m from 'mithril';
-import {Provider} from 'mithril-redux';
+import { Provider } from 'mithril-redux';
 import configStore from './store/store';
 import Root from './components/root';
 
-window.store = configStore({name: 'World!', age: 30});
-
+const store = configStore({name: 'World!', age: 30});
+window.store = store;
 m.mount(document.body, Provider.init(store, m, Root));
