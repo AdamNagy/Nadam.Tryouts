@@ -32,8 +32,8 @@ gulp.task('build-scss', function () {
   var cssStream = gulp.src('./src/**/*.scss')
     .pipe(sass().on('error', sass.logError));
 	
-  return cssStream.pipe(concat("styles.css"))
-  .pipe(gulp.dest("dist/"))
+  return cssStream.pipe(concat("index.css"))
+  .pipe(gulp.dest("src/"))
 });
  
 gulp.task('sass:watch', function () {
