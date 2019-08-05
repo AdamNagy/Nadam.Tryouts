@@ -1,5 +1,5 @@
 import { connect } from "mithril-redux";
-import { decrementAge, DECREMENT_AGE }  from "./home.actions";
+import { nextGame, setLevel, setGameType }  from "./home.actions";
 import './home.style.scss';
 
 class HomeComponent_factory {
@@ -9,8 +9,9 @@ class HomeComponent_factory {
 		dispatchNewAge: () => () => {
 			(window as any).store.dispatch({type: "INCREMENT_AGE"} );
 		},
+
 		decrement: () => () => {
-			(window as any).store.dispatch({type: DECREMENT_AGE} );
+			(window as any).store.dispatch({type: DECREMENT_AGE} ); 
 		},
 	};
 

@@ -1,18 +1,29 @@
-import { MithrilAction } from "../lib/mithril.action";
+import { MithrilActionWithPayload } from "../lib/mithril.action";
 
-export const INCREMENT_AGE = 'INCREMENT_AGE';
-export const DECREMENT_AGE = 'DECREMENT_AGE';
+export const NEXT_GAME = 'NEXT_GAME';
+export const SET_LEVEL = 'SET_LEVEL';
+export const SET_GAMETYPE = 'SET_GAMETYPE';
 
-export function incrementAge(): MithrilAction {
+export function nextGame(payload): MithrilActionWithPayload {
 	return {
-		type: INCREMENT_AGE,
-		redraw: false
+		type: NEXT_GAME,
+		redraw: true,
+		payload: payload
 	};	
 }
 
-export function decrementAge(): MithrilAction {
+export function setLevel(payload): MithrilActionWithPayload {
 	return {
-	  type: DECREMENT_AGE,
-	  redraw: true
+	  type: SET_LEVEL,
+	  redraw: true,
+	  payload: payload
 	};
-  }
+}
+
+export function setGameType(payload): MithrilActionWithPayload {
+	return {
+		type: SET_GAMETYPE,
+		redraw: false,
+		payload: payload
+	}
+}
