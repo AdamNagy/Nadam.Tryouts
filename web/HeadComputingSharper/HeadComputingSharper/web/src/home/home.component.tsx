@@ -1,33 +1,46 @@
 import { connect } from "mithril-redux";
-import { nextGame, setLevel, setGameType }  from "./home.actions";
+import { nextGame, setLevel, setGameType, NEXT_GAME }  from "./home.actions";
 import './home.style.scss';
-
+import {OptionsComponent} from "../options/options.component";
 class HomeComponent_factory {
 	public static eventActionMapping = {
 		// its because this 'mithril-redux' shit wires up all events in the markeup as a store action,
 		// and need to use the thunk middleware
-		dispatchNewAge: () => () => {
-			(window as any).store.dispatch({type: "INCREMENT_AGE"} );
-		},
+		dispatchNextGame: () => () => {
+			let a = Math.ceil(Math.random() * 10);
+			let b = Math.ceil(Math.random() * 10);
 
-		decrement: () => () => {
-			(window as any).store.dispatch({type: DECREMENT_AGE} ); 
-		},
+			(window as any).store.dispatch({
+				type: NEXT_GAME,
+				payload: {left: a, right: b, solution: a + b},
+				redraw: true});
+		}
 	};
 
-	public static selector(state) {return {age: state.age}};
+	public static selector(state) {
+		const reducer = "gameReducer";
+		const reducedState = state[reducer][state[reducer].length - 1];
+
+		return { ...reducedState }; 
+	};
 
 	public static getComponent() {
 		return {
 			view: (ctrl, stateProjection, children) => { 
 				return (
-					<m-home class="container">
-						<h3>Hello from child component: Child component</h3>
-						<p>html attributes: {stateProjection["some-attribute"]}</p>
-						<input type="text" id="qwe"></input>
-						<button onclick={ctrl.dispatchNewAge()}>Increment age</button>
-						<button onclick={ctrl.decrement()}>Decrement age</button>
-					</m-home>
+					<div class="container">
+						<div class="row">
+							<h3>Head computing sharepr</h3>
+						</div>
+						<div class="row">
+							<button onclick={ctrl.dispatchNextGame({left: 3, right: 5, solution: 8})}>Next</button>
+							<OptionsComponent></OptionsComponent>
+						</div>
+						<div class="row">
+							<p>Level: {stateProjection.level}, Type: {stateProjection.type}</p>
+							<p>{stateProjection.left} + {stateProjection.right}</p>
+						</div>
+					</div>
 				)
 			}
 		}
