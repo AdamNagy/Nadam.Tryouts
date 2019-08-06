@@ -11,14 +11,16 @@ class OptionsComponent_factory {
 	public static getComponent() {
 		return {
 			view: (ctrl, stateProjection, children) => { 
-				return m("form", 
-					m("div", {class: "form-group"}, [
-						m("label", {for: "game-level-selection"}, "Game level"),
-						m("select", {class: "form-control"}, ["addition", "multiply", "dates"].map(function(item) {
-							return m("option", item) } )
-						)
-					])
-				);				
+				return m("div",
+					m("form", 
+						m("div", {class: "form-group"}, [
+							m("label", {for: "game-level-selection"}, "Game level"),
+							m("select", {class: "form-control"}, ["addition", "multiply", "dates"].map(function(item) {
+								return m("option", item) } )
+							)
+						])
+					)
+				);	
 			}
 		}
 	}

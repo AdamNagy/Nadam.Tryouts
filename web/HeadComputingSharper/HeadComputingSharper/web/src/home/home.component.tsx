@@ -1,5 +1,5 @@
 import { connect } from "mithril-redux";
-import { nextGame, setLevel, setGameType, NEXT_GAME }  from "./home.actions";
+import { NEXT_GAME }  from "./home.actions";
 import './home.style.scss';
 import {OptionsComponent} from "../options/options.component";
 class HomeComponent_factory {
