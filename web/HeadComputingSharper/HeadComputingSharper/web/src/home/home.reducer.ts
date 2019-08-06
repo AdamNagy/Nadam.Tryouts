@@ -1,5 +1,5 @@
 import * as Actions from './home.actions';
-import { MithrilAction, MithrilActionWithPayload } from "../lib/mithril.action";
+import { MithrilActionWithPayload } from "../lib/mithril.action";
 import { GameState, GameType } from "./home.models";
 
 
