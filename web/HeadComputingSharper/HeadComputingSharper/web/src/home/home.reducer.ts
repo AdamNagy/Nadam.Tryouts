@@ -1,21 +1,12 @@
 import * as Actions from './home.actions';
-import { MithrilAction, MithrilActionWithPayload } from "../lib/mithril.action";
+import { MithrilActionWithPayload } from "../lib/mithril.action";
 import { GameState, GameType } from "./home.models";
 
 
-let initialState: GameState[] = [{
-
-	level: 1,
-	type: GameType.addition,
-	left: "",
-	right: "",
-	solution: ""
-}]
+let initialState: GameState[] = []
 
 export function gameReducer(state:GameState[] = initialState, action: MithrilActionWithPayload) {
 
-	// let newState = {  ...state };
-	
 	switch (action.type) {
 		case Actions.NEXT_GAME:
 			const newGame: GameState = {
@@ -26,14 +17,9 @@ export function gameReducer(state:GameState[] = initialState, action: MithrilAct
 				type: GameType.addition
 
 			};
-			const newState = [...state, newGame]; // .push(newGame);
+			const newState = [...state, newGame];
 			return newState;
-		// case Actions.SET_LEVEL:
-		// 	newState.level = action.payload.level;
-		// 	break;
 		default:
 			return state;
 	}
-
-	// return newState;
 }
