@@ -1,12 +1,12 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { redrawMiddleware } from 'mithril-redux';
 import rootReducer from './reducers';
 
-export default function configureStore(initialState) {
+function configureStore(initialState) {
   const createModifiedStore = applyMiddleware(
-    thunkMiddleware,
-    redrawMiddleware
+    thunkMiddleware
   )(createStore);
   return createModifiedStore(rootReducer, initialState);
 }
+
+export const store = configureStore({name: 'Adam N!', age: 30});

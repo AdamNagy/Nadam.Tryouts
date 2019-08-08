@@ -1,9 +1,8 @@
-import { connect } from "mithril-redux";
 import { incrementAge } from "../store/actions";
 import { MithrilComponent } from "./mithril.component";
 
 // <Conmponent-1>
-class ChildComponentFactory implements MithrilComponent {
+class ChildComponent implements MithrilComponent {
 
 	public static eventActionMapping = {
 		// its because this 'mithril-redux' shit wires up all events in the markeup as a store action,
@@ -29,15 +28,10 @@ class ChildComponentFactory implements MithrilComponent {
 		}
 	}
 }
-
-export const ChildComp = connect(
-	ChildComponentFactory.selector,
-	ChildComponentFactory.eventActionMapping
-)(ChildComponentFactory.getComponent());
 // </Conmponent-1>
 
 // <Conmponent-2>
-class BaseComponentFactory implements MithrilComponent {
+class BaseComponent implements MithrilComponent {
 
 	public static eventActionMapping = {
 		inc: incrementAge,
@@ -54,17 +48,12 @@ class BaseComponentFactory implements MithrilComponent {
 						<p>from function parameter {stateProjection.name} age: {stateProjection.age}</p>
 						<button onclick={ctrl.inc()}>Increment age</button>
 						<hr></hr>
-						<ChildComp some-attribute="123">
-						</ChildComp>
+						<ChildComponent some-attribute="123">
+						</ChildComponent>
 					</jsx-person>
 				)
 			}
 		}
 	}
 }
-
-export const BaseComp = connect(
-	BaseComponentFactory.selector,
-	BaseComponentFactory.eventActionMapping
-)(BaseComponentFactory.getComponent());
 // </Conmponent-2>

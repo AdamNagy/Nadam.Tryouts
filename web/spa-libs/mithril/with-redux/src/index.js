@@ -1,8 +1,8 @@
 import m from 'mithril';
-import { Provider } from 'mithril-redux';
-import configStore from './store/store';
-import Root from './components/root';
+import {store} from './store/store';
+import Root from './mithril-redux-components/root';
+// import { TodosComponent } from "./mithril-components/simple-component";
+import { TodosComponent } from "./mithril-tsx-component/other";
 
-const store = configStore({name: 'World!', age: 30});
-window.store = store;
-m.mount(document.body, Provider.init(store, m, Root));
+// m.mount(document.body, Provider.init(store, m, Root));
+m.mount(document.body, new TodosComponent());
