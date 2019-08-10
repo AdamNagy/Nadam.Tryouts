@@ -1,0 +1,68 @@
+/*--------------------------------------------------------------
+#0.9	cta
+--------------------------------------------------------------*/
+.cta {
+	position: relative;
+	text-align: center;
+  }
+  
+  .cta:before {
+	content: "";
+	background-color: rgba(0, 0, 0, 0.55);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+  }
+  
+  .cta h2 {
+	font-family: "Great Vibes", cursive;
+	font-size: 75px;
+	font-size: 4.16667rem;
+	color: #fff;
+	margin: 0;
+  }
+  
+  @media (max-width: 1199px) {
+	.cta h2 {
+	  font-size: 60px;
+	  font-size: 3.33333rem;
+	}
+  }
+  
+  @media (max-width: 991px) {
+	.cta h2 {
+	  font-size: 50px;
+	  font-size: 2.77778rem;
+	}
+  }
+  
+  @media (max-width: 767px) {
+	.cta h2 {
+	  font-size: 40px;
+	  font-size: 2.22222rem;
+	}
+  }
+  
+  .cta h2 span {
+	font-family: "Dosis", sans-serif;
+	font-size: 30px;
+	font-size: 1.66667rem;
+	display: block;
+	margin-bottom: 0.6em;
+  }
+  
+  @media (max-width: 1199px) {
+	.cta h2 span {
+	  font-size: 25px;
+	  font-size: 1.38889rem;
+	}
+  }
+  
+  @media (max-width: 991px) {
+	.cta h2 span {
+	  font-size: 20px;
+	  font-size: 1.11111rem;
+	}
+  }

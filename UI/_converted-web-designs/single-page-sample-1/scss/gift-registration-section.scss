@@ -1,0 +1,27 @@
+/*--------------------------------------------------------------
+#1.5	gift-registration-section
+--------------------------------------------------------------*/
+.gift-registration-section {
+	text-align: center;
+  }
+  
+  .gift-registration-section .gif-registration-slider {
+	margin-top: 55px;
+  }
+  
+  @media (max-width: 767px) {
+	.gift-registration-section .gif-registration-slider {
+	  margin-top: 45px;
+	}
+  }
+  
+  .gift-registration-section .gif-registration-slider .register {
+	border: 1px solid #111;
+	padding: 20px;
+  }
+  
+  .gift-registration-section .gif-registration-slider .register img {
+	width: auto;
+	max-width: 100%;
+  }
+  
