@@ -29,11 +29,16 @@ namespace TechnologyTryouts.ImageManipulation
             return image;
         }
 
-        public static void ToQuarterSize()
+        public static Image ToQuarterSize(Image origImage)
         {
-            var image = Image.FromFile(@"C:\Users\adna01\Documents\Learning\Nadam.Tryouts\DotNet\CshTryouts\CshTryouts\ImageManipulation\images\02_Bugatti-VGT_photo_ext_WEB.jpg");
-            var resized = (Image)(new Bitmap(image, new Size(480, 270)));
-            resized.Save(@"C:\Users\adna01\Documents\Learning\Nadam.Tryouts\DotNet\CshTryouts\CshTryouts\ImageManipulation\images\02_Bugatti-VGT_photo_ext_WEB_t.jpg");
+            int origwidth = origImage.Width,
+                origHeight = origImage.Height;
+
+            int quarteredWidth = origwidth / 4,
+                quarteredHeight = origHeight / 4;
+
+            var resized = (Image) new Bitmap(origImage, new Size(480, 270));
+            return resized;
         }
     }
 }
