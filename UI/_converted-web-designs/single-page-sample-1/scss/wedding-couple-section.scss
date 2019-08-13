@@ -1,13 +1,76 @@
-/*--------------------------------------------------------------
-#0.6	wedding-couple-section
---------------------------------------------------------------*/
-.wedding-couple-section .gb {
-	overflow: hidden;
-  }
-  
-  .wedding-couple-section .gb > div {
-	width: 50%;
-	float: left;
+@import "./colors.scss";
+
+.wedding-couple-section {
+	.gb {
+	  overflow: hidden;
+	  > div {
+		width: 50%;
+		float: left;
+	  }
+	}
+	.img-holder img {
+	  max-width: 100%;
+	  opacity: 0;
+	  visibility: hidden;
+	}
+	.details {
+	  background-color: change-color($pastel-green, $alpha: 0.2);
+	  padding: 50px 55px;
+	  h3 {
+		font-size: 26px;
+		font-size: 1.44444rem;
+		font-weight: 600;
+		color: $text-grey;
+		margin: 0 0 0.7em;
+		text-transform: uppercase;
+	  }
+	  .signature {
+		font-family: "Great Vibes", cursive;
+		font-size: 28px;
+		font-size: 1.55556rem;
+		display: block;
+		padding-left: 25px;
+		margin-top: 15px;
+		position: relative;
+		&:before {
+		  content: "";
+		  background-color: #000;
+		  width: 15px;
+		  height: 1px;
+		  position: absolute;
+		  left: 0;
+		  top: 50%;
+		  -webkit-transform: translateY(-50%);
+		  -moz-transform: translateY(-50%);
+		  -o-transform: translateY(-50%);
+		  -ms-transform: translateY(-50%);
+		  transform: translateY(-50%);
+		}
+	  }
+	  .social-links {
+		margin-top: 20px;
+		> li + li {
+		  margin-left: 3px;
+		}
+		a {
+		  background-color: $light-pastel-green;
+		  width: 34px;
+		  height: 34px;
+		  line-height: 34px;
+		  font-size: 14px;
+		  font-size: 0.77778rem;
+		  color: #fff;
+		  -webkit-border-radius: 50%;
+		  -moz-border-radius: 50%;
+		  -o-border-radius: 50%;
+		  -ms-border-radius: 50%;
+		  border-radius: 50%;
+		  &:hover {
+			background-color: $pastel-green;
+		  }
+		}
+	  }
+	}
   }
   
   @media (max-width: 991px) {
@@ -17,22 +80,11 @@
 	}
   }
   
-  .wedding-couple-section .img-holder img {
-	max-width: 100%;
-	opacity: 0;
-	visibility: hidden;
-  }
-  
   @media (max-width: 470px) {
 	.wedding-couple-section .img-holder img {
 	  opacity: 1;
 	  visibility: visible;
 	}
-  }
-  
-  .wedding-couple-section .details {
-	background-color: rgba(94, 154, 142, 0.05);
-	padding: 50px 55px;
   }
   
   @media screen and (min-width: 992px) {
@@ -60,15 +112,6 @@
 	}
   }
   
-  .wedding-couple-section .details h3 {
-	font-size: 26px;
-	font-size: 1.44444rem;
-	font-weight: 600;
-	color: #3d3d3d;
-	margin: 0 0 0.7em;
-	text-transform: uppercase;
-  }
-  
   @media (max-width: 1199px) {
 	.wedding-couple-section .details h3 {
 	  font-size: 22px;
@@ -83,59 +126,11 @@
 	}
   }
   
-  .wedding-couple-section .details .signature {
-	font-family: "Great Vibes", cursive;
-	font-size: 28px;
-	font-size: 1.55556rem;
-	display: block;
-	padding-left: 25px;
-	margin-top: 15px;
-	position: relative;
-  }
-  
   @media (max-width: 1199px) {
 	.wedding-couple-section .details .signature {
 	  font-size: 22px;
 	  font-size: 1.22222rem;
 	}
-  }
-  
-  .wedding-couple-section .details .signature:before {
-	content: "";
-	background-color: #000;
-	width: 15px;
-	height: 1px;
-	position: absolute;
-	left: 0;
-	top: 50%;
-	-webkit-transform: translateY(-50%);
-	-moz-transform: translateY(-50%);
-	-o-transform: translateY(-50%);
-	-ms-transform: translateY(-50%);
-	transform: translateY(-50%);
-  }
-  
-  .wedding-couple-section .details .social-links {
-	margin-top: 20px;
-  }
-  
-  .wedding-couple-section .details .social-links > li + li {
-	margin-left: 3px;
-  }
-  
-  .wedding-couple-section .details .social-links a {
-	background-color: #7cafa5;
-	width: 34px;
-	height: 34px;
-	line-height: 34px;
-	font-size: 14px;
-	font-size: 0.77778rem;
-	color: #fff;
-	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
-	-o-border-radius: 50%;
-	-ms-border-radius: 50%;
-	border-radius: 50%;
   }
   
   @media (max-width: 1199px) {
@@ -148,33 +143,30 @@
 	}
   }
   
-  .wedding-couple-section .details .social-links a:hover {
-	background-color: #5e9a8e;
-  }
-  
   @media screen and (min-width: 992px) {
 	.wedding-couple-section .bride {
 	  text-align: right;
-	}
-	.wedding-couple-section .bride .signature {
-	  padding-right: 25px;
-	}
-	.wedding-couple-section .bride .signature:before {
-	  left: auto;
-	  right: 0;
-	}
-	.wedding-couple-section .bride .social-links {
-	  display: inline-block;
+	  .signature {
+		padding-right: 25px;
+		&:before {
+		  left: auto;
+		  right: 0;
+		}
+	  }
+	  .social-links {
+		display: inline-block;
+	  }
 	}
   }
   
   @media (max-width: 991px) {
-	.wedding-couple-section .img-holder,
-	.wedding-couple-section .details {
-	  height: auto !important;
-	}
-	.wedding-couple-section .bride {
-	  margin-top: 25px;
+	.wedding-couple-section {
+	  .img-holder, .details {
+		height: auto !important;
+	  }
+	  .bride {
+		margin-top: 25px;
+	  }
 	}
   }
   

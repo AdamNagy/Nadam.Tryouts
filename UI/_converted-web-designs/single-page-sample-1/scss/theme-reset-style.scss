@@ -1,8 +1,3 @@
-
-
-/*--------------------------------------------------------------
-#0.1    Theme Reset Style
---------------------------------------------------------------*/
 html {
 	font-size: 18px;
   }
@@ -35,12 +30,7 @@ html {
 	line-height: 1.8em;
   }
   
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  h1, h2, h3, h4, h5, h6 {
 	color: #6e6e6e;
   }
   
@@ -57,9 +47,7 @@ html {
 	-o-transition: all 0.2s;
 	-ms-transition: all 0.2s;
 	transition: all 0.2s;
-  }
-  
-  a:hover,
-  a:focus {
-	text-decoration: none;
+	&:hover, &:focus {
+	  text-decoration: none;
+	}
   }

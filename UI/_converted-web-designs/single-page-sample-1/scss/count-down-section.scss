@@ -1,26 +1,70 @@
 /*--------------------------------------------------------------
 #0.7	count-down-section
 --------------------------------------------------------------*/
+
 .count-down-section {
 	position: relative;
-  }
-  
-  .count-down-section:before {
-	content: "";
-	background-color: rgba(0, 0, 0, 0.6);
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	left: 0;
-	top: 0;
-  }
-  
-  .count-down-section h2 {
-	font-family: "Great Vibes", cursive;
-	font-size: 72px;
-	font-size: 4rem;
-	color: #fff;
-	margin: 0;
+	&:before {
+	  content: "";
+	  background-color: rgba(0, 0, 0, 0.6);
+	  width: 100%;
+	  height: 100%;
+	  position: absolute;
+	  left: 0;
+	  top: 0;
+	}
+	h2 {
+	  font-family: "Great Vibes", cursive;
+	  font-size: 72px;
+	  font-size: 4rem;
+	  color: #fff;
+	  margin: 0;
+	  > span {
+		font-size: 30px;
+		font-size: 1.66667rem;
+		display: block;
+		margin-bottom: 0.6em;
+	  }
+	}
+	.count-down-clock {
+	  margin-top: 13px;
+	}
+	#clock {
+	  color: #5e9a8e;
+	  overflow: hidden;
+	  > div {
+		background: rgba(255, 255, 255, 0.9);
+		width: 23.5%;
+		float: left;
+		text-align: center;
+		padding: 15px;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		-o-border-radius: 5px;
+		-ms-border-radius: 5px;
+		border-radius: 5px;
+		border: 5px solid rgba(0, 0, 0, 0.1);
+		+ div {
+		  margin-left: 2%;
+		}
+		&:nth-child(2), &:nth-child(4) {
+		  margin: 0 0 10px 10px;
+		}
+	  }
+	  .box {
+		> div {
+		  font-size: 40px;
+		  font-size: 2.22222rem;
+		  font-weight: 600;
+		  line-height: 1em;
+		}
+		span {
+		  font-size: 14px;
+		  font-size: 0.77778rem;
+		  text-transform: uppercase;
+		}
+	  }
+	}
   }
   
   @media (max-width: 1199px) {
@@ -37,13 +81,6 @@
 	}
   }
   
-  .count-down-section h2 > span {
-	font-size: 30px;
-	font-size: 1.66667rem;
-	display: block;
-	margin-bottom: 0.6em;
-  }
-  
   @media (max-width: 1199px) {
 	.count-down-section h2 > span {
 	  font-size: 25px;
@@ -58,33 +95,10 @@
 	}
   }
   
-  .count-down-section .count-down-clock {
-	margin-top: 13px;
-  }
-  
   @media (max-width: 991px) {
 	.count-down-section .count-down-clock {
 	  margin-top: 35px;
 	}
-  }
-  
-  .count-down-section #clock {
-	color: #5e9a8e;
-	overflow: hidden;
-  }
-  
-  .count-down-section #clock > div {
-	background: rgba(255, 255, 255, 0.9);
-	width: 23.5%;
-	float: left;
-	text-align: center;
-	padding: 15px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	-o-border-radius: 5px;
-	-ms-border-radius: 5px;
-	border-radius: 5px;
-	border: 5px solid rgba(0, 0, 0, 0.1);
   }
   
   @media (max-width: 767px) {
@@ -93,26 +107,10 @@
 	}
   }
   
-  .count-down-section #clock > div + div {
-	margin-left: 2%;
-  }
-  
   @media (max-width: 767px) {
 	.count-down-section #clock > div + div {
 	  margin: 0;
 	}
-  }
-  
-  .count-down-section #clock > div:nth-child(2),
-  .count-down-section #clock > div:nth-child(4) {
-	margin: 0 0 10px 10px;
-  }
-  
-  .count-down-section #clock .box > div {
-	font-size: 40px;
-	font-size: 2.22222rem;
-	font-weight: 600;
-	line-height: 1em;
   }
   
   @media (max-width: 1199px) {
@@ -128,10 +126,4 @@
 	  font-size: 1.66667rem;
 	  line-height: 1.3em;
 	}
-  }
-  
-  .count-down-section #clock .box span {
-	font-size: 14px;
-	font-size: 0.77778rem;
-	text-transform: uppercase;
   }

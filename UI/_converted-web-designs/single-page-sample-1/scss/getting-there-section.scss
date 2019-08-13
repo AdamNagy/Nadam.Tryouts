@@ -1,13 +1,19 @@
-/*--------------------------------------------------------------
-#1.4	getting-there-section
---------------------------------------------------------------*/
 .getting-there-section {
 	background-color: #5e9a8e;
-  }
-  
-  .getting-there-section .content h3,
-  .getting-there-section .content p {
-	color: #fff;
+	.content {
+	  h3, p {
+		color: #fff;
+	  }
+	  .col p:last-child {
+		margin-bottom: 0;
+	  }
+	  h3 {
+		font-size: 25px;
+		font-size: 1.38889rem;
+		font-weight: 600;
+		margin: 0 0 0.8em;
+	  }
+	}
   }
   
   @media (max-width: 1199px) {
@@ -22,17 +28,6 @@
 	  font-size: 15px;
 	  font-size: 0.83333rem;
 	}
-  }
-  
-  .getting-there-section .content .col p:last-child {
-	margin-bottom: 0;
-  }
-  
-  .getting-there-section .content h3 {
-	font-size: 25px;
-	font-size: 1.38889rem;
-	font-weight: 600;
-	margin: 0 0 0.8em;
   }
   
   @media (max-width: 1199px) {

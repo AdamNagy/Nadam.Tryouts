@@ -1,127 +1,101 @@
-/*--------------------------------------------------------------
-#1.3	rsvp-section
---------------------------------------------------------------*/
 .rsvp-section {
 	position: relative;
-  }
-  
-  .rsvp-section:after {
-	content: "";
-	background-color: rgba(0, 0, 0, 0.6);
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	left: 0;
-	top: 0;
-  }
-  
-  .rsvp-section .container {
-	position: relative;
-	z-index: 10;
-  }
-  
-  .rsvp-section .content p {
-	color: #fff;
-	margin: 0.5em 0 2em;
-  }
-  
-  .rsvp-section .form ::-webkit-input-placeholder {
-	font-style: 18px;
-	font-style: normal;
-	color: #2a2a2a;
-  }
-  
-  .rsvp-section .form :-moz-placeholder {
-	font-style: 18px;
-	font-style: normal;
-	color: #2a2a2a;
-  }
-  
-  .rsvp-section .form ::-moz-placeholder {
-	font-style: 18px;
-	font-style: normal;
-	color: #2a2a2a;
-  }
-  
-  .rsvp-section .form :-ms-input-placeholder {
-	font-style: 18px;
-	font-style: normal;
-	color: #2a2a2a;
-  }
-  
-  .rsvp-section .form .col {
-	margin-bottom: 25px;
-  }
-  
-  .rsvp-section .form .submit-btn {
-	margin-bottom: 0;
-  }
-  
-  .rsvp-section .form input,
-  .rsvp-section .form select,
-  .rsvp-section .form textarea {
-	background: #e6eceb;
-	height: 45px;
-	font-size: 16px;
-	font-size: 0.88889rem;
-	border: 0;
-	color: #2a2a2a;
-	padding: 6px 15px;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-o-border-radius: 3px;
-	-ms-border-radius: 3px;
-	border-radius: 3px;
-  }
-  
-  @media (max-width: 991px) {
-	.rsvp-section .form input,
-	.rsvp-section .form select,
-	.rsvp-section .form textarea {
-	  height: 40px;
-	  font-size: 15px;
-	  font-size: 0.83333rem;
+	&:after {
+	  content: "";
+	  background-color: rgba(0, 0, 0, 0.6);
+	  width: 100%;
+	  height: 100%;
+	  position: absolute;
+	  left: 0;
+	  top: 0;
+	}
+	.container {
+	  position: relative;
+	  z-index: 10;
+	}
+	.content p {
+	  color: #fff;
+	  margin: 0.5em 0 2em;
+	}
+	.form {
+	  ::-webkit-input-placeholder, :-moz-placeholder, ::-moz-placeholder, :-ms-input-placeholder {
+		font-style: 18px;
+		font-style: normal;
+		color: #2a2a2a;
+	  }
+	  .col {
+		margin-bottom: 25px;
+	  }
+	  .submit-btn {
+		margin-bottom: 0;
+	  }
+	  input, select, textarea {
+		background: #e6eceb;
+		height: 45px;
+		font-size: 16px;
+		font-size: 0.88889rem;
+		border: 0;
+		color: #2a2a2a;
+		padding: 6px 15px;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		-o-border-radius: 3px;
+		-ms-border-radius: 3px;
+		border-radius: 3px;
+	  }
+	  select {
+		color: #2a2a2a;
+		background: #e6eceb url(img/select-icon.png) no-repeat calc(100% - 15px) center;
+	  }
+	  textarea {
+		height: 150px;
+		padding-top: 15px;
+	  }
+	  .submit-btn {
+		text-align: center;
+		button {
+		  background-color: #5e9a8e;
+		  height: 45px;
+		  line-height: 45px;
+		  font-size: 16px;
+		  font-size: 0.88889rem;
+		  font-weight: 600;
+		  color: #fff;
+		  padding: 0 15px;
+		  border: 0;
+		  outline: 0;
+		  text-transform: uppercase;
+		  -webkit-border-radius: 3px;
+		  -moz-border-radius: 3px;
+		  -o-border-radius: 3px;
+		  -ms-border-radius: 3px;
+		  border-radius: 3px;
+		  -webkit-transition: all 0.3s;
+		  -moz-transition: all 0.3s;
+		  -o-transition: all 0.3s;
+		  -ms-transition: all 0.3s;
+		  transition: all 0.3s;
+		  &:hover {
+			background-color: #4b7a71;
+		  }
+		}
+	  }
+	  .success-error-message {
+		margin-bottom: 0;
+	  }
 	}
   }
   
-  .rsvp-section .form select {
-	color: #2a2a2a;
-	background: #e6eceb url(img/select-icon.png) no-repeat calc(100% - 15px) center;
-  }
-  
-  .rsvp-section .form textarea {
-	height: 150px;
-	padding-top: 15px;
-  }
-  
-  .rsvp-section .form .submit-btn {
-	text-align: center;
-  }
-  
-  .rsvp-section .form .submit-btn button {
-	background-color: #5e9a8e;
-	height: 45px;
-	line-height: 45px;
-	font-size: 16px;
-	font-size: 0.88889rem;
-	font-weight: 600;
-	color: #fff;
-	padding: 0 15px;
-	border: 0;
-	outline: 0;
-	text-transform: uppercase;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	-o-border-radius: 3px;
-	-ms-border-radius: 3px;
-	border-radius: 3px;
-	-webkit-transition: all 0.3s;
-	-moz-transition: all 0.3s;
-	-o-transition: all 0.3s;
-	-ms-transition: all 0.3s;
-	transition: all 0.3s;
+  @media (max-width: 991px) {
+	.rsvp-section .form {
+	  input, select, textarea {
+		height: 40px;
+		font-size: 15px;
+		font-size: 0.83333rem;
+	  }
+	}
   }
   
   @media (max-width: 991px) {
@@ -131,12 +105,4 @@
 	  font-size: 15px;
 	  font-size: 0.83333rem;
 	}
-  }
-  
-  .rsvp-section .form .submit-btn button:hover {
-	background-color: #4b7a71;
-  }
-  
-  .rsvp-section .form .success-error-message {
-	margin-bottom: 0;
   }

@@ -1,12 +1,16 @@
-/*--------------------------------------------------------------
-#1.5	gift-registration-section
---------------------------------------------------------------*/
 .gift-registration-section {
 	text-align: center;
-  }
-  
-  .gift-registration-section .gif-registration-slider {
-	margin-top: 55px;
+	.gif-registration-slider {
+	  margin-top: 55px;
+	  .register {
+		border: 1px solid #111;
+		padding: 20px;
+		img {
+		  width: auto;
+		  max-width: 100%;
+		}
+	  }
+	}
   }
   
   @media (max-width: 767px) {
@@ -14,14 +18,3 @@
 	  margin-top: 45px;
 	}
   }
-  
-  .gift-registration-section .gif-registration-slider .register {
-	border: 1px solid #111;
-	padding: 20px;
-  }
-  
-  .gift-registration-section .gif-registration-slider .register img {
-	width: auto;
-	max-width: 100%;
-  }
-  
