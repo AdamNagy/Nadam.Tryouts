@@ -39,6 +39,7 @@
 	?>
 
 	<button onclick="func1()">Click me</button>
+	<button onclick="func2()">Get JSON</button>
 
 	<script>
 	function func1() {
@@ -49,6 +50,18 @@
 			}
 		};
 		xhttp.open("GET", "./file?prop1:wer", true);
+		xhttp.send();
+	}
+
+	function func2() {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.body.append(this.responseText);
+				document.json = JSON.parse(this.responseText);
+			}
+		};
+		xhttp.open("GET", "./json", true);
 		xhttp.send();
 	}
 	</script>
