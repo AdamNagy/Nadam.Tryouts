@@ -18,7 +18,7 @@
 		function endsWith($base, $end)
 		{
 			$length = strlen($end);
-			if ($length == 0) 
+			if ($length == 0)
 			{
 				return true;
 			}
@@ -37,11 +37,16 @@
 			}
 		}
 	?>
-
+	<a href="./subpage">Subpage</a>
+	<button onclick="getSubpage()">Get Subpage</button>
 	<button onclick="func1()">Click me</button>
 	<button onclick="func2()">Get JSON</button>
 
 	<script>
+		function GetContentFromDoc(doc) {
+			return doc.getElementsByTagName("body")[0].childItems();
+		}
+
 		function func1() {
 			var xhttp = new XMLHttpRequest();
 			xhttp.onreadystatechange = function() {
@@ -62,6 +67,20 @@
 				}
 			};
 			xhttp.open("GET", "./json", true);
+			xhttp.send();
+		}
+
+		function getSubpage() {
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var domparser = new DOMParser();
+					var doc = domparser.parseFromString(this.responseText, "text/xml");
+					document.body.append(this.responseText);
+					document.body.append(GetContentFromDoc(doc));
+				}
+			};
+			xhttp.open("GET", "./html-segment", true);
 			xhttp.send();
 		}
 	</script>
