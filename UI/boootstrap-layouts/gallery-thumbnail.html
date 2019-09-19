@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- <jquery> -->
+		<script src="./lib/jquery/jquery-v3.4.0.js"></script>
+		<!-- </jquery> -->
+		
+		<!-- <jquery-ui> -->
+		<script src="./lib/jquery-ui/jquery-ui.min.js"></script>
+		<link rel="stylesheet" href="./lib/jquery-ui/jquery-ui.min.css">
+		<link rel="stylesheet" href="./lib/jquery-ui/jquery-ui.structure.min.css">
+		<link rel="stylesheet" href="./lib/jquery-ui/jquery-ui.theme.min.css">
+		<!-- </jquery-ui> -->
+
+		<!-- <bootstrap> -->
+		<script src="./lib/bootstrap/bootstrap.bundle.min.js"></script>
+		<script src="./lib/bootstrap/bootstrap.min.js"></script>
+
+		<link rel="stylesheet" href="./lib/bootstrap/bootstrap.min.css">
+		<link rel="stylesheet" href="./lib/bootstrap/bootstrap-grid.min.css">
+		<link rel="stylesheet" href="./lib/bootstrap/bootstrap-reboot.min.css">
+		<!-- </bootstrap> -->
+
+		<style>
+			.gallery {
+				max-width: 920px;
+				margin: 0 auto;
+				padding-left: 2px;
+				padding-bottom: 2px; 
+				border-left: 1px solid black;
+				border-bottom: 1px solid black; 
+				margin: 5px 5px;
+			}
+
+			.gallery .gallery-header h4 {
+				margin-left: 25px;
+			}
+
+			.gallery .gallery-body img {
+				margin-bottom: 2px;
+			}
+
+			.portrait-img {
+				max-height: 240px;
+			}
+
+			.landscape-img {
+				max-width: 240px;
+			}
+		</style>
+
+<script>
+
+		</script>
+</head>
+<body>
+	<div class="container">
+		<div class="gallery">
+			<div class="gallery-header row align-self-center">
+				<h4>Mixed landscape and portrait</h4>
+			</div>
+			<div class="gallery-body align-items-center">
+				<img src="./images/thumbs/1457081771_t.jpg">
+				<img src="./images/thumbs/570272_t.jpg">
+				<img src="./images/thumbs/9d7f0c19c77330eafebdd607558c4c57_t.jpg">
+				<img src="./images/thumbs/JEF_059119_1600x2560.jpg">
+				<img src="./images/thumbs/rock_hills_trees_rocks_105901_1920x1080_t.jpg">
+			</div>
+		</div>
+
+		<div class="gallery">
+			<div class="gallery-header">
+				<h4> Landscape only</h4>
+			</div>
+			<div class="align-items-center">
+				<img src="./images/thumbs/570272_t.jpg">
+				<img src="./images/thumbs/9d7f0c19c77330eafebdd607558c4c57_t.jpg">
+				<img src="./images/thumbs/rock_hills_trees_rocks_105901_1920x1080_t.jpg">
+			</div>
+		</div>
+
+		<div class="gallery">
+				<div class="gallery-header">
+					<h4>Portrait only</h4>
+				</div>
+				<div class="align-items-center">
+						<img src="./images/thumbs/1457081771_t.jpg">
+						<img src="./images/thumbs/JEF_059119_1600x2560.jpg">
+						<img src="./images/thumbs/1457081771_t.jpg">
+				</div>
+			</div>
+	</div>
+
+	<script>
+		(function(){
+			var images = document.getElementsByTagName('img');
+			for(var i = 0; i < images.length; i++) {
+				var img = images[i];
+				if( img.height >img.width ) {
+					img.classList.add("portrait-img");
+				} else {
+					img.classList.add("landscape-img");
+				}
+			}
+		})()
+	</script>
+</body>
+</html>
