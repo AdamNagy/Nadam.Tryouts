@@ -48,8 +48,7 @@ function StaticSpa() {
 		content.appendChild(pageContainer);
 		pageContainers.push(pageContainer);
 		return pageContainer;
-	}
-	
+	}	
 
 	var navs = document.getElementsByClassName("n-nav");
 	for(var i = 0; i < navs.length; ++i) {

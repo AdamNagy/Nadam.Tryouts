@@ -1,0 +1,5 @@
+1) Create the default ASP.NET Core API app with VS2017. Run it, observe code, solution (like a POC for .NET Core)
+2) Host it on local IIS with predefined webservice
+3) Observe authentication solution for the default app, understand it and save it for later
+4) SignalR demo app
+5) Hangfire POC
