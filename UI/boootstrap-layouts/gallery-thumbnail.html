@@ -23,12 +23,11 @@
 
 		<style>
 			.gallery {
-				max-width: 920px;
+				/* max-width: 920px; */
 				margin: 0 auto;
 				padding-left: 2px;
 				padding-bottom: 2px; 
-				border-left: 1px solid black;
-				border-bottom: 1px solid black; 
+				border: 1px solid grey; 
 				margin: 5px 5px;
 			}
 
@@ -36,8 +35,22 @@
 				margin-left: 25px;
 			}
 
+			.gallery .gallery-body {
+				display: grid;
+				grid-template-columns: 250px 250px 250px;
+			}
+
+			@media screen and (max-width: 992px) {
+				.gallery .gallery-body {
+					display: grid;
+					grid-template-columns: 250px 250px;
+				}
+			}
+
 			.gallery .gallery-body img {
 				margin-bottom: 2px;
+				justify-self: center;
+				align-self: center;
 			}
 
 			.portrait-img {
@@ -49,7 +62,38 @@
 			}
 		</style>
 
-<script>
+		<script>
+			Window.Nadam = Window.Nadam || {};
+			Window.Nadam.store = {};
+			Window.Nadam.store.galleryes = [
+				{
+					title: "Mixed landscape and portrait",
+					imageSources: 
+					[
+						"./images/thumbs/1457081771_t.jpg",
+						"./images/thumbs/570272_t.jpg",
+						"./images/thumbs/9d7f0c19c77330eafebdd607558c4c57_t.jpg",
+						"./images/thumbs/JEF_059119_1600x2560.jpg",
+						"./images/thumbs/rock_hills_trees_rocks_105901_1920x1080_t.jpg"
+					]
+				}
+			];
+
+			Window.Nadam.store.templates = [
+				{
+					name: "galleryThumbnail",
+					markup: `
+						<div class="gallery">
+							<div class="gallery-header row align-self-center">
+								<h4>#title</h4>
+							</div>
+							<div class="gallery-body">
+								#imageSources
+							</div>
+						</div>
+					`
+				}
+			];
 
 		</script>
 </head>
@@ -59,7 +103,7 @@
 			<div class="gallery-header row align-self-center">
 				<h4>Mixed landscape and portrait</h4>
 			</div>
-			<div class="gallery-body align-items-center">
+			<div class="gallery-body">
 				<img src="./images/thumbs/1457081771_t.jpg">
 				<img src="./images/thumbs/570272_t.jpg">
 				<img src="./images/thumbs/9d7f0c19c77330eafebdd607558c4c57_t.jpg">
@@ -72,7 +116,7 @@
 			<div class="gallery-header">
 				<h4> Landscape only</h4>
 			</div>
-			<div class="align-items-center">
+			<div class="gallery-body">
 				<img src="./images/thumbs/570272_t.jpg">
 				<img src="./images/thumbs/9d7f0c19c77330eafebdd607558c4c57_t.jpg">
 				<img src="./images/thumbs/rock_hills_trees_rocks_105901_1920x1080_t.jpg">
@@ -80,21 +124,22 @@
 		</div>
 
 		<div class="gallery">
-				<div class="gallery-header">
-					<h4>Portrait only</h4>
-				</div>
-				<div class="align-items-center">
-						<img src="./images/thumbs/1457081771_t.jpg">
-						<img src="./images/thumbs/JEF_059119_1600x2560.jpg">
-						<img src="./images/thumbs/1457081771_t.jpg">
-				</div>
+			<div class="gallery-header">
+				<h4>Portrait only</h4>
 			</div>
+			<div class="gallery-body">
+				<img src="./images/thumbs/1457081771_t.jpg">
+				<img src="./images/thumbs/JEF_059119_1600x2560.jpg">
+				<img src="./images/thumbs/1457081771_t.jpg">
+			</div>
+		</div>
 	</div>
 
 	<script>
-		(function(){
-			var images = document.getElementsByTagName('img');
-			for(var i = 0; i < images.length; i++) {
+		(function() {
+			// classify by orientation
+			var images = $('img');
+			for(let i = 0; i < images.length; i++) {
 				var img = images[i];
 				if( img.height >img.width ) {
 					img.classList.add("portrait-img");
@@ -102,6 +147,20 @@
 					img.classList.add("landscape-img");
 				}
 			}
+
+			// sort by image orientation
+			let galleries = $('.gallery-body');
+			for(let i = 0; i < galleries.length; ++i) {
+				let galleryImages = $('img', galleries[i]);
+
+				for(let j = 0; j < galleryImages.length; ++j) {
+					if( $(galleryImages[j]).hasClass("landscape-img") ) {
+						$(galleries[i]).append(galleryImages[j]);
+					}
+				}
+			}
+		
+			
 		})()
 	</script>
 </body>
