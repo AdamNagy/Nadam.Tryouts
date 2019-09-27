@@ -31,6 +31,10 @@
 				margin: 5px 5px;
 			}
 
+			.gallery .gallery-header {
+				text-align: center;
+			}
+
 			.gallery .gallery-header h4 {
 				margin-left: 25px;
 			}
@@ -38,6 +42,7 @@
 			.gallery .gallery-body {
 				display: grid;
 				grid-template-columns: 250px 250px 250px;
+				justify-content: center;
 			}
 
 			@media screen and (max-width: 992px) {
@@ -61,46 +66,11 @@
 				max-width: 240px;
 			}
 		</style>
-
-		<script>
-			Window.Nadam = Window.Nadam || {};
-			Window.Nadam.store = {};
-			Window.Nadam.store.galleryes = [
-				{
-					title: "Mixed landscape and portrait",
-					imageSources: 
-					[
-						"./images/thumbs/1457081771_t.jpg",
-						"./images/thumbs/570272_t.jpg",
-						"./images/thumbs/9d7f0c19c77330eafebdd607558c4c57_t.jpg",
-						"./images/thumbs/JEF_059119_1600x2560.jpg",
-						"./images/thumbs/rock_hills_trees_rocks_105901_1920x1080_t.jpg"
-					]
-				}
-			];
-
-			Window.Nadam.store.templates = [
-				{
-					name: "galleryThumbnail",
-					markup: `
-						<div class="gallery">
-							<div class="gallery-header row align-self-center">
-								<h4>#title</h4>
-							</div>
-							<div class="gallery-body">
-								#imageSources
-							</div>
-						</div>
-					`
-				}
-			];
-
-		</script>
 </head>
 <body>
 	<div class="container">
 		<div class="gallery">
-			<div class="gallery-header row align-self-center">
+			<div class="gallery-header">
 				<h4>Mixed landscape and portrait</h4>
 			</div>
 			<div class="gallery-body">
@@ -109,6 +79,9 @@
 				<img src="./images/thumbs/9d7f0c19c77330eafebdd607558c4c57_t.jpg">
 				<img src="./images/thumbs/JEF_059119_1600x2560.jpg">
 				<img src="./images/thumbs/rock_hills_trees_rocks_105901_1920x1080_t.jpg">
+			</div>
+			<div class="gallery-footer">
+				<a href="#">Link to original source</a>
 			</div>
 		</div>
 
@@ -121,6 +94,9 @@
 				<img src="./images/thumbs/9d7f0c19c77330eafebdd607558c4c57_t.jpg">
 				<img src="./images/thumbs/rock_hills_trees_rocks_105901_1920x1080_t.jpg">
 			</div>
+			<div class="gallery-footer">
+				<a href="#">Link to original source</a>
+			</div>
 		</div>
 
 		<div class="gallery">
@@ -131,6 +107,9 @@
 				<img src="./images/thumbs/1457081771_t.jpg">
 				<img src="./images/thumbs/JEF_059119_1600x2560.jpg">
 				<img src="./images/thumbs/1457081771_t.jpg">
+			</div>
+			<div class="gallery-footer">
+				<a href="#">Link to original source</a>
 			</div>
 		</div>
 	</div>
@@ -158,8 +137,7 @@
 						$(galleries[i]).append(galleryImages[j]);
 					}
 				}
-			}
-		
+			}		
 			
 		})()
 	</script>

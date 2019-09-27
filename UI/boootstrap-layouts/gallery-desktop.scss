@@ -1,0 +1,41 @@
+.gallery {
+	margin: 0 auto;
+	padding-left: 2px;
+	padding-bottom: 2px; 
+	border: 1px solid grey; 
+	margin: 5px 5px;
+
+	.gallery-header {
+		text-align: center;
+
+		h4 {
+			margin-left: 25px;
+		}
+	}
+
+	.gallery-body {
+		display: grid;
+		grid-template-columns: 250px 250px 250px;
+		justify-content: center;
+
+		img {
+			margin-bottom: 2px;
+			justify-self: center;
+			align-self: center;
+		}
+
+		.portrait-img {
+			max-height: 240px;
+		}
+		
+		.landscape-img {
+			max-width: 240px;
+		}
+	}
+}
+
+
+
+
+
+

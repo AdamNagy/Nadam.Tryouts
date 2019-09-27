@@ -7,7 +7,7 @@ function StaticSpa() {
 	var content = document.getElementById("content");
 	var pageContainers = new Array();
 	var navigations = 0;
-	var routes = ["home", "gallery", "footer"];
+	// var routes = ["home", "gallery", "footer"];
 
 	function Navigate(destination, isFirstNavigation) {
 		var pageContainer = GetPageContainer(destination);
