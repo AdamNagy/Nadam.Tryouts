@@ -1,4 +1,9 @@
 <?php
+	
+	// Usage: 
+	// include 'mvc.class.php';
+	// $queryStringKeyValues = Mvc::ParseQueryString($_SERVER['QUERY_STRING']);
+	// $queryStringKeyValues["fileName"];	
 	class Mvc {
 		public function ParseQueryString($_queryString) {
 

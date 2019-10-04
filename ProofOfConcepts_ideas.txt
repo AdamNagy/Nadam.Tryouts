@@ -1,0 +1,26 @@
+.NET
+1) Observe authentication solution for the default app, understand it and save it for later
+
+2) Facebook and Gmail authentication POC
+  - https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/?view=aspnetcore-3.0&tabs=visual-studio
+  - Facebook setup: https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/facebook-logins?view=aspnetcore-3.0
+  - Google setup: https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-3.0
+
+3) SignalR demo app (with .NET Core)
+  - https://docs.microsoft.com/en-us/aspnet/core/tutorials/signalr-typescript-webpack?view=aspnetcore-3.0&tabs=visual-studio
+
+4) Hangfire
+  - https://docs.hangfire.io/en/latest/getting-started/index.html
+  - https://jonhilton.net/simple-background-jobs-with-hangfire-and-aspnet-core/
+  - https://medium.com/@qwe16165850/scheduler-in-net-core-2-1-hangfire-tutorial-aca4ae4274a6
+
+5) Azure
+  - Deploy sample app
+  - ? Azure Blob Storage and its API (ABS as FTP)  // ABS: Azure Blob Storage
+
+6) Internal Sql Server file
+  - Use Sql data file in the .NET solution, add some basic "API"
+
+FE
+1) Angular CLI
+2) NgRx + NgRx Store

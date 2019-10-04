@@ -1,8 +1,0 @@
-.NET
-1) Observe authentication solution for the default app, understand it and save it for later
-2) Facebook and Gmail authentication POC
-3) SignalR demo app
-4) Hangfire POC
-
-FE
-1) React demo app
