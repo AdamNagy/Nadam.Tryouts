@@ -8,37 +8,23 @@ import * as signalR from '@aspnet/signalr';
 })
 export class HomeComponent implements OnInit {
 
-	// connection: signalR.HubConnectionBuilder;
-	messages: string[] = new Array<string>();
 	currentMessage = 'Type here';
 	connection: any;
-	messageArea = document.getElementById('divMessages');
+	messageArea: HTMLElement;
 
 	ngOnInit(): void {
-		this.messages = new Array<string>();
+		this.messageArea = document.getElementById('divMessages');
 		this.connection = new signalR.HubConnectionBuilder()
 			.withUrl('/chathub', {
 				skipNegotiation: true,
 				transport: signalR.HttpTransportType.WebSockets
 			})
 			.configureLogging(signalR.LogLevel.Information)
-			// .withHubProtocol(new HubProtocol())
 			.build();
 
-		this.connection.on('messageReceived', (username: string, message: string) => {
-			console.log(`${username} said: ${message}`);
-			const newMessage = document.createElement('p');
-			newMessage.innerHTML = `${username} said: ${message}`;
-			this.messageArea.appendChild(newMessage);
-		});
+		this.connection.on('messageReceived', (username: string, message: string) => this.HandleMessageEvent(username, message));
 
-		this.connection.on('broadcastMessage', function (username, message) {
-			console.log(`${username} said: ${message}`);
-			if ( this.message === undefined) {
-				this.messages = new Array<string>();
-			}
-			this.messages.push(`${username} said: ${message}`);
-		});
+		this.connection.on('broadcastMessage', (username, message) => this.HandleNewParticipant(username, message));
 
 		this.connection
 			.start()
@@ -46,7 +32,22 @@ export class HomeComponent implements OnInit {
 				console.log('connection started');
 			})
 			.catch(err => console.error(err));
-				console.log('SignalR running');
+
+		console.log('SignalR running');
+	}
+
+	HandleMessageEvent(sender: string, message: string): void {
+		console.log(`${sender} said: ${message}`);
+		const newMessage = document.createElement('p');
+		newMessage.innerHTML = `${sender} said: ${message}`;
+		this.messageArea.appendChild(newMessage);
+	}
+
+	HandleNewParticipant(sender: string, message: string): void {
+		console.log(`${sender} said: ${message}`);
+		const newMessage = document.createElement('p');
+		newMessage.innerHTML = `${sender} said: ${message}`;
+		this.messageArea.appendChild(newMessage);
 	}
 
 	Send(): void {
@@ -56,14 +57,3 @@ export class HomeComponent implements OnInit {
 			.catch((err) => console.error(err));
 	}
 }
-
-// export class HubProtocol implements signalR.IHubProtocol {
-// 	name: string;	version: number;
-// 	transferFormat: signalR.TransferFormat;
-// 	parseMessages(input: string | ArrayBuffer | Buffer, logger: signalR.ILogger): signalR.HubMessage[] {
-// 		throw new Error('Method not implemented.');
-// 	}
-// 	writeMessage(message: signalR.HubMessage): string | ArrayBuffer {
-// 		throw new Error('Method not implemented.');
-// 	}
-// }
