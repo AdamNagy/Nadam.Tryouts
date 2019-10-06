@@ -56,4 +56,15 @@ export class HomeComponent implements OnInit {
 			.then(() => this.currentMessage = '')
 			.catch((err) => console.error(err));
 	}
+
+	checkLoginState() {
+		(window as any).FB.getLoginStatus((response: any) => {
+			if ( response.connected === 'connected' ) {
+				console.log(response.authResponse.userId);
+			} else {
+				console.log('Noone is logged in with FB');
+			}
+		});
+
+	}
 }

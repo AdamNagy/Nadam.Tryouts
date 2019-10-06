@@ -7,8 +7,56 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
 </head>
 <body>
-  <app-root>Loading...</app-root>
+	<!-- <script>
+		window.fbAsyncInit = function() {
+			FB.init({
+			appId      : '{your-app-id}',
+			cookie     : true,
+			xfbml      : true,
+			version    : '{api-version}'
+			});
+			
+			FB.AppEvents.logPageView();   
+			
+			FB.getLoginStatus(function(response) {
+				checkFbLoginState(response);
+			});
+		};
+		
+		(function(d, s, id){
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement(s); js.id = id;
+			js.src = "https://connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		} (document, 'script', 'facebook-jssdk'));
+
+		window.checkFbLoginState = function(response) {
+			if ( response.connected === 'connected' ) {
+				console.log(response.userId);
+			} else {
+				console.log('Noone is logged in with FB');
+			}
+		}
+	</script> -->
+
+	<div id="fb-root"></div>
+	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v4.0&appId=430256241019188"></script>
+	<script>
+		FB.getLoginStatus(function(response) {
+			checkFbLoginState(response);
+		});
+		window.checkFbLoginState = function(response) {
+			if ( response.status === 'connected' ) {
+				console.log(response.authResponse);
+			} else {
+				console.log('Noone is logged in with FB');
+			}
+		}
+	</script>
+  	<app-root>Loading...</app-root>
 </body>
 </html>
