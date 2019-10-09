@@ -54,9 +54,9 @@ namespace POC_Authentication
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "430256241019188",
+               appSecret: "a527c8e398b9f77c320162ddee45ebb2");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{

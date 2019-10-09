@@ -7,14 +7,13 @@ function StaticSpa() {
 	var content = document.getElementById("content");
 	var pageContainers = new Array();
 	var navigations = 0;
-	// var routes = ["home", "gallery", "footer"];
 
 	function Navigate(destination, isFirstNavigation) {
 		var pageContainer = GetPageContainer(destination);
 		if( pageContainer === undefined ) {
 			pageContainer = CreatePageContainer(destination);
 	
-			$.get("/" + destination + ".page.html", function( response ) {
+			$.get("./" + destination + ".page.html", function( response ) {
 				var doc = parser.parseFromString(response, "text/html")
 								.querySelector("body").firstChild;
 	
@@ -69,4 +68,4 @@ function StaticSpa() {
 	}
 }
 
-window.nadam.staticSpa = new StaticSpa();
+// window.nadam.staticSpa = new StaticSpa();

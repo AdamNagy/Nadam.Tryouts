@@ -31,6 +31,18 @@
 		<section id="content">
 		</section>
 		
+
+		<html-doc src="http://qweasd.web.elte.hu/gethtml.php?name=gallery.page" lazy></html-doc>
+		<html-doc src="http://qweasd.web.elte.hu/gethtml.php?name=home.page" lazy></html-doc>
+		<!-- <html-doc src="http://qweasd.web.elte.hu/gethtml.php?name=footer.page"></html-doc> -->
+
 		<script src="nadam.static-spa.js"></script>
+		<script src="html-doc.element.js"></script>
+		<script>
+			var htmlDoc = document.createElement("html-doc");
+			htmlDoc.setAttribute("src", "https://qweasd.web.elte.hu/gethtml.php?name=footer.page");
+			
+			document.body.append(htmlDoc);
+		</script>
 	</body>
 </html>
