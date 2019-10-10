@@ -21,7 +21,7 @@ namespace POC_Authentication.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("CodeFirstConnection", throwIfV1Schema: false)
+            : base("DefaultConnection", throwIfV1Schema: false)
         {
             Database.SetInitializer(new CreateDatabaseIfNotExists<ApplicationDbContext>());
         }
