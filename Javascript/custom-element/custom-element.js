@@ -5,6 +5,7 @@ class CustomElement extends HTMLElement {
 	}
 
 	set text(newText) {
+		this.wrapper.innerHTML = this.text;
 		this.setAttribute('value', newText);
 	}
 
