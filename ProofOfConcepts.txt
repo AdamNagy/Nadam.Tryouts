@@ -1,5 +1,6 @@
 .NET
-1) Observe authentication solution for the default app, understand it and save it for later
+1) Study authentication implementation and code for self
+  - https://jasonwatmore.com/post/2018/06/26/aspnet-core-21-simple-api-for-authentication-registration-and-user-management 
 
 2) Facebook and Gmail authentication POC
   - https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/?view=aspnetcore-3.0&tabs=visual-studio
