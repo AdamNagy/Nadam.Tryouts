@@ -1,16 +1,31 @@
 <html>
 <head>
-	
+	<style>
+		h1 {
+			color: blue;
+		}
+	</style>
 </head>
 
 <body>
+	<h1>Custom element below</h1>
 
-<h3>Custom element below</h3>
-<custom-element text="Hello from custom element"></custom-element>
-<script>
-console.log("index html after custom element");
-</script>
+	<template id="template_custom-element">
+		<style>
+			h1 {
+				color: red;
+			}
+		</style>
+		<h1>Hello from custom element template</h1>
+		<p id="prop1"></p>
+		<my-header></my-header>
+	</template>
 
-<script src="custom-element.js"></script>
+	<script src="custom-element.js"></script>
+	<script>
+		// usgea of custom element
+		var cust = new CustomElement();
+		document.body.append(cust);
+	</script>
 </body>
 </html>
