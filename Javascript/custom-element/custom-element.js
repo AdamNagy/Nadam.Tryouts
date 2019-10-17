@@ -15,6 +15,7 @@ class CustomElement extends HTMLElement {
 
 	wrapper = document.createElement('span');
 	templateId = "template_custom-element";
+	myHeader = {};
 
 	constructor() {
 		super();
@@ -24,6 +25,14 @@ class CustomElement extends HTMLElement {
 	
 		var shadow = this.attachShadow({mode: 'open'});	 
 		shadow.appendChild(node);
+	}
+	
+	setModel() {
+		
+	}
+	
+	addSlidePage(slidePageContentElement) {
+		
 	}
 	
 	// attributeChangedCallback(name, oldValue, newValue) {

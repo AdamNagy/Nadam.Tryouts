@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- <jquery> -->
+		<script src="./lib/jquery/jquery-v3.4.0.js"></script>
+		<!-- </jquery> -->
+		
+		<!-- <jquery-ui> -->
+		<script src="./lib/jquery-ui/jquery-ui.min.js"></script>
+		<link rel="stylesheet" href="./lib/jquery-ui/jquery-ui.min.css">
+		<link rel="stylesheet" href="./lib/jquery-ui/jquery-ui.structure.min.css">
+		<link rel="stylesheet" href="./lib/jquery-ui/jquery-ui.theme.min.css">
+		<!-- </jquery-ui> -->
+
+		<!-- <bootstrap> -->
+		<script src="./lib/bootstrap/bootstrap.bundle.min.js"></script>
+		<script src="./lib/bootstrap/bootstrap.min.js"></script>
+
+		<link rel="stylesheet" href="./lib/bootstrap/bootstrap.min.css">
+		<link rel="stylesheet" href="./lib/bootstrap/bootstrap-grid.min.css">
+		<link rel="stylesheet" href="./lib/bootstrap/bootstrap-reboot.min.css">
+		<!-- </bootstrap> -->
+
+</head>
+<body>
+	
+	<template id="template-caruseul">
+		<style>
+			.hero-slide {
+				height: 90vh;
+				border: 1px solid black;
+				overflow: hidden;
+			}
+
+			.hero-slide img {
+				object-fit: cover;
+				height: 90vh;
+				min-height: 80%;
+				width: 100vw;
+			}
+
+			#navigation {
+				height: 10vh;
+				background-color: rgba(50,150,200,0.2);				
+			} 
+
+			#navigation ul {
+				list-style: none;
+				line-height: 10vh;
+				float: right;
+				cursor: pointer;
+			}
+
+			#navigation ul li {
+				display: inline-block;
+				width: 60px;
+
+			}			
+		</style>
+
+		<div class="hero-slide">
+			<div class="bd-example">
+				<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+					<ol class="carousel-indicators">
+						<li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+						<li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+						<li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+					</ol>
+
+					<div class="carousel-inner">
+
+					</div>
+
+					<a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+
+					<a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+			</div>
+		</div>	
+	</template>
+
+	<template id="template-caruseul-item">
+		<div class="carousel-item active">
+			<img src="" class="d-block w-100" alt="">
+			<div class="carousel-caption d-none d-md-block">
+				<h5></h5>
+				<p></p>
+			</div>
+		</div>
+	</template>
+	
+	<script src="./carousel.component.js"></script>
+	<script>
+		var carusel = new CarouselComponent();
+		carusel.SetImageSources(["./images/city/city_3.jpg", "./images/city/city_2.jpg", "./images/city/city_1.jpg"]);
+		document.body.append(carusel);
+	</script>
+</body>
+</html>
