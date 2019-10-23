@@ -1,5 +1,5 @@
 <template id="accordion">
-	<div class="accordion" id="accordionExample">
+	<div class="accordion" id="accordion-#id#">
 
 	</div>
 </template>
@@ -11,15 +11,15 @@
 				<button class="btn btn-link" 
 					type="button" 
 					data-toggle="collapse" 
-					data-target="#collapseOne"
+					data-target="#collapse-#id#"
 					aria-expanded="true" 
-					aria-controls="collapseOne">
+					aria-controls="collapse-#id#">
 				#title#
 				</button>
 			</h2>
 		</div>
 
-		<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+		<div id="collapse-#id#" class="collapse show" aria-labelledby="heading-#id#" data-parent="#accordion-#id#">
 			<div class="card-body">
 				#body#
 			</div>

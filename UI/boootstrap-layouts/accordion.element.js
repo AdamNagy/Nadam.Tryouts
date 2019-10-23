@@ -1,33 +1,52 @@
-export class Accordion extends HTMLElement {
+// this component does not support pre-render or in template usage.
+// has to be used from script, and only from script
+
+class Accordion extends HTMLElement {
 	
 	TemplateId = "accordion";
-	Container: HTMLElement;
-	NumOfItems: number;
+	Container;
+	NumOfItems;
+	Id:
 	
-	constructor() {
-		super();
+	constructor(id) {
+		super();		
+	
+		this.Id = id;
+		
+		const template = document.getElementById(this.TemplateId);
+		const node = document.importNode(template.content, true);
+		
+		this.Container = node.querySelector("div.accordion");
+		this.append(node);
 	}
 	
-	AddItem(item: HTMLElement) {
+	AddItem(item) {
 		
-		let accItem = new AccordionItem(++NumOfItems);
-		accItem.SetBody(item);
+		let accItem = new AccordionItem(++(this.NumOfItems), item);
 		this.Container.appendChild(accItem);
 	}
 }
-
 	
-export class AccordionItem extends HTMLElement {
+class AccordionItem extends HTMLElement {
 	
 	TemplateId = "accordion-item";
-	Index: number;
+	Index;	
+	Content;
 	
-	
-	constructor(idx: number) {
+	constructor(index, content) {
 		super();
-	}
-	
-	SetBody(body: HTMLElement) {
+				
+		this.Index = index;
+		this.Content = content;
 		
+		const template = document.getElementById(this.TemplateId);
+		const node = document.importNode(template.content, true);
+		
+		this.Container = node.querySelector("div.accordion");
+		this.Container.appendChild(this.Content);
+		this.append(node);
 	}
 }
+
+customElements.define('nadam-accordion', Accordion);
+customElements.define('nadam-accordion-item', AccordionItem);
