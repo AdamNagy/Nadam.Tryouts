@@ -1,0 +1,18 @@
+.removable {
+	position: relative;
+}
+
+.remover {
+	position: absolute;
+	font-size: 20px;
+	cursor: pointer;
+	transition: all .4s;
+	color: darkred;
+
+	&:hover {
+		border: 1px solid red;
+		border-radius: 10px;
+		font-weight: 700;
+	}
+}
+
