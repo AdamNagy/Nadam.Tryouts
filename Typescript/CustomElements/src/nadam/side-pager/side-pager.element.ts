@@ -13,8 +13,11 @@ interface IPage {
 /// var pageManager = new SidePager();
 /// pageManager.CreatePage(document.createElement("div").innerText = "Hello world");
 export class SidePagerElement {
+	get View() {
+		return this.view;
+	}
 
-	private View: HTMLElement;
+	private view: HTMLElement;
 	private PageManager = document.createElement("div");
 	private Pages: Array<IPage>;
 	private PageWidth = 720;
@@ -29,16 +32,18 @@ export class SidePagerElement {
 		</div>`;
 		
 	private OpenPages = 0;
-	get view() {
-		return this.View;
-	}
+
+	/* Events */
+	private onAllClosed: any[] = [];
+
+	private onAnyOpen: any[] = [];
 	
 	constructor() {
 
 		this.PageManager.style.position = "fixed";
 		this.PageManager.id = "side-pages-manager";
 
-		this.View = this.PageManager;
+		this.view = this.PageManager;
 		this.Pages = new Array();
 	}
 
@@ -121,6 +126,12 @@ export class SidePagerElement {
 
         addedPage.querySelector("div[class=side-page-content]").append(rootElement);
 	}
+	OnAllClosed(func: any) {
+		this.onAllClosed.push(func)
+	}	
+	OnAnyOpen(func: any) {
+		this.onAnyOpen.push(func);
+	}
 
 	private CreatePage(title: string): void {
 
@@ -161,22 +172,11 @@ export class SidePagerElement {
         var index: number = this.Pages.indexOf(actual);
         return index;
     }
-
-	/* Events */
-	private onAllClosed: any[] = [];
-	OnAllClosed(func: any) {
-		this.onAllClosed.push(func)
-	}	
 	
 	private FireOnAnyOpen() {
 		for(let func of this.onAnyOpen) {
 			func();
 		}
-	}
-
-	private onAnyOpen: any[] = [];
-	OnAnyOpen(func: any) {
-		this.onAnyOpen.push(func);
 	}
 
 	private FireOnAllClosed() {
