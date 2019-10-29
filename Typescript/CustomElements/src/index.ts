@@ -1,7 +1,6 @@
 import "bootstrap/js/dist/modal.js";
-// import * as $ from "jquery";
 
-import { AccordionElement, CarouselElement, Modal, SidePagerElement } from "./nadam/nadam.index";
+import { AccordionElement, CarouselElement, DragableElement, Modal, SidePagerElement } from "./nadam/nadam.index";
 
 // <Side_pager>
 const sidePager = new SidePagerElement();
@@ -47,3 +46,8 @@ const carouselDemo = document.getElementById("carousel-demo");
 carouselDemo.appendChild(carousel);
 carousel.Init();
 // </Carousel>
+
+// <Dragable>
+const dragabble = new DragableElement();
+document.body.appendChild(dragabble.View);
+// </Dragable>
