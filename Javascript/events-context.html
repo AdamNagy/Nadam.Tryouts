@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<button id="btn" data-name="gomb">Click me</button>	
+	<button id="btn2" data-name="gomb">Click me 2</button>
+	
+	<script>
+		function MyClass() {
+			
+			this.prop1 = "my propm from js class";
+			this.handler = function() {
+				console.log(this);
+			}
+		}
+	
+		var OnHappening = [];
+	
+		( function() {
+			var clickHandler = new MyClass();
+			
+			// with classic buttons
+			var btn = document.getElementById("btn");
+			btn.addEventListener("click", clickHandler.handler);
+			
+			var btn2 = document.getElementById("btn2");
+			// below 2 is equalent
+			// btn2.addEventListener("click", () => clickHandler.handler());
+			btn2.addEventListener("click", function() { 
+				return clickHandler.handler()
+			});
+
+			// with an array containing functions			
+			OnHappening.push(() => clickHandler.handler());
+			console.log("OnHappening[0]()");
+			OnHappening[0]();
+			
+			OnHappening.push(clickHandler.handler);
+			console.log("OnHappening[1]()");
+			OnHappening[1]();
+		})();
+	</script>
+</body>
+</html>
