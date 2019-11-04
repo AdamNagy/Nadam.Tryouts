@@ -2,7 +2,7 @@
 1) Study authentication implementation and code for self
   - https://jasonwatmore.com/post/2018/06/26/aspnet-core-21-simple-api-for-authentication-registration-and-user-management 
 
-2) Facebook and Gmail authentication POC
+2) Facebook and Gmail authentication
   - https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/?view=aspnetcore-3.0&tabs=visual-studio
   - Facebook setup: https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/facebook-logins?view=aspnetcore-3.0
   - Google setup: https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-3.0
@@ -20,8 +20,15 @@
   - ? Azure Blob Storage and its API (ABS as FTP)  // ABS: Azure Blob Storage
 
 6) Internal Sql Server file
-  - Use Sql data file in the .NET solution, add some basic "API"
+  - Use Sql data file in the .NET solution, add some basic "API" // hangfire did not work with this approach
+
+7) Data persistence and ORM
+  - Entity Framewotk Core basic
+  - With XAMP MySql server
+  - With SqlServer
+  - With MongoDb
 
 FE
 1) Angular CLI
 2) NgRx + NgRx Store
+3) HTML editor
