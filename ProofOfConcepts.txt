@@ -26,7 +26,6 @@
   - Entity Framewotk Core basic
   - With XAMP MySql server
   - With SqlServer
-  - With MongoDb
 
 FE
 1) Angular CLI

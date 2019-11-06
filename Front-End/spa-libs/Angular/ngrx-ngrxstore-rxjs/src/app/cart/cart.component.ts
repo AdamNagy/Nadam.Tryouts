@@ -21,7 +21,7 @@ export class CartComponent implements OnInit {
 
     this.store
       .select(state => state)
-      .subscribe(state => this.cart = state.cart.cart);
+      .subscribe((state: AppState) => this.cart = state.cart);
 
     console.log(this.cart);
   }
