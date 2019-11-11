@@ -6,7 +6,7 @@ module.exports = {
 	mode: 'development',
 	entry: {
 		nadam: './src/index.ts',
-		bootstrap: './src/bootstrap.js'
+		bootstrap: './src/bootstrap.ts'
 	},
 	module: {
 		rules: [

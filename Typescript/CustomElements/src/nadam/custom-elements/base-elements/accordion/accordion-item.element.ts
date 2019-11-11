@@ -1,4 +1,6 @@
-export class AccordionItemElement extends HTMLDivElement {
+import { PrototypeHTMLElement } from "../../../html-extensions/prototype-html-element";
+
+export class AccordionItemElement extends PrototypeHTMLElement {
 
 	private templateId = "template-accordion-item";
 
@@ -11,7 +13,7 @@ export class AccordionItemElement extends HTMLDivElement {
 		const headerId = `${parentId}-header-${index}`;
 		const bodyId = `${parentId}-body-${index}`;
 
-		this.classList.add("card");
+		this.WithClass("card");
 
 		// accordion button (button)
 		const header = node.querySelector("div.card-header");
@@ -24,7 +26,7 @@ export class AccordionItemElement extends HTMLDivElement {
 		const body = node.querySelector("div.collapse");
 		body.setAttribute("id", bodyId);
 		body.setAttribute("data-parent", `#${parentId}`);
-		body.setAttribute("aria-labelledby", headerId); // ="headingThree"
+		body.setAttribute("aria-labelledby", headerId);
 		const itemContainer = body.querySelector("div.card-body");
 		itemContainer.appendChild(child);
 
@@ -32,4 +34,4 @@ export class AccordionItemElement extends HTMLDivElement {
 	}
 }
 
-customElements.define("nadam-accordion-item", AccordionItemElement, { extends: "div" });
+customElements.define("ndm-accordion-item", AccordionItemElement);

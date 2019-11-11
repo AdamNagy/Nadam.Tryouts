@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using B_Project;
 
 namespace POC_DotNETCore
 {
@@ -20,10 +21,12 @@ namespace POC_DotNETCore
             container.GetService<App>()
                 .Run();
 
-            config = new ConfigurationBuilder()
-                 // .SetBasePath(Directory.GetCurrentDirectory())
-                 .AddJsonFile("appsettings.json")
-                 .Build();
+            //config = new ConfigurationBuilder()
+            //     // .SetBasePath(Directory.GetCurrentDirectory())
+            //     .AddJsonFile("appsettings.json")
+            //     .Build();
+
+            var cObj = new CRepository().Get();
         }
     }
 
