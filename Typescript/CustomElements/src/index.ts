@@ -7,7 +7,7 @@ import {
 	ElementFactory,
 	Modal,
 	SidePagerElement,
-} from "./nadam/nadam.index";
+} from "./ndm/ndm.index";
 
 // <Side_pager>
 const sidePager = new SidePagerElement();

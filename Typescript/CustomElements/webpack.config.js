@@ -5,7 +5,7 @@ const nodeSass = require('node-sass');
 module.exports = {
 	mode: 'development',
 	entry: {
-		nadam: './src/index.ts',
+		demo: './src/index.ts',
 		bootstrap: './src/bootstrap.ts'
 	},
 	module: {
