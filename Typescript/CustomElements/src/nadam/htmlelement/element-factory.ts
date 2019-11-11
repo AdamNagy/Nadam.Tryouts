@@ -1,9 +1,10 @@
-import { WrapperHTMLElement } from "../html-extensions/wrapper-html-element";
+import { PrototypeHTMLElement } from "./prototype-html-element";
+
 export class ElementFactory {
 
-	public static CreatePrimitive(elementName: string): WrapperHTMLElement {
+	public static Create(elementName: string): PrototypeHTMLElement {
 
-		return new WrapperHTMLElement(document.createElement(elementName));
+		return document.createElement(elementName) as PrototypeHTMLElement;
 	}
 
 	public static ConstructFromTemplate(tamplateId: string): any {

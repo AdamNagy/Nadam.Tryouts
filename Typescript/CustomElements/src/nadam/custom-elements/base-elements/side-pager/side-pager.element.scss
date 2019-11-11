@@ -1,45 +1,39 @@
-
-#side-pages-manager {
+ndm-side-pager {
 	position: fixed;
 	z-index: 10;
 	top: 0;
 	height: 1080px;
-}
 
-#side-pages-manager .side-page {
-    transition: right 0.4s;
-    position: fixed;
-    top: 0;
-    height: 1080px; /* change to height of the screen;*/
-    width: 720px;
-	background: rgba(100, 100, 100, 0.5);
-	border-left:1px solid darkred; 
-}
+	.side-page {
+		transition: right 0.4s;
+		position: fixed;
+		top: 0;
+		height: 1080px; /* change to height of the screen;*/
+		width: 720px;
+		background: rgba(100, 100, 100, 0.5);
+		border-left:1px solid darkred; 
+	}
 
-    #side-pages-manager .side-page .ui-resizable-w {
-        width: 5px;
-        background:red;/* linear-gradient(to right, blue, lightskyblue);*/
-    }
+	.side-page-closed {
+		background: rgba(100, 100, 100, 0.5);
+		opacity: 0.6;
+		overflow-y: hidden;
+	}
 
-#side-pages-manager .side-page-closed {
-    background: rgba(100, 100, 100, 0.5);
-    opacity: 0.6;
-    overflow-y: hidden;
-}
-
-#side-pages-manager .side-page-open {
-    background-color: rgba(100, 100, 100, 0.8);
-    opacity: 1;
-}
-
-#side-pages-manager .side-page-opener {
-	height: 100%;
-	width: 30px;
-	float: left;
-}
-
-#side-pages-manager .side-page-content {
-	overflow-y: scroll;
-	height: 95vh;
-    padding: 5px;
+	.side-page-open {
+		background-color: rgba(100, 100, 100, 0.8);
+		opacity: 1;
+	}
+	
+	.side-page-opener {
+	   height: 100%;
+	   width: 30px;
+	   float: left;
+	}
+	
+	#side-pages-manager .side-page-content {
+	   overflow-y: scroll;
+	   height: 95vh;
+	   padding: 5px;
+	}
 }

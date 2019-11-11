@@ -1,47 +1,103 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<!-- <JQuery> -->
-		<script src="./lib/jquery/jquery-v3.4.0.js"></script>
-		<!-- </JQuery> -->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Typescript custom elements demo</title>	
 
-		<!-- <JQuery-Ui> -->
-		<script src="./lib/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-		<link rel="stylesheet" href="./lib/jquery-ui-1.12.1.custom/jquery-ui.min.css">
-		<link rel="stylesheet" href="./lib/jquery-ui-1.12.1.custom/jquery-ui.structure.min.css">
-		<link rel="stylesheet" href="./lib/jquery-ui-1.12.1.custom/jquery-ui.theme.min.css">
-		<!-- </JQuery-Ui> -->
+		<style>
+			.row {
+				line-height: 38px;
+			}
 
-		<!-- <Bootstrap> -->
-		<script src="./lib/bootstrap/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js"></script>
-		<script src="./lib/bootstrap/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+			label {
+				display: block;
+    			width: 100%;
+			}
 
-		<link rel="stylesheet" href="./lib/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.min.css">
-		<link rel="stylesheet" href="./lib/bootstrap/bootstrap-4.3.1-dist/css/bootstrap-grid.min.css">
-		<link rel="stylesheet" href="./lib/bootstrap/bootstrap-4.3.1-dist/css/bootstrap-reboot.min.css">
-		<!-- </Bootstrap> -->
-
-		<link rel="stylesheet" href="./index.css">
+			#accordion-demo .accordion {
+				width: 100%;
+			}
+		</style>
 	</head>
-	<body>		
-		<button class="n-nav" data-link="gallery">Gallery</button>
-		<button class="n-nav" data-link="footer">Some footer</button>
-		<button class="n-nav" data-link="home">Home</button>
+<body>
+<div class="container">
+	<div class="row">
+		<label>Click to add new side page: </label>
+		<button id="side-pager" class="btn btn-primary">Add side page</button>
+	</div>
+	<hr>
+	<div id="modal-demo" class="row">
+		<label>Modal test. Click button to open a modal: </label>
+		<button id="modal-opener" class="btn btn-primary">Open modal</button>
+	</div>
+	<hr>
+	<div id="accordion-demo" class="row">
+		<label>Accordion </label>
+	</div>
+	<hr>
+</div>
 
-		<section id="content">
-		</section>		
+<div class="container-fluid">
+	<div id="carousel-demo" class="row">
+		<label>Carousel </label>
+		<br>
+	</div>
+</div>
 
-		<html-doc src="http://qweasd.web.elte.hu/gethtml.php?name=gallery.page" lazy></html-doc>
-		<html-doc src="http://qweasd.web.elte.hu/gethtml.php?name=home.page" lazy></html-doc>
-		<!-- <html-doc src="http://qweasd.web.elte.hu/gethtml.php?name=footer.page"></html-doc> -->
-
-		<script src="nadam.static-spa.js"></script>
-		<script src="html-doc.element.js"></script>
-		<script>
-			var htmlDoc = document.createElement("html-doc");
-			htmlDoc.setAttribute("src", "https://qweasd.web.elte.hu/gethtml.php?name=footer.page");
+	<template id="template-accordion-item">
+	<div class="card-header"
+		data-toggle="collapse"  
+		aria-expanded="false">
+		<h3 class="mb-0">
 			
-			document.body.append(htmlDoc);
-		</script>
-	</body>
+		</h3>
+	</div>
+	<div class="collapse">
+		<div class="card-body">
+		</div>
+	</div>
+</template>
+	<template id="template-modal">
+	<!-- Modal -->
+	<div class="modal fade" id="nadam-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLongTitle">#Modal title#</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			</div>
+			<div class="modal-body">
+			
+			</div>
+			<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+		</div>
+	</div>
+</template>
+	<template id="template-removable">
+	<div class="removable">
+		<div class="remover">
+			X
+		</div>
+	</div>
+</template>
+	<template id="template-side-pager">
+	<div class="side-page">
+		<h3>#title#</h3>
+		<button data-local-id='close-btn' class='btn btn-primary'>Close</button>
+		<button data-local-id='remove-btn' class='btn btn-warning'>Remove</button>
+		<div class="side-page-opener"></div>
+		<div class="side-page-content"></div>
+	</div>
+</template>
+	
+
+	<script src="./bootstrap.js"></script>
+	<script src="./nadam.js"></script>
+</body>
 </html>

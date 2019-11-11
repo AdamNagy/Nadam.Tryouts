@@ -1,10 +1,5 @@
 export class PrototypeHTMLElement extends HTMLElement {
 
-	constructor() {
-
-		super();
-	}
-
 	public WithAttribute(key: string, value: string): PrototypeHTMLElement {
 
 		this.setAttribute(key, value);
@@ -18,12 +13,19 @@ export class PrototypeHTMLElement extends HTMLElement {
 	}
 
 	public WithClass(name: string): PrototypeHTMLElement {
+
 		this.classList.add(name);
 		return this;
 	}
 
-	public WithInnerText(text: string): PrototypeHTMLElement {
+	public WithInnerText(text: string) {
+
 		this.innerText = text;
+		return this;
+	}
+
+	public WithId(id: string) {
+		this.setAttribute("id", id);
 		return this;
 	}
 }

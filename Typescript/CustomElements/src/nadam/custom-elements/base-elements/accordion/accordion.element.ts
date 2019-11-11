@@ -1,27 +1,35 @@
-import { PrototypeHTMLElement } from "../../../html-extensions/prototype-html-element";
+import { PrototypeHTMLElement } from "../../../htmlelement/prototype-html-element";
 import { AccordionItemElement } from "./accordion-item.element";
 
 export class AccordionElement extends PrototypeHTMLElement {
 
-	private accordionId: string;
 	private numOfItems = 0;
 	get AccordionId() {
-		return this.accordionId;
+		return this.getAttribute("id");
 	}
+
+	private accordions: AccordionItemElement[] = [];
 
 	constructor(id: string) {
-		super();
-		this.accordionId = id;
 
-		this.WithClass("accordion")
-			.WithAttribute("id", id);
+		super();
+
+		this.WithId(id)
+			.WithStyle("display", "block")
+			.WithClass("accordion");
 	}
 
-	public WithItem(item: HTMLElement) {
+	public WithItem(item: HTMLElement, title: string = "") {
 
 		++(this.numOfItems);
-		const accordionItem = new AccordionItemElement(this.accordionId, this.numOfItems.toString(), item);
+		const accordionItem = new AccordionItemElement(this.AccordionId, this.numOfItems.toString(), item, title);
+		this.accordions.push(accordionItem);
 		this.appendChild(accordionItem);
+		return this;
+	}
+
+	public OpenAccordion(idx: number) {
+		this.accordions[0].Open();
 		return this;
 	}
 }

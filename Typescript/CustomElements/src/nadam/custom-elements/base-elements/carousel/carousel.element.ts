@@ -1,26 +1,52 @@
 import "slick-carousel";
+import { PrototypeHTMLElement } from "../../../htmlelement/prototype-html-element";
 import "./carousel.element.scss";
 
 export class CarouselElement extends HTMLElement {
 
-	private templateId = "template-carousel";
-
 	constructor() {
 		super();
-
-		const template = document.getElementById(this.templateId);
-		const node = document.importNode((template as any).content, true);
-
-		this.appendChild(node);
 	}
 
-	public Init(): void {
+	public WithItem(item: HTMLElement): CarouselElement {
+		const itemContainer = document.createElement("div");
+		const img = $(item).attr("src");
+
+		$(itemContainer).css({
+			backgroundImage: "url(" + img + ")",
+			backgroundPosition: "center center",
+			backgroundSize: "cover",
+		});
+
+		this.appendChild(itemContainer);
+		return this;
+	}
+
+	public WithImage(src: string): CarouselElement {
+		const itemContainer = document.createElement("div");
+
+		$(itemContainer).css({
+			backgroundImage: "url(" + src + ")",
+			backgroundPosition: "center center",
+			backgroundSize: "cover",
+		});
+
+		this.appendChild(itemContainer);
+		return this;
+	}
+
+	public Init(): CarouselElement {
 		($(this) as any).slick({
+			autoplay: true,
+			autoplaySpeed: 3000,
+			dots: true,
 			infinite: true,
 			slidesToScroll: 1,
 			slidesToShow: 1,
 		});
+
+		return this;
 	}
 }
 
-customElements.define("nadam-carousel", CarouselElement);
+customElements.define("ndm-carousel", CarouselElement);
