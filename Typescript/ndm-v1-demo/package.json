@@ -1,12 +1,10 @@
 {
-  "name": "ndm",
+  "name": "ndm-demo",
   "version": "1.0.0",
-  "description": "adam nagy self developed spa lib",
-  "main": "index.js",
+  "description": "",
   "scripts": {
-    "build": "webpack --config webpack.dev.js && gulp copy-templates",
-	"copy-templates": "gulp copy-templates",
-	"build-prod": "webpack --config webpack.prod.js && gulp copy-templates"
+    "build": "webpack --config webpack.config.js && gulp copy-templates",
+    "copy-templates": "gulp copy-templates"
   },
   "author": "Adam Nagy",
   "license": "ISC",
