@@ -1,13 +1,14 @@
 {
-  "name": "web-app-v2",
+  "name": "ndm",
   "version": "1.0.0",
-  "description": "",
+  "description": "adam nagy self developed spa lib",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js",
-    "copy-templates": "gulp copy-templates"
+    "build": "webpack --config webpack.dev.js && gulp copy-templates",
+	"copy-templates": "gulp copy-templates",
+	"build-prod": "webpack --config webpack.prod.js && gulp copy-templates"
   },
-  "author": "",
+  "author": "Adam Nagy",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.4.4",
