@@ -10,18 +10,9 @@ interface IPage {
 export class SidePagerElement extends PrototypeHTMLElement {
 
 	private TemplateId = "template-side-pager";
-	// private PageManager = document.createElement("div");
 	private Pages: Array<IPage>;
 	private PageWidth = 720;
 	private SpaceBetweenPages = 50;
-	// private Template =
-	// 	`<div class="side-page">
-	// 		<h3>#title#</h3>
-	// 		<button data-local-id='close-btn' class='btn btn-primary'>Close</button>
-	// 		<button data-local-id='remove-btn' class='btn btn-warning'>Remove</button>
-	// 		<div class="side-page-opener"></div>
-	// 		<div class="side-page-content"></div>
-	// 	</div>`;
 
 	private OpenPages = 0;
 
@@ -97,12 +88,13 @@ export class SidePagerElement extends PrototypeHTMLElement {
 		this.ClosePage(0);
 	}
 
-	public AddPage(rootElement: HTMLElement): void {
+	public AddPage(rootElement: HTMLElement): SidePagerElement {
 
 		this.CreatePage("");
 		const addedPage: HTMLElement = this.Pages[this.Pages.length - 1].element;
 
 		addedPage.querySelector("div[class=side-page-content]").append(rootElement);
+		return this;
 	}
 
 	public OnAllClosed(func: any) {
@@ -122,8 +114,6 @@ export class SidePagerElement extends PrototypeHTMLElement {
 		const template = document.getElementById(this.TemplateId);
 		const node = document.importNode((template as any).content, true);
 
-		// const domParser: DOMParser = new DOMParser();
-		// const instanceTemplate: string = this.Template.replace("#title#", title);
 		const pageElement: HTMLElement = node.querySelector("div:first-child") || document.createElement("div");
 
 		pageElement.style.zIndex = (11 + this.Pages.length).toString();

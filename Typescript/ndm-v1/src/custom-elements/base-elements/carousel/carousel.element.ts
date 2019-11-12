@@ -2,7 +2,7 @@ import "slick-carousel";
 import { PrototypeHTMLElement } from "../../../htmlelement/prototype-html-element";
 import "./carousel.element.scss";
 
-export class CarouselElement extends HTMLElement {
+export class CarouselElement extends PrototypeHTMLElement {
 
 	constructor() {
 		super();
