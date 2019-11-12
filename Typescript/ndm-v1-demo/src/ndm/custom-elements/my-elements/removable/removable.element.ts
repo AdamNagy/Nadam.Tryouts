@@ -29,6 +29,7 @@ export class RemovableElement extends PrototypeHTMLElement {
 	}
 
 	// OnRemove event
+	/* tslint:disable */
 	private onRemove: any[] = [];
 	public OnRemove(func: any) {
 		this.onRemove.push(func);
@@ -39,6 +40,7 @@ export class RemovableElement extends PrototypeHTMLElement {
 			func(element);
 		}
 	}
+
 }
 
 customElements.define("ndm-removable", RemovableElement);

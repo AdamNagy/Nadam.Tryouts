@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+	"start": "webpack --config webpack.dev.js",
     "build": "webpack --config webpack.config.js && gulp copy-templates",
     "copy-templates": "gulp copy-templates"
   },

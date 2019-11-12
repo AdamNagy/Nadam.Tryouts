@@ -3,8 +3,8 @@ import "bootstrap/js/dist/modal.js";
 import {
 	AccordionElement,
 	CarouselElement,
-	DragableElement,
 	ElementFactory,
+	HeroSlider,
 	Modal,
 	SidePagerElement,
 } from "./ndm/ndm.index";
@@ -28,8 +28,19 @@ document.getElementById("modal-opener").addEventListener("click", () => {
 });
 // </Modal>
 
-// <Accordion>
+// <Carousel>
+const carousel = new CarouselElement()
+	.WithImage("./images/city/city_1.jpg")
+	.WithImage("./images/city/city_2.jpg")
+	.WithImage("./images/city/city_3.jpg")
+	.WithImage("./images/city/city_4.jpg")
+	.Init();
 
+const carouselDemo = document.getElementById("carousel-demo");
+carouselDemo.appendChild(carousel);
+// </Carousel>
+
+// <Accordion>
 const p1 = ElementFactory.Create("p")
 	.WithInnerText("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
 
@@ -48,19 +59,15 @@ const accordionDemo = document.getElementById("accordion-demo");
 accordionDemo.appendChild(accordion);
 // </Accordion>
 
-// <Carousel>
-const carousel = new CarouselElement()
-	.WithImage("./assets/images/city/city_1.jpg")
-	.WithImage("./assets/images/city/city_2.jpg")
-	.WithImage("./assets/images/city/city_3.jpg")
-	.WithImage("./assets/images/city/city_4.jpg")
+// <hero-slide>
+const heroSlider = new HeroSlider()
+	.WithImage("./images/hills/hills_1.jpg")
+	.WithImage("./images/hills/hills_2.jpg")
+	.WithImage("./images/hills/hills_3.jpg")
+	.WithTitle("Hero slide")
+	.WithSubtitle("Some sub title")
 	.Init();
 
-const carouselDemo = document.getElementById("carousel-demo");
-document.body.appendChild(carousel);
-// </Carousel>
-
-// <Dragable>
-const dragabble = new DragableElement();
-document.body.appendChild(dragabble.View);
-// </Dragable>
+const heroSlideDemo = document.getElementById("hero-slide-demo");
+heroSlideDemo.appendChild(heroSlider);
+// </hero-slide>

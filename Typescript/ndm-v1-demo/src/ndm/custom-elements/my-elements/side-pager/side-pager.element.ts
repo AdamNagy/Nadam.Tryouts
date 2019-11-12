@@ -10,18 +10,9 @@ interface IPage {
 export class SidePagerElement extends PrototypeHTMLElement {
 
 	private TemplateId = "template-side-pager";
-	// private PageManager = document.createElement("div");
 	private Pages: Array<IPage>;
 	private PageWidth = 720;
 	private SpaceBetweenPages = 50;
-	// private Template =
-	// 	`<div class="side-page">
-	// 		<h3>#title#</h3>
-	// 		<button data-local-id='close-btn' class='btn btn-primary'>Close</button>
-	// 		<button data-local-id='remove-btn' class='btn btn-warning'>Remove</button>
-	// 		<div class="side-page-opener"></div>
-	// 		<div class="side-page-content"></div>
-	// 	</div>`;
 
 	private OpenPages = 0;
 
