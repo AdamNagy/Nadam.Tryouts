@@ -5,11 +5,12 @@ const nodeSass = require('node-sass');
 module.exports = {
 	mode: 'production',
 	entry: {
-		index: './src/index.ts'
+		ndm: './src/ndm.ts',
+		common: './src/common.ts'
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
-		filename: 'index.js',
+		// filename: 'index.js',
 		libraryTarget: 'commonjs2',
 	  },
 	module: {
@@ -71,11 +72,11 @@ module.exports = {
 	// 	chunkFilename: '[name].chunk.js',
 	// 	path: path.resolve(__dirname, './dist')
 	//   },
-	// plugins: [
-	// 	new webpack.ProvidePlugin({
-	// 		$: 'jquery',
-	// 		jQuery: 'jquery',
-	// 		"window.jQuery": "jquery"
-	// 	})
-	// ],
+	plugins: [
+		new webpack.ProvidePlugin({
+			$: 'jquery',
+			jQuery: 'jquery',
+			"window.jQuery": "jquery"
+		})
+	],
 };

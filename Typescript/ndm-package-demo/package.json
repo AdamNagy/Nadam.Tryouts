@@ -5,7 +5,8 @@
   "scripts": {
     "start": "webpack --config webpack.dev.js",
     "build": "webpack --config webpack.config.js && gulp copy-templates",
-    "copy-templates": "gulp copy-templates"
+    "copy-templates": "gulp copy-templates",
+    "postinstall": "gulp get-ndm-templates"
   },
   "author": "Adam Nagy",
   "license": "ISC",
@@ -31,12 +32,12 @@
     "webpack-cli": "^3.3.2"
   },
   "dependencies": {
+    "ndm-package": "file:../ndm-package",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "^4.3.1",
     "jquery": "^3.4.1",
     "jquery-ui": "^1.12.1",
     "lodash": "^4.17.15",
-    "ndm-package": "file:../ndm-package",
     "popper.js": "^1.15.0",
     "slick-carousel": "^1.8.1"
   }

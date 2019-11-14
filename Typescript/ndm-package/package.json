@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "webpack --config webpack.dev.js",
     "build": "webpack --config webpack.config.js --mode production && gulp copy-templates",
 	"copy-templates": "gulp copy-templates"
   },
@@ -38,5 +37,6 @@
     "lodash": "^4.17.15",
     "popper.js": "^1.15.0",
     "slick-carousel": "^1.8.1"
-  }
+  },
+  "inputs": ["./src"]
 }
