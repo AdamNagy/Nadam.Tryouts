@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Typescript custom elements demo</title>	
+
+		<style>
+			.row {
+				line-height: 38px;
+			}
+
+			label {
+				display: block;
+    			width: 100%;
+			}
+
+			#accordion-demo .accordion {
+				width: 100%;
+			}
+		</style>
+	</head>
+<body>
+
+<div class="container">
+	<div class="row">
+		<label>Click to add new side page: </label>
+		<button id="side-pager" class="btn btn-primary">Add side page</button>
+	</div>
+	<hr>
+	<div id="modal-demo" class="row">
+		<label>Modal test. Click button to open a modal: </label>
+		<button id="modal-opener" class="btn btn-primary">Open modal</button>
+	</div>
+	<hr>
+	<div id="carousel-demo">
+		<label>Carousel </label>
+		<br>
+	</div>
+	<hr>
+	<div id="accordion-demo" class="row">
+		<label>Accordion </label>
+	</div>
+</div>
+
+<div id="hero-slide-demo">
+
+</div>
+
+	<!-- build:templates -->		
+	<!-- endbuild -->	
+
+	<script src="./bootstrap.js"></script>
+	<script src="./demo.js"></script>
+</body>
+</html>

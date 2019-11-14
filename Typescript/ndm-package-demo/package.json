@@ -1,5 +1,5 @@
 {
-  "name": "ndm-demo",
+  "name": "ndm-package-demo",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -36,6 +36,7 @@
     "jquery": "^3.4.1",
     "jquery-ui": "^1.12.1",
     "lodash": "^4.17.15",
+    "ndm-package": "file:../ndm-package",
     "popper.js": "^1.15.0",
     "slick-carousel": "^1.8.1"
   }
