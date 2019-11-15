@@ -1,5 +1,5 @@
 // htmlelement
-import "./htmlelement/html-element.extension.js";
+// import "./htmlelement/html-element.extension.js";
 export { PrototypeHTMLElement } from "./htmlelement/prototype-html-element";
 export { ElementFactory } from "./htmlelement/element-factory";
 

@@ -1,5 +1,5 @@
 import "bootstrap/js/dist/modal.js";
-import "../node_modules/ndm-package/dist/common.js";
+// import "../node_modules/ndm-package/dist/common.js";
 
 import {
 	AccordionElement,
@@ -8,7 +8,7 @@ import {
 	HeroSlider,
 	Modal,
 	SidePagerElement,
-} from "../node_modules/ndm-package/dist";
+} from "ndm-package";
 
 // <Side_pager>
 const sidePager = new SidePagerElement();
