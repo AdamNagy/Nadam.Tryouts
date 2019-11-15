@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Typescript custom elements demo</title>	
+		<title>Typescript custom elements demo</title>
 
 		<style>
 			.row {
@@ -20,37 +20,36 @@
 			}
 		</style>
 	</head>
-<body>
+	<body>
+		<div class="container">
+			<div class="row">
+				<label>Click to add new side page: </label>
+				<button id="side-pager" class="btn btn-primary">Add side page</button>
+			</div>
+			<hr>
+			<div id="modal-demo" class="row">
+				<label>Modal test. Click button to open a modal: </label>
+				<button id="modal-opener" class="btn btn-primary">Open modal</button>
+			</div>
+			<hr>
+			<div id="carousel-demo">
+				<label>Carousel </label>
+				<br>
+			</div>
+			<hr>
+			<div id="accordion-demo" class="row">
+				<label>Accordion </label>
+			</div>
+		</div>
 
-<div class="container">
-	<div class="row">
-		<label>Click to add new side page: </label>
-		<button id="side-pager" class="btn btn-primary">Add side page</button>
-	</div>
-	<hr>
-	<div id="modal-demo" class="row">
-		<label>Modal test. Click button to open a modal: </label>
-		<button id="modal-opener" class="btn btn-primary">Open modal</button>
-	</div>
-	<hr>
-	<div id="carousel-demo">
-		<label>Carousel </label>
-		<br>
-	</div>
-	<hr>
-	<div id="accordion-demo" class="row">
-		<label>Accordion </label>
-	</div>
-</div>
+		<div id="hero-slide-demo">
 
-<div id="hero-slide-demo">
+		</div>
 
-</div>
+		<!-- build:templates -->
+		<!-- endbuild -->
 
-	<!-- build:templates -->
-	<!-- endbuild -->
-
-	<script src="./bootstrap.js"></script>
-	<script src="./index.js"></script>
-</body>
+		<script src="./bootstrap.js"></script>
+		<script src="./index.js"></script>
+	</body>
 </html>

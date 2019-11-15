@@ -3,9 +3,11 @@ import { PrototypeHTMLElement } from "../../../htmlelement/prototype-html-elemen
 import "./carousel.element.scss";
 
 export class CarouselElement extends PrototypeHTMLElement {
+
 	constructor() {
 		super();
 	}
+
 	public WithItem(item: HTMLElement): CarouselElement {
 		const itemContainer = document.createElement("div");
 		const img = $(item).attr("src");

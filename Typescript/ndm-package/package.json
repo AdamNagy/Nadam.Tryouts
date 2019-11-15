@@ -8,7 +8,8 @@
   },
   "author": "Adam Nagy",
   "license": "ISC",
-  "typings": "./dist/ndm-package.d.ts",
+  "main": "dist/ndm-package.js",
+  "typings": "dist/ndm-package.d.ts",
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
