@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+	
+	<script>
+		function MyCHandler() {
+			
+			this.prop1 = "my propm from js class";
+			this.handle = function() {
+				console.log(this);
+			}
+		}
+	
+		( function() {
+
+			var handler = new MyCHandler();
+			
+			var button = document.createElement("button");
+			button.innerText = "Halika";
+			document.body.append(button);
+			
+			button.addEventListener("my-event", () => handler.handle());
+			
+			var event = new Event('my-event');
+			button.dispatchEvent(event);
+		})();
+	</script>
+</body>
+</html>
