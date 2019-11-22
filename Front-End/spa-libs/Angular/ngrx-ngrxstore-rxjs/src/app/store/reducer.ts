@@ -1,7 +1,6 @@
 import { CartActionTypes, CartActions } from './actions';
 import { PRODUCTS } from './cataloge';
 import { IAppState, AppState } from './app.state.model';
-import { store } from '@angular/core/src/render3/instructions';
 import { CartItem } from './product.model';
 
 export let initialState: IAppState = {
