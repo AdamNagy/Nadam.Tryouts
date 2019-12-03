@@ -31,3 +31,5 @@ FE
 1) Angular CLI
 2) NgRx + NgRx Store
 3) HTML editor
+4) SVG Editor (https://github.com/SVG-Edit/svgedit)
+  // simple online editor (for iframe): http://vectorpaint.yaks.co.nz/
