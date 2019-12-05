@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/component/login.component';
+import { LoginComponent } from './auth/login-component/login.component';
 import { StoreModule } from '@ngrx/store';
-import { loginReducer } from './reducers';
+import { authReducer } from './auth/auth-store/auth.reducer';
 import { NoteComponent } from './note/component/note.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -23,7 +23,7 @@ import {
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot(loginReducer, {
+    StoreModule.forRoot(authReducer, {
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true
