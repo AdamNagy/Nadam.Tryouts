@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login-component/login.component';
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { authReducer } from './auth/auth-store/auth.reducer';
 import { NoteComponent } from './note/component/note.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,6 +14,7 @@ import {
 	MatButtonModule, MatCardModule, MatDialogModule, MatInputModule, MatTableModule,
 	MatToolbarModule, MatMenuModule,MatIconModule, MatProgressSpinnerModule
   } from '@angular/material';
+import { AuthEffects } from './auth/auth-store/auth.effect';
 
 @NgModule({
   declarations: [
@@ -22,13 +24,10 @@ import {
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    StoreModule.forRoot(authReducer, {
-      runtimeChecks: {
-        strictStateImmutability: true,
-        strictActionImmutability: true
-      }
-    }),
+	AppRoutingModule,
+	EffectsModule.forRoot([AuthEffects]),
+    StoreModule.forRoot({ auth: authReducer }),
+	
 	BrowserAnimationsModule,
 	MatToolbarModule,
 	MatButtonModule, 

@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { login, loginSuccess } from './auth.action';
+import { loginRequest, loginSuccess } from './auth.action';
 import { AuthStoreModel, AccountModel, LoginRequestModel } from "../auth.model";
 
 export const initialState: AuthStoreModel = {
@@ -11,13 +11,21 @@ export const initialState: AuthStoreModel = {
 const _authReducer = createReducer(
 	initialState,
 	on(
-		login,
-		(state,  payload: LoginRequestModel) => { return {...state, Request: payload}; }
+		loginSuccess,
+		(state, payload: AccountModel) => {
+			const newState = {...state, Account: payload, IsAuthenticated: true};
+			console.log(newState);
+			return newState;
+		}
 	),
 	on(
-		loginSuccess,
-		(state, payload: AccountModel) => { return {...state, Account: payload, IsAuthenticated: true}; }
-	)
+		loginRequest,
+		(state,  payload: LoginRequestModel) =>  {
+			const newState = {...state, Request: payload };
+			console.log(newState);
+			return newState;
+		}
+	),
 );
  
 export function authReducer(state, action) {

@@ -16,7 +16,7 @@ export class LoginService {
 			{
 				FirstName: "cement",
 				LastName: "elek",
-				Password: "mind123",
+				Password: "minad123",
 				Token: "asd123.asdqwe123.wer234.wer234wer",
 				Email: "cement.elek@gmail.com"
 			}
@@ -25,7 +25,7 @@ export class LoginService {
 
 	public Login(requestModel: LoginRequestModel): Observable<AccountModel> {
 
-		const found = _.filter(this.accounts, (item) => 
+		const found = _.find(this.accounts, (item) => 
 			item.Email === requestModel.Email && item.Password === requestModel.Password);
 
 		return of(found);

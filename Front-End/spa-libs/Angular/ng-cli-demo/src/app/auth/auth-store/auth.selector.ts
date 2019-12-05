@@ -1,23 +1,10 @@
 import { createSelector } from '@ngrx/store';
-import { AuthStoreModel } from "../auth.model";
-import { selectAuthState } from "../../reducers/core.state";
-
-export const selectAuth = createSelector(
-	selectAuthState,
-	(state: AuthStoreModel) => state
-  );
-  
-  export const selectIsAuthenticated = createSelector(
-	selectAuthState,
-	(state: AuthStoreModel) => state.IsAuthenticated
-  );
-
-  export const selectAccount = createSelector(
-	selectAuthState,
-	(state: AuthStoreModel) => state.Account
-  );
-
-  export const selectLoginRequest = createSelector(
-	selectAuthState,
-	(state: AuthStoreModel) => state.Request
-  );
+import { AuthStoreModel } from '../auth.model';
+import { AppState } from 'src/app/reducers/core.state';
+ 
+export const selectFeature = (state: AppState) => state.auth;
+ 
+export const selectIsAuthenticated = createSelector(
+  selectFeature,
+  (state: AuthStoreModel) => state.IsAuthenticated
+);

@@ -1,25 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import { selectIsAuthenticated, selectAccount } from "../auth-store/auth.selector";
-import { LoginService } from "../auth-service/auth.service";
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { AuthStoreModel, AccountModel } from '../auth.model';
+import { loginRequest } from '../auth-store/auth.action';
+
 @Component({
   selector: 'notes-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
 
 	private isAuthenticated: boolean;
+	private account: AccountModel;
 
 	constructor(
-		private service: LoginService
+		private store: Store<{auth: AuthStoreModel}>,
+		private ref: ChangeDetectorRef
 	) { }
 
-  ngOnInit() {
+	ngOnInit() {
 
-  }
+		this.isAuthenticated = false;
 
-  private onLoginClick() {
+		this.store.pipe(select('auth'))
+			.subscribe((val) => {
+				this.isAuthenticated = val.IsAuthenticated;
+				this.account = val.Account;
+				this.ref.markForCheck()
+			});
+	}
 
-}
+  	private onLoginClick(email: string, password: string) {
 
+		const loginRequestModel = {
+			Email: email,
+			Password: password
+		};
+
+		this.store.dispatch(loginRequest(loginRequestModel));
+	}
 }
