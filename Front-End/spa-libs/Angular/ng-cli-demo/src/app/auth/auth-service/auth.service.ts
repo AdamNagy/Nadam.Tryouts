@@ -9,6 +9,7 @@ import * as _ from "lodash";
 })
 export class LoginService {
 
+	// move this to config file
 	private authAPi = "https://localhost:44312/api/Account/login";
 
 	constructor(

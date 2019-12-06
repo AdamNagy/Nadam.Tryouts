@@ -18,7 +18,7 @@ export class AuthEffects {
 				map(account => loginSuccess(account)),
 				catchError(error => {
 					console.log(error);
-					return of("new `GetCustomersFailed`(error)");}),
+					return of("");}),
 			),
 		),
 	);
