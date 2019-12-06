@@ -8,6 +8,11 @@ import {
 
 const { SHOW_ALL } = VisibilityFilters;
 
+export interface AppState {
+	visibilityFilter: any;
+	todos: any[];
+}
+
 // visibility filter reducer
 function visibilityFilter(state = SHOW_ALL, action: any) {
 	switch (action.type) {

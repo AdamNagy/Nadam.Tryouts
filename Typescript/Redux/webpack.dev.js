@@ -6,8 +6,7 @@ module.exports = {
 	watch: true,
 	mode: 'development',
 	entry: {
-		demo: './src/index.ts',
-		bootstrap: './src/bootstrap.ts'
+		demo: './src/index.ts'
 	},
 	module: {
 		rules: [
@@ -23,15 +22,6 @@ module.exports = {
 			{
 				test: /\.css$/,
 				use: ['style-loader', 'css-loader']
-			},
-			{
-				test: require.resolve("jquery"),
-				use: [
-				  {
-					loader: "expose-loader",
-					options: "$"
-				  }
-				]
 			},
 			{
 				test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
@@ -62,17 +52,5 @@ module.exports = {
 	},
 	resolve: {
 		extensions: [ '.tsx', '.ts', '.js' ]
-	},
-	// output: {
-	// 	filename: '[name].bundle.js',
-	// 	chunkFilename: '[name].chunk.js',
-	// 	path: path.resolve(__dirname, './dist')
-	//   },
-	plugins: [
-		new webpack.ProvidePlugin({
-			$: 'jquery',
-			jQuery: 'jquery',
-			"window.jQuery": "jquery"
-		})
-	],
+	}
 };

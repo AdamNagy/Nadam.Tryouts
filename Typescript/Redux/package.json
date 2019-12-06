@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "webpack --config webpack.dev.js",
-    "build": "webpack --config webpack.config.js && gulp copy-templates",
+    "build": "webpack --config webpack.config.js",
     "copy-templates": "gulp copy-templates"
   },
   "author": "Adam Nagy",
@@ -12,8 +12,6 @@
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
-    "@types/jquery": "^3.3.31",
-    "@types/jqueryui": "^1.12.8",
     "@types/lodash": "^4.14.144",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.1",
