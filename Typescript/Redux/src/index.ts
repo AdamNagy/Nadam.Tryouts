@@ -6,9 +6,9 @@ export const store = createStore(todoApp);
 
 const inputTodo = document.getElementById("todo-input") as HTMLInputElement;
 const btnAddTodo = document.getElementById("todo-add-btn");
+const listTodo = document.getElementById("todo-list");
 
 btnAddTodo.addEventListener("click", () => {
-	console.log(inputTodo.getAttribute("value"));
 	store.dispatch(addTodo(inputTodo.value));
 });
 
@@ -31,4 +31,20 @@ function handleChange() {
 	}
 }
 
-const unsubscribe = store.subscribe(handleChange);
+function reRender() {
+
+	const previousList = listTodo.children;
+	for (const item of previousList) {
+		item.remove();
+	}
+
+	const updatedList = todosSelector(store.getState());
+	for (const newItem of updatedList) {
+		const listItem = document.createElement("li");
+		listItem.innerText = newItem.text;
+		listTodo.append(listItem);
+	}
+}
+
+store.subscribe(handleChange);
+store.subscribe(reRender);
