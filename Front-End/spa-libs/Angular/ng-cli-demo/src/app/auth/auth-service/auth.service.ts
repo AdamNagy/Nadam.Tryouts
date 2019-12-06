@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { LoginRequestModel, AccountModel } from '../auth.model';
 import { Observable, of } from 'rxjs';
 import * as _ from "lodash";
@@ -8,27 +9,16 @@ import * as _ from "lodash";
 })
 export class LoginService {
 
-	private accounts: AccountModel[];
+	private authAPi = "https://localhost:44312/api/Account/login";
+
 	constructor(
+		private http: HttpClient
 	) { 
-		this.accounts = [];
-		this.accounts.push(
-			{
-				FirstName: "cement",
-				LastName: "elek",
-				Password: "minad123",
-				Token: "asd123.asdqwe123.wer234.wer234wer",
-				Email: "cement.elek@gmail.com"
-			}
-		)
 	}
 
 	public Login(requestModel: LoginRequestModel): Observable<AccountModel> {
 
-		const found = _.find(this.accounts, (item) => 
-			item.Email === requestModel.Email && item.Password === requestModel.Password);
-
-		return of(found);
+		return this.http.post<AccountModel>(this.authAPi, requestModel);
 	}
 
 }

@@ -5,10 +5,11 @@ export interface LoginRequestModel {
 
 export interface AccountModel {
 	Password: string;
-	Token: string;
-	FirstName: string;
-	LastName: string;
+	token: string;
+	firstName: string;
+	lastName: string;
 	Email: string;
+	id: string;
 }
 
 export interface AuthStoreModel {

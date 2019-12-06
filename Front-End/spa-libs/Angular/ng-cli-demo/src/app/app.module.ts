@@ -9,6 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { authReducer } from './auth/auth-store/auth.reducer';
 import { NoteComponent } from './note/component/note.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 import {
 	MatButtonModule, MatCardModule, MatDialogModule, MatInputModule, MatTableModule,
@@ -24,9 +25,10 @@ import { AuthEffects } from './auth/auth-store/auth.effect';
   ],
   imports: [
     BrowserModule,
+	HttpClientModule,
 	AppRoutingModule,
 	EffectsModule.forRoot([AuthEffects]),
-    StoreModule.forRoot({ auth: authReducer }),
+	StoreModule.forRoot({ auth: authReducer }),
 	
 	BrowserAnimationsModule,
 	MatToolbarModule,

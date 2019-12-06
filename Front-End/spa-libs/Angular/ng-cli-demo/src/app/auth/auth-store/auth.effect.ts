@@ -5,6 +5,7 @@ import { map, catchError, switchMap } from 'rxjs/operators';
 import { LoginService } from '../auth-service/auth.service';
 import { AUTH_ACTIONS, loginSuccess } from "./auth.action";
 import { AccountModel } from '../auth.model';
+import { NoteService } from 'src/app/note/service/note.service';
 
 @Injectable()
 export class AuthEffects {
@@ -15,13 +16,27 @@ export class AuthEffects {
 		switchMap((payload) =>
 			this.authService.Login(payload).pipe(
 				map(account => loginSuccess(account)),
-				catchError(error => of("new `GetCustomersFailed`(error)")),
+				catchError(error => {
+					console.log(error);
+					return of("new `GetCustomersFailed`(error)");}),
 			),
 		),
 	);
 
+	// @Effect()
+	// getNotes = this.noteAction.pipe(
+	// 	ofType(AUTH_ACTIONS.loginSuccess),
+	// 	switchMap((account: AccountModel, index) => 
+	// 		this.authService.Login(account).pipe(
+	// 			map(account => this.noteService.Get(account.id)),
+	// 			catchError(error => of("new `GetCustomersFailed`(error)")),
+	// 		)
+	// ));
+
 	constructor(
 		private actions: Actions<AccountModel | any>,
-		private authService: LoginService
+		private noteAction: Actions<string | any>,
+		private authService: LoginService,
+		private noteService: NoteService
 	) {}
 }

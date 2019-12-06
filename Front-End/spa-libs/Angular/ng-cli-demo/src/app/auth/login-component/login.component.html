@@ -1,11 +1,11 @@
 <mat-toolbar color="primary">
 	<mat-toolbar-row *ngIf="!isAuthenticated">
 		<mat-form-field class="example-full-width">
-				<input #email matInput value="cement.elek@gmail.com">
+				<input #email matInput value="test4@test.com">
 			</mat-form-field>
 		
 			<mat-form-field class="example-full-width">
-				<input #password matInput value="minad123" (keyup.enter)="onEnter(email.value, password.value)">
+				<input #password matInput value="test2" (keyup.enter)="onEnter(email.value, password.value)">
 			</mat-form-field>
 			
 			<button mat-button (click)="onLoginClick(email.value, password.value)">Login</button>			
@@ -13,6 +13,6 @@
 		
 	<mat-toolbar-row *ngIf="isAuthenticated">
 		Szia
-		{{account.FirstName}} &nbsp; {{account.LastName}}
+		{{account.firstName}} &nbsp; {{account.lastName}}
 	</mat-toolbar-row>
 </mat-toolbar>
