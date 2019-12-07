@@ -32,4 +32,6 @@ FE
 2) NgRx + NgRx Store
 3) HTML editor
 4) SVG Editor (https://github.com/SVG-Edit/svgedit)
-  // simple online editor (for iframe): http://vectorpaint.yaks.co.nz/
+  https://neil.fraser.name/news/2018/SvgCanvas.html
+https://groups.google.com/forum/#!topic/svg-edit/thVVx11eWq0
+
