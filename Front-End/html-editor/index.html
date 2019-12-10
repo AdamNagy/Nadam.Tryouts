@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="./tinymce.min.js" referrerpolicy="origin"></script>
+</head>
+<body>
+	<button id="get-html">get</button> <button id=set-html>set</button> 
+  	<textarea id="tinymce-txtarea">Lorem ipsum dolor sit amet</textarea>
+
+	<section >
+		<textarea id="as-html"></textarea>
+	</section>
+
+  	<script>
+		tinymce.init({selector:'#tinymce-txtarea'});
+
+		const asHtml = document.getElementById("as-html");
+		const getBtn = document.getElementById("get-html");
+		const setBtn = document.getElementById("set-html");
+		let tinyMceContainer = {}; 
+
+		setTimeout(function() { 
+			tinyMceContainer = document.getElementById("tinymce-txtarea");//.contentWindow.document.body;
+		}, 1000);
+
+		getBtn.addEventListener("click", () => getHtml());
+		let getHtml = function() {
+			asHtml.value = tinyMce.value;
+		}
+
+		setBtn.addEventListener("click", () => setHtml());
+		let setHtml = function() {
+			tinyMce.value = asHtml.value;
+		}
+  	</script>
+</body>
+</html>

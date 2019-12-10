@@ -26,6 +26,7 @@
   - Entity Framewotk Core basic
   - With XAMP MySql server
   - With SqlServer
+  - Azure cosmos db
 
 FE
 1) Angular CLI
