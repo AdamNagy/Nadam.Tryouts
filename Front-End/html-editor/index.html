@@ -2,35 +2,54 @@
 <html>
 <head>
 	<script src="./tinymce.min.js" referrerpolicy="origin"></script>
+	<style>
+		#focus-layer {
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			background: rgba(100, 100, 100, .6);
+			top: 0;
+		}
+	</style>
 </head>
 <body>
-	<button id="get-html">get</button> <button id=set-html>set</button> 
+	<button id="get-html" disabled>get</button> <button id=set-html disabled>set</button> 
   	<textarea id="tinymce-txtarea">Lorem ipsum dolor sit amet</textarea>
 
-	<section >
-		<textarea id="as-html"></textarea>
+	<div id="focus-layer"></div>
+	<section>
+		<textarea id="html-code-container"></textarea>
 	</section>
 
   	<script>
 		tinymce.init({selector:'#tinymce-txtarea'});
 
-		const asHtml = document.getElementById("as-html");
+		const focusLayer = document.getElementById("focus-layer");
+
+		const htmlCodeContainer = document.getElementById("html-code-container");
+		const textEditorContainer = document.getElementById("tinymce-txtarea");
+
 		const getBtn = document.getElementById("get-html");
 		const setBtn = document.getElementById("set-html");
 		let tinyMceContainer = {}; 
 
 		setTimeout(function() { 
-			tinyMceContainer = document.getElementById("tinymce-txtarea");//.contentWindow.document.body;
+			getBtn.removeAttribute("disabled");
+			setBtn.removeAttribute("disabled");
+			focusLayer.style.visibility = "hidden";
+			tinyMceContainer = document.getElementById("tinymce-txtarea_ifr").contentWindow.document.body;
+
+			document.querySelector("body > div.tox-tinymce-aux").remove();
 		}, 1000);
 
 		getBtn.addEventListener("click", () => getHtml());
 		let getHtml = function() {
-			asHtml.value = tinyMce.value;
+			htmlCodeContainer.value = tinyMceContainer.innerHTML;
 		}
 
 		setBtn.addEventListener("click", () => setHtml());
 		let setHtml = function() {
-			tinyMce.value = asHtml.value;
+			tinyMceContainer.innerHTML = htmlCodeContainer.value;
 		}
   	</script>
 </body>
