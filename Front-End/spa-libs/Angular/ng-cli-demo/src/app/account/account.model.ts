@@ -3,18 +3,11 @@ export interface LoginRequestModel {
     Password: string;
 }
 
-export interface AccountModel {
+export interface UserModel {
 	Password: string;
 	token: string;
 	firstName: string;
 	lastName: string;
 	Email: string;
 	id: string;
-}
-
-export interface AuthStoreModel {
-
-	Request: LoginRequestModel;
-	Account: AccountModel;
-	IsAuthenticated: boolean;
 }

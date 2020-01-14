@@ -1,0 +1,20 @@
+<mat-toolbar color="primary">
+	<mat-toolbar-row *ngIf="!isAuthenticated">
+		<mat-form-field class="example-full-width">
+			<mat-label>email</mat-label>
+			<input #email matInput type="text" value="test4@test.com">
+		</mat-form-field>
+		
+		<mat-form-field class="example-full-width">
+			<mat-label>passphase</mat-label>
+			<input #password matInput type="password" value="test2" (keyup.enter)="onEnter(email.value, password.value)">
+		</mat-form-field>
+			
+		<button mat-button (click)="onLoginClick(email.value, password.value)"> Login </button>
+		<button mat-button> Reqister </button>
+	</mat-toolbar-row>
+		
+	<mat-toolbar-row *ngIf="isAuthenticated">
+		Szia {{account.firstName}} &nbsp; {{account.lastName}}
+	</mat-toolbar-row>
+</mat-toolbar>

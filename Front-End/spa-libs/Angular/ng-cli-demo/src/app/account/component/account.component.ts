@@ -1,16 +1,16 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { AuthStoreModel, AccountModel } from '../auth.model';
+import { UserModel } from '../account.model';
 
 @Component({
-  selector: 'notes-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  selector: 'grn-account',
+  templateUrl: './account.component.html',
+  styleUrls: ['./account.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
 
 	private isAuthenticated: boolean;
-	private account: AccountModel;
+	private account: UserModel;
 
 	constructor(
 		private ref: ChangeDetectorRef
@@ -28,6 +28,6 @@ export class LoginComponent implements OnInit {
 			Password: password
 		};
 
-		// this.store.dispatch(loginRequest(loginRequestModel));
+		
 	}
 }
