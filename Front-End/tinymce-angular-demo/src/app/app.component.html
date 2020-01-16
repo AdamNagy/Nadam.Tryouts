@@ -1,0 +1,10 @@
+<h1>TinyMCE 5 Angular Demo</h1>
+
+<editor
+	apiKey="s6b02gvy4jix4zfic68yhkr2uo1zfwpiqhu809qqamsf3hgl"
+	initialValue="{{initialContent}}"
+	[init]="tinyMceInitConfig"
+	id="editor"
+	tagName="myTextArea"
+	(onChange)='getContent($event)'>
+</editor>
