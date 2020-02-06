@@ -4,7 +4,7 @@ namespace Tree
 {
     public interface ITree<TNode>
     {
-        int NodesCount();               
+        int NodesCount();
         // depth
 
         void AddRoot(TNode rootNode); // kinda a 'init tree'
@@ -17,7 +17,7 @@ namespace Tree
 
         bool RemoveNode(TNode nodeValue);        
 
-        IEnumerator<TNode> PreOrder();        
+        IEnumerator<TNode> PreOrder();
         IEnumerator<TNode> PostOrder();
         IEnumerator<TNode> LevelOrder();
     }

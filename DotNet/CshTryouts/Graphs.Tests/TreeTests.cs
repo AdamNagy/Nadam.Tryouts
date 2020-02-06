@@ -3,11 +3,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Tree;
 
 namespace Graphs.Tests
 {
-    class TreeTests
+    class MediatorTreeTests
     {
         [TestClass]
         public class Add
@@ -460,55 +461,196 @@ namespace Graphs.Tests
             }
         }
     }
-
-    class Tree2Tests
+    
+    class LinkedTreeTests
     {
         [TestClass]
         public class DefaultTest
         {
             [TestMethod]
-            public void CreateAndAddingElements()
+            public void AddingElementsAndCount()
             {
-                var root = new LinkedNode<int>(1);
-                LinkedNode<int>.AddNode(root, new LinkedNode<int>(2));
-                LinkedNode<int>.AddNode(root, new LinkedNode<int>(3));
-                LinkedNode<int>.AddNode(root, new LinkedNode<int>(4));
+                var root = new LinkedTreeNode<int>(1);
+                root.Add(2);
+                root.Add(2);
+                root.Add(3);
 
                 Assert.IsNotNull(root);
+                Assert.AreEqual(3, root.Count());
             }
 
             [TestMethod]
-            public void Find()
+            public void Enumeration_EmptyNode()
             {
-                var root = new LinkedNode<int>(1);
-                LinkedNode<int>.AddNode(root, new LinkedNode<int>(2));
-                LinkedNode<int>.AddNode(root, new LinkedNode<int>(3));
-                LinkedNode<int>.AddNode(root, new LinkedNode<int>(4));
+                var root = new LinkedTreeNode<int>(1);
 
-                var found = LinkedNode<int>.FindNode(root, 3);
+                var iterations = 0;
+                var stringBuilder = new StringBuilder();
+                foreach (var node in root)
+                {
+                    stringBuilder.Append($"{node.Value},");
+                    ++iterations;
+                }
 
+                var result = stringBuilder.ToString();
+                Assert.AreEqual("", result);
+                Assert.AreEqual(0, iterations);
+            }
+
+            [TestMethod]
+            public void Enumeration_OneChild()
+            {
+                var root = new LinkedTreeNode<int>(1);
+                root.Add(1);
+
+                var iterations = 0;
+                var stringBuilder = new StringBuilder();
+                foreach (var node in root)
+                {
+                    stringBuilder.Append($"{node.Value},");
+                    ++iterations;
+                }
+
+                var result = stringBuilder.ToString();
+                Assert.AreEqual("1,", result);
+                Assert.AreEqual(1, iterations);
+            }
+
+            [TestMethod]
+            public void Enumeration_ThreeChild()
+            {
+                var root = new LinkedTreeNode<int>(1);
+                root.Add(1);
+                root.Add(2);
+                root.Add(3);
+
+                var iterations = 0;
+                var stringBuilder = new StringBuilder();
+                foreach (var node in root)
+                {
+                    stringBuilder.Append($"{node.Value},");
+                    ++iterations;
+                }
+
+                var result = stringBuilder.ToString();
+                Assert.AreEqual("1,2,3,", result);
+                Assert.AreEqual(3, iterations);
+            }
+
+            [TestMethod]
+            public void Indexing()
+            {
+                var root = new LinkedTreeNode<int>(1);
+                root.Add(1);
+                root.Add(2);
+                root.Add(3);
+
+                Assert.AreEqual(2, root[1].Value);
+            }
+
+            [TestMethod]
+            public void Indexing_Child()
+            {
+                var root = new LinkedTreeNode<int>(1);
+                var child = root.Add(1);
+                child.Add(11);
+                child.Add(12);
+
+                Assert.AreEqual(11, child[0].Value);
+            }
+
+            [TestMethod]
+            public void FindFirstLevel()
+            {
+                var root = new LinkedTreeNode<int>(1);
+                root.Add(1);
+                root.Add(2);
+                root.Add(3);
+
+                var found = root.Find(3);
+                Assert.IsNotNull(found);
                 Assert.AreEqual(3, found.Value);
             }
 
             [TestMethod]
-            public void Find2()
+            public void FindSecondLevel()
             {
-                var root = new LinkedNode<int>(1);
-                for (int i = 2; i < 100; i++)
+                var root = new LinkedTreeNode<int>(1);
+                var child1 = root.Add(1);
+                child1.Add(11);
+                child1.Add(12);
+                child1.Add(13);
+
+                var child2 = root.Add(2);
+                child2.Add(21);
+                child2.Add(22);
+                child2.Add(23);
+
+                var child3 = root.Add(1);
+                child3.Add(31);
+                child3.Add(32);
+                child3.Add(33);
+
+                var found = root.Find(22);
+                Assert.AreEqual(22, found.Value);
+            }
+
+            [TestMethod]
+            public void Preorder()
+            {
+                var root = new LinkedTreeNode<int>(1);
+                var child1 = root.Add(2);
+                child1.Add(4);
+                child1.Add(5);
+                // child1.Add(13);
+
+                var child2 = root.Add(3);
+                //child2.Add(21);
+                //child2.Add(22);
+                //child2.Add(23);
+
+                //var child3 = root.Add(3);
+                //child3.Add(31);
+                //child3.Add(32);
+                //child3.Add(33);
+
+                var stringBuilder = new StringBuilder();
+                foreach (var node in LinkedTreeNode<int>.PreOrder(root))
                 {
-                    var child = new LinkedNode<int>(i);
-                    LinkedNode<int>.AddNode(root, child);
-                    for (int j = 100; j < 200; j++)
-                    {
-                        var subChild = new LinkedNode<int>(i+j);
-                        LinkedNode<int>.AddNode(child, subChild);
-                    }
+                    stringBuilder.Append($"{node.Value},");
                 }
 
-                // i: 50, j: 150
-                var found = LinkedNode<int>.FindNode(root, 200);
+                var result = stringBuilder.ToString();
+                Assert.AreEqual("1,2,4,5,3,", result);
+            }
 
-                Assert.AreEqual(200, found.Value);
+            [TestMethod]
+            public void Postorder()
+            {
+                var root = new LinkedTreeNode<int>(1);
+                var child1 = root.Add(2);
+                child1.Add(4);
+                child1.Add(5);
+                // child1.Add(13);
+
+                var child2 = root.Add(3);
+                //child2.Add(21);
+                //child2.Add(22);
+                //child2.Add(23);
+
+                //var child3 = root.Add(3);
+                //child3.Add(31);
+                //child3.Add(32);
+                //child3.Add(33);
+
+                var stringBuilder = new StringBuilder();
+                foreach (var node in LinkedTreeNode<int>.PostOrder(root))
+                {
+                    stringBuilder.Append($"{node.Value},");
+                }
+
+                var result = stringBuilder.ToString();
+                Assert.AreEqual("4,5,2,3,1,", result);
             }
         }
     }

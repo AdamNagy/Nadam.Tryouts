@@ -58,7 +58,7 @@ namespace MyCollection.ManifestSets
     // can be made generic or custom for entites or maybe for distributed and single
     class Repository_or_DistributedTable
     {
-        private IEnumerable<GalleryManifest> manifests;
+        private IEnumerable<GalleryManifest> manifests { get; set; }
         // OR
         public IEnumerable<IManifest<Gallery>> manifests2 { get; set; }
 

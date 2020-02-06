@@ -33,7 +33,10 @@ namespace Tree.Iterators
             }
         }
 
-        public void Dispose(){}
+        public void Dispose()
+        {
+
+        }
 
         public bool MoveNext()
         {
