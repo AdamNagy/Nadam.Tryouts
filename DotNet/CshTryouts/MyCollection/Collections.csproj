@@ -45,6 +45,7 @@
     <Compile Include="AssociativeArrays\MyHashTable.cs" />
     <Compile Include="DoubleLinkedList\DoubleLinkedList.cs" />
     <Compile Include="DoubleLinkedList\DoubleLinkedListNode.cs" />
+    <Compile Include="ManifestSets\Master.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

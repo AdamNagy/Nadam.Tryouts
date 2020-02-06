@@ -26,7 +26,6 @@
   - Entity Framewotk Core basic
   - With XAMP MySql server
   - With SqlServer
-  - Azure cosmos db
 
 FE
 1) Angular CLI
@@ -34,5 +33,8 @@ FE
 3) HTML editor
 4) SVG Editor (https://github.com/SVG-Edit/svgedit)
   https://neil.fraser.name/news/2018/SvgCanvas.html
-https://groups.google.com/forum/#!topic/svg-edit/thVVx11eWq0
+  https://groups.google.com/forum/#!topic/svg-edit/thVVx11eWq0
+
+5) ngx-bootstrap (by Valor software: https://valor-software.com/ngx-bootstrap/#/)
+6) ng2-charts (https://valor-software.com/ng2-charts/)
 
