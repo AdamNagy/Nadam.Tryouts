@@ -96,16 +96,40 @@ namespace Graphs.Graph2
             }
         }
 
+        private static Stack<LinkedTreeNode<TNode>> BuildPostOrderStack(LinkedTreeNode<TNode> currentRoot)
+        {
+            var nodeStack = new Stack<LinkedTreeNode<TNode>>();
+            nodeStack.Push(currentRoot);
+
+            foreach (var child in currentRoot.Children)
+            {
+                BuildPostOrderStack(child);
+            }
+
+            return nodeStack;
+        }
+
         public static IEnumerable<LinkedTreeNode<TNode>> PostOrder(LinkedTreeNode<TNode> currentRoot)
         {
+            var nodeStack = BuildPostOrderStack(currentRoot);
+
             yield return currentRoot;
             foreach (var child in currentRoot.Children)
             {
                 foreach (var grandChild in PreOrder(child))
-                {
                     yield return grandChild;
-                }
             }
+        }
+    }
+
+    public static class StackExtensions
+    {
+        public static Stack<T> PushAll<T>(this Stack<T> baseStack, IEnumerable<T> other)
+        {
+            foreach (var item in other)
+                baseStack.Push(item);
+
+            return baseStack;
         }
     }
 }
