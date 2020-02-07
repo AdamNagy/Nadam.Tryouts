@@ -95,39 +95,39 @@ namespace Graphs.Graph2
                 }
             }
         }
-
-        private static Stack<LinkedTreeNode<TNode>> BuildPostOrderStack(LinkedTreeNode<TNode> currentRoot)
-        {
-            var nodeStack = new Stack<LinkedTreeNode<TNode>>();
-            nodeStack.Push(currentRoot);
-
-            foreach (var child in currentRoot.Children)
-            {
-                BuildPostOrderStack(child);
-            }
-
-            return nodeStack;
-        }
-
+        
+        // (Left, Right, Root)
         public static IEnumerable<LinkedTreeNode<TNode>> PostOrder(LinkedTreeNode<TNode> currentRoot)
         {
-            var nodeStack = BuildPostOrderStack(currentRoot);
+            var nodeQueue = BuildPostOrderStack(currentRoot);
 
-            yield return currentRoot;
-            foreach (var child in currentRoot.Children)
-            {
-                foreach (var grandChild in PreOrder(child))
-                    yield return grandChild;
-            }
+            while(nodeQueue.Count > 0)
+                yield return nodeQueue.Dequeue();
+        }
+
+        // iteratin by the levels of the tree
+        public static IEnumerable<LinkedTreeNode<TNode>> BreadthFirst(LinkedTreeNode<TNode> currentRoot)
+        {
+
+        }
+
+        private static Queue<LinkedTreeNode<TNode>> BuildPostOrderStack(LinkedTreeNode<TNode> currentRoot)
+        {
+            var queue = new Queue<LinkedTreeNode<TNode>>();
+            foreach (var node in currentRoot)
+                queue.EnqueueAll(BuildPostOrderStack(node));
+
+            queue.Enqueue(currentRoot);
+            return queue;
         }
     }
 
     public static class StackExtensions
     {
-        public static Stack<T> PushAll<T>(this Stack<T> baseStack, IEnumerable<T> other)
+        public static Queue<T> EnqueueAll<T>(this Queue<T> baseStack, IEnumerable<T> other)
         {
             foreach (var item in other)
-                baseStack.Push(item);
+                baseStack.Enqueue(item);
 
             return baseStack;
         }

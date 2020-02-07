@@ -64,6 +64,7 @@ namespace Tree.Iterators
 
             foreach (var node in tree.GetChildrenFor(currentRoot))
                 LevelOrder(node);
+
             currentLevel--;
         }
 
