@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DirectedGraph
+namespace Graphs.DirectedGraph
 {
 	public interface IDirectedGraph<TNode>
 	{

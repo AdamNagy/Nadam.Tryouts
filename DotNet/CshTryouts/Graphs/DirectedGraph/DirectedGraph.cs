@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DirectedGraph
+namespace Graphs.DirectedGraph
 {
     /// <summary>
     /// Mediator like graph implementation as this class holds the all the node references.

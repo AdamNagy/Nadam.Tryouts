@@ -1,7 +1,7 @@
-﻿using Graph;
+﻿using Graphs.Graph;
 using System.Collections.Generic;
 
-namespace DirectedGraph
+namespace Graphs.DirectedGraph
 {
     public class DirectedNode<T> : Node<T>
     {

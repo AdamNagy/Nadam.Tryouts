@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DirectedGraph;
-using Graph;
 using System.Linq;
+using Graphs.DirectedGraph;
+using Graphs.Graph;
 
 namespace Graphs.Tests
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Graph
+namespace Graphs.Graph
 {
 	public interface IGraph<TNode>
 	{

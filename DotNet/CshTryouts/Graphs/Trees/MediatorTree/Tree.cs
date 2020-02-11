@@ -1,9 +1,9 @@
-﻿using DirectedGraph;
-using Tree.Iterators;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Graphs.DirectedGraph;
+using Graphs.Trees.Iterators;
 
-namespace Tree
+namespace Graphs.Trees
 {
     public class Tree<TNode> : DirectedGraph<TNode>, ITree<TNode>
     {

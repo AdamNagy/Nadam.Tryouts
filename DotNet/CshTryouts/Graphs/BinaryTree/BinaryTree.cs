@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BinaryTree
+namespace Graphs.BinaryTree
 {
     public class BinaryTree<TNode>: IBinaryTree<TNode> 
         where TNode: IComparable

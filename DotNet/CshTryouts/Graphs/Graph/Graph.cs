@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Graph
+namespace Graphs.Graph
 {
 	/// <summary>
 	/// Base graph class, represents an undirected graph

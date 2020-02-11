@@ -1,6 +1,6 @@
-﻿using DirectedGraph;
+﻿using Graphs.DirectedGraph;
 
-namespace BinaryTree
+namespace Graphs.BinaryTree
 {
     public class BinaryNode<T> : DirectedNode<T>
     {

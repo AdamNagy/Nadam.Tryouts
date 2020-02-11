@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Graph
+namespace Graphs.Graph
 {
     public class Node<T> : IEquatable<Node<T>>
     {

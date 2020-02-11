@@ -59,6 +59,7 @@
     <Compile Include="Trees\Iterators\PostOrderTreeEnumerator.cs" />
     <Compile Include="Trees\Iterators\PreOrderTreeEnumerator.cs" />
     <Compile Include="Trees\ITree.cs" />
+    <Compile Include="Trees\LinkedTree\LinkedTreeNodeIterationExtensions.cs" />
     <Compile Include="Trees\MediatorTree\Tree.cs" />
   </ItemGroup>
   <ItemGroup />

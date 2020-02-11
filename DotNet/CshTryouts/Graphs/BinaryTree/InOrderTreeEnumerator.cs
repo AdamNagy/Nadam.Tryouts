@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BinaryTree
+namespace Graphs.BinaryTree
 {
     class InOrderTreeEnumerator<T> : IEnumerator<T>
     {

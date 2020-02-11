@@ -1,4 +1,4 @@
-﻿using BinaryTree;
+﻿using Graphs.BinaryTree;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 

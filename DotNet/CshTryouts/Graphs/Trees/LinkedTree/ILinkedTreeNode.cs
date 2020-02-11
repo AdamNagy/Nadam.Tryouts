@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Graphs.Tree2
+namespace Graphs.Trees
 {
     public interface ILinkedTreeNode<T>
     {

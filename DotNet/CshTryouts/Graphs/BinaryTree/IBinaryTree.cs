@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BinaryTree
+namespace Graphs.BinaryTree
 {
     public interface IBinaryTree<TNode>
     {

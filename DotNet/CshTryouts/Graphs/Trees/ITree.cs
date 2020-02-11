@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Tree
+namespace Graphs.Trees
 {
     public interface ITree<TNode>
     {

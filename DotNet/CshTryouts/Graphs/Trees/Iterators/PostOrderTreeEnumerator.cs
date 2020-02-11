@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Tree.Iterators
+namespace Graphs.Trees.Iterators
 {
     public class PostOrderTreeEnumerator<T> : IEnumerator<T>
     {

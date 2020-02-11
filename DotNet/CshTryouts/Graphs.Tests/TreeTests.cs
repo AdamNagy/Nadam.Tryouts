@@ -1,16 +1,17 @@
-﻿using Graphs.Graph2;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Tree;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Graphs.Trees;
+using Graphs.Trees.LinkedTree;
 
 namespace Graphs.Tests
 {
+    [TestClass]
     class MediatorTreeTests
     {
-        [TestClass]
+        
         public class Add
         {
             [TestMethod]
@@ -57,7 +58,7 @@ namespace Graphs.Tests
             }
         }
 
-        [TestClass]
+    
         public class Get
         {
             [TestMethod]
@@ -115,7 +116,7 @@ namespace Graphs.Tests
             }
         }
 
-        [TestClass]
+        
         public class PreOrderIterationTest
         {
             [TestMethod]
@@ -271,7 +272,7 @@ namespace Graphs.Tests
             }
         }
 
-        [TestClass]
+      
         public class PostOrderIterationTest
         {
             /// <summary>
@@ -305,7 +306,7 @@ namespace Graphs.Tests
             }
         }
 
-        [TestClass]
+        
         public class LevelOrderIterationTest
         {
             [TestMethod]
@@ -615,7 +616,7 @@ namespace Graphs.Tests
                 //child3.Add(33);
 
                 var stringBuilder = new StringBuilder();
-                foreach (var node in LinkedTreeNode<int>.PreOrder(root))
+                foreach (var node in root.PreOrder())
                 {
                     stringBuilder.Append($"{node.Value},");
                 }
@@ -644,13 +645,32 @@ namespace Graphs.Tests
                 //child3.Add(33);
 
                 var stringBuilder = new StringBuilder();
-                foreach (var node in LinkedTreeNode<int>.PostOrder(root))
+                foreach (var node in root.PostOrder())
                 {
                     stringBuilder.Append($"{node.Value},");
                 }
 
                 var result = stringBuilder.ToString();
                 Assert.AreEqual("4,5,2,3,1,", result);
+            }
+
+            [TestMethod]
+            public void BreadthFirstTest()
+            {
+                var root = new LinkedTreeNode<int>(1);
+                var child1 = root.Add(2);
+                child1.Add(4);
+                child1.Add(5);
+                root.Add(3);
+
+                var stringBuilder = new StringBuilder();
+                foreach (var node in root.BreadthFirst())
+                {
+                    stringBuilder.Append($"{node.Value},");
+                }
+
+                var result = stringBuilder.ToString();
+                Assert.AreEqual("1,2,3,4,5,", result);
             }
         }
     }

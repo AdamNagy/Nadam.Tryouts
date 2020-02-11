@@ -1,4 +1,4 @@
-﻿namespace Graph
+﻿namespace Graphs.Graph
 {
 	public class Edge
 	{
