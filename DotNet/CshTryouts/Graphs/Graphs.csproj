@@ -33,6 +33,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,7 +53,6 @@
     <Compile Include="DirectedGraph\IDirectedGraph.cs" />
     <Compile Include="Trees\LinkedTree\ILinkedTreeNode.cs" />
     <Compile Include="Trees\LinkedTree\LinkedTreeNode.cs" />
-    <Compile Include="Graph\Edge.cs" />
     <Compile Include="Graph\Graph.cs" />
     <Compile Include="Graph\IGraph.cs" />
     <Compile Include="Graph\Node.cs" />
@@ -62,6 +64,14 @@
     <Compile Include="Trees\LinkedTree\LinkedTreeNodeIterationExtensions.cs" />
     <Compile Include="Trees\MediatorTree\Tree.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyCollection\Collections.csproj">
+      <Project>{31B939BE-EAD9-40A9-9C4C-982B30FE8045}</Project>
+      <Name>Collections</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

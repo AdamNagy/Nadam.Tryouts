@@ -2,10 +2,15 @@
 
 namespace Graphs.Graph
 {
-    public class Node<T> : IEquatable<Node<T>>
+    public struct Node<T> : IEquatable<Node<T>>
     {
 	    public int NodeId { get; set; }
 		public T Value { get; set; }
+
+        public Node(T value)
+        {
+            Value = value;
+        }
 
 	    public Node(T value, int id)
 	    {
