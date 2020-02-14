@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="DirectedGraph\DirectedGraph.cs" />
     <Compile Include="DirectedGraph\IDirectedGraph.cs" />
+    <Compile Include="Trees\BinaryTree\NDimTree.cs" />
     <Compile Include="Trees\LinkedTree\ILinkedTreeNode.cs" />
     <Compile Include="Trees\LinkedTree\LinkedTreeNode.cs" />
     <Compile Include="Graph\Graph.cs" />
@@ -67,8 +68,6 @@
       <Name>MyCollections</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Trees\BinaryTree\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
