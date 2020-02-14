@@ -14,6 +14,9 @@ namespace MyCollection
         int this[T index] { get; }
 
         int Count { get; }
+
+        int Contains(T val);
+        bool Contains(int idx, out T val);
     }
 
     public class IndexList<T> : IIndexList<T>
@@ -26,18 +29,13 @@ namespace MyCollection
         {
             if (size > 0)
             {
-                backbone = new List<(bool, T)>(size);
                 capacity = size;
+                backbone = InitBackbone(size);// new List<(bool, T)>(size);
             }
             else
             {
-                backbone = new List<(bool, T)>(30);
                 capacity = 30;
-            }
-
-            for (int i = 0; i < capacity; i++)
-            {
-                backbone.Add((false, default(T)));
+                backbone = InitBackbone(30); // new List<(bool, T)>(30);
             }
         }
 
@@ -64,13 +62,14 @@ namespace MyCollection
                 int idx = 0;
                 foreach (var item in backbone)
                 {
-                    if (item.Item2.Equals(val))
+                    if (item.Item1 && item.Item2.Equals(val))
+                    {
                         lookingFor = item;
+                        return idx;
+                    }
+
                     idx++;
                 }
-
-                if (lookingFor.Item1)
-                    return idx;
 
                 throw new IndexOutOfRangeException($"Value {val} does not exist in list");
             }
@@ -81,6 +80,12 @@ namespace MyCollection
         public int Add(T val)
         {
             nextFreeSlot = GetNextFreeSlotIndex();
+            if (nextFreeSlot == -1)
+            {
+                IncriseCapacity();
+                nextFreeSlot = GetNextFreeSlotIndex();
+            }
+
             backbone[nextFreeSlot] = (true, val);
             return nextFreeSlot;
         }
@@ -99,13 +104,39 @@ namespace MyCollection
             }
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public int Contains(T val)
         {
+            var idx = 0;
             foreach (var item in backbone)
             {
-                if (item.Item1)
-                    yield return item.Item2;
+                if (item.Item1 && item.Item2.Equals(val))
+                    return idx;
+
+                idx++;
             }
+
+            return -1;
+        }
+
+        public bool Contains(int idx, out T val)
+        {
+            val = default(T);
+            if (idx >= capacity)
+                return false;
+
+            if (backbone[idx].Item1)
+            {
+                val = backbone[idx].Item2;
+                return true;
+            }
+
+            return false;
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            foreach (var item in backbone.Where(p => p.Item1))
+                yield return item.Item2;
         }
         
         IEnumerator IEnumerable.GetEnumerator()
@@ -121,7 +152,31 @@ namespace MyCollection
                     return idx;
             }
 
-            return nextFreeSlot;
+            return -1;
+        }
+
+        private void IncriseCapacity()
+        {
+            capacity *= 2;
+
+            var newBackbone = new List<(bool, T)>(capacity);
+            for (int i = 0; i < backbone.Count(); i++)
+                newBackbone.Add(backbone[i]);
+
+            for (int i = backbone.Count(); i < capacity; i++)
+                newBackbone.Add((false, default(T)));
+
+            backbone = newBackbone;
+        }
+
+        private List<(bool, T)> InitBackbone(int _capacity)
+        {
+            var newBackbone = new List<(bool, T)>(_capacity);
+
+            for (int i = 0; i < capacity; i++)
+                newBackbone.Add((false, default(T)));
+
+            return newBackbone;
         }
     }
 }

@@ -1,104 +1,349 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MyCollection;
+﻿using System;
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Collections.Tests
+namespace MyCollection.Tests.IndexList
 {
-    [TestClass]
     public class IndexListTests
     {
-        [TestMethod]
-        public void AddSingle()
+        [TestClass]
+        public class AddTests
         {
-            var list = new IndexList<int>();
-            var idx = list.Add(1);
+            [TestMethod]
+            public void AddSingle()
+            {
+                var list = new IndexList<int>();
+                var idx = list.Add(1);
 
-            Assert.AreEqual(0, idx);
+                Assert.AreEqual(0, idx);
+            }
+
+            [TestMethod]
+            public void AddMultiple()
+            {
+                var list = new IndexList<int>();
+
+                var indexList = new int[3];
+                indexList[0] = list.Add(1);
+                indexList[1] = list.Add(2);
+                indexList[2] = list.Add(3);
+
+                CollectionAssert.AreEqual(new int[3] {0, 1, 2}, indexList);
+            }
         }
 
-        [TestMethod]
-        public void AddMultiple()
+        [TestClass]
+        public class RemoveAndAddTests
         {
-            var list = new IndexList<int>();
+            [TestMethod]
+            public void RemoveFirstAndAddnew()
+            {
+                var list = new IndexList<int>();
+                list.Add(1);
 
-            var indexList = new int[3];
-            indexList[0] = list.Add(1);
-            indexList[1] = list.Add(2);
-            indexList[2] = list.Add(3);
+                list.Remove(1);
+                var idx = list.Add(10);
 
-            CollectionAssert.AreEqual(new int[3]{0, 1, 2}, indexList);
+                Assert.AreEqual(0, idx);
+            }
+
+            [TestMethod]
+            public void RemoveMidleAndAddnew()
+            {
+                var list = new IndexList<int>();
+                list.Add(1);
+                list.Add(2);
+                list.Add(3);
+
+                list.Remove(2);
+                var idx = list.Add(20);
+
+                Assert.AreEqual(1, idx);
+            }
+
+            [TestMethod]
+            public void RemoveLastAndAddnew()
+            {
+                var list = new IndexList<int>();
+                list.Add(1);
+                list.Add(2);
+                list.Add(3);
+
+                list.Remove(3);
+                var idx = list.Add(30);
+
+                Assert.AreEqual(2, idx);
+            }
+
+            [TestMethod]
+            public void Remove2AndAddnew()
+            {
+                var list = new IndexList<int>();
+                list.Add(1);
+                list.Add(2);
+                list.Add(3);
+
+                list.Remove(2);
+                list.Remove(3);
+                var idx = list.Add(20);
+
+                Assert.AreEqual(1, idx);
+            }
+
+            [TestMethod]
+            public void Remove2AndAddnew_2()
+            {
+                var list = new IndexList<int>();
+                list.Add(1);
+                list.Add(2);
+                list.Add(3);
+
+                // this is swapped
+                list.Remove(3);
+                list.Remove(2);
+                var idx = list.Add(20);
+
+                Assert.AreEqual(1, idx);
+            }
         }
 
-        [TestMethod]
-        public void RemoveFirstAndAddnew()
+        [TestClass]
+        public class CountTests
         {
-            var list = new IndexList<int>();
-            list.Add(1);
+            [TestMethod]
+            public void CountZero()
+            {
+                var list = new IndexList<int>();
 
-            list.Remove(1);
-            var idx = list.Add(10);
+                Assert.AreEqual(0, list.Count);
+            }
 
-            Assert.AreEqual(0, idx);
+            [TestMethod]
+            public void CountOne()
+            {
+                var list = new IndexList<int>();
+                list.Add(1);
+
+                Assert.AreEqual(1, list.Count);
+            }
+
+            [TestMethod]
+            public void CountMore()
+            {
+                var list = new IndexList<int>();
+                list.Add(1);
+                list.Add(2);
+                list.Add(3);
+
+                Assert.AreEqual(3, list.Count);
+            }
+
+            [TestMethod]
+            public void CountMoreAfterRemoveSome()
+            {
+                var list = new IndexList<int>();
+                list.Add(1);
+                list.Add(2);
+                list.Add(3);
+                list.Add(4);
+                list.Add(5);
+
+                list.Remove(3);
+                list.Remove(4);
+
+                Assert.AreEqual(3, list.Count);
+            }
+
+            [TestMethod]
+            public void CountMoreAfterRemoveSomeThenReadding()
+            {
+                var list = new IndexList<int>();
+                list.Add(1);
+                list.Add(2);
+                list.Add(3);
+                list.Add(4);
+                list.Add(5);
+
+                list.Remove(3);
+                list.Remove(4);
+
+                list.Add(3);
+                list.Add(4);
+
+                Assert.AreEqual(5, list.Count);
+            }
         }
 
-        [TestMethod]
-        public void RemoveMidleAndAddnew()
+        [TestClass]
+        public class IntIndexerTests
         {
-            var list = new IndexList<int>();
-            list.Add(1);
-            list.Add(2);
-            list.Add(3);
+            [TestMethod]
+            public void IntIndexer_shouldthrowError()
+            {
+                var list = new IndexList<int>();
+                Assert.ThrowsException<IndexOutOfRangeException>(() => list[3]);
+            }
 
-            list.Remove(2);
-            var idx = list.Add(20);
+            [TestMethod]
+            public void IntIndexer_valid()
+            {
+                var list = new IndexList<string>();
+                list.Add("Adam");
 
-            Assert.AreEqual(1, idx);
+                Assert.AreEqual("Adam", list[0]);
+            }
+
+            [TestMethod]
+            public void IntIndexer_middle()
+            {
+                var list = new IndexList<string>();
+                list.Add("Adam");
+                list.Add("Dani");
+                list.Add("Peti");
+
+                Assert.AreEqual("Peti", list[2]);
+            }
+
+
         }
 
-        [TestMethod]
-        public void RemoveLastAndAddnew()
+        [TestClass]
+        public class TypedIndexerTests
         {
-            var list = new IndexList<int>();
-            list.Add(1);
-            list.Add(2);
-            list.Add(3);
+            [TestMethod]
+            public void Indexer_shouldthrowError()
+            {
+                var list = new IndexList<string>();
+                Assert.ThrowsException<IndexOutOfRangeException>(() => list["qwe"]);
+            }
 
-            list.Remove(3);
-            var idx = list.Add(30);
+            [TestMethod]
+            public void IntIndexer_valid()
+            {
+                var list = new IndexList<string>();
+                list.Add("Adam");
 
-            Assert.AreEqual(2, idx);
+                Assert.AreEqual(0, list["Adam"]);
+            }
+
+            [TestMethod]
+            public void IntIndexer_middle()
+            {
+                var list = new IndexList<string>();
+                list.Add("Adam");
+                list.Add("Dani");
+                list.Add("Peti");
+
+                Assert.AreEqual(1, list["Dani"]);
+            }
+
+
         }
 
-        [TestMethod]
-        public void Remove2AndAddnew()
+        [TestClass]
+        public class TypeContainsTests
         {
-            var list = new IndexList<int>();
-            list.Add(1);
-            list.Add(2);
-            list.Add(3);
+            [TestMethod]
+            public void NotContains()
+            {
+                var list = new IndexList<string>();
+                var containsRes = list.Contains("qwe");
 
-            list.Remove(2);
-            list.Remove(3);
-            var idx = list.Add(20);
-
-            Assert.AreEqual(1, idx);
+                Assert.AreEqual(-1, containsRes);
+            }
         }
 
-        [TestMethod]
-        public void Remove2AndAddnew_2()
+        [TestClass]
+        public class IteratorTests
         {
-            var list = new IndexList<int>();
-            list.Add(1);
-            list.Add(2);
-            list.Add(3);
+            [TestMethod]
+            public void IterateEmpty()
+            {
+                var list = new IndexList<int>();
+                var counter = 0;
 
-            // this is swapped
-            list.Remove(3);
-            list.Remove(2);
-            var idx = list.Add(20);
+                foreach (var i in list)
+                {
+                    counter++;
+                }
 
-            Assert.AreEqual(1, idx);
+                Assert.AreEqual(0, counter);
+            }
+
+            [TestMethod]
+            public void IterateSingle()
+            {
+                var list = new IndexList<int>();
+                list.Add(1);
+                var counter = 0;
+
+                foreach (var i in list)
+                {
+                    counter++;
+                }
+
+                Assert.AreEqual(1, counter);
+            }
+
+            [TestMethod]
+            public void IterateMultiple()
+            {
+                var list = new IndexList<int>();
+                list.Add(1); list.Add(1); list.Add(1); list.Add(1);
+                var counter = 0;
+
+                foreach (var i in list)
+                {
+                    counter++;
+                }
+
+                Assert.AreEqual(4, counter);
+            }
+
+            [TestMethod]
+            public void IterateMultipleAfterRemoval()
+            {
+                var list = new IndexList<int>();
+                list.Add(1); list.Add(2); list.Add(3); list.Add(4);
+                list.Remove(3);
+                var counter = 0;
+
+                foreach (var i in list)
+                    counter++;
+
+                Assert.AreEqual(3, counter);
+            }
+
+            [TestMethod]
+            public void ExceedCapacity()
+            {
+                var list = new IndexList<int>(3);
+                list.Add(1); list.Add(2); list.Add(3); list.Add(4);
+                
+                Assert.AreEqual(4, list.Count);
+            }
+
+            [TestMethod]
+            public void ExceedCapacityTwice()
+            {
+                var list = new IndexList<int>(2);
+                list.Add(1); list.Add(2); list.Add(3); list.Add(4); list.Add(5); list.Add(6);
+
+                CollectionAssert.AreEqual(new int[] {1, 2, 3, 4, 5, 6}, list.ToArray());
+            }
+
+            [TestMethod]
+            public void ExceedCapacity_CheckingIndex()
+            {
+                var list = new IndexList<string>(3);
+                list.Add("1"); list.Add("2"); list.Add("3");
+
+                var idxOf3 = list["3"];
+                list.Add("4"); list.Add("5");
+                var newIdxOf3 = list["3"];
+
+                Assert.AreEqual(idxOf3, newIdxOf3);
+            }
         }
-
-
     }
 }

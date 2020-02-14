@@ -21,11 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CshTryouts.Tests", "CshTryo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Collections", "Collections", "{C4535D72-4583-49B0-9E12-591C3C38FDF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collections", "MyCollection\Collections.csproj", "{31B939BE-EAD9-40A9-9C4C-982B30FE8045}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCollections", "MyCollection\MyCollections.csproj", "{31B939BE-EAD9-40A9-9C4C-982B30FE8045}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileStreamReader", "FileStreamReader\FileStreamReader.csproj", "{8B9F98E1-0603-4EDD-B770-BB101F76B6AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collections.Tests", "Collections.Tests\Collections.Tests.csproj", "{72091096-19B8-461A-8646-A40328C7E4E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCollections.Tests", "Collections.Tests\MyCollections.Tests.csproj", "{72091096-19B8-461A-8646-A40328C7E4E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

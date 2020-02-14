@@ -49,7 +49,6 @@
     <Compile Include="DoubleLinkedList\DoubleLinkedList.cs" />
     <Compile Include="DoubleLinkedList\DoubleLinkedListNode.cs" />
     <Compile Include="IndexList.cs" />
-    <Compile Include="ManifestSets\Master.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

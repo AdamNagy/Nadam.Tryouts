@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -44,34 +46,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinaryTree\BinaryNode.cs" />
-    <Compile Include="BinaryTree\BinaryTree.cs" />
-    <Compile Include="BinaryTree\IBinaryTree.cs" />
-    <Compile Include="BinaryTree\InOrderTreeEnumerator.cs" />
     <Compile Include="DirectedGraph\DirectedGraph.cs" />
-    <Compile Include="DirectedGraph\DirectedNode.cs" />
     <Compile Include="DirectedGraph\IDirectedGraph.cs" />
     <Compile Include="Trees\LinkedTree\ILinkedTreeNode.cs" />
     <Compile Include="Trees\LinkedTree\LinkedTreeNode.cs" />
     <Compile Include="Graph\Graph.cs" />
     <Compile Include="Graph\IGraph.cs" />
-    <Compile Include="Graph\Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Trees\Iterators\LevelOrderEnumerator.cs" />
     <Compile Include="Trees\Iterators\PostOrderTreeEnumerator.cs" />
     <Compile Include="Trees\Iterators\PreOrderTreeEnumerator.cs" />
-    <Compile Include="Trees\ITree.cs" />
     <Compile Include="Trees\LinkedTree\LinkedTreeNodeIterationExtensions.cs" />
-    <Compile Include="Trees\MediatorTree\Tree.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MyCollection\Collections.csproj">
+    <ProjectReference Include="..\MyCollection\MyCollections.csproj">
       <Project>{31B939BE-EAD9-40A9-9C4C-982B30FE8045}</Project>
-      <Name>Collections</Name>
+      <Name>MyCollections</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Trees\BinaryTree\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

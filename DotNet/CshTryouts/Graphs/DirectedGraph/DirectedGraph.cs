@@ -1,139 +1,106 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using MyCollection;
 
 namespace Graphs.DirectedGraph
 {
     /// <summary>
-    /// Mediator like graph implementation as this class holds the all the node references.
-    /// Nodes can point to each other, but the control is in the mediator -this- class
+    /// represents:
+    ///   directed (irányított) a -> b
+    ///   coherant (összefüggő)
+    /// This is a mediator type data structure
     /// </summary>
-    /// <typeparam name="TNode">type of the data the graph holds</typeparam>
-	public class DirectedGraph<TNode> : IDirectedGraph<TNode> 
-	{
-		protected IList<DirectedNode<TNode>> NodeSet { get; set; }
+    /// <typeparam name="NodeType">type of the data that are present in the grapgh</typeparam>
+    public class DirectedGraph<TNode> : IEnumerable<TNode>
+    {
+        // can not use linked implementation because nodes can point to each other and that would end up duplicity
+        protected IndexList<TNode> Nodes;
+        protected Dictionary<int, List<int>> NodeReferences;
 
-        public int NodesCount() { return NodeSet.Count; }
-		protected int NodeId;    
+        public int Count { get => Nodes.Count; }
 
-		#region ctors
-		public DirectedGraph()
-		{
-			NodeSet = new List<DirectedNode<TNode>>();
-			NodeId = 0;
-		}
-		#endregion
-
-		#region Add
-		public DirectedNode<TNode> AddNode(TNode nodeVal)
-		{
-			var newNode = new DirectedNode<TNode>(nodeVal, NodeId++);
-			NodeSet.Add(newNode);
-			return newNode;
-		}
-
-		public virtual void AddReferenceFor(TNode startNode, TNode referenced)
-		{
-            var nodeAs = GetNode(startNode);
-            if (nodeAs.Count < 1)
-                throw new Exception("From node does not exist");
-            var nodeA = nodeAs.First();
-
-            var nodeBs = GetNode(referenced);
-            if (nodeBs.Count < 1)
-                throw new Exception("To node does not exist");
-            var nodeB = nodeBs.First();
-
-            nodeA.AddReference(nodeB.NodeId);       
+        #region ctors
+        public DirectedGraph()
+        {
+            Nodes = new IndexList<TNode>();
         }
-		#endregion
+        #endregion
 
-		#region Contains
-		public bool ContainsNode(TNode nodeValue)
-		{
-			var nodes = GetNode(nodeValue);
-			return nodes.Count > 0;
-		}
-
-		public bool ContainsEdge(TNode nodeValA, TNode nodeValB)
-		{
-            var nodeB = GetNode(nodeValB).First();
-			return GetNode(nodeValA).First().HasReferenceFor(nodeB.NodeId);
-		}
-		#endregion
-
-		#region Get
-		public IList<DirectedNode<TNode>> GetNode(TNode nodeValue)
+        #region Add
+        public void Add(TNode nodeVal)
         {
-			return NodeSet.Where(p => p.Value.Equals(nodeValue)).ToList();
-		}
+            var newNodeIdx = Nodes.Add(nodeVal);
+            NodeReferences.Add(newNodeIdx, new List<int>());
+        }
 
-        public TNode this[int index]
+        public virtual void AddReferenceFor(TNode startNode, TNode referenced)
         {
-            get
-            {
-                return NodeSet[index].Value;
-            }
+            var nodeAs = Contains(startNode);
+            if (Contains(startNode))
+                throw new Exception("From node does not exist");
+
+            var startNodeIdx = Nodes[startNode];
+
+            if (Contains(referenced))
+                throw new Exception("To node does not exist");
+
+            var referencedNodeIdx = Nodes[referenced];
+
+            if(!NodeReferences[startNodeIdx].Contains(referencedNodeIdx) )
+                NodeReferences[startNodeIdx].Add(referencedNodeIdx);
+        }
+        #endregion
+
+        #region Contains
+        public bool Contains(TNode nodeValue)
+            => Nodes.Contains(nodeValue) > -1;
+
+        public bool ContainsEdge(TNode nodeValA, TNode nodeValB)
+        {
+            if( !Contains(nodeValA) || !Contains(nodeValB) )
+                throw new ArgumentException();
+
+            if ( NodeReferences[Nodes[nodeValA]].Contains(Nodes[nodeValB]) )
+                return true;
+
+            return false;
         }
         #endregion
 
         #region Remove
         public bool RemoveNode(TNode nodeValue)
-		{
-			var nodes = GetNode(nodeValue);
-            if (nodes.Count() != 1)
-                throw new Exception("Node does not exist, or belong to graph multiple times");
+        {
+            if (!Contains(nodeValue))
+                return false;
 
-            var nodeToRemove = nodes.First();
-            RemoveIncomingEdgesFor(nodeToRemove.Value);
-            nodeToRemove.RemoveReferences();
-            NodeSet.Remove(nodeToRemove);
-			return true;
-		}
-
-		public bool RemoveReferenceFor(TNode a, TNode b)
-		{
-			var nodeAs = GetNode(a);
-            if (nodeAs.Count() != 1)
-                throw new Exception("NodeA does not exist, or belong to graph multiple times");
-            var nodeA = nodeAs.First();
-
-            var nodeBs = GetNode(b);
-            if (nodeBs.Count() != 1)
-                throw new Exception("NodeA does not exist, or belong to graph multiple times");
-            var nodeB = nodeAs.First();
-
-            nodeA.RemoveReference(nodeB.NodeId);
-			return true;
-		}
+            NodeReferences.Remove(Nodes[nodeValue]);
+            Nodes.Remove(nodeValue);
+            
+            return true;
+        }
         #endregion
 
-        #region Protected
-        protected void RemoveIncomingEdgesFor(TNode nodeVal)
-		{
-            var nodeAs = GetNode(nodeVal);
-            if (nodeAs.Count() != 1)
-                throw new Exception("NodeA does not exist, or belong to graph multiple times");
-            var nodeA = nodeAs.First();
-
-            foreach (var nodes in NodeSet)            
-                nodes.RemoveReference(nodeA.NodeId);            
-		}
-
-        protected IEnumerable<DirectedNode<TNode>> GetReferencedNodesFor(TNode nodeVal)
+        public IEnumerable<TNode> GetReferencedNodesFor(TNode nodeValue)
         {
-            if (!ContainsNode(nodeVal))
-                throw new Exception($"Node with value {nodeVal} does not exist in the current graph");
+            if (!Contains(nodeValue))
+                throw new ArgumentException();
 
-            var referencedNodes = new List<DirectedNode<TNode>>();
-
-            var node = GetNode(nodeVal).First();
-
-            foreach (var p in node.GetReferences())            
-                referencedNodes.Add(NodeSet[p]);            
-
-            return referencedNodes;
+            var indexes = NodeReferences[Nodes[nodeValue]];
+            foreach (var index in indexes)
+            {
+                yield return Nodes[index];
+            }
         }
-		#endregion
-	}
+
+        public IEnumerator<TNode> GetEnumerator()
+        {
+            return Nodes.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
 }
