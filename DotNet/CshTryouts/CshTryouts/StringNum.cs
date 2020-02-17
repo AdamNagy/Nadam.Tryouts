@@ -14,7 +14,7 @@ namespace CshTryouts
         {
             isLessThanZero = _val.StartsWith("-") ? true : false;
 
-            if (_val.TrimStart(new char[] { '-'}).IsNumber() )
+            if (_val.TrimStart(new char[] { '-' }).IsNumber() )
                 digits = _val.ToDigits();
             else            
                 throw new ArgumentException($"Given string contains non numerical characters: {_val}");
