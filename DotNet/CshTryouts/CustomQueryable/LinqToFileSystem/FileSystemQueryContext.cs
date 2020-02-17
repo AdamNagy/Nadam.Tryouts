@@ -37,6 +37,7 @@ namespace CustomQueryable
             {
                 list.Add(new FolderElement(directory));
             }
+
             foreach (var file in Directory.GetFiles(root))
             {
                 list.Add(new FileElement(file));

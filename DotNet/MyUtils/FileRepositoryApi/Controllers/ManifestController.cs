@@ -29,7 +29,7 @@ namespace ManifestRepositoryApi.Controllers
             return new GalleryResponseModel()
             {
                 type = manifest.type,
-                content = manifest.ReadFile()
+                content = manifest.ReadWhole()
             };
         }
 
