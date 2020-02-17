@@ -1,4 +1,4 @@
-﻿namespace FileRepositoryApi.Models
+﻿namespace ManifestRepositoryApi.Models
 {
     public class ManifestRequestModel
     {

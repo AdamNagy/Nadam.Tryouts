@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyUtils", "MyUtils\MyUtils.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageResizer", "ImageResizer\ImageResizer.csproj", "{169FBEBC-66CE-4D16-AA4D-69B665175BD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileRepositoryApi", "FileRepositoryApi\FileRepositoryApi.csproj", "{7E1CB9E5-23DD-4F2C-A6B7-7197D4265DE5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManifestRepositoryApi", "FileRepositoryApi\ManifestRepositoryApi.csproj", "{7E1CB9E5-23DD-4F2C-A6B7-7197D4265DE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

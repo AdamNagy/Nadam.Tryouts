@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace FileRepositoryApi.Models
+namespace ManifestRepositoryApi.Models
 {
     public abstract class ReadonlyManifest
     {

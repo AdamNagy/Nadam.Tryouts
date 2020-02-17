@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FileRepositoryApi.Models
+namespace ManifestRepositoryApi.Models
 {
     public class ThumbnailsResponseModel
     {

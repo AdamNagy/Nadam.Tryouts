@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace FileRepositoryApi.Models
+namespace ManifestRepositoryApi.Models
 {
     /*
     file name structure(path does not included):

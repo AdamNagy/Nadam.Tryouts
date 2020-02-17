@@ -1,9 +1,8 @@
-﻿using FileRepositoryApi.Models;
-using System;
+﻿using ManifestRepositoryApi.Models;
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace FileRepositoryApi
+namespace ManifestRepositoryApi
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
