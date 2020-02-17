@@ -67,7 +67,7 @@ namespace FileRepositoryApi.Models
             switch (category)
             {
                 case "gallery": return new WebGalleryManifest($"{_root}\\{fileName}");
-                case "local-gallery": return new GalleryManifest($"{_root}\\{fileName}");
+                case "local-gallery": return new LocalGalleryManifest($"{_root}\\{fileName}");
                 default: throw new ArgumentException($"for file {fileName} no handler was found");
             }
         }
