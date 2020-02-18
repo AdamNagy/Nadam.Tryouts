@@ -129,9 +129,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ManifestFramework\LocalGalleryManifest.cs" />
+    <Compile Include="ManifestFramework\WebGalleryManifest.cs" />
     <Compile Include="Models\ManifestRequestModel.cs" />
-    <Compile Include="Models\ReadonlyManifest.cs" />
-    <Compile Include="Models\ManifestRepository.cs" />
+    <Compile Include="ManifestFramework\ReadonlyManifest.cs" />
+    <Compile Include="ManifestFramework\ManifestRepository.cs" />
     <Compile Include="Models\ThumbnailResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

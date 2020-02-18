@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using ManifestRepositoryApi.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using ManifestRepositoryApi.ManifestFramework;
 
 namespace ManifestRepositoryApi.Tests
 {

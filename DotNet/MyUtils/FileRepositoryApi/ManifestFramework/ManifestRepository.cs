@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace ManifestRepositoryApi.Models
+namespace ManifestRepositoryApi.ManifestFramework
 {
     /*
     file name structure(path does not included):
@@ -12,21 +12,43 @@ namespace ManifestRepositoryApi.Models
     fileName: my-test-file.gallery.json
     fileTitle: my-test-file -> file name first segment till the first dot(.)
     */
-    public static class ManifestRepository
+    public class ManifestRepository
     {
+        private static ManifestRepository _instance;
+        public static ManifestRepository Instance
+        {
+            get
+            {
+                if(_instance == null)
+                    _instance = new ManifestRepository();
+
+                return _instance;
+            }
+        }
+
+        public int Count
+        {
+            get => _manifests.Count();
+        }
+
         //                    file title / file name
         private static Dictionary<string, string> _manifests;
         private static string _root;
 
-        public static void Init(string root)
+        private ManifestRepository() { }
+
+        public void Init(string root)
         {
+            if (root == _root)
+                return;
+
             _root = root;
             _manifests = Directory.GetFiles(root)
                                  .ToDictionary(path => GetFileTitle(Path.GetFileNameWithoutExtension(path)),
                                                path => Path.GetFileName(path));
         }
 
-        public static ReadonlyManifest GetFileByTitle(string fileNameWithExtension)
+        public ReadonlyManifest GetFileByTitle(string fileNameWithExtension)
         {
             if (_manifests.ContainsKey(fileNameWithExtension))
                 return GenerateManifestFor(_manifests[fileNameWithExtension]);
@@ -34,7 +56,7 @@ namespace ManifestRepositoryApi.Models
             return null;
         }
 
-        public static List<ReadonlyManifest> GetFilesByFileTitleSegment(string fileTitleSegment)
+        public List<ReadonlyManifest> GetFilesByFileTitleSegment(string fileTitleSegment)
         {
             fileTitleSegment = fileTitleSegment.ToLower();
             var ret = new List<string>();
@@ -47,12 +69,12 @@ namespace ManifestRepositoryApi.Models
             return ret.Select(GenerateManifestFor).ToList();
         }
 
-        private static string GetFileTitle(string fileNameWithoutExtension)
+        private string GetFileTitle(string fileNameWithoutExtension)
             => fileNameWithoutExtension.Split('.').First();
 
-        public static string GetRoot() => _root;
+        public string GetRoot() => _root;
 
-        private static string GetCategoryFor(string fileName)
+        private string GetCategoryFor(string fileName)
         {
             var splitted = fileName.Split('.');
             if (splitted.Length != 3)
@@ -61,7 +83,7 @@ namespace ManifestRepositoryApi.Models
             return splitted[1];
         }
 
-        private static ReadonlyManifest GenerateManifestFor(string fileName)
+        private ReadonlyManifest GenerateManifestFor(string fileName)
         {
             var category = GetCategoryFor(fileName);
             switch (category)

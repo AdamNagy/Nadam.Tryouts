@@ -1,6 +1,6 @@
-﻿using ManifestRepositoryApi.Models;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Mvc;
+using ManifestRepositoryApi.ManifestFramework;
 
 namespace ManifestRepositoryApi
 {
@@ -12,7 +12,7 @@ namespace ManifestRepositoryApi
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 
-            ManifestRepository.Init(Server.MapPath("~/App_Data"));
+            ManifestRepository.Instance.Init(Server.MapPath("~/App_Data"));
         }
     }
 }
