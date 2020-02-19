@@ -14,17 +14,19 @@ namespace ManifestRepositoryApi.ManifestFramework
     */
     public class ManifestRepository
     {
+        #region singleton instance
         private static ManifestRepository _instance;
         public static ManifestRepository Instance
         {
             get
             {
                 if(_instance == null)
-                    _instance = new ManifestRepository();
+                    throw new Exception("Singleton instance havn't initialized");
 
                 return _instance;
             }
         }
+        #endregion
 
         public int Count
         {
@@ -32,20 +34,29 @@ namespace ManifestRepositoryApi.ManifestFramework
         }
 
         //                    file title / file name
-        private static Dictionary<string, string> _manifests;
-        private static string _root;
+        private Dictionary<string, string> _manifests;
+        private string _root;
 
         private ManifestRepository() { }
 
-        public void Init(string root)
+        public static void Init(string root)
         {
-            if (root == _root)
-                return;
+            _instance = new ManifestRepository();
 
-            _root = root;
-            _manifests = Directory.GetFiles(root)
-                                 .ToDictionary(path => GetFileTitle(Path.GetFileNameWithoutExtension(path)),
-                                               path => Path.GetFileName(path));
+            _instance._root = root;
+            _instance._manifests = Directory.GetFiles(root)
+                                    .ToDictionary(path => _instance.GetFileTitle(Path.GetFileNameWithoutExtension(path)),
+                                                  path => Path.GetFileName(path));
+        }
+
+        public static void Init(string root, IDirectoryProvider provider)
+        {
+            _instance = new ManifestRepository();
+
+            _instance._root = root;
+            _instance._manifests = provider.GetFiles(root)
+                                            .ToDictionary(path => _instance.GetFileTitle(Path.GetFileNameWithoutExtension(path)),
+                                                          path => Path.GetFileName(path));
         }
 
         public ReadonlyManifest GetFileByTitle(string fileNameWithExtension)
@@ -93,5 +104,10 @@ namespace ManifestRepositoryApi.ManifestFramework
                 default: throw new ArgumentException($"for file {fileName} no handler was found");
             }
         }
+    }
+
+    public interface IDirectoryProvider
+    {
+        IEnumerable<string> GetFiles(string path);
     }
 }

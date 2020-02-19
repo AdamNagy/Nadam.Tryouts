@@ -6,6 +6,7 @@ namespace ManifestRepositoryApi.ManifestFramework
 {
     public abstract class ReadonlyManifest
     {
+        public string Path { get => _filePath; }
         public string type;
 
         private readonly string _filePath;

@@ -12,7 +12,7 @@ namespace ManifestRepositoryApi
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 
-            ManifestRepository.Instance.Init(Server.MapPath("~/App_Data"));
+            ManifestRepository.Init(Server.MapPath("~/App_Data"));
         }
     }
 }
