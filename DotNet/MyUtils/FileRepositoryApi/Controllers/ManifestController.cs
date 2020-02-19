@@ -25,10 +25,27 @@ namespace ManifestRepositoryApi.Controllers
         public GalleryResponseModel GetManifestByTitle(string title)
         {
             var manifest = _repository.GetFileByTitle(title);
+
+            if (manifest != null)
+            {
+                var content = new GalleryModel()
+                {
+                    type = manifest.type,
+                    content = manifest.ReadWhole()
+                };
+
+                return new GalleryResponseModel()
+                {
+
+                    success = true,
+                    gallery = content
+                };
+            }
+
             return new GalleryResponseModel()
             {
-                type = manifest.type,
-                content = manifest.ReadWhole()
+                success = false,
+                message = "No sucjóh file"
             };
         }
 
@@ -44,11 +61,22 @@ namespace ManifestRepositoryApi.Controllers
             [FromUri] int page = 1,
             [FromUri] int pagesize = 10)
         {
-            var response = _repository
-                .GetFilesByFileTitleSegment(title)
+            var selected = _repository
+                .GetFilesByFileTitleSegment(title);
+
+            if (selected.Count < 1)
+            {
+                return new ThumbnailsResponseModel()
+                {
+                    success = false,
+                    message = "No galleries to return"
+                };
+            }
+
+            var content = selected
                 .Skip((page - 1) * pagesize)
                 .Take(pagesize)
-                .Select(p => new GalleryResponseModel()
+                .Select(p => new GalleryModel()
                     {
                         type = p.type,
                         content = p.ReadThumbnail(),
@@ -56,9 +84,10 @@ namespace ManifestRepositoryApi.Controllers
 
             return new ThumbnailsResponseModel()
             {
-                currentPage = 123,
-                pages = 4325,
-                thumbnails = response
+                success = true,
+                currentPage = page,
+                pages = selected.Count() / pagesize,
+                thumbnails = content
             };
         }
 
@@ -72,21 +101,30 @@ namespace ManifestRepositoryApi.Controllers
         [Route("api/thumbnails")]
         public ThumbnailsResponseModel GetThumbnails([FromUri] int page = 1, [FromUri] int pagesize = 10)
         {
-            var response = _repository
-                .GetFilesByFileTitleSegment("")
+            if (_repository.Count < 1)
+            {
+                return new ThumbnailsResponseModel()
+                {
+                    success = false,
+                    message = "No galleries to return"
+                };
+            }
+
+            var content = _repository.All()
                 .Skip((page - 1) * pagesize)
                 .Take(pagesize)
-                .Select(p => new GalleryResponseModel()
-                    {
-                        type = p.type,
-                        content = p.ReadThumbnail(),
-                    });
+                .Select(p => new GalleryModel()
+                {
+                    type = p.type,
+                    content = p.ReadThumbnail(),
+                });
 
             return new ThumbnailsResponseModel()
             {
-                currentPage = 123,
-                pages = 4325,
-                thumbnails = response
+                success = true,
+                currentPage = page,
+                pages = _repository.Count / pagesize,
+                thumbnails = content
             };
         }
 

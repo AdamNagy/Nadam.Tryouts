@@ -28,10 +28,8 @@ namespace ManifestRepositoryApi.ManifestFramework
         }
         #endregion
 
-        public int Count
-        {
-            get => _manifests.Count();
-        }
+        public string Root { get => _root; }
+        public int Count { get => _manifests.Count(); }
 
         //                    file title / file name
         private Dictionary<string, string> _manifests;
@@ -80,10 +78,16 @@ namespace ManifestRepositoryApi.ManifestFramework
             return ret.Select(GenerateManifestFor).ToList();
         }
 
+        public IEnumerable<ReadonlyManifest> All()
+        {
+            foreach (var manifest in _manifests)
+                yield return GenerateManifestFor(manifest.Value);
+        }
+
         private string GetFileTitle(string fileNameWithoutExtension)
             => fileNameWithoutExtension.Split('.').First();
 
-        public string GetRoot() => _root;
+        
 
         private string GetCategoryFor(string fileName)
         {
