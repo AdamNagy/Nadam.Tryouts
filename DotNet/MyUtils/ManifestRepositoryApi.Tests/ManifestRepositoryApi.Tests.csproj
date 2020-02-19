@@ -55,7 +55,6 @@
     <Reference Include="System.Web.Http, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ManifestControllerTests.cs" />
     <Compile Include="WebGalleryManifestTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

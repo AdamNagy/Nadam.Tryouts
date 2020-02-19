@@ -9,12 +9,14 @@ namespace ManifestRepositoryApi.Controllers
     {
         private ManifestRepository _repository;
 
+        public ManifestController()
+        {
+            _repository = ManifestRepository.Instance;
+        }
+
         public ManifestController(ManifestRepository repository = null)
         {
-            if (repository == null)
-                _repository = ManifestRepository.Instance;
-            else
-                _repository = repository;
+            _repository = repository;
         }
 
         // api/manifest/test1
