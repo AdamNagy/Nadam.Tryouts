@@ -125,6 +125,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -148,7 +149,7 @@
     <Content Include="Styles\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Views\Admin\admin.js" />
+    <Content Include="Scripts\admin.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -170,7 +171,7 @@
     <None Include="Properties\PublishProfiles\manifest-repository - Web Deploy.pubxml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\admin.cshtml" />
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <PropertyGroup>

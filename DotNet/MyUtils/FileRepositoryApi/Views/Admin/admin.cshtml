@@ -9,7 +9,7 @@
         <ul>
             @for (int i = 0; i < Model.files.Length; i++)
             {
-                <li> @Model.files[i] <button class="btn btn-sm btn-primary" onclick="deleteManifest(this, @Model.files[i])">delete</button></li>
+                <li> @Model.files[i] <button class="btn btn-sm btn-primary" onclick="deleteManifest(this, '@Model.files[i]')">delete</button></li>
             }
         </ul>
     </div>
@@ -18,4 +18,5 @@
     </div>
 </div>
 
-<script src="../Admin/admin.js"></script>
+
+<script src="~/Scripts/admin.js"></script>

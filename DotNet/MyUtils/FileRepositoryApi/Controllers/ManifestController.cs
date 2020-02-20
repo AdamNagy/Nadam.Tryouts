@@ -58,7 +58,7 @@ namespace ManifestRepositoryApi.Controllers
         [HttpGet]
         [Route("api/thumbnails/{title}")]
         public ThumbnailsResponseModel GetThumbnailsByTitleFragment(
-            string title = "",
+            [FromUri] string title = "",
             [FromUri] int page = 1,
             [FromUri] int pagesize = 10)
         {
@@ -157,11 +157,18 @@ namespace ManifestRepositoryApi.Controllers
             }
         }
 
-        [HttpDelete]
-        [Route("api/manifest/{filename}")]
-        public bool DeleteManifest(string filename)
+        [HttpPost]
+        [Route("api/dispatch")]
+        public bool DeleteManifest([FromBody]ActionWithPayload action)
         {
-            return false;
+            // TODO: implement real file deletion
+            return _repository.DeleteManifest(action.payload);
+        }
+
+        public class ActionWithPayload
+        {
+            public string action;
+            public string payload;
         }
     }
 }

@@ -116,6 +116,15 @@ namespace ManifestRepositoryApi.ManifestFramework
             return GetFileByTitle(title);
         }
 
+        public bool DeleteManifest(string title)
+        {
+            if (!_manifests.ContainsKey(title))
+                return false;
+
+            _manifests.Remove(title);
+            return true;
+        }
+
         private string GetFileTitle(string fileName)
             => fileName.Split('.').First();
         

@@ -24,6 +24,7 @@ namespace ManifestRepositoryApi.Models
     public class GalleryModel
     {
         public string type;
+        public string fileName;
         // could be if type 'Gallery' but innecesarry to have type at this point
         public string content;
     }

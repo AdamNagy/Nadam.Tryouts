@@ -9,7 +9,7 @@ namespace ManifestRepositoryApi.ManifestFramework
     {
         public WebGalleryManifest(string file) : base(file)
         {
-            type = "web-gallery";
+            type = "gallery";
         }
 
         public override string ReadThumbnail()
