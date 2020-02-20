@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Http;
 using ManifestRepositoryApi.ManifestFramework;
 using ManifestRepositoryApi.Models;
@@ -128,10 +129,39 @@ namespace ManifestRepositoryApi.Controllers
             };
         }
 
-        // POST api/manifest
-        public void Post([FromBody]ManifestRequestModel value)
+        [HttpPost]
+        [Route("api/manifest")]
+        public GalleryResponseModel CreateManifest([FromBody]ManifestRequestModel value)
         {
+            try
+            {
+                var newManifest = _repository.CreateManifest(value.fileName, value.content);
+                return new GalleryResponseModel()
+                {
+                    success = true,
+                    gallery = new GalleryModel()
+                    {
+                        content = newManifest.ReadThumbnail(),
+                        type = newManifest.type
+                    }
+                };
 
+            }
+            catch (Exception e)
+            {
+                return new GalleryResponseModel()
+                {
+                    success = false,
+                    message = $"Something went wrong during file creation. See inner message:\n{e.Message}"
+                };
+            }
+        }
+
+        [HttpDelete]
+        [Route("api/manifest/{filename}")]
+        public bool DeleteManifest(string filename)
+        {
+            return false;
         }
     }
 }

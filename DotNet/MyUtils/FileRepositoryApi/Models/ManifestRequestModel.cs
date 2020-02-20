@@ -2,7 +2,7 @@
 {
     public class ManifestRequestModel
     {
-        public string name { get; set; }
+        public string fileName { get; set; }
         public string content { get; set; }
     }
 }

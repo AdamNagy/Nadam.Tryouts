@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace ManifestRepositoryApi.ManifestFramework
 {
@@ -28,12 +29,11 @@ namespace ManifestRepositoryApi.ManifestFramework
         }
         #endregion
 
-        public string Root { get => _root; }
+        public string Root { get; private set; }
         public int Count { get => _manifests.Count(); }
 
         //                    file title / file name
         private Dictionary<string, string> _manifests;
-        private string _root;
 
         private ManifestRepository() { }
 
@@ -41,7 +41,7 @@ namespace ManifestRepositoryApi.ManifestFramework
         {
             _instance = new ManifestRepository();
 
-            _instance._root = root;
+            _instance.Root = root;
             _instance._manifests = Directory.GetFiles(root)
                                     .ToDictionary(path => _instance.GetFileTitle(Path.GetFileNameWithoutExtension(path)),
                                                   path => Path.GetFileName(path));
@@ -51,12 +51,13 @@ namespace ManifestRepositoryApi.ManifestFramework
         {
             _instance = new ManifestRepository();
 
-            _instance._root = root;
+            _instance.Root = root;
             _instance._manifests = provider.GetFiles(root)
                                             .ToDictionary(path => _instance.GetFileTitle(Path.GetFileNameWithoutExtension(path)),
                                                           path => Path.GetFileName(path));
         }
 
+        #region returns ReadonlyManifest
         public ReadonlyManifest GetFileByTitle(string fileNameWithExtension)
         {
             if (_manifests.ContainsKey(fileNameWithExtension))
@@ -83,12 +84,41 @@ namespace ManifestRepositoryApi.ManifestFramework
             foreach (var manifest in _manifests)
                 yield return GenerateManifestFor(manifest.Value);
         }
+        #endregion
 
-        private string GetFileTitle(string fileNameWithoutExtension)
-            => fileNameWithoutExtension.Split('.').First();
+        #region returns file names
+        public IEnumerable<string> GetFileNames()
+        {
+            foreach (var fileName in _manifests.Values)
+                yield return fileName;
+        }
 
+        public IEnumerable<string> GetFileNames(Func<string, bool> pred)
+        {
+            foreach (var fileName in _manifests.Values.Where(pred))
+                yield return fileName;
+        }
+        #endregion
+
+        public ReadonlyManifest CreateManifest(string fileName, string content)
+        {
+            if (GetFileNames().SingleOrDefault(p => p == fileName) != null)
+                throw new Exception($"File already exist with provided name: {fileName}");
+
+            var newFileStream = File.Create($"{Root}\\{fileName}");
+            var byteArr = Encoding.ASCII.GetBytes(content);
+            newFileStream.Write(byteArr, 0, byteArr.Length);
+
+            var title = GetFileTitle(fileName);
+            _manifests.Add(title, fileName);
+
+            newFileStream.Close();
+            return GetFileByTitle(title);
+        }
+
+        private string GetFileTitle(string fileName)
+            => fileName.Split('.').First();
         
-
         private string GetCategoryFor(string fileName)
         {
             var splitted = fileName.Split('.');
@@ -103,8 +133,8 @@ namespace ManifestRepositoryApi.ManifestFramework
             var category = GetCategoryFor(fileName);
             switch (category)
             {
-                case "gallery": return new WebGalleryManifest($"{_root}\\{fileName}");
-                case "local-gallery": return new LocalGalleryManifest($"{_root}\\{fileName}");
+                case "gallery": return new WebGalleryManifest($"{Root}\\{fileName}");
+                case "local-gallery": return new LocalGalleryManifest($"{Root}\\{fileName}");
                 default: throw new ArgumentException($"for file {fileName} no handler was found");
             }
         }

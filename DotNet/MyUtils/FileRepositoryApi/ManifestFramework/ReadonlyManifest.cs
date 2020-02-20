@@ -6,24 +6,22 @@ namespace ManifestRepositoryApi.ManifestFramework
 {
     public abstract class ReadonlyManifest
     {
-        public string Path { get => _filePath; }
+        public string PathWithName { get; }
         public string type;
 
-        private readonly string _filePath;
-
-        public ReadonlyManifest(string filePath)
+        public ReadonlyManifest(string pathWithName)
         {
-            _filePath = filePath;
+            PathWithName = pathWithName;
         }
 
         public virtual string ReadWhole()
-            => File.ReadAllText(_filePath);
+            => File.ReadAllText(PathWithName);
 
         public abstract string ReadThumbnail();
 
         protected IEnumerable<string> ReadSegment(bool readMore)
         {
-            using (FileStream fsSource = new FileStream(_filePath, FileMode.Open, FileAccess.Read))
+            using (FileStream fsSource = new FileStream(PathWithName, FileMode.Open, FileAccess.Read))
             {
                 // Read the source file into a byte array.
                 byte[] bytes = new byte[30];

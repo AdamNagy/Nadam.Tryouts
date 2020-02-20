@@ -1,0 +1,21 @@
+﻿@using ManifestRepositoryApi.Models
+@model AdminViewModel
+
+<h2>Admin</h2>
+
+
+<div class="row">
+    <div id="file-list" class="col-6">
+        <ul>
+            @for (int i = 0; i < Model.files.Length; i++)
+            {
+                <li> @Model.files[i] <button class="btn btn-sm btn-primary" onclick="deleteManifest(this, @Model.files[i])">delete</button></li>
+            }
+        </ul>
+    </div>
+
+    <div id="file-details" class="col-6">
+    </div>
+</div>
+
+<script src="../Admin/admin.js"></script>
