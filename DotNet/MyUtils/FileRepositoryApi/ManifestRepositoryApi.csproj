@@ -131,17 +131,19 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\GalleryController.cs" />
     <Compile Include="Controllers\ManifestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ManifestFramework\LocalGalleryManifest.cs" />
     <Compile Include="ManifestFramework\WebGalleryManifest.cs" />
-    <Compile Include="Models\AdminViewModel.cs" />
-    <Compile Include="Models\ManifestRequestModel.cs" />
+    <Compile Include="ViewModels\AdminViewModel.cs" />
+    <Compile Include="ApiModels\ManifestRequestModel.cs" />
     <Compile Include="ManifestFramework\ReadonlyManifest.cs" />
     <Compile Include="ManifestFramework\ManifestRepository.cs" />
-    <Compile Include="Models\ThumbnailResponseModel.cs" />
+    <Compile Include="ApiModels\ThumbnailsResponseModel.cs" />
+    <Compile Include="ViewModels\ThumbnailsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +178,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Admin\admin.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Gallery\Thumbnails.cshtml" />
+    <Content Include="Views\Gallery\Gallery.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

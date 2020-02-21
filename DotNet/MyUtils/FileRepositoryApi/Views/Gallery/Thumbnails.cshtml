@@ -1,0 +1,20 @@
+﻿@using System.Web.Razor.Generator
+@model ManifestRepositoryApi.ViewModels.ThumbnailsViewModel
+
+
+@{
+    ViewBag.Title = "Thumbnails";
+}
+
+<h2>Thumbnails</h2>
+
+@foreach (var thumb in @Model.thumbnails)
+{
+    @foreach (var img in thumb.Images)
+    {
+        <img src="@img.ThumbnailSrc"/>
+    }
+
+    <hr/>
+}
+

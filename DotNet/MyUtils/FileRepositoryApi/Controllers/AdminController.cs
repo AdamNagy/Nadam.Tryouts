@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using ManifestRepositoryApi.ManifestFramework;
-using ManifestRepositoryApi.Models;
+using ManifestRepositoryApi.ViewModels;
 
 namespace ManifestRepositoryApi.Controllers
 {
