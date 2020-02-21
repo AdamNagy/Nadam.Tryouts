@@ -26,8 +26,6 @@ namespace ManifestRepositoryApi.ManifestFramework
                     break;
             }
 
-            // Read(loadMore);
-
             var lastCommaIdx = fileContent.LastIndexOf('}');
             var diff = fileContent.Length - lastCommaIdx;
             var jsonString = fileContent.Substring(0, lastCommaIdx);

@@ -1,8 +1,11 @@
-﻿using System;
+﻿using ManifestRepositoryApi.Actions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
+using ActionResult = ManifestRepositoryApi.Actions.ActionResult;
 
 namespace ManifestRepositoryApi.ManifestFramework
 {
@@ -116,13 +119,27 @@ namespace ManifestRepositoryApi.ManifestFramework
             return GetFileByTitle(title);
         }
 
-        public bool DeleteManifest(string title)
+        public ActionResult DeleteManifest(ActionWithPayload action)
         {
-            if (!_manifests.ContainsKey(title))
-                return false;
+            var result = new ActionResult(action);
+            try
+            {
+                if (!_manifests.ContainsKey(action.payload))
+                {
+                    result.message = $"file does not exist, {action.payload}";
+                    return result;
+                }
 
-            _manifests.Remove(title);
-            return true;
+                _manifests.Remove(action.payload);
+                File.Delete($"{Root}\\{_manifests[action.payload]}");
+                result.isSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                result.message = ex.Message;
+            }
+
+            return result;
         }
 
         private string GetFileTitle(string fileName)

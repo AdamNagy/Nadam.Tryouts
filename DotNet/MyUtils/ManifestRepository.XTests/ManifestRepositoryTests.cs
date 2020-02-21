@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 using Moq;
 using ManifestRepositoryApi.ManifestFramework;
 
@@ -86,7 +81,7 @@ namespace ManifestFramework.Tests
 
             var file = ManifestRepository.Instance.GetFileByTitle("test1");
 
-            Assert.Equal("dir\\subdir\\test1.gallery.json", file.Path);
+            Assert.Equal("dir\\subdir\\test1.gallery.json", file.PathWithName);
         }
 
         [Fact]
@@ -139,7 +134,7 @@ namespace ManifestFramework.Tests
             var files = ManifestRepository.Instance.GetFilesByFileTitleSegment("test");
 
             Assert.Equal(5, files.Count);
-            Assert.Equal("dir\\subdir\\test1.gallery.json", files[0].Path);
+            Assert.Equal("dir\\subdir\\test1.gallery.json", files[0].PathWithName);
         }
 
         [Fact]

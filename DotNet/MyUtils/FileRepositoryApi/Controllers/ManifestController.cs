@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Http;
+using ManifestRepositoryApi.Actions;
 using ManifestRepositoryApi.ManifestFramework;
 using ManifestRepositoryApi.Models;
 
@@ -152,7 +153,7 @@ namespace ManifestRepositoryApi.Controllers
                 return new GalleryResponseModel()
                 {
                     success = false,
-                    message = $"Something went wrong during file creation. See inner message:\n{e.Message}"
+                    message = $"Something went wrong during file creation. See inner message: {e.Message}"
                 };
             }
         }
@@ -161,14 +162,7 @@ namespace ManifestRepositoryApi.Controllers
         [Route("api/dispatch")]
         public bool DeleteManifest([FromBody]ActionWithPayload action)
         {
-            // TODO: implement real file deletion
-            return _repository.DeleteManifest(action.payload);
-        }
-
-        public class ActionWithPayload
-        {
-            public string action;
-            public string payload;
+            return _repository.DeleteManifest(action).isSuccess;
         }
     }
 }
