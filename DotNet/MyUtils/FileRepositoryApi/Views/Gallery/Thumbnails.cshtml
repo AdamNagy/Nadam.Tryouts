@@ -1,7 +1,6 @@
 ﻿@using System.Web.Razor.Generator
 @model ManifestRepositoryApi.ViewModels.ThumbnailsViewModel
 
-
 @{
     ViewBag.Title = "Thumbnails";
 }
@@ -10,7 +9,7 @@
 
 @foreach (var thumb in @Model.thumbnails)
 {
-    @foreach (var img in thumb.Images)
+    foreach (var img in thumb.Images)
     {
         <img src="@img.ThumbnailSrc"/>
     }
