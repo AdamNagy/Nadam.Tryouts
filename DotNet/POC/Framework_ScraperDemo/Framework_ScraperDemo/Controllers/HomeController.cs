@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Web.Http;
 using System.Web.Mvc;
 using HtmlAgilityPack;
 using Framework_ScraperDemo.Models;
@@ -7,45 +8,59 @@ namespace Framework_ScraperDemo.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index([FromUri]string url = "")
         {
-            var url = "https://www.w3schools.com/colors/colors_groups.asp";
+            // var url = "https://www.w3schools.com/colors/colors_groups.asp";
             var web = new HtmlWeb();
             var doc = web.Load(url, "GET");
 
-            var scriptNodes = doc.DocumentNode.SelectNodes("//script");
-            foreach (var scriptNode in scriptNodes)
-                scriptNode.Remove();
+            RemoveElemetsByName(ref doc, "script");
+            RemoveElemetsByName(ref doc, "iframe");
 
-            var htmlBody = doc.DocumentNode.SelectSingleNode("//body");
+            MoveHeaderStylesToBody(ref doc);
+            HackLinkTags(ref doc);
 
-            var styleNodes = doc.DocumentNode.SelectNodes("//head/style")
-                .Select(p => HtmlNode.CreateNode($"<style>{p.InnerText}</style>"));
+            var viewModel = new ScraperEchoViewModel(
+                doc.DocumentNode
+                    .SelectSingleNode("//body")
+                    .InnerHtml
+                    .ToString());
 
-            foreach (var styleNode in styleNodes)
-                doc.DocumentNode.SelectSingleNode("//body").AppendChild(styleNode);
-
-            var viewModel = new ScraperEchoViewModel()
-            {
-                HtmlString = doc.DocumentNode.SelectSingleNode("//body").InnerHtml.ToString()
-            };
+            viewModel.Url = url;
 
             return View(viewModel);
         }
 
-        public ActionResult About()
+        private void RemoveElemetsByName(ref HtmlDocument htmlDoc, string elementName)
         {
-            ViewBag.Message = "Your application description page.";
+            var nodesToRemove = htmlDoc.DocumentNode.SelectNodes($"//{elementName}");
+            if (nodesToRemove == null)
+                return;
 
-            return View();
+            foreach (var scriptNode in nodesToRemove)
+                scriptNode.Remove();
         }
 
-        public ActionResult Contact()
+        private void MoveHeaderStylesToBody(ref HtmlDocument htmlDoc)
         {
-            ViewBag.Message = "Your contact page.";
+            var styleNodes = htmlDoc.DocumentNode.SelectNodes("//head/style")
+                .Select(p => HtmlNode.CreateNode($"<style>{p.InnerText}</style>"));
 
-            return View();
+            foreach (var styleNode in styleNodes)
+                htmlDoc.DocumentNode.SelectSingleNode("//body").AppendChild(styleNode);
         }
 
+        private void HackLinkTags(ref HtmlDocument htmlDoc)
+        {
+            var linkTags = htmlDoc.DocumentNode.SelectNodes($"//a");
+            if (linkTags == null)
+                return;
+
+            foreach (var linkTag in linkTags)
+            {
+                linkTag.SetAttributeValue("onclick", $"Navigate('{linkTag.Attributes["href"].Value.ToString()}')");
+                linkTag.SetAttributeValue("href", "#");
+            }
+        }
     }
 }

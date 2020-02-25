@@ -1,4 +1,16 @@
 ﻿@using Framework_ScraperDemo.Models
 @model ScraperEchoViewModel
 
-@Html.Raw(@Model.HtmlString)
+
+<section id="page-1" url=@Model.Url>
+    @Html.Raw(@Model.HtmlString)
+</section>
+
+<script>
+
+    var scraperUrl = "/";
+
+    function Navigate(url) {
+        console.log(url);
+    }
+</script>
