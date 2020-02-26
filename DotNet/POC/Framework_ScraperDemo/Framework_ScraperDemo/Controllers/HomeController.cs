@@ -8,9 +8,8 @@ namespace Framework_ScraperDemo.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index([FromUri]string url = "")
+        public ActionResult Index([FromUri]string url = "https://www.w3school.com")
         {
-            // var url = "https://www.w3schools.com/colors/colors_groups.asp";
             var web = new HtmlWeb();
             var doc = web.Load(url, "GET");
 

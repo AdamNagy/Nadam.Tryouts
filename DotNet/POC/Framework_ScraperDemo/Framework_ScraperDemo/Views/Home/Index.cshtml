@@ -14,3 +14,363 @@
         console.log(url);
     }
 </script>
+
+<style>
+            body {
+                padding:0px;
+                margin:0px;
+                font-family: "trebuchet ms", verdana, arial, sans-serif;
+        }
+
+
+
+span.bigtext {
+                font-size:12pt;
+                font-weight:bold;
+                color:#4570B3;
+
+        }
+h2.bigtext {
+                font-size:12pt;
+                font-weight:bold;
+                color:#4570B3;
+    		display: inline;
+        }
+		       span.smalltext {
+                font-size:8pt;
+                color:#999999;
+        }
+	.txt34 {
+		font-size:8pt;
+	}
+        td.text1 {
+                font-size:16pt;
+                font-weight:strong;
+                color:#696900;
+        }
+        b {
+                color:#3A3A00;
+        }
+	.extreme {
+		color:#AA0000
+	}
+        span.text1 {
+                color:#494900;
+                font-size:17pt;
+                font-weight:bold;
+        }
+	.cat_top {
+		font-size:8pt;
+		display:block;
+		text-align:center;
+	}
+        span.text2 {
+                color:#696900;
+                font-size:13pt;
+                font-weight:strong;
+        }
+	a.categories {
+		 color:#AA0000;
+		 text-decoration:none;
+	}
+        a.categories:hover {
+		 color:#FF0000;
+                 text-decoration:underline;
+        }
+        a {
+                color:#000000;
+                text-decoration:none;
+        }
+        a:hover {
+                color:#0000AA;
+                text-decoration:underline;
+        }
+        span.text3 {
+                color:#696900;
+                font-size:11pt;
+                font-weight:strong;
+        }
+        ul {
+                border:solid 1px #D3EB88;
+                background-color:#B7B74E;
+                padding:0px;
+                margin:0px;
+                width:100%;
+                clear: left;
+                float: left;
+        }
+        ul li{
+                list-style: none;
+                font-size:10pt;
+                padding:0px 0px 0px 20px;
+                margin:3px 5px;
+                background: url(/img/dot.jpg) no-repeat 0 3px;
+        }
+        hr {
+                border-bottom:solid 1px #4570B3;
+                height:0px;
+        }
+        fieldset {
+                border:solid 1px #D3EB88;
+                background-color:#B7B74E;
+                margin:0px;
+                padding:10px;
+        }
+        legend {
+                font-weight:bold;
+                color:#494900;
+        }
+        form {
+                padding:0px;
+                margin:0px;
+        }
+        td.bar20 {
+                height:20px;
+                font-size:12px;
+                background-image:url(/img/20px_bar.jpg);
+                background-repeat:repeat-x;
+                border-bottom:solid 2px #4570B3;
+		font-weight:bold;
+        }
+        td.copyright {
+                text-align:center;
+                height:40px;
+                background-color:#E6E6E6;
+                border-bottom:solid 2px #4570B3;
+        }
+        td.content {
+                background-color:#AECDFF;
+                border-bottom:solid 2px #4570B3;
+                background-image:url(/img/content_bg_600.jpg);
+                background-repeat:repeat-x;
+                background-position:top left;
+        }
+        td.logo {
+                text-align:center;
+                height:59px;
+                background-color:#E6E6E6;
+                border-bottom:solid 2px #4570B3;
+                background-image:url(/img/logo_bg_new.jpg);
+        }
+        tr.logo {
+        	height:59px;
+        }
+        td.contentbody {
+                padding:4px;
+                background-color:#C1D9FF;
+                border:solid 1px #4570B3;
+                max-width:604;
+        }
+        td.othersites {
+                font-size:8pt;
+                font-weight:strong;
+                background-color:#C1D9FF;
+                padding:3px;
+                border:solid 1px #4570B3;
+        }
+        td.ghead {
+                background-image:url(/img/gallerybar_top.jpg);
+                background-repeat:no-repeat;
+                height:30px;
+                font-size:9pt;
+                font-weight:bold;
+                padding-left:10px;
+                padding-right:10px;
+                text-align:left;
+        }
+        td.gbottom {
+                border:solid 2px #4570B3;
+                background-color:#FFFFFF;
+                border-top:none;
+                height:30px;
+                font-size:8pt;
+                font-weight:bold;
+                padding-left:10px;
+                padding-right:10px;
+                text-align:center;
+        }
+
+        td.gmiddle {
+                background-image:url(/img/content_bg_20.jpg);
+                background-repeat:repeat-x;
+                background-position:bottom right;
+                background-color:#DDEAFF;
+                padding-top:10px;
+                border:solid 2px #4570B3;
+                border-bottom:none;
+                font-size:10pt;
+                font-weight:bold;
+                padding-left:10px;
+                padding-right:10px;
+                text-align:center;
+                max-width:622px;
+        }
+        .image {
+        border:solid 1px #4570B3;
+	max-width: 150px;
+	max-height: 150px;
+	vertical-align:bottom;
+	}
+	.a11 {
+		font-size:7pt;
+	}
+	.a21 {
+		font-size:9pt;
+	}
+	.a31 {
+		font-size:11pt;
+	}
+	.a41 {
+		font-size:13pt;
+	}
+	.a51 {
+		font-size:15pt;
+	}
+	.a61 {
+		font-size:17pt;
+	}
+        .a12 {
+                font-size:7pt;
+		text-decoration: underline;
+        }
+        .a22 {
+                font-size:9pt;
+        }
+        .a32 {
+                font-size:11pt;
+                text-decoration: underline;
+        }
+        .a42 {
+                font-size:13pt;
+        }
+        .a52 {
+                font-size:15pt;
+                text-decoration: underline;
+        }
+        .a62 {
+                font-size:17pt;
+                text-decoration: underline;
+        }
+        .a13 {
+                font-size:7pt;
+		font-weight:bold;
+        }
+        .a23 {
+                font-size:9pt;
+		font-weight:bold;
+        }
+        .a33 {
+                font-size:11pt;
+		font-weight:bold;
+        }
+        .a43 {
+                font-size:13pt;
+		font-weight:bold;
+        }
+        .a53 {
+                font-size:15pt;
+		font-weight:bold;
+        }
+        .a63 {
+                font-size:17pt;
+		font-weight:bold;
+        }
+        .a14 {
+                font-size:7pt;
+                font-style:italic;
+        }
+        .a24 {
+                font-size:9pt;
+		font-style:italic;
+        }
+        .a34 {
+                font-size:11pt;
+		font-style:italic;
+        }
+        .a44 {
+                font-size:13pt;
+		font-style:italic;
+        }
+        .a54 {
+                font-size:15pt;
+		font-style:italic;
+        }
+        .a64 {
+                font-size:17pt;
+		font-style:italic;
+        }
+	.bookmark1 {
+	color: #66FFFF;
+	background-color: #000000;
+	}
+
+#interContainer{
+position: absolute;
+width: auto; /*Width of interstitial box*/
+height: auto;
+left: 0;
+top: 0;
+padding: 15px;
+padding-top: 0;
+background-color: #d0e47e;
+border: 1px solid black;
+visibility: hidden;
+z-index: 6;
+}
+
+#interContainer .headerbar{ /*CSS for header bar of interstitial box*/
+color: gray;
+padding: 5px 0;
+text-align: right;
+}
+
+#interContainer .headerbar a{ /*CSS for header bar links of interstitial box*/
+font-size: 120%;
+text-decoration: none;
+}
+
+
+#interContent{ /*CSS for div that holds the content to show*/
+border: 1px solid gray;
+
+background-color: white;
+}
+
+#interVeil{ /*CSS for background veil that covers entire page while interstitial box is visible*/
+position: absolute;
+background: black url(blackdot.gif);
+right: 0;
+width: 10px;
+top: 0;
+z-index: 5;
+visibility: hidden;
+filter:progid:DXImageTransform.Microsoft.alpha(opacity=80);
+opacity: 0.8;
+}
+iframeh {
+    visibility: hidden;
+    position: absolute;
+    left: 0; top: 0;
+    height:0; width:0;
+    border: none;
+}
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: red;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+#myBtn:hover {
+  background-color: #555;
+}
+</style>
