@@ -3,15 +3,17 @@ using System.Web.Http;
 using System.Web.Mvc;
 using HtmlAgilityPack;
 using Framework_ScraperDemo.Models;
+using System;
 
 namespace Framework_ScraperDemo.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index([FromUri]string url = "https://www.w3schools.com/tags/tag_a.asp")
+        public ActionResult Index([FromUri]string urlString = "https://www.w3schools.com/tags/tag_a.asp")
         {
+            var url = new UriBuilder(urlString);
             var web = new HtmlWeb();
-            var doc = web.Load(url, "GET");
+            var doc = web.Load(urlString, "GET");
 
             RemoveElemetsByName(ref doc, "script");
             RemoveElemetsByName(ref doc, "iframe");
@@ -19,13 +21,13 @@ namespace Framework_ScraperDemo.Controllers
             MoveHeaderStylesToBody(ref doc);
             HackAnchorTags(ref doc);
 
-            var viewModel = new ScraperEchoViewModel(
-                doc.DocumentNode
-                    .SelectSingleNode("//body")
-                    .InnerHtml
-                    .ToString());
+            var htmlString = doc.DocumentNode
+                .SelectSingleNode("//body")
+                .InnerHtml
+                .ToString();
 
-            viewModel.Url = url;
+            var viewModel = new ScraperEchoViewModel(htmlString);
+            viewModel.Url = url.ToString();
 
             return View(viewModel);
         }
