@@ -2,8 +2,18 @@
 {
     public class ScraperEchoViewModel
     {
-        public string Url;
-        public string HtmlString { get; private set; }
+        public string Schema;
+        public string Domain;
+        public string Path;
+        public string HtmlString;
+
+        public ScraperEchoViewModel()
+        {
+            Schema = "";
+            Domain = "";
+            Path = "";
+            HtmlString = "";
+        }
 
         public ScraperEchoViewModel(string htmlString)
         {

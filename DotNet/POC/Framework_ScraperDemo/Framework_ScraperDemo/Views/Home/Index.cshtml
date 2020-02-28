@@ -1,16 +1,42 @@
 ﻿@using Framework_ScraperDemo.Models
 @model ScraperEchoViewModel
 
-
-<section id="page-1" url=@Model.Url>
-    @Html.Raw(@Model.HtmlString)
-</section>
+<div class="container-fluid">
+    <div class="row">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <button class="btn btn-primary btn-sm" type="button" id="btn-go">Go!</button>
+            </div>
+            <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1" id="input-url">
+        </div>
+    </div>
+</div>
 
 <script>
+    var inputUrl = document.getElementById("input-url");
 
-    var scraperUrl = "/";
-
-    function Navigate(url) {
-        console.log(url);
-    }
+    var btnGo = document.getElementById("btn-go");
+    btnGo.addEventListener("click", () => window.location.href = "?url=" + inputUrl.value);
 </script>
+
+@if (!string.IsNullOrEmpty(Model.HtmlString))
+{
+    <section id="page-1">
+        @Html.Raw(@Model.HtmlString)
+    </section>
+
+    <script>
+        var schema = "@Model.Schema",
+            domain = "@Model.Domain",
+            path = "@Model.Path";
+
+        var scraperUrl = "/";
+
+        function Navigate(path) {
+            var url = schema + '://' + domain + '/' + path;
+            console.log(url);
+            window.open('?url=' + url);
+        }
+    </script>
+}
+
