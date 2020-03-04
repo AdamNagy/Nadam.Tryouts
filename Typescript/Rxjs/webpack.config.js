@@ -6,8 +6,7 @@ module.exports = {
 	mode: 'development',
 	watch: true,
 	entry: {
-		nadam: './src/index.ts',
-		bootstrap: './src/bootstrap.js'
+		nadam: './src/index.ts'
 	},
 	module: {
 		rules: [
@@ -63,11 +62,11 @@ module.exports = {
 	resolve: {
 		extensions: [ '.tsx', '.ts', '.js' ]
 	},
-	// output: {
-	// 	filename: '[name].bundle.js',
-	// 	chunkFilename: '[name].chunk.js',
-	// 	path: path.resolve(__dirname, './dist')
-	//   },
+	output: {
+		filename: '[name].bundle.js',
+		chunkFilename: '[name].chunk.js',
+		path: path.resolve(__dirname, './dist')
+	},
 	plugins: [
 		new webpack.ProvidePlugin({
 			$: 'jquery',

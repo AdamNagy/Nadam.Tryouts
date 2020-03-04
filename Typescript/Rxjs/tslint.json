@@ -9,7 +9,8 @@
 		"max-line-length": [false, 0],
 		"indent": [true, "tabs", 2],
 		"array-type": false,
-		"align": false
+		"align": false,
+		"no-console": false
 	},
     "rulesDirectory": []
 }

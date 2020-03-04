@@ -1,0 +1,23 @@
+LINQ
+---------------------------------------
+lazy evaluation
+deferred execution
+query
+expression
+expression tree
+lambda
+functional programming (vs declarative?)
+IEnumerable (extensions)
+***************************************
+Collections
+---------------------------------------
+IEnumerable
+ICollection
+IList
+LinkedList
+Stack, Queue
+Heap
+Performance (and measuring)
+concurrency (read, write)
+Tree, BinaryTree
+***************************************

@@ -1,18 +1,40 @@
 ﻿using System;
+using System.Reflection;
 using CshTryouts.EnumerablePattern;
 
 namespace CshTryouts
 {
+    public class Class1
+    {
+
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
-            foreach (var fibn in YieldUseage.Fibonacci(10))
-                Console.Write($"{fibn} ");
+            Class1 c1 = new Class1();
+            //  Show the current module.
+            Module m = c1.GetType().Module;
+            Console.WriteLine("The current module is {0}.", m.Name);
 
-            ValueAnRefTypeDemo();
+            //  List all modules in the assembly.
+            Assembly curAssembly = typeof(Program).Assembly;
+            Console.WriteLine("The current executing assembly is {0}.", curAssembly);
 
-            var x = new StringNum("123");
+            Module[] mods = curAssembly.GetModules();
+            foreach (Module md in mods)
+            {
+                Console.WriteLine("This assembly contains the {0} module", md.Name);
+            }
+            Console.ReadLine();
+
+            //foreach (var fibn in YieldUseage.Fibonacci(10))
+            //    Console.Write($"{fibn} ");
+
+            //ValueAnRefTypeDemo();
+
+            //var x = new StringNum("123");
 
             // Console.ReadKey();
         }

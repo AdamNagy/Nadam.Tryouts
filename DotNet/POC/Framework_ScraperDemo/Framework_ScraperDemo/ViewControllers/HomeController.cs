@@ -24,7 +24,7 @@ namespace Framework_ScraperDemo.Controllers
             var web = new HtmlWeb();
             var doc = web.Load(url, "GET");
 
-            RemoveElemetsByName(ref doc, "script");
+            // RemoveElemetsByName(ref doc, "script");
             RemoveElemetsByName(ref doc, "iframe");
 
             MoveHeaderStylesToBody(ref doc);
