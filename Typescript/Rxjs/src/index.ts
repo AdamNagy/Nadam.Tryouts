@@ -1,6 +1,8 @@
-// import { Subject } from "rx";
-import { fromEvent } from "rxjs";
-import { Observable, Subject } from "rxjs/Rx";
+import { fromEvent, merge, of } from "rxjs";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/merge";
+import "rxjs/add/operator/scan";
+import { Subject } from "rxjs/Subject";
 
 interface IAppState {
 	count: number;
@@ -64,8 +66,7 @@ mainDom.observables["my-btn"]
 	// this is the rendering part
 	.subscribe();
 
-/***************************/
-
+/**************************************************************************/
 // component 2
 
 // dom element references to be able reflect back the state to UI
@@ -75,24 +76,28 @@ const labelName = document.getElementById("label-name");
 // action elements: button dom element reference
 const increaseButton = document.querySelector("#increment");
 // the button click event observable
-const increase = Observable.fromEvent(increaseButton, "click")
+const increase = fromEvent(increaseButton, "click")
 	// Again we map to a function the will increase the count: the action
 	.map(() => (state: IAppState) => Object.assign(appState, { count: state.count + 1, render: "count" }));
 
 const decreaseButton = document.querySelector("#decrease");
-const decrease = Observable.fromEvent(decreaseButton, "click")
+const decrease = fromEvent(decreaseButton, "click")
 	.map(() => (state: IAppState) => Object.assign(appState, { count: state.count - 1, render: "count" }));
 
 const inputElement = document.querySelector("#input-name");
-const input = Observable.fromEvent(inputElement, "input")
+const input = fromEvent(inputElement, "input")
 	// Let us also map the keypress events to produce an inputValue state
+	// this map transfor the source observable to a function required for the 'scan' below
 	.map((event: any) => (state: IAppState) => Object.assign(appState, { name: event.target.value,  render: "name" }));
 
 // We merge the three state change producing observables
-const store = Observable.merge(
-	increase,
+const store = merge(
+	 increase,
 	 decrease,
- 	 input,
+	input,
+// scan is like reduce in lodash or any aggregation function in SQL: given a sequence and generates a single value
+// in case of stream the 'single value' is a steam as well.
+// the function required for scan is coming from 'map' operator of the merged observables above
 ).scan((state: IAppState, changeFn: any) => changeFn(state), appState);
 
 // rendering and the engine of the above all
@@ -119,3 +124,19 @@ stateSubject.subscribe((state: IAppState) => {
 			break;
 	}
 });
+
+/**************************************************************************/
+// some other tryout
+document.body.append(document.createElement("hr"));
+const primes = document.createElement("div");
+document.body.append(primes);
+
+const sourceObservable = of([1, 2, 3, 5, 7, 11]);
+const primSubject = new Subject<number[]>();
+
+primSubject.subscribe((p) => {
+	primes.append(p.toString());
+	console.log(p);
+});
+
+sourceObservable.subscribe(primSubject);
