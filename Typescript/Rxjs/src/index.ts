@@ -92,8 +92,8 @@ const input = fromEvent(inputElement, "input")
 
 // We merge the three state change producing observables
 const store = merge(
-	 increase,
-	 decrease,
+	increase,
+	decrease,
 	input,
 // scan is like reduce in lodash or any aggregation function in SQL: given a sequence and generates a single value
 // in case of stream the 'single value' is a steam as well.
