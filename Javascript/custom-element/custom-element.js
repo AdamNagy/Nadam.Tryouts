@@ -19,7 +19,8 @@ class CustomElement extends HTMLElement {
 
 	constructor() {
 		super();
-    
+	
+		var children = this.childNodes;
 		const template = document.getElementById(this.templateId);
 		const node = document.importNode(template.content, true);
 	

@@ -21,11 +21,20 @@
 		<my-header></my-header>
 	</template>
 
-	<script src="custom-element.js"></script>
+	<script src="custom-element.js"> </script>
 	<script>
-		// usgea of custom element
+		// usgea of custom element A
 		var cust = new CustomElement();
 		document.body.append(cust);
+		
+		var custom2 = document.createElement("other-custom") ;
 	</script>
+
+	<!-- usgea of custom element B -->
+	<custom-element>
+		<p>
+			Hello from inner element
+		</p>
+	</custom-element>
 </body>
 </html>
