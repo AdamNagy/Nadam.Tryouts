@@ -1,52 +1,125 @@
 <html>
 <head>
+	<link rel="stylesheet" type="text/css" href="../lib/bootstrap/bootstrap-grid.min.css">
+	<link rel="stylesheet" type="text/css" href="../lib/bootstrap/bootstrap-reboot.min.css">
+	<link rel="stylesheet" type="text/css" href="../lib/bootstrap/bootstrap.min.css">
 	<style>
-		.container {
-			background-color: lightgrey;			
-			padding:5px;
-			
+		.flex-container {
+			/* We first create a flex layout context */
 			display: flex;
-			flex-direction: column;
-			flex-wrap: wrap;
 			
+			/* Then we define the flow direction 
+				and if we allow the items to wrap 
+			* Remember this is the same as:
+			* flex-direction: row;
+			* flex-wrap: wrap;
+			*/
+			flex-flow: row wrap;
+			
+			/* Then we define how is distributed the remaining space */
+			justify-content: center;
+			
+			padding: 0;
+			margin: 0;
+			list-style: none;
 		}
-		
-		.box1 {
-			margin: 6px;
-			height: 200px;
-			background-color: green;
-			width: 400px;
+
+		.flex-item{
+			margin: 3px;
 		}
-		
-		.box2 {
-			margin: 6px;
-			height: 300px;
-			background-color: red;
-			width: 400px;
+
+		/* .landscape {
+			flex: 1 auto;
 		}
-		
-		.box3 {
-			margin: 6px;
-			height: 400px;			
-			background-color: blue;
-			width: 400px;
+
+		.portrait{
+			flex: 1.5 auto;
+		} */
+
+		img {
+			width: 100%;
 		}
 	</style>
 </head>
 <body>
 	<div class="container">
-		<div class="box1"></div>
-		<div class="box2"></div>
-		<div class="box3"></div>
-		<div class="box3"></div>
-		<div class="box2"></div>
-		<div class="box1"></div>
-		<div class="box3"></div>
-		<div class="box1"></div>
-		<div class="box1"></div>
-		<div class="box2"></div>
-		<div class="box2"></div>
-		<div class="box3"></div>
+		<div class="row">
+			<ul class="flex-container">
+				<li class="flex-item landscape">
+					<img src="../test-images/landscape_240x180.png">
+				</li>
+				<li class="flex-item landscape">
+					<img src="../test-images/landscape_240x180.png">
+				</li>
+				<li class="flex-item portrait">
+					<img src="../test-images/portrait_240x180.png">
+				</li>
+				<li class="flex-item portrait">
+					<img src="../test-images/portrait_240x180.png">
+				</li>
+				<li class="flex-item portrait">
+					<img src="../test-images/portrait_240x180.png">
+				</li>
+				<li class="flex-item landscape">
+					<img src="../test-images/landscape_240x180.png">
+				</li>
+				<li class="flex-item landscape">
+					<img src="../test-images/landscape_240x180.png">
+				</li>
+				<li class="flex-item landscape">
+					<img src="../test-images/landscape_240x180.png">
+				</li>
+				<li class="flex-item portrait">
+					<img src="../test-images/portrait_240x180.png">
+				</li>
+				<li class="flex-item portrait">
+					<img src="../test-images/portrait_240x180.png">
+				</li>
+				<li class="flex-item">
+					<img src="../test-images/portrait_240x180.png">
+				</li>
+				<li class="flex-item landscape">
+					<img src="../test-images/landscape_240x180.png">
+				</li>
+			</ul>
+		</div>
+	</div>
+	<hr><hr><hr>
+	<div class="container">
+		<div class="row">
+			<ul class="flex-container">
+				<li class="flex-item">
+					<img src="../test-images/landscape_240x180.png">
+				</li>
+				<li class="flex-item">
+					<img src="../test-images/landscape_240x180.png">
+				</li>
+				<li class="flex-item">
+					<img src="../test-images/landscape_240x180.png">
+				</li>
+				<li class="flex-item">
+					<img src="../test-images/landscape_240x180.png">
+				</li>
+				<li class="flex-item">
+					<img src="../test-images/landscape_240x180.png">
+				</li>
+				<li class="flex-item">
+					<img src="../test-images/landscape_240x180.png">
+				</li>
+				<li class="flex-item">
+					<img src="../test-images/landscape_240x180.png">
+				</li>
+				<li class="flex-item">
+					<img src="../test-images/landscape_240x180.png">
+				</li>
+				<li class="flex-item">
+					<img src="../test-images/landscape_240x180.png">
+				</li>
+				<li class="flex-item">
+					<img src="../test-images/landscape_240x180.png">
+				</li>
+			</ul>
+		</div>
 	</div>
 </body>
 </html>
