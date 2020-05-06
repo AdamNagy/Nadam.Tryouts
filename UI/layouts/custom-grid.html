@@ -1,0 +1,114 @@
+<html>
+<head>
+	<style>
+		* { box-sizing: border-box; }
+
+		.column-container {
+			width: 1240px;
+			margin: 0 auto;
+		}
+
+		.column-row {
+			clear: both;
+		}
+
+		.column-row:after {
+			content: ".";
+			display: block;
+			clear: both;
+			visibility: hidden;
+			height: 0;
+			line-height: 0;
+		}
+
+		[class*="column-"] {
+			float: left;
+			/* margin-left: 2%; */
+		}
+
+		/* [class*="col-"]:first-child {
+			margin-left: 0;
+		} */
+
+		.column-1  { width: 6.5%;  }
+		.column-2  { width: 15%;   }
+		.column-3  { width: 23.5%; }
+		.column-4  { width: 32%;   }
+		.column-5  { width: 40.5%; }	/* not equal column */
+		.column-6  { width: 49%;   }
+		.column-7  { width: 57.5%; }	/* not equal column */
+		.column-8  { width: 66%;   }	/* not equal column */
+		.column-9  { width: 74.5%; }	/* not equal column */
+		.column-10 { width: 83%;   }	/* not equal column */
+		.column-11 { width: 91.5%; }	/* not equal column */
+		.column-12 { width: 100%;  }
+
+		.box1 {
+			margin: 6px;
+			height: 200px;
+			background-color: red;
+			
+		}
+		
+		.box2 {
+			margin: 6px;
+			height: 300px;
+			background-color: green;
+			
+		}
+		
+		.box3 {
+			margin: 6px;
+			height: 400px;			
+			background-color: blue;
+			
+		}
+	</style>
+</head>
+<body>	
+	<div class="column-container">
+	  <div class="column-row">
+		<div class="column-3">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+		</div>
+		<div class="column-3">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+		</div>
+		<div class="column-3">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+		</div>
+		<div class="column-3">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+			<img src="../test-images/landscape_240x180.png">
+		</div>
+	  </div>
+	</div>
+</body>
+</html>
