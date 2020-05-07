@@ -21,9 +21,13 @@
 			line-height: 0;
 		}
 
-		[class*="column-"] {
+		/* [class*="column-"] {
 			float: left;
-			/* margin-left: 2%; */
+			margin-left: 2%;
+		} */
+
+		.column {
+			float: left;
 		}
 
 		/* [class*="col-"]:first-child {
@@ -33,7 +37,7 @@
 		.column-1  { width: 6.5%;  }
 		.column-2  { width: 15%;   }
 		.column-3  { width: 23.5%; }
-		.column-4  { width: 32%;   }
+		.column-4  { width: 32%; }
 		.column-5  { width: 40.5%; }	/* not equal column */
 		.column-6  { width: 49%;   }
 		.column-7  { width: 57.5%; }	/* not equal column */
@@ -43,70 +47,56 @@
 		.column-11 { width: 91.5%; }	/* not equal column */
 		.column-12 { width: 100%;  }
 
-		.box1 {
-			margin: 6px;
-			height: 200px;
-			background-color: red;
-			
+		img {
+			max-width: 280px;
 		}
 		
-		.box2 {
-			margin: 6px;
-			height: 300px;
-			background-color: green;
-			
-		}
-		
-		.box3 {
-			margin: 6px;
-			height: 400px;			
-			background-color: blue;
-			
-		}
 	</style>
 </head>
 <body>	
 	<div class="column-container">
 	  <div class="column-row">
-		<div class="column-3">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
+		<div class="column column-4">
+			<img alt="" class="img img-responsive" data-idx="0" src="https://nadam.blob.core.windows.net/wedding/preparation/thumbnails/IMG_6515.JPG">		
+			<img alt="" class="img img-responsive" data-idx="1" src="https://nadam.blob.core.windows.net/wedding/preparation/thumbnails/IMG_6534.JPG">
+			<img alt="" class="img img-responsive" data-idx="2" src="https://nadam.blob.core.windows.net/wedding/preparation/thumbnails/IMG_6536.JPG">	
+			<img alt="" class="img img-responsive" data-idx="3" src="https://nadam.blob.core.windows.net/wedding/preparation/thumbnails/IMG_6560.JPG">		
+			<img alt="" class="img img-responsive" data-idx="4" src="https://nadam.blob.core.windows.net/wedding/preparation/thumbnails/IMG_6563.JPG">			
+			<img alt="" class="img img-responsive" data-idx="5" src="https://nadam.blob.core.windows.net/wedding/preparation/thumbnails/IMG_6574.JPG">		
+			<img alt="" class="img img-responsive" data-idx="6" src="https://nadam.blob.core.windows.net/wedding/preparation/thumbnails/IMG_6580.JPG">	
+			<img alt="" class="img img-responsive" data-idx="7" src="https://nadam.blob.core.windows.net/wedding/preparation/thumbnails/IMG_6583.JPG">			
 		</div>
-		<div class="column-3">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
+		<div class="column column-4">
+			<img alt="" class="img img-responsive" data-idx="0" src="https://nadam.blob.core.windows.net/wedding/engagement_1/thumbnails/IMG_0365.JPG">
+			<img alt="" class="img img-responsive" data-idx="1" src="https://nadam.blob.core.windows.net/wedding/engagement_1/thumbnails/IMG_0368.JPG">
+			<img alt="" class="img img-responsive" data-idx="2" src="https://nadam.blob.core.windows.net/wedding/engagement_1/thumbnails/IMG_0376.JPG">
+			<img alt="" class="img img-responsive" data-idx="3" src="https://nadam.blob.core.windows.net/wedding/engagement_1/thumbnails/IMG_0376_v.JPG">
+			<img alt="" class="img img-responsive" data-idx="4" src="https://nadam.blob.core.windows.net/wedding/engagement_1/thumbnails/IMG_0382.JPG">
+			<img alt="" class="img img-responsive" data-idx="5" src="https://nadam.blob.core.windows.net/wedding/engagement_1/thumbnails/IMG_0390.JPG">
+			<img alt="" class="img img-responsive" data-idx="6" src="https://nadam.blob.core.windows.net/wedding/engagement_1/thumbnails/IMG_0393.JPG">
+			<img alt="" class="img img-responsive" data-idx="7" src="https://nadam.blob.core.windows.net/wedding/engagement_1/thumbnails/IMG_0394.JPG">
+			<img alt="" class="img img-responsive" data-idx="8" src="https://nadam.blob.core.windows.net/wedding/engagement_1/thumbnails/IMG_0405.JPG">
+			<img alt="" class="img img-responsive" data-idx="9" src="https://nadam.blob.core.windows.net/wedding/engagement_1/thumbnails/IMG_0407.JPG">
+			<img alt="" class="img img-responsive" data-idx="10" src="https://nadam.blob.core.windows.net/wedding/engagement_1/thumbnails/IMG_0415.JPG">
+			<img alt="" class="img img-responsive" data-idx="11" src="https://nadam.blob.core.windows.net/wedding/engagement_1/thumbnails/IMG_0417.JPG">
+			<img alt="" class="img img-responsive" data-idx="12" src="https://nadam.blob.core.windows.net/wedding/engagement_1/thumbnails/IMG_0423.JPG">
+			<img alt="" class="img img-responsive" data-idx="13" src="https://nadam.blob.core.windows.net/wedding/engagement_1/thumbnails/IMG_0429.JPG">
 		</div>
-		<div class="column-3">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-		</div>
-		<div class="column-3">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
-			<img src="../test-images/landscape_240x180.png">
+		<div class="column column-4">
+			<img alt="" class="img img-responsive" data-idx="3" src="https://nadam.blob.core.windows.net/wedding/church_ceremony/thumbnails/IMG_6905.JPG">
+			<img alt="" class="img img-responsive" data-idx="4" src="https://nadam.blob.core.windows.net/wedding/church_ceremony/thumbnails/IMG_6909.JPG">
+			<img alt="" class="img img-responsive" data-idx="5" src="https://nadam.blob.core.windows.net/wedding/church_ceremony/thumbnails/IMG_6912.JPG">
+			<img alt="" class="img img-responsive" data-idx="6" src="https://nadam.blob.core.windows.net/wedding/church_ceremony/thumbnails/IMG_6913.JPG">
+			<img alt="" class="img img-responsive" data-idx="7" src="https://nadam.blob.core.windows.net/wedding/church_ceremony/thumbnails/IMG_6918.JPG">
+			<img alt="" class="img img-responsive" data-idx="8" src="https://nadam.blob.core.windows.net/wedding/church_ceremony/thumbnails/IMG_6920.JPG">
+			<img alt="" class="img img-responsive" data-idx="9" src="https://nadam.blob.core.windows.net/wedding/church_ceremony/thumbnails/IMG_6923.JPG">
+			<img alt="" class="img img-responsive" data-idx="10" src="https://nadam.blob.core.windows.net/wedding/church_ceremony/thumbnails/IMG_6927.JPG">
+			<img alt="" class="img img-responsive" data-idx="11" src="https://nadam.blob.core.windows.net/wedding/church_ceremony/thumbnails/IMG_6935.JPG">
+			<img alt="" class="img img-responsive" data-idx="12" src="https://nadam.blob.core.windows.net/wedding/church_ceremony/thumbnails/IMG_6938.JPG">
+			<img alt="" class="img img-responsive" data-idx="13" src="https://nadam.blob.core.windows.net/wedding/church_ceremony/thumbnails/IMG_6944.JPG">
+			<img alt="" class="img img-responsive" data-idx="14" src="https://nadam.blob.core.windows.net/wedding/church_ceremony/thumbnails/IMG_6946.JPG">
+			<img alt="" class="img img-responsive" data-idx="15" src="https://nadam.blob.core.windows.net/wedding/church_ceremony/thumbnails/IMG_6963.JPG">
+			<img alt="" class="img img-responsive" data-idx="16" src="https://nadam.blob.core.windows.net/wedding/church_ceremony/thumbnails/IMG_6967.JPG">
 		</div>
 	  </div>
 	</div>
