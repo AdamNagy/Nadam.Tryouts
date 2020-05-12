@@ -9,13 +9,11 @@
 			left: 50%;
 			transform: translate(-50%, -50%);
 			display: none;
-			transition: opacity linear .4s;
-			/* opacity: 0; */
 		}
 
 		img {
-			max-height: 100vh;
-    		max-width: 100vh;
+			max-height: 100%;
+    		max-width: 100%;
 		}
 
 		.ndm-modal-icon {
@@ -42,8 +40,8 @@
 		}
 
 		.ndm-modal-icon-closer {
-			right: -10px;
-			top: -10px;
+			right: 0;
+		
 			width: 34px;
 			line-height: 34px;
 			color: #5e9a8e;
@@ -52,25 +50,86 @@
 	</style>
 </head>
 <body>
-
-	<button id="modal-real-opener">Show modal</button>
-	<div id="modal-real" class="ndm-modal">		
+	<button id="modal-small-opener">landscape thumbnail</button>
+	<div id="modal-small" class="ndm-modal">		
 		<i id="prev" class="ndm-modal-icon ndm-modal-icon-back" aria-hidden="true"> &lt; </i>
 		<i id="next" class="ndm-modal-icon ndm-modal-icon-next" aria-hidden="true"> &gt; </i>
-		<i id="close" class="ndm-modal-icon ndm-modal-icon-closer" aria-hidden="true"> X </i>
+		<i id="close-small" class="ndm-modal-icon ndm-modal-icon-closer" aria-hidden="true"> X </i>
 
-		<img style="max-height: 937px; max-width: 1920px;" src="https://nadam.blob.core.windows.net/wedding/church_ceremony/viewimages/IMG_6903.JPG">	
+		<img id="image-small" src="./small-test-image.jpg">
+	</div>
+
+	<button id="modal-medium-opener">landscape medium 720 404</button>
+	<div id="modal-medium" class="ndm-modal">		
+		<i id="prev" class="ndm-modal-icon ndm-modal-icon-back" aria-hidden="true"> &lt; </i>
+		<i id="next" class="ndm-modal-icon ndm-modal-icon-next" aria-hidden="true"> &gt; </i>
+		<i id="close-medium" class="ndm-modal-icon ndm-modal-icon-closer" aria-hidden="true"> X </i>
+
+		<img id="image-medium" src="./medium-test-image.jpg">
+	</div>
+
+	<button id="modal-large-opener">landscape larga</button>
+	<div id="modal-large" class="ndm-modal">		
+		<i id="prev" class="ndm-modal-icon ndm-modal-icon-back" aria-hidden="true"> &lt; </i>
+		<i id="next" class="ndm-modal-icon ndm-modal-icon-next" aria-hidden="true"> &gt; </i>
+		<i id="close-large" class="ndm-modal-icon ndm-modal-icon-closer" aria-hidden="true"> X </i>
+
+		<img id="image-large" src="./large-test-image.jpg">
 	</div>
 
 	<script>
 
-
-		$("#modal-real-opener").click(() => {
-			$("#modal-real").show("400");
+		// small modal
+		$("#modal-small-opener").click(() => {
+			$("#modal-small").show("400");
 		});
 
-		$("#close").click(() => {
-			$("#modal-real").hide("400");
+		$("#close-small").click(() => {
+			$("#modal-small").hide("400");
+		})
+
+		document.getElementById("image-small").addEventListener("load", (event) => {
+
+			document.getElementById("image-small").style.width = `${event.target.width}px`;
+			document.getElementById("image-small").style.height = `${event.target.height}px`;
+
+			$("#modal-small")
+		})
+
+		// medium modal
+		$("#modal-medium-opener").click(() => {
+			$("#modal-medium").show("400");
+		});
+
+		$("#close-medium").click(() => {
+			$("#modal-medium").hide("400");
+		})
+
+		document.getElementById("image-medium").addEventListener("load", (event) => {
+
+			document.getElementById("image-medium").style.width = `${event.target.width}px`;
+			document.getElementById("image-medium").style.height = `${event.target.height}px`;
+
+			$("#modal-medium")[0].style.width = `${event.target.width}px`;
+			$("#modal-medium")[0].style.height = `${event.target.height}px`;
+		})
+		
+		// large modal
+		$("#modal-large-opener").click(() => {
+			$("#modal-large").show("400");
+		});
+
+		$("#close-large").click(() => {
+			$("#modal-large").hide("400");
+		})
+
+		document.getElementById("image-large").addEventListener("load", (event) => {
+
+			document.getElementById("image-large").style.maxWidth = `${window.innerWidth}px`;
+			document.getElementById("image-large").style.maxHeight = `${window.innerHeight}px`;
+
+			$("#modal-large")[0].style.maxWidth = `${window.innerWidth}px`;
+			$("#modal-large")[0].style.maxHeight = `${window.innerHeight}px`;
 		})
 
 	</script>
