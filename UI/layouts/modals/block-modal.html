@@ -2,12 +2,16 @@
 <html>
 <head>
 	<script src="../../lib/jquery/jquery-v3.4.0.js"></script>
+	<script src="../../lib/jquery-ui/jquery-ui.min.js"></script>
+
 	<style>
 		.ndm-modal {
 			position: fixed;
 			top: 50%;
 			left: 50%;
 			transform: translate(-50%, -50%);
+			z-index: 101;
+
 			display: none;
 		}
 
@@ -47,6 +51,18 @@
 			color: #5e9a8e;
 			text-align: center;
 		}
+
+		#blur-layer {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			background: rgba(100, 100, 100, .6);
+			z-index: 100;
+
+			display: none;
+		}
 	</style>
 </head>
 <body>
@@ -77,32 +93,36 @@
 		<img id="image-large" src="./large-test-image.jpg">
 	</div>
 
+	<div id="blur-layer"></div>
+
 	<script>
 
 		// small modal
 		$("#modal-small-opener").click(() => {
-			$("#modal-small").show("400");
+			$("#modal-small").show("fade", {}, 400);
+			$("#blur-layer").show("drop", {}, 400);
 		});
 
 		$("#close-small").click(() => {
-			$("#modal-small").hide("400");
+			$("#modal-small").hide("fade", {}, 400);
+			$("#blur-layer").hide("drop", {}, 400);
 		})
 
 		document.getElementById("image-small").addEventListener("load", (event) => {
 
 			document.getElementById("image-small").style.width = `${event.target.width}px`;
 			document.getElementById("image-small").style.height = `${event.target.height}px`;
-
-			$("#modal-small")
-		})
+		});
 
 		// medium modal
 		$("#modal-medium-opener").click(() => {
-			$("#modal-medium").show("400");
+			$("#modal-medium").show("blind", {}, 400);
+			$("#blur-layer").show("fade", {}, 400);
 		});
 
 		$("#close-medium").click(() => {
-			$("#modal-medium").hide("400");
+			$("#modal-medium").hide("blind", {}, 400);
+			$("#blur-layer").hide("fade", {}, 400);
 		})
 
 		document.getElementById("image-medium").addEventListener("load", (event) => {
@@ -117,10 +137,12 @@
 		// large modal
 		$("#modal-large-opener").click(() => {
 			$("#modal-large").show("400");
+			$("#blur-layer").show("slide", {}, 400);
 		});
 
 		$("#close-large").click(() => {
 			$("#modal-large").hide("400");
+			$("#blur-layer").hide("slide", {}, 400);
 		})
 
 		document.getElementById("image-large").addEventListener("load", (event) => {
