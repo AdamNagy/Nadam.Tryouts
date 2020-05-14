@@ -1,58 +1,51 @@
-;
-"use strict";
+/// <summary> 
+/// Iterates throught the direct childrend of the node, and flattens it into a list
+/// Optionally filters the list
+/// </summary>
+Element.prototype.AllChildren = function(predicate) {
 
-(function() {
+	var firstChild = this.firstElementChild;
+	var directchildren = new Array();
 
-    /// <summary> 
-    /// Iterates throught the direct childrend of the node, and flattens it into a list
-    /// Optionally filters the list
-    /// </summary>
-    Element.prototype.AllChildren = function(predicate) {
+	if (firstChild !== null) {
+		directchildren.push(firstChild);
+	} else {
+		return;
+	}
 
-        var firstChild = this.firstElementChild;
-        var directchildren = new Array();
+	var sibling = firstChild.nextElementSibling;
+	while (sibling != null) {
+		directchildren.push(sibling);
+		sibling = sibling.nextElementSibling;
+	}
 
-        if (firstChild !== null) {
-            directchildren.push(firstChild);
-        } else {
-            return;
-        }
+	if(predicate !== null && predicate !== undefined ) {
+		return directchildren.filter(predicate);
+	}
 
-        var sibling = firstChild.nextElementSibling;
-        while (sibling != null) {
-            directchildren.push(sibling);
-            sibling = sibling.nextElementSibling;
-        }
+	return directchildren;
+}
 
-		if(predicate !== null && predicate !== undefined ) {
-			return directchildren.filter(predicate);
-		}
+Element.prototype.OnHover = function(options)  {
 
-        return directchildren;
-    }
+	if( options === null || options.length === undefined )
+		return
 
-	Element.prototype.OnHover = function(options)  {
-
-		if( options === null || options.length === undefined )
-			return
-
-		var currentValues = new Array();
-		
-		for( var i = 0; i < options.length; ++i ) {
-			currentValues.push(this.style[options[i].cssProp]);	
-		}  
+	var currentValues = new Array();
 	
-		this.addEventListener("mouseover", function( event ) {   
-			for( var i = 0; i < options.length; ++i ) {
-				event.target.style[options[i].cssProp] = options[i].newVal;
-			}	   	 
-		}, false);
-	 
-		this.addEventListener("mouseleave", function( event ) {
-			for( var i = 0; i < options.length; ++i ) {
-				event.target.style[options[i].cssProp] = currentValues[i];
-			}
-		}, false);
-	}	
+	for( var i = 0; i < options.length; ++i ) {
+		currentValues.push(this.style[options[i].cssProp]);	
+	}  
 
-})();
+	this.addEventListener("mouseover", function( event ) {   
+		for( var i = 0; i < options.length; ++i ) {
+			event.target.style[options[i].cssProp] = options[i].newVal;
+		}	   	 
+	}, false);
+	
+	this.addEventListener("mouseleave", function( event ) {
+		for( var i = 0; i < options.length; ++i ) {
+			event.target.style[options[i].cssProp] = currentValues[i];
+		}
+	}, false);
+}	

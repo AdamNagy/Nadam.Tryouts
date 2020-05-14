@@ -14,6 +14,10 @@
 
 	<br>
 	<input id="text-input" type="text" value="test text">
+	
+	<br>
+	<div id="image-container"></div>
+	<img id="image-element">
 
 	<script>
 
@@ -26,6 +30,7 @@
 			return( typeof variable === "object" && variable.length !== undefined )
 		}
 
+		// convert an object to an array using the values only
 		var objectToArray = function(obj) {
 			var arr = [];
 			for(var propname in obj) { 
@@ -35,24 +40,59 @@
 			return arr;
 		}
 
-		// this will return a function which able to update the value with given parameter
+		var camelCaseToDashed = function(word) {
+			var dashCased = word[0].toLowerCase();
+
+			for(var i = 1; i < word.length; ++i) {
+				if( word[i] === word[i].toUpperCase() && word[i] !== "-")
+					dashCased += "-";
+				 
+				dashCased += word[i].toLowerCase();
+			}
+			
+			// trim '-' from start
+			while( dashCased[0] === '-' ) {
+				dashCased = dashCased.slice(1);
+			}
+
+			// trim '-' from end
+			while( dashCased[dashCased.length - 1] === '-' ) {
+				dashCased = dashCased.slice(0, dashCased.length - 1);
+			}
+
+			// replaces all multiple '-'-es with one
+			return dashCased.replace(new RegExp('[-]+', 'g'), '-');
+		}
+		
+		HTMLElement.prototype.toParent = function(parent) {
+			parent.append(this);
+			return this;
+		}
+
+		// this will return a function which able to update the 'value' with given parameter
 		// or just simply returns it
-		var Property = function(val, boundElement, propName) {
+		// val: the initial value of the property (string, number, object, array)
+		// boundElement: and HTMLElement which will be updated when value changes
+		// attrName: this is the name of the attribute of the previous HTMLElement that will hold the value as string
+		//   default is 'innerText'
+		var Property = function(val, boundElement, attrName) {
 			var _val = val;
 
-			if( propName === undefined )
-				var propName = "innerText";
+			// if( propName === undefined )
+			// 	var propName = "innerText";
 
 			if( boundElement !== undefined ) {
-				var update = Binding(boundElement, propName);
+				var update = Binding(boundElement, attrName);
 				update(_val);
 			}
 
+			// the new value if the property if given, so acts as a setter
+			// if undefined the fuction acts as a getter
 			return (val) => { 
 				if( val === undefined ) {
 					if( typeof _val === "function" )
 						return _val();
-					return val;
+					return _val;
 				}
 
 				_val = val;
@@ -70,34 +110,56 @@
 			}			
 		}
 
-		// this is function as well, calling it will update the DOM wit the given values
+		// this returns a function as well, calling it will update the DOM wit the given values
+		// element: the HTMLElement to bound value to
+		// attrName: the attribute name to put the value into
 		var Binding = function(element, attrName) {
 
 			var _element = element;
-			var _attrname = attrName;
+			var _attrName = attrName === undefined ? "innerText" : attrName;
 
-			return (val) => {
-				// html elements attribute like innerTEXT or id
-				if ( typeof _attrname === "string" ) {
-					// need to state if _element is an array and val is an object
-					if ( isArray(_element) &&  isObject(val)) {
-						var valAsArray = objectToArray(val);
+			// if( propName === undefined )
+			// 	var propName = ;
+
+			// the value to update the DOM HTMLElement with
+			return (newValue) => {
+				// <_element> is array multiple HTMLElement need to be updated
+				// <_attrname> is string like 'innerTEXT' or 'id' or 'propsToAttrs' which is special
+				if ( typeof _attrName === "string" ) {
+					// need to state if <_element> is an array and <val> is an object
+					if ( _attrName === "propsToAttrs" ) {
+						// var imageElement = document.createElement("img");
+					
+						for(var propName in newValue) {
+							_element.setAttribute(camelCaseToDashed(propName), newValue[propName]);
+						}
+
+						// return imageElement;
+						// _element.append(imageElement);
+					} else if ( isArray(_element) &&  isObject(newValue)) {
+						var valAsArray = objectToArray(newValue);
 						for(var i = 0; i < _element.length; ++i) {
-							_element[i][_attrname] = valAsArray[i];
+							_element[i][_attrName] = valAsArray[i];
 						}
 					} else {
-						_element[_attrname] = val;
+						// there is difference between property and attribute.
+						// _element[_attrName] = newValue; will work only if _attrName is already exist on HTMLElement
+						// _element[_attrName] = newValue;
+						_element.setAttribute(camelCaseToDashed(_attrName), newValue);
 					}
-
 				}
-				// list type
-				else {
+				// <val> is an array
+				// <_attrName> is a function that generates children
+				else if(typeof _attrName === "function") {
 					_element.innerHTML = "";
-					for(var i = 0; i < val.length; ++i) {
-						// remove children
-						_element.append(
-							_attrname(val[i])
-						)
+					if ( isArray(newValue) ) {
+						for(var i = 0; i < newValue.length; ++i) {
+							_element.append(
+								_attrName(newValue[i])
+							)
+						}
+					} else {
+						_element.append(_attrName(newValue));
 					}
 				}
 			}
@@ -111,34 +173,64 @@
 		var xElement = document.getElementById("x-element");
 		var yElement = document.getElementById("y-element");
 
-		// the test tobject which properties are binded to html elements
+		// one way binding: bind variables to HTMLElements in the DOM
 		obj = {
+			// simple binding: initial value to an existing HTMLElement, attribute will be 'innerText'
 			name: Property("Adam Nagy", nameElement),
-			age: Property(25, ageElement),
-			places: Property(["hungary", 123, "home", 1.5], placesElement, (item) => {
-				var ch = document.createElement("li");
-				ch.innerText = item;
-				return ch;
-			}),
-			complex: Property({
-				x: 3,
-				y: 5
-			}, [xElement, yElement], "innerText"),
-			coords: Property({
-				name: Property("hello word", nameElement),
-				age: Property(95685687, ageElement)
-			})
+			age: Property(25, ageElement, "data-nid"),
+			places: Property(
+				["hungary", 123, "home", 1.5],	// initial value
+				placesElement, 	// the parent HTMLElement to bind to
+				(item) => {		// binding function: turn the array items to HTMLElement which then will be added to parent HTMLElement
+					var ch = document.createElement("li");
+					ch.innerText = item;
+					return ch;
+				}
+			),
+			complex: Property(
+				{	// initial value !its an object
+					x: 3,
+					y: 5
+				},
+				[xElement, yElement],	// HTMLElement array to bind the object property to one-by-one
+				"innerText"),		// the attribute to use for each HTMLElement
+			image: Property(
+				{
+					href: "valami cél",
+					dataSrc: "http://valami.hu",
+					width: 450,
+					height: 600
+				},
+				document.createElement("div").toParent(document.body),
+				"propsToAttrs"
+			)
 		}
 
-		HTMLElement.prototype.bindValue = function(variable) {
-			this.addEventListener("focusout", variable);
+		// reverse binding: html element change and reflects to a variable
+		HTMLElement.prototype.bindValue = function(event, variable) {
+			this.addEventListener(event, variable);
 		}
 
-		inputModel = { x: "initial" };
+		var inputMirror = document.createElement("label");
+		var inputModel = Property("initial", inputMirror);
 		var inputElement = document.getElementById("text-input");
-		inputElement.bindValue((event) => { inputModel.x = event.target.value; });
+		inputElement.bindValue("keyup", (event) => { inputModel(event.target.value); });
+		document.body.append(inputMirror);
 
+		// more realistics demo: image
+		var imageElement = document.getElementById("image-container");
+		var imageModel = {
+			src: Property("", imageElement, (newVal) => {
+				var newImg = document.createElement("img");
+				newImg.setAttribute("src", newVal);
+				return newImg;
+			})
+		};
 
+		var imageModel2 = {
+			src: Property("", document.getElementById("image-element"), "src")
+		};
+		
 	</script>
 </body>
 </html>

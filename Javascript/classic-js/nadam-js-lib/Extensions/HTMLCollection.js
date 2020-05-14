@@ -1,17 +1,10 @@
-;
-"use strict";
+HTMLCollection.prototype.ToList = function() {
 
-(function() {
+	var list = new Array();
 
-    HTMLCollection.prototype.ToList = function() {
+	for (var i = 0; i < this.length; ++i) {
+		list.push(this.item(i));
+	}
 
-        var list = new Array();
-
-        for (var i = 0; i < this.length; ++i) {
-            list.push(this.item(i));
-        }
-
-        return list;
-    }
-
-})();
+	return list;
+}

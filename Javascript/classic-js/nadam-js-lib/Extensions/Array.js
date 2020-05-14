@@ -1,62 +1,55 @@
-;
-"use strict";
+Array.prototype.First = function(predicate) {
 
-(function() {
-
-    Array.prototype.First = function(predicate) {
-
-        if (predicate == null || typeof predicate !== 'function') {
-            throw "Predicate is not a function!";
-        }
-
-        var found;
-
-        for (var i = 0; i < this.length; ++i) {
-            if (predicate(this[i])) {
-                found = this[i];
-            }
-        }
-
-        return found;
-    }
-
-    Array.prototype.Last = function(predicate) {
-
-        if (predicate !== null && predicate !== undefined) {
-            var filtered = this.filter(predicate);
-            return filtered[filtered.length - 1];
-        }
-
-        return this[this.length - 1];
-	}
-	
-	Array.prototype.Skip = function(amount) {
-
-        return this.splice(amount, this.length-1);
+	if (predicate == null || typeof predicate !== 'function') {
+		throw "Predicate is not a function!";
 	}
 
-	Array.prototype.Take = function(amount) {
+	var found;
 
-        return this.splice(0, amount);
+	for (var i = 0; i < this.length; ++i) {
+		if (predicate(this[i])) {
+			found = this[i];
+		}
 	}
 
-    Array.prototype.Where = function(predicate) {
+	return found;
+}
 
-        return this.filter(predicate);
-    }
+Array.prototype.Last = function(predicate) {
 
-    Array.prototype.Select = function(action) {
+	if (predicate !== null && predicate !== undefined) {
+		var filtered = this.filter(predicate);
+		return filtered[filtered.length - 1];
+	}
 
-        var list = new Array();
-        if (action == null || typeof action !== 'function') {
-            throw "Action is not a function!";
-        }
+	return this[this.length - 1];
+}
 
-        for (var i = 0; i < this.length; ++i) {
-            list.push(action(this[i]));
-        }
+Array.prototype.Skip = function(amount) {
 
-        return list;
-    }
+	return this.splice(amount, this.length-1);
+}
 
-})();
+Array.prototype.Take = function(amount) {
+
+	return this.splice(0, amount);
+}
+
+Array.prototype.Where = function(predicate) {
+
+	return this.filter(predicate);
+}
+
+Array.prototype.Select = function(action) {
+
+	var list = new Array();
+	if (action == null || typeof action !== 'function') {
+		throw "Action is not a function!";
+	}
+
+	for (var i = 0; i < this.length; ++i) {
+		list.push(action(this[i]));
+	}
+
+	return list;
+}
