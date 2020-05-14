@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+	<label id="age-label"></label>
+	<label id="name-label"></label>
+	<ul id="places-list"></ul>
+
+	<label>x: </label>
+	<label id="x-element"></label>
+	
+	<label>y: </label>
+	<label id="y-element"></label>
+
+	<br>
+	<input id="text-input" type="text" value="test text">
+
+	<script>
+
+		// in this context array is not an object
+		var isObject = function(variable) {
+			return( typeof variable === "object" && variable.length === undefined )
+		}
+
+		var isArray = function(variable) {
+			return( typeof variable === "object" && variable.length !== undefined )
+		}
+
+		var objectToArray = function(obj) {
+			var arr = [];
+			for(var propname in obj) { 
+				arr.push(obj[propname]); 
+			}
+
+			return arr;
+		}
+
+		// this will return a function which able to update the value with given parameter
+		// or just simply returns it
+		var Property = function(val, boundElement, propName) {
+			var _val = val;
+
+			if( propName === undefined )
+				var propName = "innerText";
+
+			if( boundElement !== undefined ) {
+				var update = Binding(boundElement, propName);
+				update(_val);
+			}
+
+			return (val) => { 
+				if( val === undefined ) {
+					if( typeof _val === "function" )
+						return _val();
+					return val;
+				}
+
+				_val = val;
+				if( update !== undefined ) {
+					if( typeof _val === "function" ) {
+						update(_val());
+						return _val();
+					}
+					else {
+						update(_val);
+						return _val; 
+					}
+				}
+
+			}			
+		}
+
+		// this is function as well, calling it will update the DOM wit the given values
+		var Binding = function(element, attrName) {
+
+			var _element = element;
+			var _attrname = attrName;
+
+			return (val) => {
+				// html elements attribute like innerTEXT or id
+				if ( typeof _attrname === "string" ) {
+					// need to state if _element is an array and val is an object
+					if ( isArray(_element) &&  isObject(val)) {
+						var valAsArray = objectToArray(val);
+						for(var i = 0; i < _element.length; ++i) {
+							_element[i][_attrname] = valAsArray[i];
+						}
+					} else {
+						_element[_attrname] = val;
+					}
+
+				}
+				// list type
+				else {
+					_element.innerHTML = "";
+					for(var i = 0; i < val.length; ++i) {
+						// remove children
+						_element.append(
+							_attrname(val[i])
+						)
+					}
+				}
+			}
+		}
+
+		// the html elements to test these are predefined
+		var ageElement = document.getElementById("age-label");
+		var nameElement = document.getElementById("name-label");
+		var placesElement = document.getElementById("places-list");
+
+		var xElement = document.getElementById("x-element");
+		var yElement = document.getElementById("y-element");
+
+		// the test tobject which properties are binded to html elements
+		obj = {
+			name: Property("Adam Nagy", nameElement),
+			age: Property(25, ageElement),
+			places: Property(["hungary", 123, "home", 1.5], placesElement, (item) => {
+				var ch = document.createElement("li");
+				ch.innerText = item;
+				return ch;
+			}),
+			complex: Property({
+				x: 3,
+				y: 5
+			}, [xElement, yElement], "innerText"),
+			coords: Property({
+				name: Property("hello word", nameElement),
+				age: Property(95685687, ageElement)
+			})
+		}
+
+		HTMLElement.prototype.bindValue = function(variable) {
+			this.addEventListener("focusout", variable);
+		}
+
+		inputModel = { x: "initial" };
+		var inputElement = document.getElementById("text-input");
+		inputElement.bindValue((event) => { inputModel.x = event.target.value; });
+
+
+	</script>
+</body>
+</html>
