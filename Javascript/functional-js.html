@@ -21,6 +21,8 @@
 
 	<script>
 
+		// #section some util function
+
 		// in this context array is not an object
 		var isObject = function(variable) {
 			return( typeof variable === "object" && variable.length === undefined )
@@ -60,7 +62,7 @@
 				dashCased = dashCased.slice(0, dashCased.length - 1);
 			}
 
-			// replaces all multiple '-'-es with one
+			// replaces all multiple dasheses next to each other with one dash only
 			return dashCased.replace(new RegExp('[-]+', 'g'), '-');
 		}
 		
@@ -68,6 +70,8 @@
 			parent.append(this);
 			return this;
 		}
+
+		// #end-section
 
 		// this will return a function which able to update the 'value' with given parameter
 		// or just simply returns it
@@ -77,9 +81,6 @@
 		//   default is 'innerText'
 		var Property = function(val, boundElement, attrName) {
 			var _val = val;
-
-			// if( propName === undefined )
-			// 	var propName = "innerText";
 
 			if( boundElement !== undefined ) {
 				var update = Binding(boundElement, attrName);
@@ -106,7 +107,6 @@
 						return _val; 
 					}
 				}
-
 			}			
 		}
 
@@ -116,48 +116,55 @@
 		var Binding = function(element, attrName) {
 
 			var _element = element;
-			var _attrName = attrName === undefined ? "innerText" : attrName;
-
-			// if( propName === undefined )
-			// 	var propName = ;
+			var _attrName = attrName === undefined ? "innerText" : attrName;	// default attribute is innerText
 
 			// the value to update the DOM HTMLElement with
 			return (newValue) => {
-				// <_element> is array multiple HTMLElement need to be updated
+				
 				// <_attrname> is string like 'innerTEXT' or 'id' or 'propsToAttrs' which is special
-				if ( typeof _attrName === "string" ) {
-					// need to state if <_element> is an array and <val> is an object
+				if ( typeof _attrName === "string" && isObject(newValue) ) {
+
+					// special case <newValue> is an object and its properties needs to be mapped to <_element> attributes
 					if ( _attrName === "propsToAttrs" ) {
-						// var imageElement = document.createElement("img");
 					
 						for(var propName in newValue) {
 							_element.setAttribute(camelCaseToDashed(propName), newValue[propName]);
 						}
 
-						// return imageElement;
-						// _element.append(imageElement);
+					// <_attrMame> in this case is a HTMLElement attribute name like 'innerText' or 'id', 'class' etc..
+					// <_element> is array multiple HTMLElement need to be updated
 					} else if ( isArray(_element) &&  isObject(newValue)) {
+
 						var valAsArray = objectToArray(newValue);
 						for(var i = 0; i < _element.length; ++i) {
 							_element[i][_attrName] = valAsArray[i];
 						}
+
+					// basic case:
+					// <_attrMame> is a attribute name
+					// <_element> is a single HTMLElement
+					// <newValue> is string
 					} else {
 						// there is difference between property and attribute.
 						// _element[_attrName] = newValue; will work only if _attrName is already exist on HTMLElement
-						// _element[_attrName] = newValue;
 						_element.setAttribute(camelCaseToDashed(_attrName), newValue);
 					}
 				}
-				// <val> is an array
-				// <_attrName> is a function that generates children
+				// <_attrName> is a function that generates HTMLElement (children) and will be append to <_element> (parent)
 				else if(typeof _attrName === "function") {
+
+					// purge the parent element inside to make sure no duplicity takes place
 					_element.innerHTML = "";
+
+					// 2 cases here:
+					// A: <newValue> is any array of strings
 					if ( isArray(newValue) ) {
 						for(var i = 0; i < newValue.length; ++i) {
 							_element.append(
 								_attrName(newValue[i])
 							)
 						}
+					// B: <newValue> is string
 					} else {
 						_element.append(_attrName(newValue));
 					}
