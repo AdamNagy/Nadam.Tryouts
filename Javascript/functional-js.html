@@ -24,16 +24,16 @@
 		// #section some util function
 
 		// in this context array is not an object
-		var isObject = function(variable) {
+		const isObject = (variable) => {
 			return( typeof variable === "object" && variable.length === undefined )
 		}
 
-		var isArray = function(variable) {
+		const isArray = (variable) => {
 			return( typeof variable === "object" && variable.length !== undefined )
 		}
 
 		// convert an object to an array using the values only
-		var objectToArray = function(obj) {
+		const objectToArray = (obj) => {
 			var arr = [];
 			for(var propname in obj) { 
 				arr.push(obj[propname]); 
@@ -42,7 +42,7 @@
 			return arr;
 		}
 
-		var camelCaseToDashed = function(word) {
+		const camelCaseToDashed = (word) => {
 			var dashCased = word[0].toLowerCase();
 
 			for(var i = 1; i < word.length; ++i) {
@@ -66,6 +66,37 @@
 			return dashCased.replace(new RegExp('[-]+', 'g'), '-');
 		}
 		
+		const isHTMLElementProperty = (word) => {
+			// need to list all HTMLElement property
+			if( word === "innerText" )
+				return true;
+
+			return false;
+		}
+
+		const throttle = (func, limit) => {
+			let lastFunc;
+			let lastRan;
+
+			return function() {
+				const context = this;
+				const args = arguments;
+
+				if ( !lastRan ) {
+					func.apply(context, args);
+					lastRan = Date.now();
+				} else {
+					clearTimeout(lastFunc);
+					lastFunc = setTimeout(() => {
+						if ((Date.now() - lastRan) >= limit) {
+							func.apply(context, args)
+							lastRan = Date.now()
+						}
+					}, limit - (Date.now() - lastRan))
+				}
+			}
+		}
+
 		HTMLElement.prototype.toParent = function(parent) {
 			parent.append(this);
 			return this;
@@ -122,10 +153,10 @@
 			return (newValue) => {
 				
 				// <_attrname> is string like 'innerTEXT' or 'id' or 'propsToAttrs' which is special
-				if ( typeof _attrName === "string" && isObject(newValue) ) {
+				if ( typeof _attrName === "string") {
 
 					// special case <newValue> is an object and its properties needs to be mapped to <_element> attributes
-					if ( _attrName === "propsToAttrs" ) {
+					if ( _attrName === "propsToAttrs" && isObject(newValue) ) {
 					
 						for(var propName in newValue) {
 							_element.setAttribute(camelCaseToDashed(propName), newValue[propName]);
@@ -147,7 +178,10 @@
 					} else {
 						// there is difference between property and attribute.
 						// _element[_attrName] = newValue; will work only if _attrName is already exist on HTMLElement
-						_element.setAttribute(camelCaseToDashed(_attrName), newValue);
+						if ( isHTMLElementProperty(_attrName) )
+							_element[_attrName] = newValue;
+						else
+							_element.setAttribute(camelCaseToDashed(_attrName), newValue);
 					}
 				}
 				// <_attrName> is a function that generates HTMLElement (children) and will be append to <_element> (parent)
@@ -214,15 +248,15 @@
 		}
 
 		// reverse binding: html element change and reflects to a variable
-		HTMLElement.prototype.bindValue = function(event, variable) {
-			this.addEventListener(event, variable);
+		HTMLElement.prototype.bindValue = function(event, action) {
+			this.addEventListener(event, throttle(action, 400));
+			return this;
 		}
 
-		var inputMirror = document.createElement("label");
+		var inputMirror = document.createElement("label").toParent(document.body);
 		var inputModel = Property("initial", inputMirror);
-		var inputElement = document.getElementById("text-input");
-		inputElement.bindValue("keyup", (event) => { inputModel(event.target.value); });
-		document.body.append(inputMirror);
+		var inputElement = document.getElementById("text-input")
+			.bindValue("keyup", (event) => { inputModel(event.target.value); });
 
 		// more realistics demo: image
 		var imageElement = document.getElementById("image-container");
