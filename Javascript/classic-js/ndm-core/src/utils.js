@@ -71,3 +71,7 @@ var Throttle = function(func, limit) {
 		}
 	}
 }
+
+var IsElement = function(element) {
+    return element instanceof Element || element instanceof HTMLDocument;  
+}

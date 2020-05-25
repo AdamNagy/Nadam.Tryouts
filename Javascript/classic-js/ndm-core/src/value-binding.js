@@ -48,53 +48,6 @@ var Property = function(val, boundElement, attrName) {
 	}			
 }
 
-const SimpleProperty = function(val, boundElement, attrName) {
-
-	var _val = val;
-
-	if( boundElement !== undefined ) {
-		var update = Binding(boundElement, attrName);
-		update(_val);
-	}
-
-	this.get = function(val) {		
-		return _val;		
-	};
-
-	this.set = function(newValue) {
-		_val = newValue;
-		if( update !== undefined )
-			update(_val);
-		return _val; 
-	}
-}
-
-const ArrayProperty = (initialValue, parentElement, projectorFunc) => {
-
-	var _value = initialValue;
-	var parent = parent || undefined;
-	
-	this.get = function() {
-
-	};
-
-	this.set = function() {
-
-	}
-
-	this.add = function() {
-
-	}
-
-	this.clear = function() {
-
-	}
-
-	this.remove = function() {
-
-	}
-}
-
 // this returns a function as well, calling it will update the DOM wit the given values
 // element: the HTMLElement to bound value to
 // attrName: the attribute name to put the value into

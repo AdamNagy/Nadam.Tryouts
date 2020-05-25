@@ -3,7 +3,7 @@
 <body>
 	<script>
 
-	function entity() {
+	function entity1() {
 		// this
 		console.log(this);
 		this.prop1 = "Hello world";
@@ -17,7 +17,28 @@
 		}
 	}
 	
-	var obj = new entity();
+	function entity2() {
+		// this
+		console.log(this);
+		this.prop1 = "Hello world";
+		var prop2 = "halika";
+		
+		return function(val) {
+			prop2 = val;
+			console.log(prop2);
+			console.log(this);
+		}
+	}
+	
+	var entity3 = new function() {
+		this.s = 123;
+		<!-- return function() { -->
+			<!-- console.log("paradox") -->
+		<!-- } -->
+	}
+	
+	var obj1 = new entity1();
+	var obj2 = new entity2();
 	
 	// this does not work, throws error
 	// var obj2 = {
