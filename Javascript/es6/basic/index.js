@@ -1,6 +1,6 @@
 // this is the top level js file because this one is invluced in the HTML file as script tag
 
-// import { cube, foo, graph } from './my-module.js';
+import { cube, foo, graph } from './my-module.js';
 
 graph.options = {
     color:'blue',
