@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="./ndm-core/dist/ndm-core.js"></script>
+</head>
+
+<body>
+
+	<label id="age-label"></label>
+	<label id="name-label"></label>
+	<ul id="places-list"></ul>
+
+	<label>x: </label>
+	<label id="x-element"></label>
+	
+	<label>y: </label>
+	<label id="y-element"></label>
+
+	<br>
+	<input id="text-input" type="text" value="test text">
+	
+	<br>
+	<div id="image-container"></div>
+	<img id="image-element">
+
+	<p>Open up dev console and use 'obj' to test the Property staffs</p>
+	<p>obj.name("új név")</p>
+	
+	<script>
+		// the html elements to test these are predefined
+		var ageElement = document.getElementById("age-label");
+		var nameElement = document.getElementById("name-label");
+		var placesElement = document.getElementById("places-list");
+
+		var xElement = document.getElementById("x-element");
+		var yElement = document.getElementById("y-element");
+
+		// one way binding: bind variables to HTMLElements in the DOM
+		obj = {
+			// simple binding: initial value to an existing HTMLElement, attribute will be 'innerText'
+			name: Property("Adam Nagy", nameElement),
+			age: Property(25, ageElement, "data-nid"),
+			places: Property(
+				["hungary", 123, "home", 1.5],	// initial value
+				placesElement, 	// the parent HTMLElement to bind to
+				(item) => {		// binding function: turn the array items to HTMLElement which then will be added to parent HTMLElement
+					var ch = document.createElement("li");
+					ch.innerText = item;
+					return ch;
+				}
+			),
+			complex: Property(
+				{	// initial value !its an object
+					x: 3,
+					y: 5
+				},
+				[xElement, yElement],	// HTMLElement array to bind the object property to one-by-one
+				"innerText"),		// the attribute to use for each HTMLElement
+			image: Property(
+				{
+					href: "valami cél",
+					dataSrc: "http://valami.hu",
+					width: 450,
+					height: 600
+				},
+				document.createElement("div").ToParent(document.body),
+				"propsToAttrs"
+			),
+			bgColor: Property("black", document.body, "style.background")
+		}
+
+		var inputMirror = document.createElement("label").ToParent(document.body);
+		var inputModel = Property("initial", inputMirror);
+		var inputElement = document.getElementById("text-input")
+			.BindValue("keyup", (event) => { inputModel(event.target.value); });
+
+		// more realistics demo: image
+		var imageElement = document.getElementById("image-container");
+		var imageModel = {
+			src: Property("", imageElement, (newVal) => {
+				var newImg = document.createElement("img");
+				newImg.setAttribute("src", newVal);
+				return newImg;
+			})
+		};
+
+		var imageModel2 = {
+			src: Property("", document.getElementById("image-element"), "src")
+		};
+
+		document.createElement("hr").ToParent(document.body);
+		var obj2 = {
+			name: new SimpleProperty("simple property", document.createElement("label").ToParent(document.body)),
+			image: new SimpleProperty(
+				{src: "valami.com/cspda", dataReal: "other staffs", toString: function() { return "hello overriden toString"; }}, 
+				document.createElement("img").ToParent(document.body), "propsToAttrs")
+		}
+		
+	</script>
+</body>
+</html>

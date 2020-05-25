@@ -14,14 +14,27 @@ var Property = function(val, boundElement, attrName) {
 
 	// the new value if the property if given, so acts as a setter
 	// if undefined the fuction acts as a getter
-	return function (val) { 
+	return function (val, operation) {
+		
 		if( val === undefined ) {
 			if( typeof _val === "function" )
-				return _val();
+			return _val();
 			return _val;
 		}
+		
+		operation = operation === undefined ? "assignment" : operation;
+		switch(operation) {
+			case "assignment": _val = val;
+				break;
+			case "add": _val.push(val);
+				break;
+			case "remove": 
+				var idx = _val.indexOf(val);
+				if( idx > -1 ) _val.splice(idx, 1);
+				break;
+		}
 
-		_val = val;
+		
 		if( update !== undefined ) {
 			if( typeof _val === "function" ) {
 				update(_val());
@@ -33,6 +46,53 @@ var Property = function(val, boundElement, attrName) {
 			}
 		}
 	}			
+}
+
+const SimpleProperty = function(val, boundElement, attrName) {
+
+	var _val = val;
+
+	if( boundElement !== undefined ) {
+		var update = Binding(boundElement, attrName);
+		update(_val);
+	}
+
+	this.get = function(val) {		
+		return _val;		
+	};
+
+	this.set = function(newValue) {
+		_val = newValue;
+		if( update !== undefined )
+			update(_val);
+		return _val; 
+	}
+}
+
+const ArrayProperty = (initialValue, parentElement, projectorFunc) => {
+
+	var _value = initialValue;
+	var parent = parent || undefined;
+	
+	this.get = function() {
+
+	};
+
+	this.set = function() {
+
+	}
+
+	this.add = function() {
+
+	}
+
+	this.clear = function() {
+
+	}
+
+	this.remove = function() {
+
+	}
 }
 
 // this returns a function as well, calling it will update the DOM wit the given values
@@ -86,7 +146,7 @@ var Binding = function(element, attrName) {
 
 			// 2 cases here:
 			// A: <newValue> is any array of strings
-			if ( isArray(newValue) ) {
+			if ( IsArray(newValue) ) {
 				for(var i = 0; i < newValue.length; ++i) {
 					_element.append(
 						_attrName(newValue[i])

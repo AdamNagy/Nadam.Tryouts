@@ -15,6 +15,13 @@ HTMLElement.prototype.WithStyle = function(key, value) {
 	return this;
 }
 
+HTMLElement.prototype.WithCss = function(cssObj) {
+	for(var propName in cssObj) {
+		this.style[propName] = cssObj[propName];
+	}
+	return this;
+}
+
 // class
 HTMLElement.prototype.WithClass = function(name) {
 	this.classList.add(name);
