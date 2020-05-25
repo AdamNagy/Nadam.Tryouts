@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<script>
+
+	function entity() {
+		// this
+		console.log(this);
+		this.prop1 = "Hello world";
+		
+		// returning function is tricky
+		// using with 'new' an object will be returned
+		// othervise a function will be returned
+		return new function() {
+			this.prop2 = 123;
+			console.log(this)
+		}
+	}
+	
+	var obj = new entity();
+	
+	// this does not work, throws error
+	// var obj2 = {
+		// this.prop1 = 123
+	// }
+		
+	</script>
+</body>
+</html>
