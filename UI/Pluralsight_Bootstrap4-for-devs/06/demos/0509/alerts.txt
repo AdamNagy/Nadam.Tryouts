@@ -1,0 +1,10 @@
+        Alert Primary- Alice
+        Alert Secondary- Dinah
+        Alert Success- White Rabbit
+        Alert Warning- Mad Hatter
+        Alert Info- Dormouse
+        Alert Light- March Hare
+        Alert Danger- Queen of Hearts
+        Alert Dark- King of Hearts
+
+        Do you want to read the sequel <em>Through the Looking Glass</em>?

@@ -1,0 +1,6 @@
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="default-size">Default</span>
+  </div>
+  <input type="text" class="form-control" aria-label="Default" aria-describedby="default-size">
+</div>
