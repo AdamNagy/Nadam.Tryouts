@@ -1,0 +1,11 @@
+<ul>
+<li>Just a plain text link</li>
+<li>Primary Color: Alice</li>
+<li>Secondary Color: Dinah</li>
+<li>Success Color: Frog-Footman</li>
+<li>Info Color: Mad Hatter</li>
+<li>Warning Color: White Rabbit</li>
+<li>Danger Color: Queen of Hearts</li>
+<li>Light Color: King of Hearts</li>
+<li>Dark Color: Mock Turtle</li>
+</ul>

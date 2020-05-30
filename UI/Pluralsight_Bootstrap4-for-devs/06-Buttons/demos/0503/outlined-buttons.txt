@@ -1,0 +1,8 @@
+Primary Color: Alice
+Secondary Color: Dinah
+Success Color: Frog-Footman
+Info Color: Mad Hatter
+Warning Color: White Rabbit
+Danger Color: Queen of Hearts
+Light Color: King of Hearts
+Dark Color: Mock Turtle

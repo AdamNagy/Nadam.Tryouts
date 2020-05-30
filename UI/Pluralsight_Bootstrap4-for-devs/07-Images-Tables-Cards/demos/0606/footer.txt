@@ -1,0 +1,34 @@
+<p>&copy;1865 Lewis Carroll</p>
+<p>&ldquo;We’re all mad here. &rdquo; &mdash;Cheshire Cat from <em>Alice in Wonderland</em></p>
+
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+
+
+ <footer class="py-5 bg-dark text-muted text-center">
+      <div class="container">
+
+
+
+
+      <div class="btn-group btn-group-sm my-3" role="group" aria-label="My Footer">
+          
+          <button type="button" class="btn btn-secondary"><i class="fa fa-github-alt"></i></button>
+          <button type="button" class="btn btn-secondary"><i class="fa fa-google-plus"></i></button>
+          <button type="button" class="btn btn-secondary"><i class="fa fa-twitter"></i></button>
+	  <button type="button" class="btn btn-secondary"><i class="fa fa-snapchat-ghost"></i></button>
+        </div>
+
+
+       <small>
+        <p>&copy;1865 Lewis Carroll</p>
+        <p>&ldquo;We’re all mad here. &rdquo; &mdash;Cheshire Cat from <em>Alice in Wonderland</em></p>
+        </small>
+
+
+        <p><img class="img-fluid" src="img/cat.png" alt="Cheshire Cat"></p>
+        </div>
+</footer>
+

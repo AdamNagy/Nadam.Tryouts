@@ -1,0 +1,18 @@
+See Jumbo the Elephant!
+P. T. Barnum presents the largest living quadruped on Earth.
+
+See Jumbo the Elephant
+P. T. Barnum presents the largest living quadruped on Earth. The mighty king of all the beasts.
+
+This towering monster among all the hugest elephants is really a historic mammoth. A theme of absorbing interest to many hundred millions at Phineas Taylor Barnum's greatest show on earth.
+
+Buy Tickets Here
+
+
+
+.jumbotron{
+background-image: url('img/elephant-jumbo-gray.jpg');
+background-repeat: no-repeat;
+background-size: cover;
+background-position: center top;
+}

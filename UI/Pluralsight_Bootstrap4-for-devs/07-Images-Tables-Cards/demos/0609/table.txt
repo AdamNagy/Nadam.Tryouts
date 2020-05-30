@@ -1,0 +1,85 @@
+        <table border="1" width="80%">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Character</th>
+                    <th>Chapters</th>
+                    <th>Book</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>1</th>
+                    <td>Mouse</td>
+                    <td>Chapters 2, 3</td>
+                    <td>Alice’s Adventures in Wonderland</td>
+                </tr>
+                <tr>
+                    <th>2</th>
+                    <td>Tweedledum</td>
+                    <td>Chapters 3, 4</td>
+                    <td>Through the Looking Glass</td>
+                </tr>
+                <tr>
+                    <th>3</th>
+                    <td>Knave of Hearts</td>
+                    <td>Chapters 8, 11, 12</td>
+                    <td>Alice’s Adventures in Wonderland</td>
+                </tr>
+                 <tr>
+                    <th>4</th>
+                    <td>Humpty Dumpty</td>
+                    <td>Chapter 6</td>
+                    <td>Through the Looking Glass</td>
+                </tr>
+                 <tr>
+                    <th>5</th>
+                    <td>March Hare</td>
+                    <td>Chapters 7, 11</td>
+                    <td>Alice’s Adventures in Wonderland</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-sm table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Character</th>
+                    <th>Chapters</th>
+                    <th>Book</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mouse</td>
+                    <td>Chapters 2, 3</td>
+                    <td>Alice’s Adventures in Wonderland</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Tweedledum</td>
+                    <td>Chapters 3, 4</td>
+                    <td>Through the Looking Glass</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Knave of Hearts</td>
+                    <td>Chapters 8, 11, 12</td>
+                    <td>Alice’s Adventures in Wonderland</td>
+                </tr>
+                 <tr>
+                    <th scope="row">4</th>
+                    <td>Humpty Dumpty</td>
+                    <td>Chapter 6</td>
+                    <td>Through the Looking Glass</td>
+                </tr>
+                 <tr>
+                    <th scope="row">5</th>
+                    <td>March Hare</td>
+                    <td>Chapters 7, 11</td>
+                    <td>Alice’s Adventures in Wonderland</td>
+                </tr>
+            </tbody>
+        </table>

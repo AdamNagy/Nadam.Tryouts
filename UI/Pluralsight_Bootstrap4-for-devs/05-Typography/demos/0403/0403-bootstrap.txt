@@ -1,0 +1,15 @@
+.text - primary - rgb(21,126,251) #157efb
+.text - secondary - rgb(108,117,124) #6c757c
+.text - success - rgb(48, 166, 74) #30a64a
+.text - danger - rgb(218, 56, 73) #da3849
+.text - warning - rgb(253, 192, 47) #fdc02f
+.text - info - rgb(37, 162, 183) #25a2b7
+.text - dark - rgb(52,58,64) #343a40
+.text - body - rgb(34, 37, 41) #222529
+.text - black - 50 rgb(127,127,127) #f7f7f7
+
+
+AGAINST A DARK BACKGROUND
+.text - light rgb(248,249,250) #f8f9fa
+.text - white - 50 rgb(154, 157,160) #9a9da0
+.text - white - rgb(255, 255, 255) #ffffff

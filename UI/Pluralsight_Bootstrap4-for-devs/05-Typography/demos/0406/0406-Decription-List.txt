@@ -1,0 +1,18 @@
+<dl>
+  <dt>Alice</dt>
+  <dd>The main character who travels to wonderland</dd>
+
+  <dt>Dinah</dt>
+  <dd>Alice's cat who is never actually seen in the story. The cat is very good at hunting, or so Alice says.
+  </dd>
+
+  <dt>Mary Ann</dt>
+  <dd>The housemaid of the White Rabbit. Alice is confused by the White Rabbit for Mary Ann</dd>
+
+  <dt>The old crab with its daughter and several birds</dt>
+  <dd>They fell into Alice's pool of tears.</dd>
+
+  <dt>Tea Party Goers</dt>
+  <dd>The March Hare. He is holding a tea party with the Hatter and the Dormouse. Mad Hatter A guest at the tea part hosted by the March Hare.</dd>
+
+</dl>
