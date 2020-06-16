@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+	<!-- Google fonts and fontawesome -->
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
+	<!-- Custom css for this element-->
+	<link rel="stylesheet" type="text/css" href="../../lib/slick-1.8.1/slick/slick-theme.css"/>	
+	<link rel="stylesheet" type="text/css"
+		href="../../lib/jarallax/dist/jarallax.css"/>
+	<link rel="stylesheet" href="./ndm-header.element.css">
+
+	<title>Hello, world!</title>
+
+	<style>
+		.single-item {
+			height: 600px;
+		}
+
+		.slick-prev:before,
+		.slick-next:before { 
+			color:red !important;
+		}
+
+		.slick-prev:before {
+			padding-left: 100px;
+		}
+
+		section {
+			overflow-x: hidden;
+		}
+	</style>
+</head>
+<body>
+<section class="container">
+
+	<div class="single-item pb-5">
+		<img src="../../test-images/landscapes/Ferrari_1.jpg">
+		<img src="../../test-images/landscapes/Ferrari_2.jpg">
+		<img src="../../test-images/landscapes/Ferrari_3.jpg">
+		<img src="../../test-images/landscapes/Ferrari_4.jpg">
+	</div>
+	
+	<div class="multiple-items">
+		<img src="../../test-images/landscapes/Ferrari_1.jpg">
+		<img src="../../test-images/landscapes/Ferrari_2.jpg">
+		<img src="../../test-images/landscapes/Ferrari_3.jpg">
+		<img src="../../test-images/landscapes/Ferrari_4.jpg">
+		<img src="../../test-images/landscapes/Ferrari_5.jpg">
+	</div>
+</section>
+
+
+
+    <!-- Base JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="../../lib/jquery/jquery-v3.4.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  
+	<!-- Custom JavaScript for this component -->
+	<script type="text/javascript" src="../../lib/slick-1.8.1/slick/slick.min.js"></script>
+	<script src="../../lib/jarallax/dist/jarallax.min.js"></script>
+	<script src="ndm-header.element.js"></script>
+	<script>
+		$(document).ready(function() {
+
+			var config1 = new SlickCarouselConfig();
+			config1.slidesToShow = 1;
+			config1.slidesToScroll = 1;
+			config1.dots = true;
+			config1.arrows = true;
+
+			$('.single-item').slick();
+
+			$('.multiple-items').slick({
+				infinite: true,
+				slidesToShow: 2,
+				slidesToScroll: 1
+			});
+		})
+	</script>
+</body>
+</html>
