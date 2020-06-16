@@ -1,0 +1,124 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Animation! Animation! Animation!</title>
+  <style>
+	body {
+		background-color: #EEE;
+	}
+
+	#content {
+		padding: 50px;
+		margin: 40px;
+		background-color: rgba(255, 255, 255, .48);
+		text-align: center;
+	}
+
+	#content p {
+		font-family: Helvetica, sans-serif;
+		font-size: 28px;
+		line-height: 40px;
+		color: #111;
+	}
+
+	h1 {
+		text-transform: capitalize;
+		font-family: sans-serif;
+		font-size: 40px;
+		padding: 10px;
+		margin: 40px;
+		background-color: #9E2A2B;
+		color: #FFF;
+	}
+
+	#hexagon {
+		padding: 50px;
+		background-color: greenyellow;
+		border-radius: 25px;
+		transition: background-color .2s ease-in-out;
+	}
+
+	#hexagon.visible {
+		animation: booble 2s infinite;
+		background-color: transparent;
+	}
+
+	@keyframes booble {
+		0% {
+			transform: translateY(10px);
+		}
+		50% {
+			transform: translateY(40px);
+		}
+		100% {
+			transform: translateY(10px);
+		}
+	}
+
+  </style>
+</head>
+
+<body>
+
+  <h1>Animation Time</h1>
+  <div id="content">
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <img id="hexagon" src="https://www.kirupa.com/images/hexagon.svg" width=500/>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+    <p>All work and no play makes Jack a dull boy</p>
+  </div>
+
+  <script>
+		var hexagon = document.querySelector("#hexagon");
+		if( "IntersectionObserver" in window ) {
+			var observer = new IntersectionObserver(viewChange, {threshold: [1]})
+			observer.observe(hexagon);
+
+			function viewChange(changes) {
+				changes.forEach(change => {
+					if( change.isIntersecting ) {
+						change.target.classList.add("visible")
+					}
+				});
+			}
+		} else {
+			 hexagon.classList.add("visible")
+		}
+
+
+  </script>
+
+</body>
+
+</html>

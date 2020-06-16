@@ -1,0 +1,24 @@
+MIV and other webb app development chain
+
+Phase 1:
+Database and Data Access Layer (DAL) implementation
+- Use local db
+- sample: connectionString="Data Source=(LocalDb)\MSSQLLocalDB; Initial Catalog=dev.<db name>; Integrated Security=True"
+- implement a small console app for generationg the database (later on can use Nadam.ConsoleShell)
+- no IIS needed as no web app exist at this point
+
+-------------------------------------------------------------------------------------------------------------------------
+Phase 2:
+Web API and Business Logic Layer implementation
+- still use local db (can be same)
+- use IIS express for hosting, not the local IIS, no publishing need at this point
+- still can use console shell
+
+--------------------------------------------------------------------------------------------------------------------------
+Phase 3:
+Front-end layer
+- Use local SQL server for database hosting, name it "test.<db name>"
+- Create a web app in IIS, name it like "test.<app name>", add the ip to 'host' file
+- Create a publish configuration with vs, name it "test.<app name>.publish-config" and publish the webb app (beck-end) 
+  to IIS and use that service and API for UI development
+
