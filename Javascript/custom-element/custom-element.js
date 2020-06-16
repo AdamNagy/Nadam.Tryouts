@@ -26,15 +26,14 @@ class CustomElement extends HTMLElement {
 	
 		var shadow = this.attachShadow({mode: 'open'});	 
 		shadow.appendChild(node);
+
+		var text = this.getAttribute('data-text');
+		console.log(text);
+
+		console.log("custom-element ctor");
 	}
 	
-	setModel() {
-		
-	}
-	
-	addSlidePage(slidePageContentElement) {
-		
-	}
+
 	
 	// attributeChangedCallback(name, oldValue, newValue) {
 		// console.log(`${oldValue} - ${newValue}`);

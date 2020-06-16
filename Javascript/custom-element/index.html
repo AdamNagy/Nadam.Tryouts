@@ -8,7 +8,7 @@
 </head>
 
 <body>
-	<h1>Custom element below</h1>
+	<h1>Custom element below (this is inside html)</h1>
 
 	<template id="template_custom-element">
 		<style>
@@ -18,23 +18,30 @@
 		</style>
 		<h1>Hello from custom element template</h1>
 		<p id="prop1"></p>
-		<my-header></my-header>
 	</template>
 
-	<script src="custom-element.js"> </script>
-	<script>
-		// usgea of custom element A
-		var cust = new CustomElement();
-		document.body.append(cust);
-		
-		var custom2 = document.createElement("other-custom") ;
-	</script>
-
 	<!-- usgea of custom element B -->
-	<custom-element>
+	<custom-element data-text="Hello from some random data attribute">
 		<p>
 			Hello from inner element
 		</p>
 	</custom-element>
+
+	<popup-info 
+		img="download.gif"
+		data-text="Your card validation code (CVC) is an extra security feature — it is the last 3 or 4 numbers on the back of your card.">
+	</popup-info>
+
+	<script src="custom-element.js"> </script>
+	<script src="pop-up-info.js"></script>
+
+	<script>
+		// usage of custom element A
+		var custom2 = new CustomElement();
+		document.body.append(custom2);
+		
+		var custom3 = document.createElement("custom-element");
+		document.body.append(custom3);
+	</script>
 </body>
 </html>
