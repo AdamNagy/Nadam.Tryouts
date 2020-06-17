@@ -1,5 +1,5 @@
 
-class ImageWallElement extends HTMLElement {
+class ParallaxElement extends HTMLElement {
 	
 	constructor(config) {
 		super();
@@ -33,4 +33,4 @@ class ImageWallElement extends HTMLElement {
 	}
 }
 
-customElements.define('ndm-img-wall', ImageWallElement);
+customElements.define('ndm-parallax', ParallaxElement);
