@@ -18,38 +18,58 @@
 	<title>Carousel</title>
 
 	<style>
-		.single-item {
-			height: 600px;
-			overflow-y: hidden;
+		.jarallax {
+			position: relative;
+			z-index: 0;
 		}
 
-		section {
-			overflow-x: hidden;
-		}
-
-		.carousel-item img {
+		.jarallax > .jarallax-img {
+			position: absolute;
+			object-fit: cover;
+			/* support for plugin https://github.com/bfred-it/object-fit-images */
+			font-family: 'object-fit: cover;';
+			top: 0;
+			left: 0;
+			width: 100%;
 			height: 100%;
+			z-index: -1;
 		}
 
-		.multiple-items {
+		.height-includer {
+			height: 1080px;
+		}
+
+		.my-jarallax {
 			height: 300px;
-			overflow-y: hidden;
-		}
-
-		#multiple_2 img {
-			height: 100%;
-			max-height: 300px;
-		}
-
-		#multiple_2 ndm-img-wall {
-			height: 300px;
+			width: 100%;
 		}
 	</style>
 </head>
 <body>
 	<h1 class="text-center h1">Parallax demo</h1>
+	<div class="container height-includer"></div>
 
-	<ndm-parallax img="../test-images/landscapes/Ferrari_1.jpg" height="300px"></ndm-parallax>
+	<section class="container">
+		<div class="jarallax my-jarallax" data-jarallax data-speed="0.2">
+			<picture class="jarallax-img">
+				<source media="" srcset="">
+				<img src="../test-images/landscapes/Ferrari_1.jpg" alt="some nice image">
+			</picture>
+			Halika
+		</div>
+	</section>
+
+	<div class="container height-includer"></div>
+	<section class="container-fluid">
+		<div class="jarallax my-jarallax" data-jarallax data-speed="0.2">
+			<picture class="jarallax-img">
+				<source media="" srcset="">
+				<img src="../test-images/landscapes/Ferrari_8.jpg" alt="some nice image">
+			</picture>
+			Halika
+		</div>
+	</section>
+	<div class="container height-includer"></div>
 
     <!-- Base JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
