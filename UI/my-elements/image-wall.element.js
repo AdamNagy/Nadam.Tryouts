@@ -1,5 +1,7 @@
 class ImageWallElementConfig {
-
+	src = "";
+	height = "";
+	width = ""
 }
 
 class ImageWallElement extends HTMLElement {
@@ -25,7 +27,6 @@ class ImageWallElement extends HTMLElement {
 			var calculatedWidth = (config.height || event.target.height) * widthHeightRatio;
 			self.style.width = `${config.width || calculatedWidth}px`;
 
-			// self.style.maxWidth = "300px";
 			self.style.backgroundImage = `url(${config.src})`;
 			self.style.backgroundPosition = "center"; /* Center the image */
 			self.style.backgroundRepeat = "no-repeat"; /* Do not repeat the image */
