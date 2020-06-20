@@ -13,20 +13,64 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 
 	<!-- Custom css for this element-->
-	<link rel="stylesheet" type="text/css" href="../lib/slick/slick.css"/>
-	<link rel="stylesheet" type="text/css" href="../lib/slick/slick-theme.css"/>
-	<link rel="stylesheet" type="text/css"
-		href="../lib/jarallax/jarallax.css"/>
-	<link rel="stylesheet" href="./ndm-header.element.css">
+	<link rel="stylesheet" href="../lib/jarallax/jarallax.css"/>
 
 	<title>Parallax</title>
 
 	<style>
+		.jarallax {
+			position: relative;
+			z-index: 0;
+		}
 
+		.jarallax > .jarallax-img {
+			position: absolute;
+			object-fit: cover;
+			/* support for plugin https://github.com/bfred-it/object-fit-images */
+			font-family: 'object-fit: cover;';
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
+		}
+
+		.height-includer {
+			height: 1080px;
+		}
+
+		.my-jarallax {
+			height: 300px;
+			width: 100%;
+		}
 	</style>
 </head>
 <body>
-	
+	<h1 class="text-center h1">Parallax demo</h1>
+	<div class="container height-includer"></div>
+
+	<section class="container">
+		<div class="jarallax my-jarallax" data-jarallax data-speed="0.2">
+			<picture class="jarallax-img">
+				<source media="" srcset="">
+				<img src="../test-images/landscapes/Ferrari_1.jpg" alt="some nice image">
+			</picture>
+			Halika
+		</div>
+	</section>
+
+	<div class="container height-includer"></div>
+	<section class="container-fluid">
+		<div class="jarallax my-jarallax" data-jarallax data-speed="0.2">
+			<picture class="jarallax-img">
+				<source media="" srcset="">
+				<img src="../test-images/landscapes/Ferrari_8.jpg" alt="some nice image">
+			</picture>
+			Halika
+		</div>
+	</section>
+	<div class="container height-includer"></div>
+
 
     <!-- Base JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -35,10 +79,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   
 	<!-- Custom JavaScript for this component -->
-	<script src="../lib/slick/slick.min.js"></script>
 	<script src="../lib/jarallax/jarallax.min.js"></script>
-	<script src="./carousel.config.js"></script>
 	<script src="./image-wall.element.js"></script>
+	<script src="./parallax.element.js"></script>
+
 	<script>
 		$(document).ready( function() {
 
