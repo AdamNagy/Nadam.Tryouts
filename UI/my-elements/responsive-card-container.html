@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link rel="stylesheet" href="../lib/bootstrap/bootstrap.min.css">
+	<title>Responsive cards</title>
+	
+	<style>
+		/* Small devices (landscape phones, 576px and up) */
+		@media screen and (max-width: 576px) { 
+
+			div.img-wall {
+				width: 100%;
+    			display: flex;
+			}
+		}
+
+		/* Medium devices (tablets, 768px and up) */
+		@media screen and (max-width: 768px) { 
+
+			div.img-wall {
+				width: 100%;
+    			display: flex;
+			}
+		}
+
+		/* Large devices (desktops, 992px and up) */
+		@media  screen and (min-width: 992px) {  }
+
+		/* Extra large devices (large desktops, 1200px and up) */
+		@media  screen and (min-width: 1200px) { 
+
+		}
+	</style>
+
+  </head>
+  <body id="top" class="bg-dark">
+
+	<section id="s2_trio">
+
+		<h1 class="h1 text-center">Rectangle images</h1>
+
+		<div class="container py-5">
+
+			<div class="card m-2">
+				<div class="card-header">
+					<h3 class="h3">
+						Here using 'div' to hold the images
+					</h3>
+				</div>
+				<div class="card-body d-flex flex-wrap justify-content-around">
+					<div class="img-wall justify-content-center">
+						<img class="img border border-dark mb-1"  src="../test-images/small/rectangle/small_1.jpg" alt="Prints">
+					</div>
+					<div class="img-wall justify-content-center">
+						<img class="img border border-dark mb-1"  src="../test-images/small/rectangle/small_2.jpg" alt="Prints">
+					</div>
+					<div class="img-wall justify-content-center">
+						<img class="img border border-dark mb-1"  src="../test-images/small/rectangle/small_3.jpg" alt="Prints">
+					</div>
+				</div>
+				<div class="card-footer">
+					Some footer
+				</div>
+			</div>
+
+			<div class="card m-2">
+				<div class="card-header">
+					<h3 class="h3">
+						In this case there 'img' elemenents right in the card body
+					</h3>
+				</div>
+				<div class="card-body d-flex flex-wrap justify-content-around">					
+					<img class="img border border-dark mb-1"  src="../test-images/small/rectangle/small_4.jpg" alt="Prints">					
+					<img class="img border border-dark mb-1"  src="../test-images/small/rectangle/small_5.jpg" alt="Prints">
+					<img class="img border border-dark mb-1"  src="../test-images/small/rectangle/small_6.jpg" alt="Prints">
+				</div>
+				<div class="card-footer">
+					<p>Some footer</p>
+				</div>
+			</div>
+		</div>
+	</section>   
+   
+
+    <!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->	
+	<script src="../lib/jquery/jquery-v3.4.0.js"></script>
+	<script src="../lib/bootstrap/bootstrap.min.js"></script>   
+    <script>
+
+	</script>
+  </body>
+</html>
