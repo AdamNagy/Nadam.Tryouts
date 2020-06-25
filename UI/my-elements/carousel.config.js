@@ -7,7 +7,7 @@ class SingleSlideCarouselConfig {
 	slidesToShow = 1; 
 	slidesToScroll = 1;
 	autoplay = false;
-	autoplaySpeed = 3000;
+	autoplaySpeed = 2000;
 	lazyLoad = "ondemand";
 	responsive = [
 		{
