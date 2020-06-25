@@ -1,5 +1,5 @@
 
-class ParallaxElement extends HTMLElement {
+class CarouselElement extends HTMLElement {
 	
 	constructor(config) {
 		super();
@@ -52,4 +52,4 @@ class ParallaxElement extends HTMLElement {
 	} 
 }
 
-customElements.define('ndm-parallax', ParallaxElement);
+customElements.define('ndm-carousel', CarouselElement);

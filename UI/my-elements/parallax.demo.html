@@ -45,10 +45,26 @@
 			height: 300px;
 			width: 100%;
 		}
+
+		/* .layered {
+			position: relative;
+		} */
+
+		.front-layer {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+
+			padding: 0 30px;
+
+			background: rgba(200, 100, 50, .5);
+		}
 	</style>
 </head>
 <body>
-	<h1 class="text-center h1">Parallax demo</h1>
+	<h1 class="text-center h1">Parallax demo the default way</h1>
 
 	<div class="container height-includer"></div>
 
@@ -75,6 +91,47 @@
 	<div class="container height-includer"></div>
 
 
+	<!--------------------------------------------------------------------------------------------------->
+
+
+	<h1 class="text-center h1">Custom element: 'ParallaxElement' used in html as &lt;ndm-parallay&gt;</h1>
+
+	<h2 class="h2 pl-2"> using attributes</h3>
+
+	<ndm-parallax height="300" img-src="../test-images/big/landscapes/Ferrari_3.jpg">
+	</ndm-parallax>
+
+	<div class="container height-includer"></div>
+
+	<h2 class="h2 pl-2">using picture element</h3>
+
+	<ndm-parallax height="300">
+		<picture>
+			<source media="" srcset="">
+			<img src="../test-images/big/landscapes/Ferrari_3.jpg" alt="some nice image">
+		</picture>
+	</ndm-parallax>
+
+	<div class="container height-includer"></div>
+	
+	<h2 class="h2 pl-2">using image element with front layer</h3>
+
+	<ndm-parallax height="300">
+		<img src="../test-images/big/landscapes/Ferrari_3.jpg" alt="some nice image">
+		<div class="front-layer">
+			<h1 class="h1">Hello front layer</h1>
+			<h2 class="h2">Sub title</h2>
+			<p class="text-center">and some text paragraph to see ho it is centered and placed within the fron layer.</p>
+		</div>
+	</ndm-parallax> 
+
+	<div class="container height-includer"></div>
+
+	<h1 class="text-center h1">Custom element: adding with Js using new ParallaxElement({...})</h1>
+
+
+	<!--------------------------------------------------------------------------------------------------->
+
 
     <!-- Base JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -86,12 +143,21 @@
   
 	<!-- Custom JavaScript for this component -->
 	<script src="../lib/jarallax/jarallax.min.js"></script>
-	<script src="./image-wall.element.js"></script>
-	<script src="./parallax.element.js"></script>
+	<script src="./image-wall.element.js"></script>	
+	<script src="./parallax.element.js"></script>	
 
 	<script>
-		$(document).ready( function() {
 
+		function createHeightIncluder() {
+			var includer = document.createElement("div");
+			includer.classList.add("height-includer");
+			return includer;
+		}
+
+		$(document).ready( function() {
+			var parallax = new ParallaxElement({height: 300, imgSrc: "../test-images/big/landscapes/Ferrari_3.jpg"});
+			document.body.appendChild(parallax);
+			document.body.appendChild(createHeightIncluder());			
 		})
 	</script>
 </body>
