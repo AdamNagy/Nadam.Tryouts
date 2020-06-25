@@ -9,11 +9,6 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
 		integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-	<!-- Google fonts and fontawesome -->
-	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
-		integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
-
 	<!-- Custom css for this element-->
 	<link rel="stylesheet" href="../lib/jarallax/jarallax.css"/>
 
@@ -45,35 +40,66 @@
 			height: 300px;
 			width: 100%;
 		}
+
+		.layered {
+			position: relative;
+		}
+
+		.front-layer {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+
+			padding: 0 30px;
+
+			background: rgba(200, 100, 50, .5);
+		}
 	</style>
 </head>
 <body>
 	<h1 class="text-center h1">Parallax demo</h1>
-
 	<div class="container height-includer"></div>
 
-	<section class="container">
-		<div class="jarallax my-jarallax" data-jarallax data-speed="0.2">
-			<picture class="jarallax-img">
-				<source media="" srcset="">
-				<img src="../test-images/big/landscapes/Ferrari_1.jpg" alt="some nice image">
-			</picture>
+	<section class="container position-relative">
+		<div class="row">
+
+			<div class="jarallax my-jarallax" data-jarallax data-speed="0.2">
+				<picture class="jarallax-img">
+					<source media="" srcset="">
+					<img src="../test-images/big/landscapes/Ferrari_1.jpg" alt="some nice image">
+				</picture>
+			</div>
+			
+			<div class="front-layer">
+				<h1 class="h1">Hello front layer</h1>
+				<h2 class="h2">Sub title</h2>
+				<p class="text-center">and some text paragraph to see ho it is centered and placed within the fron layer.</p>
+			</div>
 		</div>
 	</section>
 
 	<div class="container height-includer"></div>
 
-	<section class="container-fluid">
-		<div class="jarallax my-jarallax" data-jarallax data-speed="0.2">
-			<picture class="jarallax-img">
-				<source media="" srcset="">
-				<img src="../test-images/big/landscapes/Ferrari_3.jpg" alt="some nice image">
-			</picture>
+	<section class="container-fluid position-relative">
+		<div class="row">
+			<div class="jarallax my-jarallax" data-jarallax data-speed="0.2">
+				<picture class="jarallax-img">
+					<source media="" srcset="">
+						<img src="../test-images/big/landscapes/Ferrari_2.jpg" alt="some nice image">
+				</picture>
+			</div>
+
+			<div class="front-layer">
+				<h1 class="h1">Hello front layer</h1>
+				<h2 class="h2">Sub title</h2>
+				<p class="text-center">and some text paragraph to see ho it is centered and placed within the fron layer.</p>
+			</div>
 		</div>
 	</section>
 
 	<div class="container height-includer"></div>
-
 
 
     <!-- Base JavaScript -->
@@ -90,6 +116,7 @@
 	<script src="./parallax.element.js"></script>
 
 	<script>
+
 		$(document).ready( function() {
 
 		})
