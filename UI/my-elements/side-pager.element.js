@@ -14,7 +14,7 @@ class SidePagerElement extends HTMLElement {
 	nextPageId = 1;
 
 	pageWidth = 720;
-	spaceBetweenPages = 50;
+	spaceBetweenPages = 30;
 
 	template = 
 		`<div class="side-page">
@@ -84,7 +84,7 @@ class SidePagerElement extends HTMLElement {
             currentElement.element.style.right = pageRightPosition + "px";
             currentElement.element.classList.add("side-page-open");
             currentElement.element.classList.remove("side-page-closed");
-            pageRightPosition -= 50;
+            pageRightPosition -= this.spaceBetweenPages;
         }
 
         document.body.style.overflowY = "hidden";
@@ -98,16 +98,16 @@ class SidePagerElement extends HTMLElement {
 			return;
 
 		var buffer = this.pages.length - index - 1; 
-        var pageRightPosition = (buffer * 50) + 50;
+        var pageRightPosition = (buffer * this.spaceBetweenPages) + this.spaceBetweenPages;
         for (var i = index; i < this.pages.length; ++i) {
             var actual = this.pages[i];
             actual.element.style.left = null;
             actual.element.style.width = this.pageWidth + "px";
-			actual.element.style.right = "-" + (720 - pageRightPosition) + "px";
+			actual.element.style.right = "-" + (this.pageWidth - pageRightPosition) + "px";
 			
             actual.element.classList.remove("side-page-open");
             actual.element.classList.add("side-page-closed");
-            pageRightPosition -= 50;
+            pageRightPosition -= this.spaceBetweenPages;
         }
 
         this.openPages--;

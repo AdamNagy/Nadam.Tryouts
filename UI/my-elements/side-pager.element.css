@@ -8,15 +8,10 @@ ndm-side-pager .side-page {
     transition: right 0.4s;
     position: fixed;
     top: 0;
-    height: 1080px; /* change to height of the screen;*/
-    width: 720px;
+    height: 100vh; /* change to height of the screen;*/
+    /* width: 720px; */
 	background: rgba(100,100,100,0.5);
 	border-left:1px solid lightskyblue; 
-}
-
-ndm-side-pager .side-page .ui-resizable-w {
-	width: 5px;
-	background: linear-gradient(to right, blue, lightskyblue);
 }
 
 ndm-side-pager .side-page-closed {
@@ -38,5 +33,6 @@ ndm-side-pager .side-page-opener {
 
 ndm-side-pager .side-page-content {
 	overflow-y: scroll;
-	height: 90vh;
+	height: 100%;
+    max-height: 94vh;
 }
