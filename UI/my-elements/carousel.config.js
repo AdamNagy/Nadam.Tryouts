@@ -1,15 +1,15 @@
-// Multiple slides carousel config
-class SingleSlideCarouselConfig {
-	dots = true;
-	arrows = false;
-	infinite = true;
-	speed = 300;
-	slidesToShow = 1; 
-	slidesToScroll = 1;
-	autoplay = false;
-	autoplaySpeed = 2000;
-	lazyLoad = "ondemand";
-	responsive = [
+// Single slides carousel config
+var SingleSlideCarouselConfig = {
+	dots : true,
+	arrows : false,
+	infinite : true,
+	speed : 300,
+	slidesToShow : 1, 
+	slidesToScroll : 1,
+	autoplay : false,
+	autoplaySpeed : 2000,
+	lazyLoad : "ondemand",
+	responsive : [
 		{
 			breakpoint: 1200,
 			settings: {
@@ -46,18 +46,18 @@ class SingleSlideCarouselConfig {
 }
 
 // Multiple slides carousel config
-class MultiSlideCarouselConfig {
-	dots = true;
-	arrows = false;
-	infinite = true;
-	speed = 300;
-	slidesToShow = 4; 
-	slidesToScroll = 3;
-	autoplay = false;
-	autoplaySpeed = 3000;
-	variableWidth = true;
-	lazyLoad = "ondemand";
-	responsive = [
+var MultiSlideCarouselConfig = {
+	dots : true,
+	arrows : false,
+	infinite : true,
+	speed : 300,
+	slidesToShow : 4, 
+	slidesToScroll : 3,
+	autoplay : false,
+	autoplaySpeed : 3000,
+	variableWidth : true,
+	lazyLoad : "ondemand",
+	responsive : [
 		{
 			breakpoint: 1200,
 			settings: {

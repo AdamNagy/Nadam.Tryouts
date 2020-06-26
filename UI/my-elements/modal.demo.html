@@ -46,7 +46,6 @@
 			margin: 2px 2px 0 0;
 			border-radius: 5px;
 		}
-
 	</style>
 
   </head>
@@ -55,7 +54,7 @@
 	<button id="btn-show-modal-1">show portrait</button>
 	<div class="modal" id="modal-1">
 		<p class="modal-closer h1" id="close-portrait">X</p>
-		<div class="d-flex justify-content-center align-items-center modal-container">
+		<div class="modal-container d-flex justify-content-center align-items-center">
 			<img class="modal-img" src="../test-images/big/portraits/space_1.jpg">
 		</div>
 	</div>
@@ -63,7 +62,7 @@
 	<button id="btn-show-modal-2">show landscape</button>
 	<div class="modal" id="modal-2">
 		<p class="modal-closer h1" id="close-portrait">X</p>
-		<div class="d-flex justify-content-center align-items-center modal-container">
+		<div class="modal-container d-flex justify-content-center align-items-center">
 			<img class="modal-img" src="../test-images/big/landscapes/Ferrari_1.jpg">
 		</div>
 	</div>
@@ -71,7 +70,7 @@
 	<button id="btn-show-modal-3">show thumbnail</button>
 	<div class="modal" id="modal-3">
 		<p class="modal-closer h1" id="close-portrait">X</p>
-		<div class="d-flex justify-content-center align-items-center modal-container">
+		<div class="modal-container d-flex justify-content-center align-items-center">
 			<img class="modal-img" src="../test-images/small/rectangle/small_14.jpg">
 		</div>
 	</div>
@@ -102,10 +101,33 @@
 		The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
 	</section>
 
+	
+	<!--------------------------------------------------------------------------------------------------->
+
+
+	<h1 class="text-center h1">Custom element: ModalElement - used in html</h1>
+	<button id="btn-show-custom-modal-1">show custom modal</button>
+	<ndm-modal id="custom-modal-1">
+		<p class="px-5 h6">Why do we use it?
+			It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+		</p>
+		<img class="modal-img" src="../test-images/small/rectangle/small_14.jpg">
+	</ndm-modal>
+
     <!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->	
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="../lib/jquery/jquery-v3.4.0.js"></script>
-	<script src="../lib/bootstrap/bootstrap.min.js"></script>   
+	<script src="../lib/bootstrap/bootstrap.min.js"></script>
+
+	<script src="./modal.element.js"></script>
+
+	<script>
+		// custom element usage for opening modal
+		$("#btn-show-custom-modal-1").click(() => {
+			$("#custom-modal-1").show();
+		});
+	</script>
+
     <script>
 		// modal 1: portait
 		$("#btn-show-modal-1").click(() => {

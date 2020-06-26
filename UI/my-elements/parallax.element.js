@@ -8,7 +8,7 @@ class ParallaxElement extends HTMLElement {
 		this.classList.add("d-block");
 		config = config || {};
 
-		var elementBody = document.createElement("div");
+		var bodyElement = document.createElement("div");
 			
 		config.imgSrc = this.getAttribute("img-src") || config.imgSrc;
 		config.height = this.getAttribute("height") || config.height;
@@ -25,17 +25,17 @@ class ParallaxElement extends HTMLElement {
 
 		if(imageElement) {
 			imageElement.classList.add("jarallax-img");
-			elementBody.appendChild(imageElement);
+			bodyElement.appendChild(imageElement);
 		}
 		
-		elementBody.setAttribute("data-jarallax", true);
-		elementBody.setAttribute("data-speed", "0.2");
-		elementBody.classList.add("jarallax");
-		elementBody.classList.add("ndm-jarallax");
-		elementBody.style.width = "100%";
-		elementBody.style.height = `${config.height}px`;		
+		bodyElement.setAttribute("data-jarallax", true);
+		bodyElement.setAttribute("data-speed", "0.2");
+		bodyElement.classList.add("jarallax");
+		bodyElement.classList.add("ndm-jarallax");
+		bodyElement.style.width = "100%";
+		bodyElement.style.height = `${config.height}px`;		
 		
-		jarallax(elementBody, {
+		jarallax(bodyElement, {
 			speed: 0.2
 		});
 
@@ -44,12 +44,8 @@ class ParallaxElement extends HTMLElement {
 			frontLayer.style.zIndex = '1';
 		}
 
-		this.append(elementBody);
+		this.append(bodyElement);
 	}
-
-	withFrontLayer() {
-
-	} 
 }
 
 customElements.define('ndm-parallax', ParallaxElement);
