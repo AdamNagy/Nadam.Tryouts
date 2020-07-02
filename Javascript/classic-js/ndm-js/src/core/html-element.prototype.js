@@ -28,6 +28,18 @@ HTMLElement.prototype.WithClass = function(name) {
 	return this;
 }
 
+
+HTMLElement.prototype.WithClasses = function(classNames) {
+	var classes = []
+	classNames.forEach(
+		item => item.split(" ").forEach(
+			className => this.classList.add(className)
+		)
+	);
+	
+	return this;
+}
+
 // inner text/value
 HTMLElement.prototype.WithInnerText = function(text) {
 	this.innerText = text;

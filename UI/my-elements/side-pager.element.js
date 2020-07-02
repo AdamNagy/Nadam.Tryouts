@@ -26,7 +26,7 @@ class SidePagerElement extends HTMLElement {
 
 	constructor(_config) {
 		
-		super();	
+		super();
 	}
 
 	// runs each time the element is added to the DOM

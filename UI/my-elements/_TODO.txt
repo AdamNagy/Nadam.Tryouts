@@ -1,0 +1,3 @@
+Carousel element
+- add new attribute named customProperties, this shouls be a stringified json containing static config properties
+- use this to merge with the default config
