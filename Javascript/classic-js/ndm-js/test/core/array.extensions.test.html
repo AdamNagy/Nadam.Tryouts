@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Array Extensions Tests</title>
+</head>
+
+<body>
+	<section id="first">
+		<h1>array.First(pred)</h1>
+		<section id="test-1">
+			<h2>Test 1</h2>
+			test-array: &nbsp;
+			<p class="test-array"></p>
+			<p class="test-function"></p>
+			Expected: <span class="expected"></span>
+			Actual: <span class="actual"></span>
+		</section>
+
+		<section id="test-2">
+			<h2>Test 1</h2>
+			test-array: &nbsp;
+			<p class="test-array"></p>
+			<p class="test-function"></p>
+			Expected: <span class="expected"></span>
+			Actual: <span class="actual"></span>
+		</section>
+
+		<section id="test-3">
+			<h2>Test 1</h2>
+			test-array: &nbsp;
+			<p class="test-array"></p>
+			<p class="test-function"></p>
+			Expected: <span class="expected"></span>
+			Actual: <span class="actual"></span>
+		</section>
+	</section>
+
+
+	<section id="last">
+		<h1>array.Last(pred)</h1>
+		<section id="test-1">
+			<h2>Test 1</h2>
+			test-array: &nbsp;
+			<p class="test-array"></p>
+			<p class="test-function"></p>
+			Expected: <span class="expected"></span>
+			Actual: <span class="actual"></span>
+		</section>
+
+		<section id="test-2">
+			<h2>Test 1</h2>
+			test-array: &nbsp;
+			<p class="test-array"></p>
+			<p class="test-function"></p>
+			Expected: <span class="expected"></span>
+			Actual: <span class="actual"></span>
+		</section>
+
+		<section id="test-3">
+			<h2>Test 1</h2>
+			test-array: &nbsp;
+			<p class="test-array"></p>
+			<p class="test-function"></p>
+			Expected: <span class="expected"></span>
+			Actual: <span class="actual"></span>
+		</section>
+	</section>
+
+	<script src="../../src/core/array.extensions.js"></script>
+	<script>
+		var testArrays = [
+			[1,2,3,4,5,6,7,8,9,10],
+			[],
+			[1]
+		];
+		var testArray
+		var testNumber;
+		var actualElement, testArrayElement, expectedElement, resultElement, resultFeedbackElement, testFunctionElement;
+		var expectedValue;
+
+		// test 1
+		testNumber = 1;	
+		testArray = testArrays[0];
+		testArrayElement = document.querySelector(`#first #test-${testNumber} .test-array`);
+		expectedElement = document.querySelector(`#first #test-${testNumber} .expected`);
+		resultFeedbackElement = document.querySelector(`#first #test-${testNumber} h2`);
+		actualElement = document.querySelector(`#first #test-${testNumber} .actual`);
+		testFunctionElement = document.querySelector(`#first #test-${testNumber} .test-function`);
+
+		testArrayElement.innerText = testArray;
+		
+		expectedValue = 5; // test case specific
+		expectedElement.innerText = expectedValue;
+
+		var result = testArray.First(item => item == 5);	// test case specific
+		testFunctionElement.innerText = "testArray.First(item => item == 5)";
+		var success = result === expectedValue;
+
+		actualElement.innerText = result;
+		resultFeedbackElement.style.background = success ? "green" : "red";
+
+		
+		// test 2
+		testNumber = 2;	
+		testArray = testArrays[testNumber-1];
+		testArrayElement = document.querySelector(`#first #test-${testNumber} .test-array`);
+		expectedElement = document.querySelector(`#first #test-${testNumber} .expected`);
+		resultFeedbackElement = document.querySelector(`#first #test-${testNumber} h2`);
+		actualElement = document.querySelector(`#first #test-${testNumber} .actual`);
+		testFunctionElement = document.querySelector(`#first #test-${testNumber} .test-function`);
+
+		testArrayElement.innerText = testArray;
+		
+		expectedValue = undefined; // test case specific
+		expectedElement.innerText = expectedValue;
+
+		var result = testArray.First(item => item == 5);	// test case specific
+		testFunctionElement.innerText = "testArray.First(item => item == 5)";
+		var success = result === expectedValue;
+
+		actualElement.innerText = result;
+		resultFeedbackElement.style.background = success ? "green" : "red";
+
+		// test 3
+		testNumber = 3;	
+		testArray = testArrays[testNumber-1];
+		testArrayElement = document.querySelector(`#first #test-${testNumber} .test-array`);
+		expectedElement = document.querySelector(`#first #test-${testNumber} .expected`);
+		resultFeedbackElement = document.querySelector(`#first #test-${testNumber} h2`);
+		actualElement = document.querySelector(`#first #test-${testNumber} .actual`);
+		testFunctionElement = document.querySelector(`#first #test-${testNumber} .test-function`);
+
+		testArrayElement.innerText = testArray;
+		
+		expectedValue = undefined;	// test case specific
+		expectedElement.innerText = expectedValue;
+
+		var result = testArray.First(item => item == 5);	// test case specific
+		testFunctionElement.innerText = "testArray.First(item => item == 5)";
+		var success = result === expectedValue;
+
+		actualElement.innerText = result;
+		resultFeedbackElement.style.background = success ? "green" : "red";
+	</script>
+
+	<script>
+		
+	</script>
+</body>
+</html>

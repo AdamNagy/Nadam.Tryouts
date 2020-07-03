@@ -3,10 +3,6 @@ var IsObject = function(variable) {
 	return( typeof variable === "object" && variable.length === undefined )
 }
 
-var IsArray = function(variable) {
-	return( typeof variable === "object" && variable.length !== undefined )
-}
-
 // convert an object to an array using the values only
 var ObjectToArray = function(obj) {
 	var arr = [];

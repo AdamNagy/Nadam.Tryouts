@@ -4,25 +4,27 @@ Array.prototype.First = function(predicate) {
 		throw "Predicate is not a function!";
 	}
 
-	var found;
-
 	for (var i = 0; i < this.length; ++i) {
 		if (predicate(this[i])) {
-			found = this[i];
+			return this[i];
 		}
 	}
 
-	return found;
+	return undefined;
 }
 
 Array.prototype.Last = function(predicate) {
 
-	if (predicate !== null && predicate !== undefined) {
-		var filtered = this.filter(predicate);
-		return filtered[filtered.length - 1];
+	if (predicate == null || typeof predicate !== 'function') {
+		throw "Predicate is not a function!";
 	}
-
-	return this[this.length - 1];
+	
+	var filtered = this.filter(predicate);
+	
+	if( !filtered || filtered.length == 0 )
+		return undefined;
+	
+	return filtered[filtered.length - 1];
 }
 
 Array.prototype.Skip = function(amount) {
@@ -35,17 +37,13 @@ Array.prototype.Take = function(amount) {
 	return this.splice(0, amount);
 }
 
-Array.prototype.Where = function(predicate) {
-
-	return this.filter(predicate);
-}
-
 Array.prototype.Select = function(action) {
 
-	var list = new Array();
 	if (action == null || typeof action !== 'function') {
 		throw "Action is not a function!";
 	}
+	
+	var list = new Array();
 
 	for (var i = 0; i < this.length; ++i) {
 		list.push(action(this[i]));
