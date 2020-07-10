@@ -1,0 +1,14 @@
+ndm-column-lane [nid='gallery-row'] {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
+}
+
+ndm-column-lane [nid='gallery-row'] .column img {
+	display: block;
+}
+
+ndm-column-lane a,
+ndm-column-lane li  {
+	cursor: pointer;
+}

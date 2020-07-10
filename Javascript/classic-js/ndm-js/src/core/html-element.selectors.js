@@ -7,13 +7,13 @@ HTMLElement.prototype.$nid = function(nid) {
 HTMLElement.prototype.$class = function(selector) {
 	if (selector === "")
 		return this;
-	return this.querySelector('[class*="' + selector + '"]');
+	return this.querySelectorAll('[class*="' + selector + '"]');
 }
 
 HTMLElement.prototype.$ = function(selector) {
-	if (nid === "")
+	if (selector === "")
 		return this;
-	return this.querySelector(selector);
+	return this.querySelectorAll(selector);
 }
 
 

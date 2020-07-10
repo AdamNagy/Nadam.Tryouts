@@ -30,12 +30,20 @@ HTMLElement.prototype.WithClass = function(name) {
 
 
 HTMLElement.prototype.WithClasses = function(classNames) {
-	var classes = []
+
 	classNames.forEach(
 		item => item.split(" ").forEach(
 			className => this.classList.add(className)
 		)
 	);
+	
+	return this;
+}
+
+HTMLElement.prototype.WithoutClass = function(className) {
+
+	if(this.classList.contains(className))
+		this.classList.remove(className);
 	
 	return this;
 }
