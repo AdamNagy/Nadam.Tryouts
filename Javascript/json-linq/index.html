@@ -1,18 +1,70 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 		<style>
+			.content {
+				width: 100%;
+				height: 88vh;
+				resize: none;
+			}
 
+			input[type="text"] {
+				width: 100%;
+    			line-height: 2em;
+			}
 		</style>
 	</head>
+
 	<body>
+		<div class="container-fluid" id="console">
+			<div class="row">
+				<div class="col-6">
+					<div class="p-2 d-flex">
+						<div class="flex-grow-1 mr-1">
+							<input type="text" class="mr-1" list="suggestions">				
+						</div>				
+						<div>
+							<button class="btn btn-primary btn-select mr-1">Select</button>
+							<button class="btn btn-primary btn-reset">Reset</button>
+						</div>
+					</div>
+					<div class="row ml-2">
+						<h3 class="h3-url"></h3>
+					</div>
+					<div class="row p-2">
+						<textarea class="content" rows="1200" cols="80" disabled></textarea>
+					</div>
+				</div>
+				<div class="col-6">
+					<div class="p-2 d-flex">
+						<div class="flex-grow-1 mr-1">
+							<input type="text" class="mr-1" list="suggestions">				
+						</div>				
+						<div>
+							<button class="btn btn-primary btn-select mr-1">Select</button>
+							<button class="btn btn-primary btn-reset">Reset</button>
+						</div>
+					</div>
 
-		<ndm-console id="console">
-			<div class="column"></div>
-			<div class="column"></div>
-		</ndm-console>
+					<div class="row ml-2">
+						<h3 class="h3-url"></h3>
+					</div>
 
+					<div class="row p-2">
+						<textarea class="content" rows="1200" cols="80" disabled></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
 
+		<datalist id="suggestions">
+			<option value="select:markets">
+			<option value="select:markets; where: eventId = #">
+			<option value="select:markets; where: eventId = f-ED0cC15OhkORmVTK2V2txg; where: marketTemplateId = 'M2WHCP';">
+		</datalist>
 
 		<script src="json-linq.js"></script>
 		<script>
@@ -20,9 +72,10 @@
 			async function getJson(url) {
 				return new Promise((resolve, reject) => {
 					var xmlhttp = new XMLHttpRequest();
+					xmlhttp.overrideMimeType("application/json");
 					xmlhttp.onreadystatechange = function() {
 						if (this.readyState == 4 && this.status == 200) {
-							resolve(this.responseText);
+							resolve({url, content: this.responseText});
 						}
 					};
 
@@ -37,25 +90,38 @@
 				promises.push(getJson(`./${jsonFile}`));
 			}
 
-			Promise.all(promises).then((jsonStrings) => {
+			var jsonObjects = [];
+			Promise.all(promises).then((jsonResponses) => {
+				var consoleElement = document.getElementById("console");
+				
+				var colIdx = 1;
+				for(var jsonResponse of jsonResponses) {
+					var jsonObject = JSON.parse(jsonResponse.content);
+					jsonObjects.push(jsonObject);
 
+					var consoleColumn = consoleElement.querySelector(`div.col-6:nth-child(${colIdx})`);
+					var columnContent = consoleColumn.querySelector("textarea.content");
+					columnContent.value =  JSON.stringify(jsonObject, null, "\t");
+
+					var inputSelect = consoleColumn.querySelector("input");
+					var btnSelect = consoleColumn.querySelector("button.btn-select");
+					btnSelect.addEventListener("click", ((idx, input, output) => () => {
+						var jsonObj = jsonObjects[idx - 1];
+						var queryResult = JsonLinq.query(input.value, jsonObj);//.filter((item) => item.eventId === "f-dDMcuml8uk2K4GpoR_1wrg");
+						output.value = JSON.stringify(queryResult, null, "\t");
+					})(colIdx, inputSelect, columnContent));
+
+					var btnReset = consoleColumn.querySelector("button.btn-reset");
+					btnReset.addEventListener("click", ((idx, output) => () => {
+						var jsonObj = jsonObjects[idx - 1];
+						output.value = JSON.stringify(jsonObj, null, "\t");
+					})(colIdx, columnContent));
+
+					consoleColumn.querySelector("h3.h3-url").innerText = jsonResponse.url;
+
+					colIdx++;
+				}
 			});
-
-			// // events table with 2 columns
-			// var json = new JsonLinq(eventsTableWith2ColumnsString);
-			// var markets = json.select("markets").find((item) => item.lineValue !== "");
-			// var marketId_WithLineValue = markets.id;
-			// var selections = json.select("selections").filter((item) => item.marketId === marketId_WithLineValue);
-			// console.log({markets});
-			// console.log({selections});
-
-			// // market list widget		
-			// var json2 = new JsonLinq(marketListWidgetString);
-			// var markets2 = json2.select("markets").find((item) => item.lineValue !== "");
-			// var marketId_WithLineValue2 = markets2.id;
-			// var selections2 = json2.select("selections").filter((item) => item.marketId === marketId_WithLineValue2);
-			// console.log({markets2});
-			// console.log({selections2});
 		</script>
 	</body>
 </html>
