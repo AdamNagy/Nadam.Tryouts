@@ -4,7 +4,7 @@ function isPrimitive(variable) {
 	return type === "number" || type === "boolean" || type === "string";
 }
 
-function isObject(variable) {
+function isJsonObject(variable) {
 	var type = typeof variable;
 
 	return type === "object" && !Array.isArray(variable);
@@ -87,7 +87,7 @@ class JsonLinq {
 			}
 		}
 		// object
-		else if( isObject(jsonObj) ) {
+		else if( isJsonObject(jsonObj) ) {
 
 			for(var prop in jsonObj) {
 				if( prop === propName ) {
@@ -124,7 +124,7 @@ class JsonLinq {
 		var projection;
 		var projectorFunc = JsonLinq.createProjector(projectionRule);
 
-		if( isObject(jsonObj) ) {
+		if( isJsonObject(jsonObj) ) {
 
 			projection = projectorFunc(jsonObj);
 
