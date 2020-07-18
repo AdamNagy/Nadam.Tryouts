@@ -19,7 +19,7 @@ class SidePagerElement extends HTMLElement {
 	template = 
 		`<div class="side-page">
 			<button nid='btn-close'>Close</button>
-            <button nid='btn-remove'>Remove</button>
+			<button nid='btn-remove'>Remove</button>
 			<div class="side-page-opener"></div>
 			<div class="side-page-content"></div>
 		</div>`;

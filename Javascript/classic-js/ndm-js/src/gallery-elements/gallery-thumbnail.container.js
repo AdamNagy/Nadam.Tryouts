@@ -19,16 +19,16 @@ class GalleryThumbnailContainer extends HTMLElement {
 
 		var cardTitle = document.createElement("h3")
 			.WithClasses(["h3"])
-			.WithInnerText(galleryThumb.Title);
+			.WithInnerText(galleryThumb.title);
 
 		cardHeaderElement.WithChild(cardTitle);
 
 		var cardBodyElement = document.createElement("div")
 			.WithClasses(["card-body", "d-flex", "flex-wrap", "justify-content-around"]);
 
-		for(var imgMeta of galleryThumb.ImagesMetaData) {
+		for(var imgMeta of galleryThumb.images) {
 
-			if(imgMeta.thumbnailImageSrc.endsWith(".gif")) {
+			if(imgMeta.thumbnailImageSource.endsWith(".gif")) {
 				continue;
 			}
 
@@ -36,7 +36,7 @@ class GalleryThumbnailContainer extends HTMLElement {
 				.WithClass("justify-content-center");
 
 			var imageElement = new Image();
-			imageElement.src = imgMeta.thumbnailImageSrc;
+			imageElement.src = imgMeta.thumbnailImageSource;
 			imageElement.WithClasses(["img", "border", "border-dark", "mb-1"]);
 			imageWall.append(imageElement);
 
@@ -45,7 +45,7 @@ class GalleryThumbnailContainer extends HTMLElement {
 
 		var cardFooter = document.createElement("div").WithClass("card-footer")
 			.WithChild(
-				document.createElement("button").WithInnerText(galleryThumb.Title)
+				document.createElement("button").WithInnerText(galleryThumb.title)
 					.WithOnClick(() => {
 						window.app.router.activateRoute(`gallery?title=${galleryThumb.fileName}`);
 					})
