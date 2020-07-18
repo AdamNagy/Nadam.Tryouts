@@ -18,30 +18,31 @@
 		</style>
 	</head>
 
-	<body>
+	<body class="bg-dark">
 		<div class="container-fluid" id="console">
 			<div class="row">
 				<div class="col-6">
 					<div class="p-2 d-flex">
 						<div class="flex-grow-1 mr-1">
 							<input type="text" class="mr-1" list="suggestions">				
-						</div>				
+						</div>
 						<div>
 							<button class="btn btn-primary btn-select mr-1">Select</button>
 							<button class="btn btn-primary btn-reset">Reset</button>
 						</div>
 					</div>
 					<div class="row ml-2">
-						<h3 class="h3-url"></h3>
+						<h3 class="h3-url text-light"></h3>
 					</div>
 					<div class="row p-2">
 						<textarea class="content" rows="1200" cols="80" disabled></textarea>
 					</div>
 				</div>
+				
 				<div class="col-6">
 					<div class="p-2 d-flex">
 						<div class="flex-grow-1 mr-1">
-							<input type="text" class="mr-1" list="suggestions">				
+							<input type="text" class="mr-1" list="suggestions">
 						</div>				
 						<div>
 							<button class="btn btn-primary btn-select mr-1">Select</button>
@@ -50,7 +51,7 @@
 					</div>
 
 					<div class="row ml-2">
-						<h3 class="h3-url"></h3>
+						<h3 class="h3-url text-light"></h3>
 					</div>
 
 					<div class="row p-2">
@@ -61,9 +62,9 @@
 		</div>
 
 		<datalist id="suggestions">
-			<option value="select:markets">
-			<option value="select:markets; where: eventId = #">
-			<option value="select:markets; where: eventId = f-ED0cC15OhkORmVTK2V2txg; where: marketTemplateId = 'M2WHCP';">
+			<option value="select:data.markets">
+			<option value="select:data.markets; where: eventId = #">
+			<option value="select:data.markets; where: eventId = f-ED0cC15OhkORmVTK2V2txg; where: marketTemplateId = 'M2WHCP';">
 		</datalist>
 
 		<script src="json-linq.js"></script>
@@ -107,7 +108,7 @@
 					var btnSelect = consoleColumn.querySelector("button.btn-select");
 					btnSelect.addEventListener("click", ((idx, input, output) => () => {
 						var jsonObj = jsonObjects[idx - 1];
-						var queryResult = JsonLinq.query(input.value, jsonObj);//.filter((item) => item.eventId === "f-dDMcuml8uk2K4GpoR_1wrg");
+						var queryResult = JsonLinq.query(input.value, jsonObj);
 						output.value = JSON.stringify(queryResult, null, "\t");
 					})(colIdx, inputSelect, columnContent));
 
