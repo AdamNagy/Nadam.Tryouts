@@ -22,7 +22,7 @@ class AccordionElement extends HTMLElement {
 	template = `
 		<div class="card">
 			<div class="card-header" >
-				<h5 class="mb-0" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">			
+				<h5 class="mb-0" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 						
 				</h5>
 			</div>
