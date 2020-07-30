@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.852
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamSeeking", "StreamSeeking\StreamSeeking.csproj", "{D695B736-4B91-420D-9AAF-0FED9AB6034D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamSeeking.Tests", "StreamSeeking.Tests\StreamSeeking.Tests.csproj", "{6BEEEC86-300D-437D-82E9-C56ACB25FEB9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D695B736-4B91-420D-9AAF-0FED9AB6034D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D695B736-4B91-420D-9AAF-0FED9AB6034D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D695B736-4B91-420D-9AAF-0FED9AB6034D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D695B736-4B91-420D-9AAF-0FED9AB6034D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BEEEC86-300D-437D-82E9-C56ACB25FEB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BEEEC86-300D-437D-82E9-C56ACB25FEB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BEEEC86-300D-437D-82E9-C56ACB25FEB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BEEEC86-300D-437D-82E9-C56ACB25FEB9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5DFEF054-67F3-4F57-958E-D7B4E97651DF}
+	EndGlobalSection
+EndGlobal
