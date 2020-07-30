@@ -29,7 +29,7 @@ class PagerElement extends HTMLElement {
 		}
 
 		// numbered buttons
-		for(var i = startPage ; i < endPage; ++i) {
+		for(var i = startPage ; i <= endPage; ++i) {
 			var button = document.createElement("button").WithClasses(["btn", "btn-sm", "mx-1"]).WithInnerText(i)
 				.WithOnClick(
 					((pageIdx) => (event) => {

@@ -16,12 +16,11 @@ class GalleryThumbnailControl extends HTMLElement {
 			pagesize: 10,
 			title: ""
 		};
-
 	}
 
 	loadPage(queryStrintObj) {		
 
-		$.get(`http://localhost:8081/miv/manifest/thumbnails/?page=${queryStrintObj.page}&pagesize=${queryStrintObj.pagesize}`,
+		$.get(`${window.app.apiConfig.thumbnailsApi}?page=${queryStrintObj.page}&pagesize=${queryStrintObj.pagesize}`,
 			(() => (response) => {
 
 				var responseModel = JSON.parse(response);
@@ -34,7 +33,11 @@ class GalleryThumbnailControl extends HTMLElement {
 				this.$nid("content-section").WithoutChildren();
 				var thumbnailModels = [];
 				for(var thumbnailFile of responseModel.thumbnailFiles) {
+					
 					var galleryThumbnailModel = JSON.parse(thumbnailFile.content);
+					if( thumbnailFile.type === "stored-gallery" ) {
+						galleryThumbnailModel = this.mapStoredGalleryModel(galleryThumbnailModel);
+					}
 
 					if(galleryThumbnailModel === undefined || galleryThumbnailModel === null)
 						continue;
@@ -63,6 +66,21 @@ class GalleryThumbnailControl extends HTMLElement {
 				window.app.router.setQueryParam("page", queryParam.page);
 			});
 		}		
+	}
+
+	mapStoredGalleryModel(storedGalleryModel) {
+		var mappedModel = {
+			title: storedGalleryModel.title,
+			route: storedGalleryModel.route
+		};
+
+		mappedModel.images = storedGalleryModel.images.Select((item) => {
+			return {
+				thumbnailImageSource: `${window.app.contentRoot}${storedGalleryModel.route}/thumbnails/${item}`
+			}
+		});
+
+		return mappedModel;
 	}
 }
 

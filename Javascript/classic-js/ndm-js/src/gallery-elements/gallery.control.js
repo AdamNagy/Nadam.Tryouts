@@ -22,18 +22,18 @@ class GalleryControl extends HTMLElement {
 		var galleryModel = await this.getModel(title);
 
 		var imageElements = [];
-		var spotlightGallery = galleryModel.ImagesMetaData.Select((meta) => { 
+		var spotlightGallery = galleryModel.images.Select((meta) => { 
 			return {
-				src: meta.realImageSrc,
+				src: meta.realImageSource,
 				description: "no description",
-				title: meta.realImageSrc.split('/').Last()
+				title: meta.realImageSource.split('/').Last()
 			} });
 		var spotlightIdx = 0;
 
-		for(var imageMeta of galleryModel.ImagesMetaData) {
+		for(var imageMeta of galleryModel.images) {
 			var imageElement = document.createElement("img")
-				.WithAttribute("data-src", imageMeta.thumbnailImageSrc)
-				.WithAttribute("data-real-src", imageMeta.realImageSrc)
+				.WithAttribute("data-src", imageMeta.thumbnailImageSource)
+				.WithAttribute("data-real-src", imageMeta.realImageSource)
 				.WithOnClick( ((idx) => () => {
 					Spotlight.show(spotlightGallery, {
 						index: idx,
@@ -56,7 +56,7 @@ class GalleryControl extends HTMLElement {
 				includeControlPanel: true,
 			}, imageElements));
 
-		this.$nid("label-title").WithInnerText(galleryModel.Title);
+		this.$nid("label-title").WithInnerText(galleryModel.title);
 	}
 
 	async getModel(title) {
@@ -68,13 +68,19 @@ class GalleryControl extends HTMLElement {
 			if(galleryModel) {
 				resolve(galleryModel);
 			} else {
-				$.get(`http://localhost:8081/miv/manifest/gallery/?title=${title}`,
+				$.get(`${window.app.apiConfig.galleryApi}?title=${title}`,
 					(() => (response) => {
 						
 						console.log("going to api");
 						var responseModel = JSON.parse(response);
 		
-						this.store[title] = JSON.parse(responseModel.galleryFile.content);
+						var galleryModel = JSON.parse(responseModel.galleryFile.content);
+						if( responseModel.galleryFile.type === "stored-gallery" ) {
+							this.store[title] = this.mapStoredGalleryModel(galleryModel);
+						} else {
+							this.store[title] = galleryModel;
+						}
+
 						resolve(this.store[title]);	
 					})()
 				);
@@ -96,6 +102,22 @@ class GalleryControl extends HTMLElement {
 
 			this.isFirstLoad = false;
 		// }
+	}
+
+	mapStoredGalleryModel(storedGalleryModel) {
+		var mappedModel = {
+			title: storedGalleryModel.Title,
+			route: storedGalleryModel.route
+		};
+
+		mappedModel.images = storedGalleryModel.images.Select((item) => {
+			return {
+				thumbnailImageSource: `${window.app.contentRoot}${storedGalleryModel.route}/thumbnails/${item}`,
+				realImageSource:  `${window.app.contentRoot}${storedGalleryModel.route}/${item}`,
+			}
+		});
+
+		return mappedModel;
 	}
 }
 
