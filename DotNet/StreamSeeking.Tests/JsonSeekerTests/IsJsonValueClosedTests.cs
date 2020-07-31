@@ -8,9 +8,9 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void ShouldBe_Array_Closed()
         {
-            var rawJsonString = "[1,2,3,4], \"pro";
+            var rawJsonString = "[22,44,30,77,86,36,91,4,13,0,14,29,50,50,42,53,14,37,48,60], \"pro";
             var normalized = JsonSeeker.NormalizeJsonString(rawJsonString);
-            var expected = "[1,2,3,4]";
+            var expected = "[22,44,30,77,86,36,91,4,13,0,14,29,50,50,42,53,14,37,48,60]";
 
             int seekIndex = 0;
             var isClosed = JsonSeeker.IsJsonValueClosed(normalized, JsonPropertyType.array, out seekIndex);
@@ -22,15 +22,14 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void ShouldBe_NestedArray_Closed()
         {
-            var rawJsonString = "[['a', 'b', 'c'],[1, 23, 4], [123, 234, 345]], \"pro";
-            var normalized = JsonSeeker.NormalizeJsonString(rawJsonString);
+            var rawJsonString = "[['a','b','c'],[1,23,4],[123,234,345]], \"pro";
             var expected = "[['a','b','c'],[1,23,4],[123,234,345]]";
 
             int seekIndex = 0;
-            var isClosed = JsonSeeker.IsJsonValueClosed(normalized, JsonPropertyType.array, out seekIndex);
+            var isClosed = JsonSeeker.IsJsonValueClosed(rawJsonString, JsonPropertyType.array, out seekIndex);
 
             Assert.IsTrue(isClosed);
-            Assert.AreEqual(expected, normalized.Substring(0, seekIndex));
+            Assert.AreEqual(expected, rawJsonString.Substring(0, seekIndex));
         }
 
         [TestMethod]

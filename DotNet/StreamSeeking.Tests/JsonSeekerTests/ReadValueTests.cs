@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using StreamSeeking.Tests.MockClasses;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace StreamSeeking.Tests.JsonSeekerTests
 {
@@ -12,20 +12,74 @@ namespace StreamSeeking.Tests.JsonSeekerTests
     {
         private static string TEST_FILE = "..\\..\\App_Data\\ReadValueT_Mock.json";
 
-        [TestMethod]
-        public void ReadComplex_1()
+        [TestInitialize]
+        public void BeforeAll()
         {
-            var propVal = JsonSeeker.ReadValue("prop1", TEST_FILE);
-            var expected = JsonSeeker.NormalizeJsonString("{ \"ip\": \"8.8.8.8\" }");
+            File.WriteAllText(TEST_FILE, ToJString(TestJsonModel.GetDefault()));
+        }
+
+        public static string ToJString(Object subject)
+        {
+            DefaultContractResolver contractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            };
+
+            var jsonSerializerSettings = new JsonSerializerSettings()
+            {
+                ContractResolver = contractResolver,
+                Formatting = Formatting.None
+            };
+
+            return JsonConvert.SerializeObject(subject, jsonSerializerSettings);
+        }
+
+        [TestMethod]
+        public void Read_String()
+        {
+            var propVal = JsonSeeker.ReadValue("stringProp", TEST_FILE);
+            Assert.AreEqual(propVal, MockData.MOCK_TEXT[0]);
+        }
+
+        [TestMethod]
+        public void Read_Number()
+        {
+            var propVal = JsonSeeker.ReadValue("numberProp", TEST_FILE);
+            Assert.AreEqual(propVal, MockData.MOCK_NUMBERS[0].ToString());
+        }
+
+        [TestMethod]
+        public void Read_Complex()
+        {
+            var propVal = JsonSeeker.ReadValue("complexProp", TEST_FILE);
+            var expected = ToJString(ComplexJsonType.GetDefault());
 
             Assert.AreEqual(expected, propVal);
         }
 
         [TestMethod]
-        public void ReadComplex_2()
+        public void Read_StringArray()
         {
-            var propVal = JsonSeeker.NormalizeJsonString(JsonSeeker.ReadValue("prop2", TEST_FILE));
-            var expected = JsonSeeker.NormalizeJsonString("{ \"Accept-Language\": \"en-US,en;q=0.8\", \"Host\": \"headers.jsontest.com\", \"Accept-Charset\": \"ISO-8859-1,utf-8;q=0.7,*;q=0.3\",\"Accept\": \"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\"}");
+            var propVal = JsonSeeker.ReadValue("stringArrayProp", TEST_FILE);
+            var expected = ToJString(MockData.MOCK_STRING_ARRAY1);
+
+            Assert.AreEqual(expected, propVal);
+        }
+
+        [TestMethod]
+        public void Read_IntArray()
+        {
+            var propVal = JsonSeeker.ReadValue("numberArrayProp", TEST_FILE);
+            var expected = ToJString(MockData.MOCK_NUMBERS_ARRAY1);
+
+            Assert.AreEqual(expected, propVal);
+        }
+
+        [TestMethod]
+        public void Read_ComplexArray()
+        {
+            var propVal = JsonSeeker.ReadValue("complexArrayProp", TEST_FILE);
+            var expected = ToJString(MockData.MOCK_COMPLEX_ARRAY);
 
             Assert.AreEqual(expected, propVal);
         }

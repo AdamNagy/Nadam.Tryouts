@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using StreamSeeking.Tests.MockClasses;
 
 namespace StreamSeeking.Tests.JsonSeekerTests
 {
@@ -12,49 +11,112 @@ namespace StreamSeeking.Tests.JsonSeekerTests
     public class GetValuePositionTests
     {
         private static string TEST_FILE = "..\\..\\App_Data\\ReadValueT_Mock.json";
-
-        private static string TEST_CONTENT =
-            "{\"prop1\": { \"ip\": \"8.8.8.8\" }, \"textProp\": \"basic text\", \"prop2\": { \"Accept-Language\": \"en-US,en;q=0.8\", \"Host\": \"headers.jsontest.com\",\"Accept-Charset\": \"ISO-8859-1,utf-8;q=0.7,*;q=0.3\",\"Accept\": \"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\"},\"prop3\": {\"one\": \"two\",\"key\": \"value\",\"nested\": {\"object_or_array\": \"object\",\"empty\": false,\"parse_time_nanoseconds\": 19608,\"validate\": true,\"size\": 1}}}";
+        private static string TEST_FILE_CONTENT;
 
         [TestInitialize]
         public void BeforeAll()
         {
+            TEST_FILE_CONTENT = ToJString(TestJsonModel.GetDefault());
+            File.WriteAllText(TEST_FILE, TEST_FILE_CONTENT);
+        }
 
+        public static string ToJString(Object subject)
+        {
+            DefaultContractResolver contractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            };
+
+            var jsonSerializerSettings = new JsonSerializerSettings()
+            {
+                ContractResolver = contractResolver,
+                Formatting = Formatting.None
+            };
+
+            return JsonConvert.SerializeObject(subject, jsonSerializerSettings);
         }
 
         [TestMethod]
-        public void Read_Prop1()
+        public void Read_NumberProp()
         {
             using (FileStream fs = File.OpenRead(TEST_FILE))
             {
-                var valPos = JsonSeeker.GetValuePosition("prop1", fs);
-                var expected = JsonSeeker.NormalizeJsonString("{ \"ip\": \"8.8.8.8\" }");
-                var result = TEST_CONTENT.Substring(valPos.startPos, valPos.endPos).Trim();
+                var valPos = JsonSeeker.GetValuePosition("numberProp", fs);
+                var expected = MockData.MOCK_NUMBERS[0].ToString();
+
+                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.endPos).Trim();
+
                 Assert.AreEqual(expected, result);
             }
         }
 
         [TestMethod]
-        public void Read_AcceptLanguage()
+        public void Read_StringProp()
         {
             using (FileStream fs = File.OpenRead(TEST_FILE))
             {
-                var valPos = JsonSeeker.GetValuePosition("Accept-Language", fs);
-                var result = TEST_CONTENT.Substring(valPos.startPos, valPos.endPos).Trim();
+                var valPos = JsonSeeker.GetValuePosition("stringProp", fs);
+                var expected = MockData.MOCK_TEXT[0].ToString();
 
-                Assert.AreEqual("\"en-US,en;q=0.8\"", result);
+                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.endPos).Trim();
+
+                Assert.AreEqual($"\"{expected}\"", result);
             }
         }
 
         [TestMethod]
-        public void Read_textProp()
+        public void Read_ComplexProp()
         {
             using (FileStream fs = File.OpenRead(TEST_FILE))
             {
-                var valPos = JsonSeeker.GetValuePosition("textProp", fs);
-                var result = TEST_CONTENT.Substring(valPos.startPos, valPos.endPos).Trim();
+                var valPos = JsonSeeker.GetValuePosition("complexProp", fs);
+                var expected = ToJString(ComplexJsonType.GetDefault());
 
-                Assert.AreEqual("\"basic text\"", result);
+                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.endPos).Trim();
+
+                Assert.AreEqual($"{expected}", result);
+            }
+        }
+
+        [TestMethod]
+        public void Read_ComplexArrayProp()
+        {
+            using (FileStream fs = File.OpenRead(TEST_FILE))
+            {
+                var valPos = JsonSeeker.GetValuePosition("complexArrayProp", fs);
+                var expected = ToJString(MockData.MOCK_COMPLEX_ARRAY);
+
+                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.endPos).Trim();
+
+                Assert.AreEqual($"{expected}", result);
+            }
+        }
+
+        [TestMethod]
+        public void Read_NumberArrayProp()
+        {
+            using (FileStream fs = File.OpenRead(TEST_FILE))
+            {
+                var valPos = JsonSeeker.GetValuePosition("numberArrayProp", fs);
+                var expected = ToJString(MockData.MOCK_NUMBERS_ARRAY1);
+
+                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.endPos).Trim();
+
+                Assert.AreEqual($"{expected}", result);
+            }
+        }
+
+        [TestMethod]
+        public void Read_StringArrayProp()
+        {
+            using (FileStream fs = File.OpenRead(TEST_FILE))
+            {
+                var valPos = JsonSeeker.GetValuePosition("stringArrayProp", fs);
+                var expected = ToJString(MockData.MOCK_STRING_ARRAY1);
+
+                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.endPos).Trim();
+
+                Assert.AreEqual($"{expected}", result);
             }
         }
     }

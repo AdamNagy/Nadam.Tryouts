@@ -34,7 +34,9 @@ namespace StreamSeeking
                 }
 
                 seekIndex += prevBufferText.IndexOf(word);
-                seekIndex -= word.Length;
+
+                if( seekIndex > 0 )
+                    seekIndex -= word.Length;
             }
 
             return seekIndex;

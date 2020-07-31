@@ -10,41 +10,36 @@ namespace StreamSeeking
     {
         public static string ReadValue(string propName, string file, int bufferSize = 20)
         {
-            var seekIndex = StreamSeeker.SeekWord(propName, file);
+            var seekIndex = StreamSeeker.SeekWord($"\"{propName}\":", file);
             if (seekIndex == -1)
                 return "";
 
             UTF8Encoding utf8Encoder = new UTF8Encoding(true);
-            seekIndex += propName.Length + 2;
+
+            // skip the property key closing \" char and the followinf : char
+            seekIndex += propName.Length + 3;
+
             var streamBuffer = new byte[bufferSize];
+
             var propertyValue = "";
-            bool openingCharacterSet = false;
-            // char openingCharacter; //, closingCharacter = 'a';
-            // int numberOfopeningCharacter = 0;
-            JsonPropertyType propertyType = JsonPropertyType.text;
+            JsonPropertyType propertyType = JsonPropertyType.unset;
 
             using (FileStream fs = File.OpenRead(file))
             {
                 fs.Seek(seekIndex, SeekOrigin.Begin);
                 while (fs.Read(streamBuffer, 0, streamBuffer.Length) > 0)
                 {
-                    propertyValue += NormalizeJsonString(utf8Encoder.GetString(streamBuffer));
+                    propertyValue += utf8Encoder.GetString(streamBuffer);
 
-                    if (!openingCharacterSet)
+                    if (propertyType == JsonPropertyType.unset)
                     {
-                        // ++numberOfopeningCharacter;
-                        propertyValue.TrimStart().TrimStart(':').TrimStart();
-                        // openingCharacter = propertyValue[0];
-                        openingCharacterSet = true;
-
                         propertyType = GetPropertyType(propertyValue[0]);
-                        // closingCharacter = GetJsonValueClosingCharacter(openingCharacter);
                     }
 
                     int closingCharIdx = 0;
                     if (IsJsonValueClosed(propertyValue, propertyType, out closingCharIdx))
                     {
-                        propertyValue = propertyValue.Substring(0, closingCharIdx).TrimStart('"');
+                        propertyValue = propertyValue.Substring(0, closingCharIdx).Trim('"');
                         break;
                     }
                 }
@@ -53,100 +48,58 @@ namespace StreamSeeking
             return NormalizeJsonString(propertyValue);
         }
 
-        public static string ReadValue(string propName, FileStream file, int bufferSize = 20)
-        {
-            var seekIndex = StreamSeeker.SeekWord(propName, file);
-            if (seekIndex == -1)
-                return "";
-
-            UTF8Encoding utf8Encoder = new UTF8Encoding(true);
-            seekIndex += propName.Length + 2;
-            var streamBuffer = new byte[bufferSize];
-            var propertyValue = "";
-            bool openingCharacterSet = false;
-            // char openingCharacter; //, closingCharacter = 'a';
-            // int numberOfopeningCharacter = 0;
-            JsonPropertyType propertyType = JsonPropertyType.text;
-
-            file.Seek(seekIndex, SeekOrigin.Begin);
-            while (file.Read(streamBuffer, 0, streamBuffer.Length) > 0)
-            {
-                propertyValue += NormalizeJsonString(utf8Encoder.GetString(streamBuffer));
-
-                if (!openingCharacterSet)
-                {
-                    // ++numberOfopeningCharacter;
-                    propertyValue.TrimStart().TrimStart(':').TrimStart();
-                    // openingCharacter = propertyValue[0];
-                    openingCharacterSet = true;
-
-                    propertyType = GetPropertyType(propertyValue[0]);
-                    // closingCharacter = GetJsonValueClosingCharacter(openingCharacter);
-                }
-
-                int closingCharIdx = 0;
-                if (IsJsonValueClosed(propertyValue, propertyType, out closingCharIdx))
-                {
-                    propertyValue = propertyValue.Substring(0, closingCharIdx);
-                    break;
-                }
-            }
-
-            return NormalizeJsonString(propertyValue);
-        }
-
         public static (int startPos, int endPos) GetValuePosition(string propName, FileStream fileStream, int bufferSize = 20)
         {
-            var seekIndex = StreamSeeker.SeekWord(propName, fileStream);
-            if (seekIndex == -1)
-                throw new ArgumentException($"Property '{propName}' does not exist in json: {fileStream}");
-
-            fileStream.Position = fileStream.Position - 1;
             (int startPos, int endPos) position = (0, 0);
 
-            UTF8Encoding temp = new UTF8Encoding(true);
-            seekIndex += propName.Length + 2;
-            var buffer = new byte[bufferSize];
+            var seekIndex = StreamSeeker.SeekWord($"\"{propName}\":", fileStream);
+            if (seekIndex == -1)
+                return position;
+
+            UTF8Encoding utf8Encoder = new UTF8Encoding(true);
+
+            // skip the property key closing \" char and the followinf : char
+            fileStream.Position = seekIndex + propName.Length + 3;
+
+            var streamBuffer = new byte[bufferSize];
+
             var propertyValue = "";
-            bool openingCharacterSet = false;
-            JsonPropertyType propertyType = JsonPropertyType.text;
+            JsonPropertyType propertyType = JsonPropertyType.unset;
 
-            while (fileStream.Read(buffer, 0, buffer.Length) > 0)
+            while (fileStream.Read(streamBuffer, 0, streamBuffer.Length) > 0)
             {
-                propertyValue += NormalizeJsonString(temp.GetString(buffer));
+                propertyValue += utf8Encoder.GetString(streamBuffer);
 
-                if (!openingCharacterSet)
+                if (propertyType == JsonPropertyType.unset)
                 {
-                    openingCharacterSet = true;
-                    propertyValue = propertyValue.TrimStart().TrimStart(':').TrimStart();
                     propertyType = GetPropertyType(propertyValue[0]);
                 }
 
                 int closingCharIdx = 0;
                 if (IsJsonValueClosed(propertyValue, propertyType, out closingCharIdx))
                 {
-                    position = (seekIndex, ++closingCharIdx);
+                    position = (seekIndex + propName.Length + 3, closingCharIdx);
+                    //if( propertyType == JsonPropertyType.number || propertyType == JsonPropertyType.text)
+                    //else
+                    //    position = (seekIndex + propName.Length + 3, ++closingCharIdx);
+                    
                     break;
                 }
             }
+            
 
             return position;
         }
 
         public static void SetValue(string propName, string file, string newValue, int bufferSize = 20)
         {
-
-            var text = "{\"prop1\": { \"ip\": \"8.8.8.8\" }, \"prop2\": { \"Accept-Language\": \"en-US,en;q=0.8\", \"Host\": \"headers.jsontest.com\",\"Accept-Charset\": \"ISO-8859-1,utf-8;q=0.7,*;q=0.3\",\"Accept\": \"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\"},\"prop3\": {\"one\": \"two\",\"key\": \"value\",\"nested\": {\"object_or_array\": \"object\",\"empty\": false,\"parse_time_nanoseconds\": 19608,\"validate\": true,\"size\": 1}}}";
-
-
             using (FileStream fileStream = File.Open(file, FileMode.Open))
             {
-                //var seekIndex = StreamSeeker.SeekWord(propName, fileStream);
-                //if (seekIndex == -1)
-                //    throw new ArgumentException($"Property {propName} does not exist int the given json: {file}");
-
-                // var valuePosition2 = ReadValue(propName, fileStream);
                 var valuePosition = GetValuePosition(propName, fileStream);
+
+                if( valuePosition.startPos == 0 && valuePosition.endPos == 0 )
+                    throw new ArgumentException($"Property {propName} does not exist in file: {file}");
+
                 var restOfTheFile = StreamSeeker.ReadFrom(valuePosition.startPos + valuePosition.endPos, fileStream);
 
                 if (newValue.Length < valuePosition.endPos)
@@ -156,7 +109,7 @@ namespace StreamSeeking
 
                 UTF8Encoding encoder = new UTF8Encoding(true);
                 StreamSeeker.WriteFrom(valuePosition.startPos, fileStream, newValue);
-                // StreamSeeker.WriteFrom(valuePosition.startPos, fileStream, restOfTheFile);
+
                 var byteArray = encoder.GetBytes(restOfTheFile);
                 fileStream.Write(byteArray, 0, byteArray.Length);
             }
@@ -199,16 +152,7 @@ namespace StreamSeeking
             RegexOptions options = RegexOptions.None;
             Regex multipSpacesToSingle = new Regex("[ ]{2,}", options);
 
-            return Regex.Replace(json.Trim(), @"\t|\n|\r|[ ]{2,}", " ")
-                .Replace(", ", ",");
-
-            //.Replace(" ,", ",")
-            //.Replace(": ", ":")
-            //.Replace(" :", ":")
-            //.Replace("{ ", "{")
-            //.Replace("[ ", "[")
-            //.Replace(" }", "}")
-            //.Replace(" ]", "]");
+            return Regex.Replace(json.Trim(), @"\t|\n|\r|[ ]{2,}", " ");
         }
 
         public static char GetJsonValueClosingCharacter(char openingChar)
@@ -247,6 +191,7 @@ namespace StreamSeeking
                 case '{': return JsonPropertyType.complex;
                 case '[': return JsonPropertyType.array;
                 case '\"': return JsonPropertyType.text;
+                default: return JsonPropertyType.unset;
             }
 
             throw new ArgumentException($"Json value type cannot be determined. Opening char: {c}");
@@ -311,6 +256,6 @@ namespace StreamSeeking
 
     public enum JsonPropertyType
     {
-        text, array, complex, number
+        text, array, complex, number, unset
     }
 }
