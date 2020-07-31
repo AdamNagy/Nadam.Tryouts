@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace StreamSeeking.Tests.StreamSeekerTests
@@ -11,7 +6,7 @@ namespace StreamSeeking.Tests.StreamSeekerTests
     [TestClass]
     public class WriteFromTests
     {
-        private static string TEST_FILE = "..\\..\\App_Data\\StreamSeeker_Mock2.txt";
+        private static string TEST_FILE = "..\\..\\App_Data\\StreamSeeker_TestData\\WriteFrom.txt";
 
         [TestInitialize]
         public void BeforeAll()

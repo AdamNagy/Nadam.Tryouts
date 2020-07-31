@@ -1,16 +1,17 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.IO;
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using StreamSeeking.Tests.MockClasses;
-using System;
-using System.IO;
 
 namespace StreamSeeking.Tests.JsonSeekerTests
 {
     [TestClass]
     public class SetValueTests
     {
-        private static string TEST_FILE = "..\\..\\App_Data\\SetValue_Mock.json";
+        private static string TEST_FILE = "..\\..\\App_Data\\JsonSeeker_TestData\\SetValue.json";
 
         [TestInitialize]
         public void BeforeAll()
@@ -85,6 +86,25 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         {
             JsonSeeker.SetValue("textProp", TEST_FILE, "\"some longer text to check\"");
             var result = JsonSeeker.ReadValue("textProp", TEST_FILE);
+        }
+
+        [TestMethod]
+        public void Should_Remain_Valid_Json()
+        {
+
+
+            JsonSeeker.SetValue("stringProp", TEST_FILE, "\"Hello change2!!\"");
+            JsonSeeker.SetValue("numberProp", TEST_FILE, "666");
+            JsonSeeker.SetValue("complexProp", TEST_FILE, "{\"newProp1\": 1234}");
+            JsonSeeker.SetValue("numberArrayProp", TEST_FILE, "[1,2,3,4,5]");
+            JsonSeeker.SetValue("stringArrayProp", TEST_FILE, "[\"Adam\",\"Janos\", \"Diablo\"]");
+
+            var json = JsonConvert.DeserializeObject<TestJsonModel>(JsonSeeker.ReadValue(TEST_FILE));
+
+            Assert.AreEqual(json.NumberProp, 666);
+            Assert.AreEqual(json.StringProp, "Hello change2!!");
+            CollectionAssert.AreEqual(json.StringArrayProp.ToArray(), new string[] {"Adam", "Janos", "Diablo"});
+            CollectionAssert.AreEqual(json.NumberArrayProp.ToArray(), new int[] { 1, 2, 3, 4, 5 });
         }
     }
 }

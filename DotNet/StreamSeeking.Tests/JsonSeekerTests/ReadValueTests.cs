@@ -10,7 +10,7 @@ namespace StreamSeeking.Tests.JsonSeekerTests
     [TestClass]
     public class ReadValueTests
     {
-        private static string TEST_FILE = "..\\..\\App_Data\\ReadValueT_Mock.json";
+        private static string TEST_FILE = "..\\..\\App_Data\\JsonSeeker_TestData\\ReadValue.json";
 
         [TestInitialize]
         public void BeforeAll()
@@ -37,22 +37,22 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void Read_String()
         {
-            var propVal = JsonSeeker.ReadValue("stringProp", TEST_FILE);
-            Assert.AreEqual(propVal, MockData.MOCK_TEXT[0]);
+            var propVal = JsonSeeker.ReadValue(TEST_FILE, "stringProp");
+            Assert.AreEqual(propVal, MockData.TEXTS[0]);
         }
 
         [TestMethod]
         public void Read_Number()
         {
-            var propVal = JsonSeeker.ReadValue("numberProp", TEST_FILE);
-            Assert.AreEqual(propVal, MockData.MOCK_NUMBERS[0].ToString());
+            var propVal = JsonSeeker.ReadValue(TEST_FILE, "numberProp");
+            Assert.AreEqual(propVal, MockData.NUMBERS[0].ToString());
         }
 
         [TestMethod]
         public void Read_Complex()
         {
-            var propVal = JsonSeeker.ReadValue("complexProp", TEST_FILE);
-            var expected = ToJString(ComplexJsonType.GetDefault());
+            var propVal = JsonSeeker.ReadValue(TEST_FILE, "complexProp");
+            var expected = ToJString(TestJsonModel2.GetDefault());
 
             Assert.AreEqual(expected, propVal);
         }
@@ -60,8 +60,8 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void Read_StringArray()
         {
-            var propVal = JsonSeeker.ReadValue("stringArrayProp", TEST_FILE);
-            var expected = ToJString(MockData.MOCK_STRING_ARRAY1);
+            var propVal = JsonSeeker.ReadValue(TEST_FILE, "stringArrayProp");
+            var expected = ToJString(MockData.STRING_ARRAY1);
 
             Assert.AreEqual(expected, propVal);
         }
@@ -69,8 +69,8 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void Read_IntArray()
         {
-            var propVal = JsonSeeker.ReadValue("numberArrayProp", TEST_FILE);
-            var expected = ToJString(MockData.MOCK_NUMBERS_ARRAY1);
+            var propVal = JsonSeeker.ReadValue(TEST_FILE, "numberArrayProp");
+            var expected = ToJString(MockData.NUMBERS_ARRAY1);
 
             Assert.AreEqual(expected, propVal);
         }
@@ -78,8 +78,8 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void Read_ComplexArray()
         {
-            var propVal = JsonSeeker.ReadValue("complexArrayProp", TEST_FILE);
-            var expected = ToJString(MockData.MOCK_COMPLEX_ARRAY);
+            var propVal = JsonSeeker.ReadValue(TEST_FILE, "complexArrayProp");
+            var expected = ToJString(MockData.COMPLEX_ARRAY);
 
             Assert.AreEqual(expected, propVal);
         }

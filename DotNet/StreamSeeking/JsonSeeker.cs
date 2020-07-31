@@ -8,16 +8,22 @@ namespace StreamSeeking
 {
     public class JsonSeeker
     {
-        public static string ReadValue(string propName, string file, int bufferSize = 20)
+        // public static string ReadValue(string propName, string file, int bufferSize = 20)
+        public static string ReadValue(string file, string propName = "", int bufferSize = 20)
         {
-            var seekIndex = StreamSeeker.SeekWord($"\"{propName}\":", file);
-            if (seekIndex == -1)
-                return "";
+            var seekIndex = 0;
+            if (!String.IsNullOrEmpty(propName))
+            {
+                seekIndex = StreamSeeker.SeekWord($"\"{propName}\":", file);
+                if (seekIndex == -1)
+                    return "";
 
-            UTF8Encoding utf8Encoder = new UTF8Encoding(true);
+                // skip the property key closing \" char and the followinf : char
+                seekIndex += propName.Length + 3;
+            }
 
-            // skip the property key closing \" char and the followinf : char
-            seekIndex += propName.Length + 3;
+            ASCIIEncoding utf8Encoder = new ASCIIEncoding();
+
 
             var streamBuffer = new byte[bufferSize];
 
@@ -102,17 +108,31 @@ namespace StreamSeeking
 
                 var restOfTheFile = StreamSeeker.ReadFrom(valuePosition.startPos + valuePosition.endPos, fileStream);
 
-                if (newValue.Length < valuePosition.endPos)
-                {
-
-                }
-
-                UTF8Encoding encoder = new UTF8Encoding(true);
                 StreamSeeker.WriteFrom(valuePosition.startPos, fileStream, newValue);
 
-                var byteArray = encoder.GetBytes(restOfTheFile);
-                fileStream.Write(byteArray, 0, byteArray.Length);
+                ASCIIEncoding encoder = new ASCIIEncoding();
+                var restOfTheFile_AsByteArray = encoder.GetBytes(restOfTheFile);
+                fileStream.Write(restOfTheFile_AsByteArray, 0, restOfTheFile_AsByteArray.Length);
             }
+        }
+
+        public static void AddValueToArray(string file, string propName, string newValue, AppendPosition appendTo = AppendPosition.begining)
+        {
+            var currentValue = ReadValue(file, propName);
+            var newArrayValue = "";
+
+            if (appendTo == AppendPosition.begining)
+            {
+                currentValue = currentValue.TrimStart('[');
+                newArrayValue = $"[\"{newValue}\",{currentValue}";
+            }
+            else
+            {
+                currentValue = currentValue.TrimEnd(']');
+                newArrayValue = $"{currentValue},\"{newValue}\"]";
+            }
+
+            SetValue(propName, file, newArrayValue);
         }
 
         /// <summary>
@@ -185,7 +205,7 @@ namespace StreamSeeking
             int i;
             if (Int32.TryParse(c.ToString(), out i))
                 return JsonPropertyType.number;
-
+            
             switch (c)
             {
                 case '{': return JsonPropertyType.complex;
@@ -256,6 +276,11 @@ namespace StreamSeeking
 
     public enum JsonPropertyType
     {
-        text, array, complex, number, unset
+        text, array, complex, number, boolean, date, unset
+    }
+
+    public enum AppendPosition
+    {
+        begining, end
     }
 }

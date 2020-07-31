@@ -45,7 +45,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Quazistax.cs" />
     <Compile Include="StreamSeeker.cs" />
     <Compile Include="JsonSeeker.cs" />
   </ItemGroup>
