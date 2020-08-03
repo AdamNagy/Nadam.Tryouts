@@ -1,3 +1,0 @@
-interface AccordionElement extends HTMLElement{
-	
-}
