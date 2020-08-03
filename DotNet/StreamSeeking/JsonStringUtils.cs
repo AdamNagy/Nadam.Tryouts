@@ -6,57 +6,14 @@ using System.Text.RegularExpressions;
 
 namespace StreamSeeking
 {
-    public class JsonSeeker
+    public static class JsonStringUtils
     {
-        // public static string ReadValue(string propName, string file, int bufferSize = 20)
-        public static string ReadValue(string file, string propName = "", int bufferSize = 20)
+        public static (int startPos, int length) GetValuePosition(
+            string propName,
+            FileStream fileStream,
+            int bufferSize = 20)
         {
-            var seekIndex = 0;
-            if (!String.IsNullOrEmpty(propName))
-            {
-                seekIndex = StreamSeeker.SeekWord($"\"{propName}\":", file);
-                if (seekIndex == -1)
-                    return "";
-
-                // skip the property key closing \" char and the followinf : char
-                seekIndex += propName.Length + 3;
-            }
-
-            ASCIIEncoding utf8Encoder = new ASCIIEncoding();
-
-
-            var streamBuffer = new byte[bufferSize];
-
-            var propertyValue = "";
-            JsonPropertyType propertyType = JsonPropertyType.unset;
-
-            using (FileStream fs = File.OpenRead(file))
-            {
-                fs.Seek(seekIndex, SeekOrigin.Begin);
-                while (fs.Read(streamBuffer, 0, streamBuffer.Length) > 0)
-                {
-                    propertyValue += utf8Encoder.GetString(streamBuffer);
-
-                    if (propertyType == JsonPropertyType.unset)
-                    {
-                        propertyType = GetPropertyType(propertyValue[0]);
-                    }
-
-                    int closingCharIdx = 0;
-                    if (IsJsonValueClosed(propertyValue, propertyType, out closingCharIdx))
-                    {
-                        propertyValue = propertyValue.Substring(0, closingCharIdx).Trim('"');
-                        break;
-                    }
-                }
-            }
-
-            return NormalizeJsonString(propertyValue);
-        }
-
-        public static (int startPos, int endPos) GetValuePosition(string propName, FileStream fileStream, int bufferSize = 20)
-        {
-            (int startPos, int endPos) position = (0, 0);
+            (int startPos, int length) position = (-1, -1);
 
             var seekIndex = StreamSeeker.SeekWord($"\"{propName}\":", fileStream);
             if (seekIndex == -1)
@@ -85,54 +42,12 @@ namespace StreamSeeking
                 if (IsJsonValueClosed(propertyValue, propertyType, out closingCharIdx))
                 {
                     position = (seekIndex + propName.Length + 3, closingCharIdx);
-                    //if( propertyType == JsonPropertyType.number || propertyType == JsonPropertyType.text)
-                    //else
-                    //    position = (seekIndex + propName.Length + 3, ++closingCharIdx);
-                    
                     break;
                 }
             }
-            
+
 
             return position;
-        }
-
-        public static void SetValue(string propName, string file, string newValue, int bufferSize = 20)
-        {
-            using (FileStream fileStream = File.Open(file, FileMode.Open))
-            {
-                var valuePosition = GetValuePosition(propName, fileStream);
-
-                if( valuePosition.startPos == 0 && valuePosition.endPos == 0 )
-                    throw new ArgumentException($"Property {propName} does not exist in file: {file}");
-
-                var restOfTheFile = StreamSeeker.ReadFrom(valuePosition.startPos + valuePosition.endPos, fileStream);
-
-                StreamSeeker.WriteFrom(valuePosition.startPos, fileStream, newValue);
-
-                ASCIIEncoding encoder = new ASCIIEncoding();
-                var restOfTheFile_AsByteArray = encoder.GetBytes(restOfTheFile);
-                fileStream.Write(restOfTheFile_AsByteArray, 0, restOfTheFile_AsByteArray.Length);
-            }
-        }
-
-        public static void AddValueToArray(string file, string propName, string newValue, AppendPosition appendTo = AppendPosition.begining)
-        {
-            var currentValue = ReadValue(file, propName);
-            var newArrayValue = "";
-
-            if (appendTo == AppendPosition.begining)
-            {
-                currentValue = currentValue.TrimStart('[');
-                newArrayValue = $"[\"{newValue}\",{currentValue}";
-            }
-            else
-            {
-                currentValue = currentValue.TrimEnd(']');
-                newArrayValue = $"{currentValue},\"{newValue}\"]";
-            }
-
-            SetValue(propName, file, newArrayValue);
         }
 
         /// <summary>
@@ -163,7 +78,7 @@ namespace StreamSeeking
                 case JsonPropertyType.number:
                     return IsJsonNumberValueClosed(propValue, out closingCharIndex);
             }
-            
+
             return false;
         }
 
@@ -205,7 +120,7 @@ namespace StreamSeeking
             int i;
             if (Int32.TryParse(c.ToString(), out i))
                 return JsonPropertyType.number;
-            
+
             switch (c)
             {
                 case '{': return JsonPropertyType.complex;
@@ -236,7 +151,7 @@ namespace StreamSeeking
 
                 ++lastDigit;
             }
-            
+
             return true;
         }
 
@@ -259,7 +174,7 @@ namespace StreamSeeking
                     var openerIdx = stack.Pop();
                     if (openerIdx == firstOpener)
                     {
-                        closingCharIdx =  charIdx - openerIdx + 1;
+                        closingCharIdx = charIdx - openerIdx + 1;
                         return true;
                     }
                 }
@@ -272,15 +187,5 @@ namespace StreamSeeking
 
             return false;
         }
-    }
-
-    public enum JsonPropertyType
-    {
-        text, array, complex, number, boolean, date, unset
-    }
-
-    public enum AppendPosition
-    {
-        begining, end
     }
 }

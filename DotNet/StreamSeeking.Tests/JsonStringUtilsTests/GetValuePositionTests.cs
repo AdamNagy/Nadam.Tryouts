@@ -44,7 +44,7 @@ namespace StreamSeeking.Tests.JsonSeekerTests
                 var valPos = JsonSeeker.GetValuePosition("numberProp", fs);
                 var expected = MockData.NUMBERS[0].ToString();
 
-                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.endPos).Trim();
+                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.length).Trim();
 
                 Assert.AreEqual(expected, result);
             }
@@ -58,7 +58,7 @@ namespace StreamSeeking.Tests.JsonSeekerTests
                 var valPos = JsonSeeker.GetValuePosition("stringProp", fs);
                 var expected = MockData.TEXTS[0].ToString();
 
-                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.endPos).Trim();
+                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.length).Trim();
 
                 Assert.AreEqual($"\"{expected}\"", result);
             }
@@ -72,7 +72,7 @@ namespace StreamSeeking.Tests.JsonSeekerTests
                 var valPos = JsonSeeker.GetValuePosition("complexProp", fs);
                 var expected = ToJString(TestJsonModel2.GetDefault());
 
-                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.endPos).Trim();
+                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.length).Trim();
 
                 Assert.AreEqual($"{expected}", result);
             }
@@ -86,7 +86,7 @@ namespace StreamSeeking.Tests.JsonSeekerTests
                 var valPos = JsonSeeker.GetValuePosition("complexArrayProp", fs);
                 var expected = ToJString(MockData.COMPLEX_ARRAY);
 
-                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.endPos).Trim();
+                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.length).Trim();
 
                 Assert.AreEqual($"{expected}", result);
             }
@@ -100,7 +100,7 @@ namespace StreamSeeking.Tests.JsonSeekerTests
                 var valPos = JsonSeeker.GetValuePosition("numberArrayProp", fs);
                 var expected = ToJString(MockData.NUMBERS_ARRAY1);
 
-                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.endPos).Trim();
+                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.length).Trim();
 
                 Assert.AreEqual($"{expected}", result);
             }
@@ -114,7 +114,7 @@ namespace StreamSeeking.Tests.JsonSeekerTests
                 var valPos = JsonSeeker.GetValuePosition("stringArrayProp", fs);
                 var expected = ToJString(MockData.STRING_ARRAY1);
 
-                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.endPos).Trim();
+                var result = TEST_FILE_CONTENT.Substring(valPos.startPos, valPos.length).Trim();
 
                 Assert.AreEqual($"{expected}", result);
             }
