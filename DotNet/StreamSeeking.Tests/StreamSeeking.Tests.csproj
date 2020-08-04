@@ -52,16 +52,16 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JsonSeekerTests\PushToArrayTests.cs" />
-    <Compile Include="JsonSeekerTests\GetPropertyTypeTests.cs" />
-    <Compile Include="JsonSeekerTests\GetValuePositionTests.cs" />
-    <Compile Include="JsonSeekerTests\IsFistParenthesesClosedTests.cs" />
-    <Compile Include="JsonSeekerTests\IsJsonValueClosedTests.cs" />
-    <Compile Include="JsonSeekerTests\SetPropertyTests.cs" />
+    <Compile Include="JsonStringEntityTests\ExtendPropertyTests.cs" />
+    <Compile Include="JsonStringUtilsTests\GetPropertyTypeTests.cs" />
+    <Compile Include="JsonStringUtilsTests\GetValuePositionTests.cs" />
+    <Compile Include="JsonStringUtilsTests\IsFistParenthesesClosedTests.cs" />
+    <Compile Include="JsonStringUtilsTests\IsJsonValueClosedTests.cs" />
+    <Compile Include="JsonStringEntityTests\SetPropertyTests.cs" />
     <Compile Include="MockClasses\MockData.cs" />
     <Compile Include="MockClasses\TestJsonModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="JsonSeekerTests\ReadPropertyTests.cs" />
+    <Compile Include="JsonStringEntityTests\ReadTests.cs" />
     <Compile Include="StreamSeekerTests\ReadFromTests.cs" />
     <Compile Include="StreamSeekerTests\SeekWordTests.cs" />
     <Compile Include="StreamSeekerTests\WriteFromTests.cs" />

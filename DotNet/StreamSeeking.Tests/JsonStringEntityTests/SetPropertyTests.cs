@@ -38,8 +38,10 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void Write_String_Begining()
         {
-            JsonSeeker.SetProperty(TEST_FILE, "stringProp", "\"Hello change!!\"");
-            var result = JsonSeeker.ReadProperty(TEST_FILE, "stringProp");
+            var sut = new JsonStringEntity(TEST_FILE);
+
+            sut.SetProperty("stringProp", "\"Hello change!!\"");
+            var result = sut.Read("stringProp");
 
             Assert.AreEqual("Hello change!!", result);
         }
@@ -47,8 +49,10 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void Write_Number_Middle()
         {
-            JsonSeeker.SetProperty(TEST_FILE, "numberProp", "666");
-            var result = JsonSeeker.ReadProperty(TEST_FILE, "numberProp");
+            var sut = new JsonStringEntity(TEST_FILE);
+
+            sut.SetProperty("numberProp", "666");
+            var result = sut.Read("numberProp");
 
             Assert.AreEqual("666", result);
         }
@@ -56,8 +60,10 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void Write_Complex_Middle()
         {
-            JsonSeeker.SetProperty(TEST_FILE, "complexProp", "{\"newProp1\": 1234}");
-            var result = JsonSeeker.ReadProperty(TEST_FILE, "complexProp");
+            var sut = new JsonStringEntity(TEST_FILE);
+
+            sut.SetProperty("complexProp", "{\"newProp1\": 1234}");
+            var result = sut.Read("complexProp");
 
             Assert.AreEqual("{\"newProp1\": 1234}", result);
         }
@@ -65,8 +71,10 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void Write_NumberArray_Middle()
         {
-            JsonSeeker.SetProperty(TEST_FILE, "numberArrayProp", "[1,2,3,4,5]");
-            var result = JsonSeeker.ReadProperty(TEST_FILE, "numberArrayProp");
+            var sut = new JsonStringEntity(TEST_FILE);
+
+            sut.SetProperty("numberArrayProp", "[1,2,3,4,5]");
+            var result = sut.Read("numberArrayProp");
 
             Assert.AreEqual("[1,2,3,4,5]", result);
         }
@@ -74,8 +82,10 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void Write_StringArray_Middle()
         {
-            JsonSeeker.SetProperty(TEST_FILE, "stringArrayProp", "[\"Adam\",\"Janos\", \"Diablo\"]");
-            var result = JsonSeeker.ReadProperty(TEST_FILE, "stringArrayProp");
+            var sut = new JsonStringEntity(TEST_FILE);
+
+            sut.SetProperty("stringArrayProp", "[\"Adam\",\"Janos\", \"Diablo\"]");
+            var result = sut.Read("stringArrayProp");
 
             Assert.AreEqual("[\"Adam\",\"Janos\", \"Diablo\"]", result);
         }
@@ -84,19 +94,22 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [ExpectedException(typeof(ArgumentException))]
         public void Should_Throw_Exception()
         {
-            JsonSeeker.SetProperty(TEST_FILE, "textProp", "\"some longer text to check\"");
+            var sut = new JsonStringEntity(TEST_FILE);
+            sut.SetProperty("textProp", "\"some longer text to check\"");
         }
 
         [TestMethod]
         public void Should_Remain_Valid_Json()
         {
-            JsonSeeker.SetProperty(TEST_FILE, "stringProp", "\"Hello change2!!\"");
-            JsonSeeker.SetProperty(TEST_FILE, "numberProp", "666");
-            JsonSeeker.SetProperty(TEST_FILE, "complexProp", "{\"newProp1\": 1234}");
-            JsonSeeker.SetProperty(TEST_FILE, "numberArrayProp", "[1,2,3,4,5]");
-            JsonSeeker.SetProperty(TEST_FILE, "stringArrayProp", "[\"Adam\",\"Janos\", \"Diablo\"]");
+            var sut = new JsonStringEntity(TEST_FILE);
 
-            var json = JsonConvert.DeserializeObject<TestJsonModel>(JsonSeeker.ReadProperty(TEST_FILE));
+            sut.SetProperty("stringProp", "\"Hello change2!!\"");
+            sut.SetProperty("numberProp", "666");
+            sut.SetProperty("complexProp", "{\"newProp1\": 1234}");
+            sut.SetProperty("numberArrayProp", "[1,2,3,4,5]");
+            sut.SetProperty("stringArrayProp", "[\"Adam\",\"Janos\", \"Diablo\"]");
+
+            var json = JsonConvert.DeserializeObject<TestJsonModel>(sut.Read());
 
             Assert.AreEqual(json.NumberProp, 666);
             Assert.AreEqual(json.StringProp, "Hello change2!!");

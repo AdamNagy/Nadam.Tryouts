@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace StreamSeeking.Tests.JsonSeekerTests
 {
     [TestClass]
-    public class PushToArrayTests
+    public class ExtendPropertyTests
     {
         private static string TEST_FILE = "..\\..\\App_Data\\JsonSeeker_TestData\\AddValueToArray_complex.txt";
 
@@ -17,9 +17,10 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void Append_Begining_Simple()
         {
-            // JsonSeeker.PushToArray(TEST_FILE, "stringArrayProp", "\"barack\"", AppendPosition.begining);
-            JsonSeeker.PushToArray(TEST_FILE, "\"barack\"", "stringArrayProp", AppendPosition.begining);
-            var result = JsonSeeker.ReadProperty(TEST_FILE, "stringArrayProp");
+            var sut = new JsonStringEntity(TEST_FILE);
+
+            sut.ExtendProperty("\"barack\"", "stringArrayProp", AppendPosition.begining);
+            var result = sut.Read("stringArrayProp");
 
             Assert.AreEqual("[\"barack\",\"alma\",\"korte\",\"szilva\"]", result);
         }
@@ -27,8 +28,10 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void Append_End_Simple()
         {
-            JsonSeeker.PushToArray(TEST_FILE, "\"barack\"", "stringArrayProp", AppendPosition.end);
-            var result = JsonSeeker.ReadProperty(TEST_FILE, "stringArrayProp");
+            var sut = new JsonStringEntity(TEST_FILE);
+
+            sut.ExtendProperty("\"barack\"", "stringArrayProp", AppendPosition.end);
+            var result = sut.Read("stringArrayProp");
 
             Assert.AreEqual("[\"alma\",\"korte\",\"szilva\",\"barack\"]", result);
         }

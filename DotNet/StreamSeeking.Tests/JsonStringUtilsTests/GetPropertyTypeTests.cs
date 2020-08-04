@@ -9,7 +9,7 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         public void ShouldBe_JsonPropertyType_Complex()
         {
             var openingChar = '{';
-            var propertyType = JsonSeeker.GetPropertyType(openingChar);
+            var propertyType = JsonStringUtils.GetPropertyType(openingChar);
 
             Assert.AreEqual(JsonPropertyType.complex, propertyType);
         }
@@ -18,7 +18,7 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         public void ShouldBe_JsonPropertyType_Array()
         {
             var openingChar = '[';
-            var propertyType = JsonSeeker.GetPropertyType(openingChar);
+            var propertyType = JsonStringUtils.GetPropertyType(openingChar);
 
             Assert.AreEqual(JsonPropertyType.array, propertyType);
         }
@@ -27,7 +27,7 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         public void ShouldBe_JsonPropertyType_Number()
         {
             var openingChar = '3';
-            var propertyType = JsonSeeker.GetPropertyType(openingChar);
+            var propertyType = JsonStringUtils.GetPropertyType(openingChar);
 
             Assert.AreEqual(JsonPropertyType.number, propertyType);
         }
@@ -36,7 +36,7 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         public void ShouldBe_JsonPropertyType_Text()
         {
             var openingChar = '"';
-            var propertyType = JsonSeeker.GetPropertyType(openingChar);
+            var propertyType = JsonStringUtils.GetPropertyType(openingChar);
 
             Assert.AreEqual(JsonPropertyType.text, propertyType);
         }

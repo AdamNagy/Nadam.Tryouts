@@ -8,7 +8,7 @@ using System.IO;
 namespace StreamSeeking.Tests.JsonSeekerTests
 {
     [TestClass]
-    public class ReadPropertyTests
+    public class ReadTests
     {
         private static string TEST_FILE = "..\\..\\App_Data\\JsonSeeker_TestData\\ReadProperty.json";
 
@@ -37,21 +37,24 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void Read_String()
         {
-            var propVal = JsonSeeker.ReadProperty(TEST_FILE, "stringProp");
+            var sut = new JsonStringEntity(TEST_FILE);
+            var propVal = sut.Read("stringProp");
             Assert.AreEqual(propVal, MockData.TEXTS[0]);
         }
 
         [TestMethod]
         public void Read_Number()
         {
-            var propVal = JsonSeeker.ReadProperty(TEST_FILE, "numberProp");
+            var sut = new JsonStringEntity(TEST_FILE);
+            var propVal = sut.Read("numberProp");
             Assert.AreEqual(propVal, MockData.NUMBERS[0].ToString());
         }
 
         [TestMethod]
         public void Read_Complex()
         {
-            var propVal = JsonSeeker.ReadProperty(TEST_FILE, "complexProp");
+            var sut = new JsonStringEntity(TEST_FILE);
+            var propVal = sut.Read("complexProp");
             var expected = ToJString(TestJsonModel2.GetDefault());
 
             Assert.AreEqual(expected, propVal);
@@ -60,7 +63,8 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void Read_StringArray()
         {
-            var propVal = JsonSeeker.ReadProperty(TEST_FILE, "stringArrayProp");
+            var sut = new JsonStringEntity(TEST_FILE);
+            var propVal = sut.Read("stringArrayProp");
             var expected = ToJString(MockData.STRING_ARRAY1);
 
             Assert.AreEqual(expected, propVal);
@@ -69,7 +73,8 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void Read_IntArray()
         {
-            var propVal = JsonSeeker.ReadProperty(TEST_FILE, "numberArrayProp");
+            var sut = new JsonStringEntity(TEST_FILE);
+            var propVal = sut.Read("numberArrayProp");
             var expected = ToJString(MockData.NUMBERS_ARRAY1);
 
             Assert.AreEqual(expected, propVal);
@@ -78,7 +83,8 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         [TestMethod]
         public void Read_ComplexArray()
         {
-            var propVal = JsonSeeker.ReadProperty(TEST_FILE, "complexArrayProp");
+            var sut = new JsonStringEntity(TEST_FILE);
+            var propVal = sut.Read("complexArrayProp");
             var expected = ToJString(MockData.COMPLEX_ARRAY);
 
             Assert.AreEqual(expected, propVal);

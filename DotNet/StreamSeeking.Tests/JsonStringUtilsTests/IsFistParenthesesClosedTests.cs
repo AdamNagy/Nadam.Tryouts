@@ -15,7 +15,7 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         {
             var text = "{main {first sub}.. {second sub}..}..{..";
             var closerCharIdx = 0;
-            var isClosed = JsonSeeker.IsJsonParenthesesClosed(text, '{', '}', out closerCharIdx);
+            var isClosed = JsonStringUtils.IsJsonParenthesesClosed(text, '{', '}', out closerCharIdx);
 
             Assert.AreEqual("{main {first sub}.. {second sub}..}", text.Substring(0, closerCharIdx));
         }
@@ -25,7 +25,7 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         {
             var text = "{}";
             var closerCharIdx = 0;
-            var isClosed = JsonSeeker.IsJsonParenthesesClosed(text, '{', '}', out closerCharIdx);
+            var isClosed = JsonStringUtils.IsJsonParenthesesClosed(text, '{', '}', out closerCharIdx);
 
             Assert.AreEqual("{}", text.Substring(0, closerCharIdx));
         }
@@ -35,7 +35,7 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         {
             var text = "some text before {main {first sub}.. {second sub}..}..{..";
             var closerCharIdx = 0;
-            var isClosed = JsonSeeker.IsJsonParenthesesClosed(text, '{', '}', out closerCharIdx);
+            var isClosed = JsonStringUtils.IsJsonParenthesesClosed(text, '{', '}', out closerCharIdx);
 
             Assert.IsFalse(isClosed);
         }
@@ -45,7 +45,7 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         {
             var text = "{main {first sub}.. {second sub}..";
             var closerCharIdx = 0;
-            var isClosed = JsonSeeker.IsJsonParenthesesClosed(text, '{', '}', out closerCharIdx);
+            var isClosed = JsonStringUtils.IsJsonParenthesesClosed(text, '{', '}', out closerCharIdx);
 
             Assert.IsFalse(isClosed);
         }
@@ -55,7 +55,7 @@ namespace StreamSeeking.Tests.JsonSeekerTests
         {
             var text = "{";
             var closerCharIdx = 0;
-            var isClosed = JsonSeeker.IsJsonParenthesesClosed(text, '{', '}', out closerCharIdx);
+            var isClosed = JsonStringUtils.IsJsonParenthesesClosed(text, '{', '}', out closerCharIdx);
 
             Assert.IsFalse(isClosed);
         }
