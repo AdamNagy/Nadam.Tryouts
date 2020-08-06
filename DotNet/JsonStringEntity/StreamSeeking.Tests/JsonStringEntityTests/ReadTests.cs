@@ -5,7 +5,7 @@ using StreamSeeking.Tests.MockClasses;
 using System;
 using System.IO;
 
-namespace StreamSeeking.Tests.JsonSeekerTests
+namespace StreamSeeking.Tests.JsonStringEntityTests
 {
     [TestClass]
     public class ReadTests

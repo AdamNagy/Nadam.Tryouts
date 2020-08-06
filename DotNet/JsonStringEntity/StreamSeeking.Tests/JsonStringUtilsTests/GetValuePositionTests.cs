@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using StreamSeeking.Tests.MockClasses;
 
-namespace StreamSeeking.Tests.JsonSeekerTests
+namespace StreamSeeking.Tests.JsonStringUtilsTests
 {
     [TestClass]
     public class GetValuePositionTests

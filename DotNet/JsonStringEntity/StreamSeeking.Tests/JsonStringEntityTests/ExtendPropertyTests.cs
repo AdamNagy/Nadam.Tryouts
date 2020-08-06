@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace StreamSeeking.Tests.JsonSeekerTests
+namespace StreamSeeking.Tests.JsonStringEntityTests
 {
     [TestClass]
     public class ExtendPropertyTests
