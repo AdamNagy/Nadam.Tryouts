@@ -1,4 +1,6 @@
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { fromEvent, merge, of } from "rxjs";
+
 import { AppStore, Action, StateChange } from "./my-store";
 
 // state and store building
@@ -41,6 +43,17 @@ function renderTodos(todos: TodoModel[]) {
 	}
 }
 
+const todoActions = {
+	add: "todo:Add",
+	delete: "todo:DELETE",
+	markCompleted: "todo:MARK_COMPLETED",
+	filter: "todo:filter"
+}
+
+enum todoFilter {
+	all, copleted, notCompleted
+}
+
 function todoReducer(state: TodoModel[] = initialTodoState, action: Action = undefined) {
 
 	if( action === undefined )
@@ -49,9 +62,11 @@ function todoReducer(state: TodoModel[] = initialTodoState, action: Action = und
 	let newState: TodoModel[] = state;
 
 	switch(action.type) {
-		case "todos:ADD":
+		
+		case todoActions.add:
 			newState = [...state, action.payload];
 			break;
+
 		default: break;
 	}
 
@@ -70,7 +85,7 @@ addTodoBtn.addEventListener("click", () => {
 		content
 	};
 
-	store.dispatch("todos:ADD", newTodo);
+	store.dispatch(todoActions.add, newTodo);
 });
 
 var todoContainer = document.createElement("div");
