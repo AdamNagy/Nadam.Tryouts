@@ -1,0 +1,25 @@
+{
+  "name": "ndm-ts-prototype",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.19",
+    "redux": "^4.0.5",
+    "rxjs": "^6.6.2"
+  },
+  "devDependencies": {
+    "@reduxjs/toolkit": "^1.4.0",
+    "@types/lodash": "^4.14.159",
+    "node-sass": "^4.14.1",
+    "ts-loader": "^6.0.1",
+    "typescript": "^3.4.5",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  }
+}

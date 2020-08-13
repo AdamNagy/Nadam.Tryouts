@@ -1,4 +1,20 @@
-// continue task with something
+		<***********************>
+
+#		h1
+##		h2
+###		h3
+...
+//		p
+// n)	ol
+
+		<***********************>
+		
+# handling success or failure
+someTask.ContinueWith((theTask) => {
+	theTask.Result // will be x
+}, TaskContinuationOptions.NotOnFaulted) //.OnlyOnCancelled, ...
+
+# continue task with something
 var someTask = new Task(() => { ... return x })
 var someTask = new Task.Run(() => { ... return x })
 
@@ -8,11 +24,11 @@ var someTask_continuation = someTask.ContinueWith((theTask) => {
 
 var someTask_continuation_continuation = someTask_continuation.ContinueWith(() => { ... })
 
-// Fun fact:
+## Fun fact:
 var someTask = new Task.Run( async () => { ... await asyncFunc() ... return x })
 							 ^^^^^			   ^^^^^
 
-// Calling the caller thred (propably the UI/main thred)
+## Calling the caller thred (propably the UI/main thred)
 Task.Run(() => {
 	Dispatcher.Invoke(() => {
 		// here we are in the main threds context
@@ -21,41 +37,36 @@ Task.Run(() => {
 
 
 		<***********************>
-// Six ways to initiate tasks on another thread in .NET
+		
+# Six ways to initiate tasks on another thread in .NET
 // https://markheath.net/post/starting-threads-in-dotnet
 
-// 1)
-// Asynchronous Delegates
+// 1) Asynchronous Delegates
 Action<string> d = BackgroundTask;
 d.BeginInvoke("BeginInvoke", null, null);
 
-// 2)
-// Thread Class
+// 2) Thread Class
 var t = new Thread(BackgroundTask);
 t.Name = "My Thread";
 t.Priority = ThreadPriority.AboveNormal;
 t.Start("Thread");
 
-// 3)
-// ThreadPool
+// 3) ThreadPool
 // disadvantage of this approach compared to the previous two is that it provides no mechanism for notification of when your task has finished. It’s up to you to report completion and catch exceptions.
 
 ThreadPool.QueueUserWorkItem(BackgroundTask, "ThreadPool");
 
-// 4)
-// BackgroundWorker Component
+// 4) BackgroundWorker Component
 // covers all the basics of reporting progress, cancellation, catching exceptions, and getting you back onto the UI thread
 
 backgroundWorker1.DoWork += BackgroundWorker1OnDoWork;
 
-// 5)
-// Task Parallel Library (TPL)
+// 5) Task Parallel Library (TPL)
 // It is a powerful model, supporting chaining tasks together, executing them in parallel, waiting on one or many tasks to complete, passing cancellation tokens around, and even controlling what thread they will run on
 
 Task.Run(() => BackgroundTask("TPL"));
 
-// 6)
-// C# 5 async await
+// 6) C# 5 async await
 
 
 		<***********************>

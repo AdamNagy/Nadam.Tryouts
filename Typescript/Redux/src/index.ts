@@ -1,50 +1,32 @@
-import { createStore } from "redux";
-import { addTodo } from "./actions";
-import todoApp, { AppState } from "./reducers";
+import { addTodo } from "./todo.store/actions";
+import { store } from "./store";
+import { getTodos } from "./todo.store/selectors";
+import { TodoStateModel } from "./todo.store/state-model";
 
-export const store = createStore(todoApp);
+var todos = getTodos(store);
 
-const inputTodo = document.getElementById("todo-input") as HTMLInputElement;
-const btnAddTodo = document.getElementById("todo-add-btn");
-const listTodo = document.getElementById("todo-list");
+for(var post of todos) {
+	var title = document.createElement("p");
+	title.innerText = post.text
 
-btnAddTodo.addEventListener("click", () => {
-	store.dispatch(addTodo(inputTodo.value));
+	document.body.append(title);
+}
+
+var todoTitleInput = document.getElementById("todo-title-input") as HTMLInputElement;
+var todoAddBtn = document.getElementById("todo-add-btn");
+
+todoAddBtn.addEventListener("click", () => {
+
+	var title = todoTitleInput.value;
+
+	var newTodo: TodoStateModel = {
+		conpleted: false,
+		text: title
+	};
+
+	store.dispatch(addTodo(newTodo));
+	
+	store.subscribe(() => {
+		console.log({ todos: getTodos(store) });
+	})
 });
-
-function todosSelector(state: AppState) {
-	return state.todos;
-}
-
-let currentValue: any;
-function handleChange() {
-	const previousValue = currentValue;
-	currentValue = todosSelector(store.getState());
-
-	if (previousValue !== currentValue) {
-		console.log(
-			"Some deep nested property changed from",
-			previousValue,
-			"to",
-			currentValue,
-		);
-	}
-}
-
-function reRender() {
-
-	const previousList = listTodo.children;
-	for (const item of previousList) {
-		item.remove();
-	}
-
-	const updatedList = todosSelector(store.getState());
-	for (const newItem of updatedList) {
-		const listItem = document.createElement("li");
-		listItem.innerText = newItem.text;
-		listTodo.append(listItem);
-	}
-}
-
-store.subscribe(handleChange);
-store.subscribe(reRender);
