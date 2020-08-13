@@ -1,73 +1,7 @@
-import { fromEvent, merge, of } from "rxjs";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/merge";
-import "rxjs/add/operator/scan";
-import { Subject } from "rxjs/Subject";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { AppStore, Action, StateChange } from "./my-store";
 
 // state and store building
-class AppState {
-	todos: TodoModel[] = [];
-}
-
-class StateReducer {
-	propName: string;
-	reducerFunc: any;
-}
-
-class Action {
-
-	constructor(_type: string, reducers: StateReducer[]) {
-		this.type = _type;
-	}
-
-	type: string = "";
-	payload: any = {};
-}
-
-class AppStore {
-
-	private stateQueue: AppState[] = [];
-	private reducers: StateReducer[] = [];
-
-	constructor(_reducers: StateReducer[]) {
-
-		this.reducers = _reducers;
-
-		var nullState = {};
-		for(var reducer of this.reducers) {
-			var newProp: any = {};
-			newProp[reducer.propName] =  reducer.reducerFunc();
-
-			nullState = Object.assign({}, nullState, newProp)
-		}
-
-		this.stateQueue.push(nullState as AppState);
-	}
-
-	public getState(): AppState {
-		return this.stateQueue[this.stateQueue.length - 1];
-	}
-
-	public pushState(state: AppState) {
-		this.stateQueue.push(state);
-	}
-
-	public dispatch(action: string, payload: any) {
-
-		var propertyName: string = action.split(':')[0];
-
-		var currentState: any = this.getState();
-		var reducer = this.reducers.filter(p => p.propName === propertyName)[0];
-
-		var newSubState = reducer.reducerFunc(currentState[propertyName], {type: action, payload} as Action);
-
-		var p: any = {};
-		p[propertyName] = newSubState;
-
-		this.pushState(Object.assign({}, currentState, p));
-	}
-}
-
 class TodoModel {
 	content: string = "";
 	completed: boolean = false;
@@ -84,14 +18,6 @@ var initialTodoState: TodoModel[] =
 			completed: false
 		}
 	];
-
-
-function todoSelector(state: AppState) {
-
-	const stateSubject = new Subject<TodoModel[]>();
-	stateSubject.next(state.todos);
-	return stateSubject;
-}
 
 var store: AppStore = new AppStore(
 	[
@@ -115,9 +41,12 @@ function renderTodos(todos: TodoModel[]) {
 	}
 }
 
-function todoReducer(state: TodoModel[] = initialTodoState, action: Action = {type: "", payload: undefined}) {
+function todoReducer(state: TodoModel[] = initialTodoState, action: Action = undefined) {
 
-	var newState: TodoModel[] = state;
+	if( action === undefined )
+		return state;
+
+	let newState: TodoModel[] = state;
 
 	switch(action.type) {
 		case "todos:ADD":
@@ -142,7 +71,6 @@ addTodoBtn.addEventListener("click", () => {
 	};
 
 	store.dispatch("todos:ADD", newTodo);
-	// renderTodos(todoSelector(store.getState()));
 });
 
 var todoContainer = document.createElement("div");
@@ -153,4 +81,6 @@ document.body.append(todoInput);
 document.body.append(addTodoBtn);
 document.body.append(todoContainer);
 
-// renderTodos( todoSelector(store.getState()) );
+store.select("todos").subscribe((stateChange: StateChange<TodoModel[]>) => {
+	renderTodos(stateChange.currentValue);
+});
