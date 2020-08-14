@@ -1,7 +1,7 @@
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 export class ReducableProperty {
-	public propName: string;
+	public propName: string = "";
 	public reducerFunc: any;
 }
 
@@ -21,17 +21,18 @@ export class Action {
 }
 
 export class StateChange<T> {
-	public lastAction: Action;
+	public lastAction: Action | undefined;
 	public currentValue: any;
 }
-export class AppStore {
+
+export class ReduxStore {
 
 	private stateQueue: any[] = [];
 	private stateProperties: StateProperty[] = [];
 
 	constructor(_reducables: ReducableProperty[]) {
 
-		let initialState = {};
+		let initialState: any = {};
 		for (const reducable of _reducables) {
 			const newProp: any = {};
 			newProp[reducable.propName] =  reducable.reducerFunc();
@@ -49,7 +50,7 @@ export class AppStore {
 		this.stateQueue.push(initialState);
 	}
 
-	public getState() {
+	public getState(): any {
 		return this.stateQueue[this.stateQueue.length - 1];
 	}
 

@@ -1,10 +1,10 @@
 console.log(echo("halika"));
 
-var accConfig = [];// as AccordionElementConfig;
+var accConfig: AccordionElementConfig[] = [];// as AccordionElementConfig;
 accConfig.push({
 	title: "Hello god",
 	contentElement: document.createElement("p")
-} as AccordionElementConfig)
+} as AccordionElementConfig);
 
-var acc = new AccordionElement(accConfig);
+var acc: AccordionElement = new AccordionElement(accConfig);
 document.body.append(acc);

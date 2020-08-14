@@ -1,42 +1,41 @@
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { fromEvent, merge, of } from "rxjs";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
-import { AppStore, Action, StateChange } from "./my-store";
+import { Action, AppStore, StateChange } from "./my-store";
 
 // state and store building
 class TodoModel {
-	content: string = "";
-	completed: boolean = false;
+	public content: string = "";
+	public completed: boolean = false;
 }
 
-var initialTodoState: TodoModel[] = 
+const initialTodoState: TodoModel[] =
 	 [
 		{
+			completed: false,
 			content: "task 1",
-			completed: false
 		},
 		{
+			completed: false,
 			content: "task 2",
-			completed: false
-		}
+		},
 	];
 
-var store: AppStore = new AppStore(
+const store: AppStore = new AppStore(
 	[
 		{
 			propName: "todos",
-			reducerFunc: todoReducer
-		}
+			reducerFunc: todoReducer,
+		},
 	]);
-
 
 // html dom building
 function renderTodos(todos: TodoModel[]) {
-	var container = document.getElementById("todo-container");
+	const container = document.getElementById("todo-container");
 	container.innerHTML = "";
 
-	for(var todo of todos) {
-		var todoItem = document.createElement("p");
+	for (const todo of todos) {
+		const todoItem = document.createElement("p");
 		todoItem.innerText = todo.content;
 
 		container.append(todoItem);
@@ -46,23 +45,23 @@ function renderTodos(todos: TodoModel[]) {
 const todoActions = {
 	add: "todo:Add",
 	delete: "todo:DELETE",
+	filter: "todo:filter",
 	markCompleted: "todo:MARK_COMPLETED",
-	filter: "todo:filter"
-}
+};
 
 enum todoFilter {
-	all, copleted, notCompleted
+	all, copleted, notCompleted,
 }
 
-function todoReducer(state: TodoModel[] = initialTodoState, action: Action = undefined) {
+function todoReducer(state: TodoModel[] = initialTodoState, action: Action) {
 
-	if( action === undefined )
+	if ( action === undefined )
 		return state;
 
 	let newState: TodoModel[] = state;
 
-	switch(action.type) {
-		
+	switch (action.type) {
+
 		case todoActions.add:
 			newState = [...state, action.payload];
 			break;
@@ -73,22 +72,22 @@ function todoReducer(state: TodoModel[] = initialTodoState, action: Action = und
 	return newState;
 }
 
-var todoInput: HTMLInputElement = document.createElement("input");
+const todoInput: HTMLInputElement = document.createElement("input");
 todoInput.setAttribute("type", "text");
 
-var addTodoBtn = document.createElement("button");
+const addTodoBtn = document.createElement("button");
 addTodoBtn.innerText = "add todo";
 addTodoBtn.addEventListener("click", () => {
-	var content = todoInput.value;
-	var newTodo: TodoModel = {
+	const content = todoInput.value;
+	const newTodo: TodoModel = {
 		completed: false,
-		content
+		content,
 	};
 
 	store.dispatch(todoActions.add, newTodo);
 });
 
-var todoContainer = document.createElement("div");
+const todoContainer = document.createElement("div");
 todoContainer.classList.add("container");
 todoContainer.setAttribute("id", "todo-container");
 
