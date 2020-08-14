@@ -54,8 +54,20 @@ export class ReduxStore {
 		return this.stateQueue[this.stateQueue.length - 1];
 	}
 
-	public pushState(state: any) {
-		this.stateQueue.push(state);
+	public addProperty(reducable: ReducableProperty) {
+		const newProp: any = {};
+		newProp[reducable.propName] =  reducable.reducerFunc();
+
+		const initialState = Object.assign({}, this.getState(), newProp);
+
+		this.stateProperties.push({
+			propName: reducable.propName,
+			reducerFunc: reducable.reducerFunc,
+			subject: new BehaviorSubject<StateChange<any>>({ lastAction: undefined, currentValue: newProp[reducable.propName] }),
+			actions: [],
+		});
+
+		this.stateQueue.push(initialState);
 	}
 
 	public dispatch(action: string, payload: any) {
@@ -64,20 +76,27 @@ export class ReduxStore {
 		const propertyName: string = action.split(":")[0];
 
 		const currentState: any = this.getState();
-		const stateProperty = this.stateProperties.filter((p) => p.propName === propertyName)[0];
+		const stateProperty = this.stateProperties.find((p) => p.propName === propertyName);
 
+		if( stateProperty === undefined )
+			throw `reducer does not exist ${propertyName}`;
+		
 		const newSubState = stateProperty.reducerFunc(currentState[propertyName], actionWithPayload);
 
 		const newStatePropertyValue: any = {};
 		newStatePropertyValue[propertyName] = newSubState;
 
-		this.pushState(Object.assign({}, currentState, newStatePropertyValue));
+		this.stateQueue.push(Object.assign({}, currentState, newStatePropertyValue));
 		stateProperty.actions.push(actionWithPayload);
 		stateProperty.subject.next({lastAction: actionWithPayload, currentValue: newStatePropertyValue[propertyName]} as StateChange<any>);
 	}
 
 	public select(propertyName: string): BehaviorSubject<StateChange<any>> {
-		const stateProperty = this.stateProperties.filter((p) => p.propName === propertyName)[0];
+		const stateProperty = this.stateProperties.find((p) => p.propName === propertyName);
+
+		if( stateProperty === undefined )
+			throw `reducer does not exist ${propertyName}`;					
+
 		return stateProperty.subject;
 	}
 }
