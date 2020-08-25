@@ -78,9 +78,9 @@ export class ReduxStore {
 		const currentState: any = this.getState();
 		const stateProperty = this.stateProperties.find((p) => p.propName === propertyName);
 
-		if( stateProperty === undefined )
-			throw `reducer does not exist ${propertyName}`;
-		
+		if ( stateProperty === undefined )
+			throw new Error(`reducer does not exist ${propertyName}`);
+
 		const newSubState = stateProperty.reducerFunc(currentState[propertyName], actionWithPayload);
 
 		const newStatePropertyValue: any = {};
@@ -94,8 +94,8 @@ export class ReduxStore {
 	public select(propertyName: string): BehaviorSubject<StateChange<any>> {
 		const stateProperty = this.stateProperties.find((p) => p.propName === propertyName);
 
-		if( stateProperty === undefined )
-			throw `reducer does not exist ${propertyName}`;					
+		if ( stateProperty === undefined )
+			throw new Error(`reducer does not exist ${propertyName}`);
 
 		return stateProperty.subject;
 	}

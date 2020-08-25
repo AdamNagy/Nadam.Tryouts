@@ -627,7 +627,7 @@ class AccordionElement extends HTMLElement {
 	template = `
 		<div class="card">
 			<div class="card-header" >
-				<h5 class="mb-0" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">			
+				<h5 class="mb-0" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 						
 				</h5>
 			</div>
@@ -648,9 +648,19 @@ class AccordionElement extends HTMLElement {
 	connectedCallback() {
 		var accordionItems = this.querySelectorAll(".accordion-item");
 
+		if( accordionItems.length > 0 )
+			this.initByHtml(accordionItems);
+		else if ( this.config !== undefined )
+			this.initByConfig(this.config)			
+	}
+
+	initByHtml(accordionItems) {
+
 		var domParser = new DOMParser();
 		var accordionItemIdx = 1;
-		// using predefined html tags
+
+		var parentId = this.getAttribute("id");
+
 		for(var accordionItem of accordionItems) {
 			var accordionItemElement = domParser.parseFromString(this.template, "text/html")
 											.querySelector("div:first-child");
@@ -661,13 +671,13 @@ class AccordionElement extends HTMLElement {
 				accordionItemElement.querySelector(".card-body").append(accordionItem.children[0]);
 			}
 
-			accordionItemElement.querySelector(".card-header").setAttribute("id", `heading-${accordionItemIdx}`);
-			accordionItemElement.querySelector(".card-header h5").setAttribute("data-target", `#collapse-${accordionItemIdx}`);
-			accordionItemElement.querySelector(".card-header h5").setAttribute("aria-controls", `collapse-${accordionItemIdx}`);
+			accordionItemElement.querySelector(".card-header").setAttribute("id", `heading-${parentId}-${accordionItemIdx}`);
+			accordionItemElement.querySelector(".card-header h5").setAttribute("data-target", `#collapse-${parentId}-${accordionItemIdx}`);
+			accordionItemElement.querySelector(".card-header h5").setAttribute("aria-controls", `collapse-${parentId}-${accordionItemIdx}`);
 
-			accordionItemElement.querySelector(".collapse").setAttribute("aria-labelledby", `heading-${accordionItemIdx}`);
-			accordionItemElement.querySelector(".collapse").setAttribute("id", `collapse-${accordionItemIdx}`);
-			accordionItemElement.querySelector(".collapse").setAttribute("data-parent",  `#${this.getAttribute("id")}`);
+			accordionItemElement.querySelector(".collapse").setAttribute("aria-labelledby", `heading-${parentId}-${accordionItemIdx}`);
+			accordionItemElement.querySelector(".collapse").setAttribute("id", `collapse-${parentId}-${accordionItemIdx}`);
+			accordionItemElement.querySelector(".collapse").setAttribute("data-parent",  `#${parentId}`);
 
 			// set the first one to be shown
 			if( accordionItemIdx === 1 ) {
@@ -682,22 +692,28 @@ class AccordionElement extends HTMLElement {
 
 			++accordionItemIdx;
 		}
+	}
 
-		// using config
-		for(var accordionItem of this.config) {
+	initByConfig(config) {
+		
+		var domParser = new DOMParser();
+		var accordionItemIdx = 1;
+		var parentId = config.id;
+
+		for(var accordionItem of config.items) {
 			var accordionItemElement = domParser.parseFromString(this.template, "text/html")
-				.querySelector("div:first-child");
+											.querySelector("div:first-child");
 
 			accordionItemElement.querySelector("h5").innerText = accordionItem.title;			
-			accordionItemElement.querySelector(".card-body").append(accordionItem.contentElement);			
+			accordionItemElement.querySelector(".card-body").append(accordionItem.contentElement);
 
-			accordionItemElement.querySelector(".card-header").setAttribute("id", `heading-${accordionItemIdx}`);
-			accordionItemElement.querySelector(".card-header h5").setAttribute("data-target", `#collapse-${accordionItemIdx}`);
-			accordionItemElement.querySelector(".card-header h5").setAttribute("aria-controls", `collapse-${accordionItemIdx}`);
+			accordionItemElement.querySelector(".card-header").setAttribute("id", `heading-${parentId}-${accordionItemIdx}`);
+			accordionItemElement.querySelector(".card-header h5").setAttribute("data-target", `#collapse-${parentId}-${accordionItemIdx}`);
+			accordionItemElement.querySelector(".card-header h5").setAttribute("aria-controls", `collapse-${parentId}-${accordionItemIdx}`);
 
-			accordionItemElement.querySelector(".collapse").setAttribute("aria-labelledby", `heading-${accordionItemIdx}`);
-			accordionItemElement.querySelector(".collapse").setAttribute("id", `collapse-${accordionItemIdx}`);
-			accordionItemElement.querySelector(".collapse").setAttribute("data-parent",  `#${this.config.id}`);
+			accordionItemElement.querySelector(".collapse").setAttribute("aria-labelledby", `heading-${parentId}-${accordionItemIdx}`);
+			accordionItemElement.querySelector(".collapse").setAttribute("id", `collapse-${parentId}-${accordionItemIdx}`);
+			accordionItemElement.querySelector(".collapse").setAttribute("data-parent",  `#${parentId}`);
 
 			// set the first one to be shown
 			if( accordionItemIdx === 1 ) {
@@ -711,8 +727,7 @@ class AccordionElement extends HTMLElement {
 			++accordionItemIdx;
 		}
 
-		if( this.getAttribute("id") === undefined || this.getAttribute("id") === null  )
-			this.setAttribute("id", this.config.id);
+		this.setAttribute("id", config.id);
 	}
 }
 
