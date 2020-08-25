@@ -5,9 +5,9 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D695B736-4B91-420D-9AAF-0FED9AB6034D}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>StreamSeeking</RootNamespace>
-    <AssemblyName>StreamSeeking</AssemblyName>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DataEntity</RootNamespace>
+    <AssemblyName>DataEntity</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,13 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IJsonStringEntity.cs" />
-    <Compile Include="JsonStringEnums.cs" />
-    <Compile Include="JsonStringUtils.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="JsonEntity.cs" />
+    <Compile Include="JsonString\IJsonStringEntity.cs" />
+    <Compile Include="JsonString\JsonStringEnums.cs" />
+    <Compile Include="JsonString\JsonStringUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreamSeeker.cs" />
-    <Compile Include="JsonStringEntity.cs" />
+    <Compile Include="JsonString\JsonStringEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

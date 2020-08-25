@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("JsonEntity")]
+[assembly: AssemblyTitle("StreamSeeking")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("JsonEntity")]
+[assembly: AssemblyProduct("StreamSeeking")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0dd17f34-31c5-4a51-9eec-f1fbc4a2dda3")]
+[assembly: Guid("d695b736-4b91-420d-9aaf-0fed9ab6034d")]
 
 // Version information for an assembly consists of the following four values:
 //

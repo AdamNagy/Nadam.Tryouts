@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace StreamSeeking.Tests.MockClasses
+namespace TestData
 {
     public class TestJsonModel
     {

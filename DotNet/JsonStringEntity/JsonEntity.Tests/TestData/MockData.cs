@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StreamSeeking.Tests.MockClasses
+namespace TestData
 {
     public static class MockData
     {
@@ -16,7 +16,7 @@ namespace StreamSeeking.Tests.MockClasses
 
         public static string[] TEXTS = new[]
     {
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
                 "Proin tincidunt, ligula vel vulputate efficitur, diam ",
                 "Nulla vitae ipsum a nisi blandit elementum.",
                 "Phasellus non rutrum ex. In hac habitasse platea dictumst.",

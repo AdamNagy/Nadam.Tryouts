@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.852
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamSeeking", "StreamSeeking\StreamSeeking.csproj", "{D695B736-4B91-420D-9AAF-0FED9AB6034D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataEntity", "JsonEntity\DataEntity.csproj", "{D695B736-4B91-420D-9AAF-0FED9AB6034D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamSeeking.Tests", "StreamSeeking.Tests\StreamSeeking.Tests.csproj", "{6BEEEC86-300D-437D-82E9-C56ACB25FEB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataEntity.Tests", "JsonEntity.Tests\DataEntity.Tests.csproj", "{6BEEEC86-300D-437D-82E9-C56ACB25FEB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

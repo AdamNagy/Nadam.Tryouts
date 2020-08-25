@@ -1,15 +1,16 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using DataEntity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TestData;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using StreamSeeking.Tests.MockClasses;
 
-namespace StreamSeeking.Tests.JsonStringEntityTests
+namespace JsonStringEntityTests
 {
     [TestClass]
-    public class SetPropertyTests
+    public class SetProperty
     {
         private static string TEST_FILE = "..\\..\\App_Data\\JsonSeeker_TestData\\SetProperty.json";
 

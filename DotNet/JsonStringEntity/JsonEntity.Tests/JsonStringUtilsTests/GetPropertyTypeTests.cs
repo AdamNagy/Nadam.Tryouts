@@ -1,9 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DataEntity;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace StreamSeeking.Tests.JsonStringUtilsTests
+namespace JsonStringUtilsTests
 {
     [TestClass]
-    public class GetPropertyTypeTests
+    public class GetPropertyType
     {
         [TestMethod]
         public void ShouldBe_JsonPropertyType_Complex()

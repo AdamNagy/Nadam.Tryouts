@@ -1,10 +1,11 @@
 ﻿using System.IO;
+using DataEntity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace StreamSeeking.Tests.JsonStringEntityTests
+namespace JsonStringEntityTests
 {
     [TestClass]
-    public class ExtendPropertyTests
+    public class ExtendProperty
     {
         private static string TEST_FILE = "..\\..\\App_Data\\JsonSeeker_TestData\\AddValueToArray_complex.txt";
 

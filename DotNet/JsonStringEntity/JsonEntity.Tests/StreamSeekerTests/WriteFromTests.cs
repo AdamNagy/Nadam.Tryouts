@@ -1,10 +1,11 @@
 ﻿using System.IO;
+using DataEntity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace StreamSeeking.Tests.StreamSeekerTests
+namespace StreamSeekerTests
 {
     [TestClass]
-    public class WriteFromTests
+    public class WriteFrom
     {
         private static string TEST_FILE = "..\\..\\App_Data\\StreamSeeker_TestData\\WriteFrom.txt";
 

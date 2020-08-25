@@ -1,9 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DataEntity;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace StreamSeeking.Tests.JsonStringUtilsTests
+namespace JsonStringUtilsTests
 {
     [TestClass]
-    public class IsFistParenthesesClosedTests
+    public class IsFistParenthesesClosed
     {
         [TestMethod]
         public void ShuoldBe_Closed_NormalCase_1()

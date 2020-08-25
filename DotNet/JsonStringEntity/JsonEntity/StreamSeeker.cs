@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace StreamSeeking
+namespace DataEntity
 {
     public class StreamSeeker
     {

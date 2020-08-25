@@ -1,4 +1,4 @@
-﻿namespace StreamSeeking
+﻿namespace DataEntity
 {
     public interface IJsonStringEntity
     {

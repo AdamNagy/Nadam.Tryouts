@@ -1,14 +1,15 @@
 ﻿using System;
 using System.IO;
+using DataEntity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TestData;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using StreamSeeking.Tests.MockClasses;
 
-namespace StreamSeeking.Tests.JsonStringUtilsTests
+namespace JsonStringUtilsTests
 {
     [TestClass]
-    public class GetValuePositionTests
+    public class GetValuePosition
     {
         private static string TEST_FILE = "..\\..\\App_Data\\ReadValueT_Mock.json";
         private static string TEST_FILE_CONTENT;

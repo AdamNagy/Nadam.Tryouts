@@ -1,9 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using DataEntity;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace StreamSeeking.Tests.JsonStringUtilsTests
+namespace JsonStringUtilsTests
 {
     [TestClass]
-    public class IsJsonValueClosedTests
+    public class IsJsonValueClosed
     {
         [TestMethod]
         public void ShouldBe_Array_Closed()
