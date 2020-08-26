@@ -10,7 +10,7 @@ using TestData;
 namespace JsonStringEntityTests
 {
     [TestClass]
-    public class ReadArrayTests
+    public class ReadObjectTests
     {
         private static string TEST_FILE = "..\\..\\App_Data\\JsonSeeker_TestData\\ReadProperty.json";
 

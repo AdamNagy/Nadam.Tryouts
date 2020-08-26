@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,9 +23,9 @@ namespace DataEntity
 
             using (FileStream fileStream = File.OpenRead(_jsonFileName))
             {
-                var seekIndex = 0;
                 if (!String.IsNullOrEmpty(propertyName))
                 {
+                    var seekIndex = 0;
                     seekIndex = StreamSeeker.SeekWord($"\"{propertyName}\":", fileStream);
                     if (seekIndex == -1)
                         return "";
@@ -63,7 +62,8 @@ namespace DataEntity
 
         public IEnumerable<string> ReadArray(string propertyName)
         {
-            var propertyValue = "";
+            string propertyValue = "",
+                   fileContent = "[";
 
             using (FileStream fileStream = File.OpenRead(_jsonFileName))
             {
@@ -82,22 +82,40 @@ namespace DataEntity
                 ASCIIEncoding utf8Encoder = new ASCIIEncoding();
                 var streamBuffer = new byte[_streamBuffer];
 
+                var arrayValueType = JsonPropertyType.unset;
                 while (fileStream.Read(streamBuffer, 0, streamBuffer.Length) > 0)
                 {
                     propertyValue += utf8Encoder.GetString(streamBuffer);
+                    fileContent += propertyValue;
 
                     bool needBreak = false;
-                    if (propertyValue.Contains("]"))
+
+                    int mainClosingCharIdx = -1;
+                    if (JsonStringUtils.IsJsonValueClosed(fileContent, JsonPropertyType.array, out mainClosingCharIdx))
                     {
                         propertyValue = propertyValue.Substring(0, propertyValue.IndexOf(']'));
                         needBreak = true;
                     }
+                    
+                    if(arrayValueType == JsonPropertyType.unset)
+                        arrayValueType = JsonStringUtils.GetPropertyType(propertyValue[0]);
 
-                    if (propertyValue.Contains(","))
+                    if (arrayValueType == JsonPropertyType.array || arrayValueType == JsonPropertyType.complex)
+                    {
+                        int closingCharIdx = 0;
+                        if (JsonStringUtils.IsJsonValueClosed(propertyValue, arrayValueType, out closingCharIdx))
+                        {
+                            var arrayItemValue = propertyValue.Substring(0, closingCharIdx).Trim('"');
+                            propertyValue = propertyValue.Length >= closingCharIdx ? "" : propertyValue.Substring(closingCharIdx + 1);
+                            yield return arrayItemValue;
+                        }
+                    }
+                    else if (propertyValue.Contains(","))
                     {
                         var values = needBreak
                             ? propertyValue.Split(',')
-                            : propertyValue.Split(',').Reverse().Skip(1).Reverse();
+                            : propertyValue.Split(',').Reverse().Skip(1).Reverse()
+                                .ToArray();
 
                         foreach (var arrayVal in values)
                             yield return arrayVal;
@@ -105,7 +123,78 @@ namespace DataEntity
                         propertyValue = propertyValue.Substring(propertyValue.LastIndexOf(',') + 1);
                     }
                     
+                    
                     if(needBreak)
+                        break;
+                }
+            }
+        }
+
+        public IEnumerable<string> ReadObject(string propertyName)
+        {
+            string propertyValue = "",
+                   fileContent = "{";
+
+            using (FileStream fileStream = File.OpenRead(_jsonFileName))
+            {
+                var seekIndex = 0;
+                if (!String.IsNullOrEmpty(propertyName))
+                {
+                    seekIndex = StreamSeeker.SeekWord($"\"{propertyName}\":", fileStream);
+                    if (seekIndex == -1)
+                        yield return null;
+
+                    // skip the property key closing " char and the following : char and the opening [
+                    seekIndex += propertyName.Length + 4;
+                    fileStream.Position = seekIndex;
+                }
+
+                ASCIIEncoding utf8Encoder = new ASCIIEncoding();
+                var streamBuffer = new byte[_streamBuffer];
+
+                var propertyValueType = JsonPropertyType.unset;
+                while (fileStream.Read(streamBuffer, 0, streamBuffer.Length) > 0)
+                {
+                    propertyValue += utf8Encoder.GetString(streamBuffer);
+                    fileContent += propertyValue;
+
+                    bool needBreak = false;
+
+                    int mainClosingCharIdx = -1;
+                    if (JsonStringUtils.IsJsonValueClosed(fileContent, JsonPropertyType.complex, out mainClosingCharIdx))
+                    {
+                        propertyValue = propertyValue.Substring(0, propertyValue.IndexOf('}'));
+                        needBreak = true;
+                    }
+
+                    if (propertyValueType == JsonPropertyType.unset)
+                        propertyValueType = JsonStringUtils.GetPropertyType(propertyValue[0]);
+
+                    if (propertyValueType == JsonPropertyType.array || propertyValueType == JsonPropertyType.complex)
+                    {
+                        int closingCharIdx = 0;
+                        if (JsonStringUtils.IsJsonValueClosed(propertyValue, propertyValueType, out closingCharIdx))
+                        {
+                            var arrayItemValue = propertyValue.Substring(0, closingCharIdx).Trim('"');
+                            propertyValue = propertyValue.Length >= closingCharIdx ? "" : propertyValue.Substring(closingCharIdx + 1);
+                            yield return arrayItemValue;
+                        }
+                    }
+                    else if (propertyValue.Contains(","))
+                    {
+                        var values = needBreak
+                            ? propertyValue.Split(',')
+                            : propertyValue.Split(',').Reverse().Skip(1).Reverse()
+                                .ToArray();
+
+                        foreach (var arrayVal in values)
+                            yield return arrayVal;
+
+                        propertyValue = propertyValue.Substring(propertyValue.LastIndexOf(',') + 1);
+                    }
+
+
+                    if (needBreak)
                         break;
                 }
             }

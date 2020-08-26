@@ -42,7 +42,9 @@ namespace TestData
 
         public static IEnumerable<TestJsonModel2> COMPLEX_ARRAY= new List<TestJsonModel2>(3)
         {
-            TestJsonModel2.GetDefault(),TestJsonModel2.GetDefault(),TestJsonModel2.GetDefault()
+            TestJsonModel2.GetDefault(),
+            TestJsonModel2.GetDefault(),
+            TestJsonModel2.GetDefault()
         };
 
         public static IEnumerable<int> GenerateRandoms(int n)

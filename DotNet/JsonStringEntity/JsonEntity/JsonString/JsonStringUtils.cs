@@ -187,5 +187,22 @@ namespace DataEntity
 
             return false;
         }
+
+        public static bool ContainsPropertyName(string text, out GroupCollection result)
+        {
+            Regex rx = new Regex("(?<propertyName>\"[\\w\\d]+\":)",
+                RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            MatchCollection matches = rx.Matches(text);
+
+            if (matches.Count > 0)
+            {
+                result = matches[0].Groups;
+                return true;
+            }
+
+            result = null;
+            return false;
+        }
     }
 }
