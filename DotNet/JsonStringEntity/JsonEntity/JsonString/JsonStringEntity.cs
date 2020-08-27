@@ -93,7 +93,7 @@ namespace DataEntity
                     int mainClosingCharIdx = -1;
                     if (JsonStringUtils.IsJsonValueClosed(fileContent, JsonPropertyType.array, out mainClosingCharIdx))
                     {
-                        propertyValue = propertyValue.Substring(0, propertyValue.IndexOf(']'));
+                        propertyValue = propertyValue.Substring(0, propertyValue.LastIndexOf(']'));
                         needBreak = true;
                     }
                     
@@ -106,7 +106,7 @@ namespace DataEntity
                         if (JsonStringUtils.IsJsonValueClosed(propertyValue, arrayValueType, out closingCharIdx))
                         {
                             var arrayItemValue = propertyValue.Substring(0, closingCharIdx).Trim('"');
-                            propertyValue = propertyValue.Length >= closingCharIdx ? "" : propertyValue.Substring(closingCharIdx + 1);
+                            propertyValue = closingCharIdx >= (propertyValue.Length + 1) ? "" : propertyValue.Substring(closingCharIdx + 1);
                             yield return arrayItemValue;
                         }
                     }
@@ -130,7 +130,7 @@ namespace DataEntity
             }
         }
 
-        public IEnumerable<string> ReadObject(string propertyName)
+        public IEnumerable<(string key, string value)> ReadObject(string propertyName)
         {
             string propertyValue = "",
                    fileContent = "{";
@@ -142,7 +142,7 @@ namespace DataEntity
                 {
                     seekIndex = StreamSeeker.SeekWord($"\"{propertyName}\":", fileStream);
                     if (seekIndex == -1)
-                        yield return null;
+                        yield return (key: "", value: "");
 
                     // skip the property key closing " char and the following : char and the opening [
                     seekIndex += propertyName.Length + 4;
@@ -152,7 +152,9 @@ namespace DataEntity
                 ASCIIEncoding utf8Encoder = new ASCIIEncoding();
                 var streamBuffer = new byte[_streamBuffer];
 
-                var propertyValueType = JsonPropertyType.unset;
+                var currentPropertyValue = "";
+                var currentPropertyName = "";
+
                 while (fileStream.Read(streamBuffer, 0, streamBuffer.Length) > 0)
                 {
                     propertyValue += utf8Encoder.GetString(streamBuffer);
@@ -163,40 +165,30 @@ namespace DataEntity
                     int mainClosingCharIdx = -1;
                     if (JsonStringUtils.IsJsonValueClosed(fileContent, JsonPropertyType.complex, out mainClosingCharIdx))
                     {
-                        propertyValue = propertyValue.Substring(0, propertyValue.IndexOf('}'));
+                        propertyValue = propertyValue.Substring(0, propertyValue.LastIndexOf('}'));
                         needBreak = true;
                     }
 
-                    if (propertyValueType == JsonPropertyType.unset)
-                        propertyValueType = JsonStringUtils.GetPropertyType(propertyValue[0]);
-
-                    if (propertyValueType == JsonPropertyType.array || propertyValueType == JsonPropertyType.complex)
+                    if (JsonStringUtils.ContainsPropertyName(propertyValue, out var result))
                     {
-                        int closingCharIdx = 0;
-                        if (JsonStringUtils.IsJsonValueClosed(propertyValue, propertyValueType, out closingCharIdx))
-                        {
-                            var arrayItemValue = propertyValue.Substring(0, closingCharIdx).Trim('"');
-                            propertyValue = propertyValue.Length >= closingCharIdx ? "" : propertyValue.Substring(closingCharIdx + 1);
-                            yield return arrayItemValue;
-                        }
+                        currentPropertyValue += propertyValue.Substring(0, result.startPos);
+                        if( !string.IsNullOrEmpty(currentPropertyValue) )
+                            yield return (key: currentPropertyName, value: currentPropertyValue.Trim(',').Trim('\"'));
+
+                        currentPropertyValue = "";
+                        currentPropertyName = result.name;
+
+                        propertyValue = propertyValue.Substring(result.startPos + result.length);
                     }
-                    else if (propertyValue.Contains(","))
-                    {
-                        var values = needBreak
-                            ? propertyValue.Split(',')
-                            : propertyValue.Split(',').Reverse().Skip(1).Reverse()
-                                .ToArray();
-
-                        foreach (var arrayVal in values)
-                            yield return arrayVal;
-
-                        propertyValue = propertyValue.Substring(propertyValue.LastIndexOf(',') + 1);
-                    }
-
 
                     if (needBreak)
+                    {
+                        currentPropertyValue += propertyValue;
                         break;
+                    }
                 }
+
+                yield return (key: currentPropertyName, value: currentPropertyValue);
             }
         }
 

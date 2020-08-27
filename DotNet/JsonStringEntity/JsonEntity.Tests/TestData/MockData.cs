@@ -17,8 +17,8 @@ namespace TestData
         public static string[] TEXTS = new[]
     {
                 "Lorem ipsum dolor sit amet consectetur adipiscing elit.",
-                "Proin tincidunt, ligula vel vulputate efficitur, diam ",
-                "Nulla vitae ipsum a nisi blandit elementum.",
+                "Proin tincidunt, ligula vel vulputate efficitur, diam",
+                "Zero vitae ipsum a nisi blandit elementum.",
                 "Phasellus non rutrum ex. In hac habitasse platea dictumst.",
                 "Vivamus eu pulvinar justo. Phasellus nec euismod e",
             };

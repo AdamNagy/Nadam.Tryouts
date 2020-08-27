@@ -188,7 +188,7 @@ namespace DataEntity
             return false;
         }
 
-        public static bool ContainsPropertyName(string text, out GroupCollection result)
+        public static bool ContainsPropertyName(string text, out (string name, int startPos, int length) result)
         {
             Regex rx = new Regex("(?<propertyName>\"[\\w\\d]+\":)",
                 RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -197,11 +197,14 @@ namespace DataEntity
 
             if (matches.Count > 0)
             {
-                result = matches[0].Groups;
+                result = (
+                    name: matches[0].Value.Trim().Trim(':').Trim('\"'),
+                    startPos: matches[0].Index,
+                    length: matches[0].Length);
                 return true;
             }
 
-            result = null;
+            result = ("", -1, -1);
             return false;
         }
     }

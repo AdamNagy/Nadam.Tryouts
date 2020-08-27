@@ -12,7 +12,7 @@ namespace JsonStringEntityTests
     [TestClass]
     public class ReadArrayTests
     {
-        private static string TEST_FILE = "..\\..\\App_Data\\JsonSeeker_TestData\\ReadProperty.json";
+        private static string TEST_FILE = "..\\..\\App_Data\\JsonSeeker_TestData\\ReadArray.json";
 
         [TestInitialize]
         public void BeforeAll()
@@ -38,7 +38,7 @@ namespace JsonStringEntityTests
 
         #region string array
         [TestMethod]
-        public void Read_StringArray_All()
+        public void StringArray_All()
         {
             //  "Lorem ipsum dolor sit amet consectetur adipiscing elit."
             var sut = new JsonStringEntity(TEST_FILE);
@@ -50,7 +50,7 @@ namespace JsonStringEntityTests
         }
 
         [TestMethod]
-        public void Read_StringArray_SkipOne_All()
+        public void StringArray_SkipOne_All()
         {
             //  "Lorem ipsum dolor sit amet consectetur adipiscing elit."
             var sut = new JsonStringEntity(TEST_FILE);
@@ -62,7 +62,7 @@ namespace JsonStringEntityTests
         }
 
         [TestMethod]
-        public void Read_StringArray_First()
+        public void StringArray_First()
         {
             //  "Lorem ipsum dolor sit amet consectetur adipiscing elit."
             var sut = new JsonStringEntity(TEST_FILE);
@@ -74,7 +74,7 @@ namespace JsonStringEntityTests
         }
 
         [TestMethod]
-        public void Read_StringArray_FirstThree()
+        public void StringArray_FirstThree()
         {
             //  "Lorem ipsum dolor sit amet consectetur adipiscing elit."
             var sut = new JsonStringEntity(TEST_FILE);
@@ -88,7 +88,7 @@ namespace JsonStringEntityTests
 
         #region number array
         [TestMethod]
-        public void Read_NumberArray_All()
+        public void NumberArray_All()
         {
             var sut = new JsonStringEntity(TEST_FILE);
             var propVal = sut.ReadArray("numberArrayProp");
@@ -99,7 +99,7 @@ namespace JsonStringEntityTests
         }
 
         [TestMethod]
-        public void Read_NumberArray_First()
+        public void NumberArray_First()
         {
             var sut = new JsonStringEntity(TEST_FILE);
             var propVal = sut.ReadArray("numberArrayProp").First();
@@ -110,7 +110,7 @@ namespace JsonStringEntityTests
         }
 
         [TestMethod]
-        public void Read_NumberArray_FirstThree()
+        public void NumberArray_FirstThree()
         {
             var sut = new JsonStringEntity(TEST_FILE);
             var propVal = sut.ReadArray("numberArrayProp").Take(3).Select(p => Convert.ToInt32(p));
@@ -122,14 +122,16 @@ namespace JsonStringEntityTests
         #endregion
 
         #region complex array
+        /*
+         * [{"stringProp1":"Proin tincidunt, ligula vel vulputate efficitur, diam ","stringProp2":"Nulla vitae ipsum a nisi blandit elementum.","intProp1":1989,"intProp2":2012,"intArrayProp1":[85,5,69,98,72],"intArrayProp2":[85,5,69,98,72],"stringArrayProp1":["Proin","tincidunt,","ligula","vel","vulputate","efficitur,","diam",""],"stringArrayProp2":["Nulla","vitae","ipsum","a","nisi","blandit","elementum."]},
+            {"stringProp1":"Proin tincidunt, ligula vel vulputate efficitur, diam ","stringProp2":"Nulla vitae ipsum a nisi blandit elementum.","intProp1":1989,"intProp2":2012,"intArrayProp1":[85,5,69,98,72],"intArrayProp2":[85,5,69,98,72],"stringArrayProp1":["Proin","tincidunt,","ligula","vel","vulputate","efficitur,","diam",""],"stringArrayProp2":["Nulla","vitae","ipsum","a","nisi","blandit","elementum."]},
+            {"stringProp1":"Proin tincidunt, ligula vel vulputate efficitur, diam ","stringProp2":"Nulla vitae ipsum a nisi blandit elementum.","intProp1":1989,"intProp2":2012,"intArrayProp1":[85,5,69,98,72],"intArrayProp2":[85,5,69,98,72],"stringArrayProp1":["Proin","tincidunt,","ligula","vel","vulputate","efficitur,","diam",""],"stringArrayProp2":["Nulla","vitae","ipsum","a","nisi","blandit","elementum."]}]
+         */
+
         [TestMethod]
-        public void Read_Complex_All()
+        public void Complex_All()
         {
-            /*
-             * [{"stringProp1":"Proin tincidunt, ligula vel vulputate efficitur, diam ","stringProp2":"Nulla vitae ipsum a nisi blandit elementum.","intProp1":1989,"intProp2":2012,"intArrayProp1":[85,5,69,98,72],"intArrayProp2":[85,5,69,98,72],"stringArrayProp1":["Proin","tincidunt,","ligula","vel","vulputate","efficitur,","diam",""],"stringArrayProp2":["Nulla","vitae","ipsum","a","nisi","blandit","elementum."]},
-                {"stringProp1":"Proin tincidunt, ligula vel vulputate efficitur, diam ","stringProp2":"Nulla vitae ipsum a nisi blandit elementum.","intProp1":1989,"intProp2":2012,"intArrayProp1":[85,5,69,98,72],"intArrayProp2":[85,5,69,98,72],"stringArrayProp1":["Proin","tincidunt,","ligula","vel","vulputate","efficitur,","diam",""],"stringArrayProp2":["Nulla","vitae","ipsum","a","nisi","blandit","elementum."]},
-                {"stringProp1":"Proin tincidunt, ligula vel vulputate efficitur, diam ","stringProp2":"Nulla vitae ipsum a nisi blandit elementum.","intProp1":1989,"intProp2":2012,"intArrayProp1":[85,5,69,98,72],"intArrayProp2":[85,5,69,98,72],"stringArrayProp1":["Proin","tincidunt,","ligula","vel","vulputate","efficitur,","diam",""],"stringArrayProp2":["Nulla","vitae","ipsum","a","nisi","blandit","elementum."]}]
-             */
+
             var sut = new JsonStringEntity(TEST_FILE);
             var propVal = sut.ReadArray("complexArrayProp").ToArray();
 
@@ -141,13 +143,8 @@ namespace JsonStringEntityTests
         }
 
         [TestMethod]
-        public void Read_Complex_First()
+        public void Complex_First()
         {
-            /*
-             * [{"stringProp1":"Proin tincidunt, ligula vel vulputate efficitur, diam ","stringProp2":"Nulla vitae ipsum a nisi blandit elementum.","intProp1":1989,"intProp2":2012,"intArrayProp1":[85,5,69,98,72],"intArrayProp2":[85,5,69,98,72],"stringArrayProp1":["Proin","tincidunt,","ligula","vel","vulputate","efficitur,","diam",""],"stringArrayProp2":["Nulla","vitae","ipsum","a","nisi","blandit","elementum."]},
-                {"stringProp1":"Proin tincidunt, ligula vel vulputate efficitur, diam ","stringProp2":"Nulla vitae ipsum a nisi blandit elementum.","intProp1":1989,"intProp2":2012,"intArrayProp1":[85,5,69,98,72],"intArrayProp2":[85,5,69,98,72],"stringArrayProp1":["Proin","tincidunt,","ligula","vel","vulputate","efficitur,","diam",""],"stringArrayProp2":["Nulla","vitae","ipsum","a","nisi","blandit","elementum."]},
-                {"stringProp1":"Proin tincidunt, ligula vel vulputate efficitur, diam ","stringProp2":"Nulla vitae ipsum a nisi blandit elementum.","intProp1":1989,"intProp2":2012,"intArrayProp1":[85,5,69,98,72],"intArrayProp2":[85,5,69,98,72],"stringArrayProp1":["Proin","tincidunt,","ligula","vel","vulputate","efficitur,","diam",""],"stringArrayProp2":["Nulla","vitae","ipsum","a","nisi","blandit","elementum."]}]
-             */
             var sut = new JsonStringEntity(TEST_FILE);
             var propVal = sut.ReadArray("complexArrayProp").First();
 
@@ -157,13 +154,8 @@ namespace JsonStringEntityTests
         }
 
         [TestMethod]
-        public void Read_Complex_SkipOne_First()
+        public void Complex_SkipOne_First()
         {
-            /*
-             * [{"stringProp1":"Proin tincidunt, ligula vel vulputate efficitur, diam ","stringProp2":"Nulla vitae ipsum a nisi blandit elementum.","intProp1":1989,"intProp2":2012,"intArrayProp1":[85,5,69,98,72],"intArrayProp2":[85,5,69,98,72],"stringArrayProp1":["Proin","tincidunt,","ligula","vel","vulputate","efficitur,","diam",""],"stringArrayProp2":["Nulla","vitae","ipsum","a","nisi","blandit","elementum."]},
-                {"stringProp1":"Proin tincidunt, ligula vel vulputate efficitur, diam ","stringProp2":"Nulla vitae ipsum a nisi blandit elementum.","intProp1":1989,"intProp2":2012,"intArrayProp1":[85,5,69,98,72],"intArrayProp2":[85,5,69,98,72],"stringArrayProp1":["Proin","tincidunt,","ligula","vel","vulputate","efficitur,","diam",""],"stringArrayProp2":["Nulla","vitae","ipsum","a","nisi","blandit","elementum."]},
-                {"stringProp1":"Proin tincidunt, ligula vel vulputate efficitur, diam ","stringProp2":"Nulla vitae ipsum a nisi blandit elementum.","intProp1":1989,"intProp2":2012,"intArrayProp1":[85,5,69,98,72],"intArrayProp2":[85,5,69,98,72],"stringArrayProp1":["Proin","tincidunt,","ligula","vel","vulputate","efficitur,","diam",""],"stringArrayProp2":["Nulla","vitae","ipsum","a","nisi","blandit","elementum."]}]
-             */
             var sut = new JsonStringEntity(TEST_FILE);
             var propVal = sut.ReadArray("complexArrayProp").Skip(1).First();
 
