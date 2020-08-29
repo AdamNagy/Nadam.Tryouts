@@ -13,7 +13,7 @@ namespace JsonStringEntityTests
     [TestClass]
     public class ReadObjectTests
     {
-        private static string TEST_FILE = "..\\..\\App_Data\\JsonSeeker_TestData\\ReadObject.json";
+        private static string TEST_FILE_PATH = "..\\..\\App_Data\\JsonStringEntityTests\\ReadObject_Tests.json";
         private static TestJsonModel _testModel;
         private static (string, string)[] _testJDict; 
 
@@ -21,8 +21,13 @@ namespace JsonStringEntityTests
         public void BeforeAll()
         {
             _testModel = TestJsonModel.GetDefault();
-            File.WriteAllText(TEST_FILE, ToJString(_testModel));
             _testJDict = GetExpected().ToArray();
+            if (!File.Exists(TEST_FILE_PATH))
+            {
+                var content = _testModel.ToJsonString().ToByArray();
+                using (var file = File.Create(TEST_FILE_PATH))
+                    file.Write(content, 0, content.Length);
+            }
         }
 
         public static string ToJString(Object subject)
@@ -57,10 +62,10 @@ namespace JsonStringEntityTests
         public static IEnumerable<(string key, string value)> GetExpected()
         {
             var expected = new List<(string key, string value)>();
-            expected.Add((key: "stringProp1", value: "Proin tincidunt, ligula vel vulputate efficitur, diam"));
-            expected.Add((key: "stringProp2", value: "Zero vitae ipsum a nisi blandit elementum."));
-            expected.Add((key: "intProp1", value: "1989"));
-            expected.Add((key: "intProp2", value: "2012"));
+            expected.Add((key: "stringProp1", value: _testModel.ComplexProp.StringProp1));
+            expected.Add((key: "stringProp2", value: _testModel.ComplexProp.StringProp2));
+            expected.Add((key: "intProp1", value: _testModel.ComplexProp.IntProp1.ToString()));
+            expected.Add((key: "intProp2", value: _testModel.ComplexProp.IntProp2.ToString()));
             expected.Add((key: "intArrayProp1", value: $"[{String.Join(",", _testModel.ComplexProp.IntArrayProp1.Select(p => p.ToString())) }]" ));
             expected.Add((key: "intArrayProp2", value: $"[{String.Join(",", _testModel.ComplexProp.IntArrayProp2.Select(p => p.ToString())) }]"));
             expected.Add(
@@ -82,7 +87,7 @@ namespace JsonStringEntityTests
         [TestMethod]
         public void All()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
             var propVal = sut.ReadObject("complexProp").ToArray();
 
             CollectionAssert.AreEqual(
@@ -93,7 +98,7 @@ namespace JsonStringEntityTests
         [TestMethod]
         public void SkipOne_ThenAll()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
             var propVal = sut.ReadObject("complexProp").Skip(1).ToArray();
 
             CollectionAssert.AreEqual(
@@ -104,7 +109,7 @@ namespace JsonStringEntityTests
         [TestMethod]
         public void First()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
             var propVal = sut.ReadObject("complexProp").First();
 
             Assert.AreEqual(
@@ -115,7 +120,7 @@ namespace JsonStringEntityTests
         [TestMethod]
         public void FirstThree()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
             var propVal = sut.ReadObject("complexProp").Take(3);
             
             CollectionAssert.AreEqual(
@@ -126,7 +131,7 @@ namespace JsonStringEntityTests
         [TestMethod]
         public void SkipTwo_Take3()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
             var propVal = sut.ReadObject("complexProp").Skip(2).Take(3);
 
             CollectionAssert.AreEqual(

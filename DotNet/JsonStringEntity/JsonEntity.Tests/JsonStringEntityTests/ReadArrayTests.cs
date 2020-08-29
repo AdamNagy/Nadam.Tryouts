@@ -12,7 +12,7 @@ namespace JsonStringEntityTests
     [TestClass]
     public class ReadArrayTests
     {
-        private static string TEST_FILE = "..\\..\\App_Data\\JsonSeeker_TestData\\ReadArray.json";
+        private static string TEST_FILE = "..\\..\\App_Data\\JsonStringEntityTests\\ReadArray_Tests.json";
 
         [TestInitialize]
         public void BeforeAll()

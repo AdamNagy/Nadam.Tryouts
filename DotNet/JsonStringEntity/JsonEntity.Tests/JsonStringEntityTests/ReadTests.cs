@@ -1,9 +1,6 @@
 ﻿using DataEntity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestData;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
 using System.IO;
 
 namespace JsonStringEntityTests
@@ -11,52 +8,42 @@ namespace JsonStringEntityTests
     [TestClass]
     public class Read
     {
-        private static string TEST_FILE = "..\\..\\App_Data\\JsonSeeker_TestData\\ReadProperty.json";
+        private static string TEST_FILE_PATH = "..\\..\\App_Data\\JsonStringEntityTests\\Read_Tests.json";
+        private static TestJsonModel TEST_MODEL = TestJsonModel.GetDefault();
 
         [TestInitialize]
         public void BeforeAll()
         {
-            File.WriteAllText(TEST_FILE, ToJString(TestJsonModel.GetDefault()));
-        }
-
-        public static string ToJString(Object subject)
-        {
-            DefaultContractResolver contractResolver = new DefaultContractResolver
+            if (!File.Exists(TEST_FILE_PATH))
             {
-                NamingStrategy = new CamelCaseNamingStrategy()
-            };
-
-            var jsonSerializerSettings = new JsonSerializerSettings()
-            {
-                ContractResolver = contractResolver,
-                Formatting = Formatting.None
-            };
-
-            return JsonConvert.SerializeObject(subject, jsonSerializerSettings);
+                var content = TEST_MODEL.ToJsonString().ToByArray();
+                using (var file = File.Create(TEST_FILE_PATH))
+                    file.Write(content, 0, content.Length);
+            }
         }
 
         [TestMethod]
         public void Read_String()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
             var propVal = sut.Read("stringProp");
-            Assert.AreEqual(propVal, MockData.TEXTS[0]);
+            Assert.AreEqual(propVal, TEST_MODEL.StringProp);
         }
 
         [TestMethod]
         public void Read_Number()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
             var propVal = sut.Read("numberProp");
-            Assert.AreEqual(propVal, MockData.NUMBERS[0].ToString());
+            Assert.AreEqual(propVal, TEST_MODEL.NumberProp.ToString());
         }
 
         [TestMethod]
         public void Read_Complex()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
             var propVal = sut.Read("complexProp");
-            var expected = ToJString(TestJsonModel2.GetDefault());
+            var expected = TEST_MODEL.ComplexProp.ToJsonString();
 
             Assert.AreEqual(expected, propVal);
         }
@@ -64,9 +51,9 @@ namespace JsonStringEntityTests
         [TestMethod]
         public void Read_StringArray()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
             var propVal = sut.Read("stringArrayProp");
-            var expected = ToJString(MockData.STRING_ARRAY1);
+            var expected = TEST_MODEL.StringArrayProp.ToJsonString();
 
             Assert.AreEqual(expected, propVal);
         }
@@ -74,9 +61,9 @@ namespace JsonStringEntityTests
         [TestMethod]
         public void Read_IntArray()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
             var propVal = sut.Read("numberArrayProp");
-            var expected = ToJString(MockData.NUMBERS_ARRAY1);
+            var expected = TEST_MODEL.NumberArrayProp.ToJsonString();
 
             Assert.AreEqual(expected, propVal);
         }
@@ -84,9 +71,9 @@ namespace JsonStringEntityTests
         [TestMethod]
         public void Read_ComplexArray()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
             var propVal = sut.Read("complexArrayProp");
-            var expected = ToJString(MockData.COMPLEX_ARRAY);
+            var expected = TEST_MODEL.ComplexArrayProp.ToJsonString();
 
             Assert.AreEqual(expected, propVal);
         }
