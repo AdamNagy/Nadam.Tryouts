@@ -12,7 +12,7 @@ namespace JsonStringUtilsTests
             var openingChar = '{';
             var propertyType = JsonStringUtils.GetPropertyType(openingChar);
 
-            Assert.AreEqual(JsonPropertyType.complex, propertyType);
+            Assert.AreEqual(JsonTypes.complex, propertyType);
         }
 
         [TestMethod]
@@ -21,7 +21,7 @@ namespace JsonStringUtilsTests
             var openingChar = '[';
             var propertyType = JsonStringUtils.GetPropertyType(openingChar);
 
-            Assert.AreEqual(JsonPropertyType.array, propertyType);
+            Assert.AreEqual(JsonTypes.array, propertyType);
         }
 
         [TestMethod]
@@ -30,7 +30,7 @@ namespace JsonStringUtilsTests
             var openingChar = '3';
             var propertyType = JsonStringUtils.GetPropertyType(openingChar);
 
-            Assert.AreEqual(JsonPropertyType.number, propertyType);
+            Assert.AreEqual(JsonTypes.number, propertyType);
         }
 
         [TestMethod]
@@ -39,7 +39,7 @@ namespace JsonStringUtilsTests
             var openingChar = '"';
             var propertyType = JsonStringUtils.GetPropertyType(openingChar);
 
-            Assert.AreEqual(JsonPropertyType.text, propertyType);
+            Assert.AreEqual(JsonTypes.text, propertyType);
         }
     }
 }

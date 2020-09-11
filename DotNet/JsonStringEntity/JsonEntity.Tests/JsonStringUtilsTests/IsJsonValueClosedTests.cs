@@ -14,7 +14,7 @@ namespace JsonStringUtilsTests
             var expected = "[22,44,30,77,86,36,91,4,13,0,14,29,50,50,42,53,14,37,48,60]";
 
             int seekIndex = 0;
-            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonPropertyType.array, out seekIndex);
+            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonTypes.array, out seekIndex);
 
             Assert.IsTrue(isClosed);
             Assert.AreEqual(expected, normalized.Substring(0, seekIndex));
@@ -27,7 +27,7 @@ namespace JsonStringUtilsTests
             var expected = "[['a','b','c'],[1,23,4],[123,234,345]]";
 
             int seekIndex = 0;
-            var isClosed = JsonStringUtils.IsJsonValueClosed(rawJsonString, JsonPropertyType.array, out seekIndex);
+            var isClosed = JsonStringUtils.IsJsonValueClosed(rawJsonString, JsonTypes.array, out seekIndex);
 
             Assert.IsTrue(isClosed);
             Assert.AreEqual(expected, rawJsonString.Substring(0, seekIndex));
@@ -41,7 +41,7 @@ namespace JsonStringUtilsTests
             var expected = JsonStringUtils.NormalizeJsonString("{\"prop1\": 123,\"prop2\": 'sdfuhuh'}");
 
             int seekIndex = 0;
-            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonPropertyType.complex, out seekIndex);
+            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonTypes.complex, out seekIndex);
 
             Assert.IsTrue(isClosed);
             Assert.AreEqual(expected, normalized.Substring(0, seekIndex));
@@ -55,7 +55,7 @@ namespace JsonStringUtilsTests
             var expected = JsonStringUtils.NormalizeJsonString("{\"prop1\": {\"prop1\": 123,\"prop2\": 'sdfuhuh'},\"prop2\": {\"prop1\": 123,\"prop2\": 'sdfuhuh'}}");
 
             int seekIndex = 0;
-            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonPropertyType.complex, out seekIndex);
+            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonTypes.complex, out seekIndex);
 
             Assert.IsTrue(isClosed);
             Assert.AreEqual(expected, normalized.Substring(0, seekIndex));
@@ -68,7 +68,7 @@ namespace JsonStringUtilsTests
             var normalized = JsonStringUtils.NormalizeJsonString(rawJsonString);
 
             int seekIndex = 0;
-            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonPropertyType.text, out seekIndex);
+            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonTypes.text, out seekIndex);
 
             Assert.IsTrue(isClosed);
             Assert.AreEqual("\"hello json text\"", normalized.Substring(0, seekIndex));
@@ -81,7 +81,7 @@ namespace JsonStringUtilsTests
             var normalized = JsonStringUtils.NormalizeJsonString(rawJsonString);
 
             int seekIndex = 0;
-            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonPropertyType.number, out seekIndex);
+            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonTypes.number, out seekIndex);
 
             Assert.IsTrue(isClosed);
             Assert.AreEqual("123", normalized.Substring(0, seekIndex));
@@ -94,7 +94,7 @@ namespace JsonStringUtilsTests
             var normalized = JsonStringUtils.NormalizeJsonString(rawJsonString);
 
             int seekIndex = 0;
-            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonPropertyType.array, out seekIndex);
+            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonTypes.array, out seekIndex);
 
             Assert.IsFalse(isClosed);
         }
@@ -106,7 +106,7 @@ namespace JsonStringUtilsTests
             var normalized = JsonStringUtils.NormalizeJsonString(rawJsonString);
 
             int seekIndex = 0;
-            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonPropertyType.complex, out seekIndex);
+            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonTypes.complex, out seekIndex);
 
             Assert.IsFalse(isClosed);
         }
@@ -118,7 +118,7 @@ namespace JsonStringUtilsTests
             var normalized = JsonStringUtils.NormalizeJsonString(rawJsonString);
 
             int seekIndex = 0;
-            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonPropertyType.text, out seekIndex);
+            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonTypes.text, out seekIndex);
 
             Assert.IsFalse(isClosed);
         }
@@ -130,7 +130,7 @@ namespace JsonStringUtilsTests
             var normalized = JsonStringUtils.NormalizeJsonString(rawJsonString);
 
             int seekIndex = 0;
-            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonPropertyType.number, out seekIndex);
+            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonTypes.number, out seekIndex);
 
             Assert.IsFalse(isClosed);
         }
@@ -141,7 +141,7 @@ namespace JsonStringUtilsTests
             var rawJsonString = "{\"prop1\": {\"prop1\": 123,\"prop2\": 'sdfuhuh'},\"prop2\": {\"prop1\": 123,\"prop2";
             var normalized = JsonStringUtils.NormalizeJsonString(rawJsonString);
             int seekIndex = 0;
-            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonPropertyType.complex, out seekIndex);
+            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonTypes.complex, out seekIndex);
 
             Assert.IsFalse(isClosed);
         }
@@ -153,7 +153,7 @@ namespace JsonStringUtilsTests
             var normalized = JsonStringUtils.NormalizeJsonString(rawJsonString);
 
             int seekIndex = 0;
-            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonPropertyType.array, out seekIndex);
+            var isClosed = JsonStringUtils.IsJsonValueClosed(normalized, JsonTypes.array, out seekIndex);
 
             Assert.IsFalse(isClosed);
         }

@@ -27,19 +27,19 @@ namespace DataEntity
             var streamBuffer = new byte[bufferSize];
 
             var propertyValue = "";
-            JsonPropertyType propertyType = JsonPropertyType.unset;
+            JsonTypes types = JsonTypes.unset;
 
             while (fileStream.Read(streamBuffer, 0, streamBuffer.Length) > 0)
             {
                 propertyValue += utf8Encoder.GetString(streamBuffer);
 
-                if (propertyType == JsonPropertyType.unset)
+                if (types == JsonTypes.unset)
                 {
-                    propertyType = GetPropertyType(propertyValue[0]);
+                    types = GetPropertyType(propertyValue[0]);
                 }
 
                 int closingCharIdx = 0;
-                if (IsJsonValueClosed(propertyValue, propertyType, out closingCharIdx))
+                if (IsJsonValueClosed(propertyValue, types, out closingCharIdx))
                 {
                     position = (seekIndex + propName.Length + 3, closingCharIdx);
                     break;
@@ -59,23 +59,23 @@ namespace DataEntity
         /// <returns>
         /// return the index of the closing char if it is present, return 0 othervise
         /// </returns>
-        public static bool IsJsonValueClosed(string propValue, JsonPropertyType propertyType, out int closingCharIndex)
+        public static bool IsJsonValueClosed(string propValue, JsonTypes types, out int closingCharIndex)
         {
             closingCharIndex = -1;
-            var closingCharacter = GetJsonValueClosingCharacter(propertyType);
+            var closingCharacter = GetJsonValueClosingCharacter(types);
 
-            switch (propertyType)
+            switch (types)
             {
-                case JsonPropertyType.array:
+                case JsonTypes.array:
                     return IsJsonParenthesesClosed(propValue, '[', ']', out closingCharIndex);
 
-                case JsonPropertyType.complex:
+                case JsonTypes.complex:
                     return IsJsonParenthesesClosed(propValue, '{', '}', out closingCharIndex);
 
-                case JsonPropertyType.text:
+                case JsonTypes.text:
                     return IsJsonParenthesesClosed(propValue, '"', '"', out closingCharIndex);
 
-                case JsonPropertyType.number:
+                case JsonTypes.number:
                     return IsJsonNumberValueClosed(propValue, out closingCharIndex);
             }
 
@@ -95,38 +95,38 @@ namespace DataEntity
             var type = GetPropertyType(openingChar);
             switch (type)
             {
-                case JsonPropertyType.array: return ']';
-                case JsonPropertyType.complex: return '}';
-                case JsonPropertyType.text: return '"';
-                case JsonPropertyType.number:
+                case JsonTypes.array: return ']';
+                case JsonTypes.complex: return '}';
+                case JsonTypes.text: return '"';
+                case JsonTypes.number:
                 default: return ',';
             }
         }
 
-        public static char GetJsonValueClosingCharacter(JsonPropertyType type)
+        public static char GetJsonValueClosingCharacter(JsonTypes type)
         {
             switch (type)
             {
-                case JsonPropertyType.array: return ']';
-                case JsonPropertyType.complex: return '}';
-                case JsonPropertyType.text: return '\"';
-                case JsonPropertyType.number:
+                case JsonTypes.array: return ']';
+                case JsonTypes.complex: return '}';
+                case JsonTypes.text: return '\"';
+                case JsonTypes.number:
                 default: return ',';
             }
         }
 
-        public static JsonPropertyType GetPropertyType(char c)
+        public static JsonTypes GetPropertyType(char c)
         {
             int i;
             if (Int32.TryParse(c.ToString(), out i))
-                return JsonPropertyType.number;
+                return JsonTypes.number;
 
             switch (c)
             {
-                case '{': return JsonPropertyType.complex;
-                case '[': return JsonPropertyType.array;
-                case '\"': return JsonPropertyType.text;
-                default: return JsonPropertyType.unset;
+                case '{': return JsonTypes.complex;
+                case '[': return JsonTypes.array;
+                case '\"': return JsonTypes.text;
+                default: return JsonTypes.unset;
             }
 
             throw new ArgumentException($"Json value type cannot be determined. Opening char: {c}");

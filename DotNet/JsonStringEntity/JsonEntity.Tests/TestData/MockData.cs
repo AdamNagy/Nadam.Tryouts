@@ -54,7 +54,7 @@ namespace TestData
         {
             var numbers = new int[amount];
             int idx = 0;
-            for (int i = 1; i < amount; i++)
+            for (int i = 1; idx < amount; i++)
             {
                 if (i % arrayIndex == 0)
                 {

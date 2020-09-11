@@ -58,6 +58,7 @@
     <Compile Include="ReflectionUtils.cs" />
     <Compile Include="StreamSeeker.cs" />
     <Compile Include="JsonString\JsonStringEntity.cs" />
+    <Compile Include="StringUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

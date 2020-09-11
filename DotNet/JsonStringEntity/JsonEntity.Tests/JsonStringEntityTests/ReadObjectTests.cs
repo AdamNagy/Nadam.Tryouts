@@ -1,7 +1,5 @@
 ﻿using DataEntity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +12,9 @@ namespace JsonStringEntityTests
     public class ReadObjectTests
     {
         private static string TEST_FILE_PATH = "..\\..\\App_Data\\JsonStringEntityTests\\ReadObject_Tests.json";
+        private static string TEST_FILE_PATH_2 = "..\\..\\App_Data\\JsonStringEntityTests\\ReadObject_Tests_2.json";
         private static TestJsonModel _testModel;
+
         private static (string, string)[] _testJDict; 
 
         [TestInitialize]
@@ -22,28 +22,20 @@ namespace JsonStringEntityTests
         {
             _testModel = TestJsonModel.GetDefault();
             _testJDict = GetExpected().ToArray();
+
             if (!File.Exists(TEST_FILE_PATH))
             {
                 var content = _testModel.ToJsonString().ToByArray();
                 using (var file = File.Create(TEST_FILE_PATH))
                     file.Write(content, 0, content.Length);
             }
-        }
 
-        public static string ToJString(Object subject)
-        {
-            DefaultContractResolver contractResolver = new DefaultContractResolver
+            if (!File.Exists(TEST_FILE_PATH_2))
             {
-                NamingStrategy = new CamelCaseNamingStrategy()
-            };
-
-            var jsonSerializerSettings = new JsonSerializerSettings()
-            {
-                ContractResolver = contractResolver,
-                Formatting = Formatting.None
-            };
-
-            return JsonConvert.SerializeObject(subject, jsonSerializerSettings);
+                var content = _testModel.ComplexProp.ToJsonString().ToByArray();
+                using (var file = File.Create(TEST_FILE_PATH_2))
+                    file.Write(content, 0, content.Length);
+            }
         }
 
         /*
@@ -84,6 +76,7 @@ namespace JsonStringEntityTests
             return expected;
         }
 
+        #region Read a propertywhich type is complex
         [TestMethod]
         public void All()
         {
@@ -138,5 +131,63 @@ namespace JsonStringEntityTests
                 _testJDict.Skip(2).Take(3).ToArray(),
                 propVal.ToArray());
         }
+        #endregion
+
+        #region Read from root, not a property
+        [TestMethod]
+        public void FromObjectJson_All()
+        {
+            var sut = new JsonStringEntity(TEST_FILE_PATH_2);
+            var propVal = sut.ReadObject().ToArray();
+
+            CollectionAssert.AreEqual(
+                _testJDict,
+                propVal);
+        }
+
+        [TestMethod]
+        public void FromObjectJson_SkipOne_ThenAll()
+        {
+            var sut = new JsonStringEntity(TEST_FILE_PATH_2);
+            var propVal = sut.ReadObject().Skip(1).ToArray();
+
+            CollectionAssert.AreEqual(
+                _testJDict.Skip(1).ToArray(),
+                propVal);
+        }
+
+        [TestMethod]
+        public void FromObjectJson_First()
+        {
+            var sut = new JsonStringEntity(TEST_FILE_PATH_2);
+            var propVal = sut.ReadObject().First();
+
+            Assert.AreEqual(
+                _testJDict.First(),
+                propVal);
+        }
+
+        [TestMethod]
+        public void FromObjectJson_FirstThree()
+        {
+            var sut = new JsonStringEntity(TEST_FILE_PATH_2);
+            var propVal = sut.ReadObject().Take(3);
+
+            CollectionAssert.AreEqual(
+                _testJDict.Take(3).ToArray(),
+                propVal.ToArray());
+        }
+
+        [TestMethod]
+        public void FromObjectJson_SkipTwo_Take3()
+        {
+            var sut = new JsonStringEntity(TEST_FILE_PATH_2);
+            var propVal = sut.ReadObject().Skip(2).Take(3);
+
+            CollectionAssert.AreEqual(
+                _testJDict.Skip(2).Take(3).ToArray(),
+                propVal.ToArray());
+        }
+        #endregion
     }
 }

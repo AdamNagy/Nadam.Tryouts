@@ -1,6 +1,6 @@
 ﻿namespace DataEntity
 {
-    public enum JsonPropertyType
+    public enum JsonTypes
     {
         text, array, complex, number, boolean, date, unset
     }

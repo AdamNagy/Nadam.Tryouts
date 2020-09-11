@@ -12,8 +12,7 @@ namespace JsonStringEntityTests
         private const string prop1 = "\"stringArrayProp\":[\"alma\",\"korte\",\"szilva\"]";
         private const string prop2 = "\"complexProp\":{\"prop1\":123,\"prop2\":\"alma\"}";
         private const string prop3 = "\"complexArrayProp\":[{\"prop1\":123,\"prop2\":\"alma\"},{\"prop1\":456,\"prop2\":\"korte\"},{\"prop1\":789,\"prop2\":\"szilva\"}]";
-
-
+        
         [TestInitialize]
         public void BeforeAll()
         {

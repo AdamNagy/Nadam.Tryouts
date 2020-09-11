@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace DataEntity
 {
@@ -16,8 +14,34 @@ namespace DataEntity
             get { return _dict.FirstOrDefault(p => p.key == key).value; }
         }
 
+        public bool ContainsProperty(string propName)
+        {
+            var val = _dict.FirstOrDefault(p => p.key == propName);
+            return val.key != null;
+        }
+
+        public IEnumerable<string> Keys()
+            => _dict.Select(p => p.key);
+
+        public IEnumerable<string> Values()
+            => _dict.Select(p => p.value);
+
         public JsonDictionary(IEnumerable<(string key, string value)> dict)
         {
+            int outherIndex = 0, innerIndex = 0;
+            foreach (var outherItem in dict)
+            {
+                foreach (var innerItem in dict)
+                {
+                    if (outherIndex != innerIndex && outherItem.key == innerItem.key)
+                        throw new ArgumentException($"Json object contains property '{outherItem.key}' multiple times");
+
+                    ++innerIndex;
+                }
+
+                ++outherIndex;
+                innerIndex = 0;
+            }
             _dict = dict;
         }
 
@@ -36,9 +60,9 @@ namespace DataEntity
             T domain = (T)Activator.CreateInstance(typeof(T));
             foreach (var property in typeof(T).GetProperties())
             {
-                var loweredPropName = FirstLetterToLower(property.Name);
+                var loweredPropName = StringUtils.FirstLetterToLower(property.Name);
 
-                if (jsonDictionary[loweredPropName] == null )
+                if (!jsonDictionary.ContainsProperty(loweredPropName))
                     continue;
 
                 if (property.PropertyType == typeof(string))
@@ -51,7 +75,7 @@ namespace DataEntity
                 }
                 else if (jsonDictionary[loweredPropName].StartsWith("{"))
                 {
-                    var deserializeObject_method = Get_DeserializeObject_MethodInfo();
+                    var deserializeObject_method = ReflectionUtils.Get_DeserializeObject_MethodInfo();
 
                     deserializeObject_method = deserializeObject_method.MakeGenericMethod(property.PropertyType);
                     // The "null" is because it's a static method
@@ -64,7 +88,7 @@ namespace DataEntity
                 {
                     Type innerTypeOfArray = property.PropertyType.GetGenericArguments()[0];
 
-                    var deserializeObject_method = Get_DeserializeObject_MethodInfo();
+                    var deserializeObject_method = ReflectionUtils.Get_DeserializeObject_MethodInfo();
 
                     deserializeObject_method = deserializeObject_method.MakeGenericMethod(ReflectionUtils.GenerateGenericListTypeWithType(innerTypeOfArray));
                     // The "null" is because it's a static method
@@ -74,22 +98,6 @@ namespace DataEntity
             }
 
             return domain;
-        }
-
-        public static MethodInfo Get_DeserializeObject_MethodInfo()
-        {
-            return typeof(JsonConvert).GetMethods()
-                .Where(p => p.Name.Contains("DeserializeObject"))
-                .Where(p => p.IsGenericMethod)
-                .ToArray()[0];
-        }
-
-        public static string FirstLetterToLower(string text)
-        {
-            if (text != string.Empty && char.IsUpper(text[0]))
-                return $"{char.ToLower(text[0])}{text.Substring(1)}";
-
-            return text;
         }
     }
 }

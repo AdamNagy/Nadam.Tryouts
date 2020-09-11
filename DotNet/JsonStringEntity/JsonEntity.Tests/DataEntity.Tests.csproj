@@ -54,7 +54,8 @@
   <ItemGroup>
     <Compile Include="JsonDictionaryTests\ToObjectTests.cs" />
     <Compile Include="JsonStringEntityTests\ExtendPropertyTests.cs" />
-    <Compile Include="JsonStringEntityTests\ReadArrayTests.cs" />
+    <Compile Include="JsonStringEntityTests\ReadArrayTests_ArrayProperty.cs" />
+    <Compile Include="JsonStringEntityTests\ReadArrayTests_ArrayJson.cs" />
     <Compile Include="JsonStringEntityTests\ReadObjectTests.cs" />
     <Compile Include="JsonStringUtilsTests\ContainsPropertyNameTests.cs" />
     <Compile Include="JsonStringUtilsTests\GetPropertyTypeTests.cs" />
