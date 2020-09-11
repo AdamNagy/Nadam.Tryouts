@@ -1,45 +1,32 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using DataEntity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TestData;
+
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+
+using DataEntity;
+using TestData;
 
 namespace JsonStringEntityTests
 {
     [TestClass]
     public class SetProperty
     {
-        private static string TEST_FILE = "..\\..\\App_Data\\JsonSeeker_TestData\\SetProperty.json";
+        private static string TEST_FILE_PATH = "..\\..\\App_Data\\JsonSeeker_TestData\\SetProperty.json";
+        private static TestJsonModel TEST_FILE;
 
         [TestInitialize]
         public void BeforeAll()
         {
-            File.WriteAllText(TEST_FILE, ToJString(TestJsonModel.GetDefault()));
-        }
-
-        public static string ToJString(Object subject)
-        {
-            DefaultContractResolver contractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new CamelCaseNamingStrategy()
-            };
-
-            var jsonSerializerSettings = new JsonSerializerSettings()
-            {
-                ContractResolver = contractResolver,
-                Formatting = Formatting.None
-            };
-
-            return JsonConvert.SerializeObject(subject, jsonSerializerSettings);
+            TEST_FILE = TestJsonModel.GetDefault();
+            File.WriteAllText(TEST_FILE_PATH, TEST_FILE.ToJsonString());
         }
 
         [TestMethod]
-        public void Write_String_Begining()
+        public void Set_String()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
 
             sut.SetProperty("stringProp", "\"Hello change!!\"");
             var result = sut.Read("stringProp");
@@ -48,9 +35,9 @@ namespace JsonStringEntityTests
         }
 
         [TestMethod]
-        public void Write_Number_Middle()
+        public void Set_Number()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
 
             sut.SetProperty("numberProp", "666");
             var result = sut.Read("numberProp");
@@ -59,9 +46,9 @@ namespace JsonStringEntityTests
         }
 
         [TestMethod]
-        public void Write_Complex_Middle()
+        public void Set_Complex()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
 
             sut.SetProperty("complexProp", "{\"newProp1\": 1234}");
             var result = sut.Read("complexProp");
@@ -70,9 +57,9 @@ namespace JsonStringEntityTests
         }
 
         [TestMethod]
-        public void Write_NumberArray_Middle()
+        public void Set_NumberArray()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
 
             sut.SetProperty("numberArrayProp", "[1,2,3,4,5]");
             var result = sut.Read("numberArrayProp");
@@ -81,9 +68,9 @@ namespace JsonStringEntityTests
         }
 
         [TestMethod]
-        public void Write_StringArray_Middle()
+        public void Set_StringArray()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
 
             sut.SetProperty("stringArrayProp", "[\"Adam\",\"Janos\", \"Diablo\"]");
             var result = sut.Read("stringArrayProp");
@@ -93,16 +80,16 @@ namespace JsonStringEntityTests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Should_Throw_Exception()
+        public void Set_NotExistedProp_And_Should_Throw_Exception()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
             sut.SetProperty("textProp", "\"some longer text to check\"");
         }
 
         [TestMethod]
         public void Should_Remain_Valid_Json()
         {
-            var sut = new JsonStringEntity(TEST_FILE);
+            var sut = new JsonStringEntity(TEST_FILE_PATH);
 
             sut.SetProperty("stringProp", "\"Hello change2!!\"");
             sut.SetProperty("numberProp", "666");

@@ -60,7 +60,7 @@ namespace DataEntity
             T domain = (T)Activator.CreateInstance(typeof(T));
             foreach (var property in typeof(T).GetProperties())
             {
-                var loweredPropName = StringUtils.FirstLetterToLower(property.Name);
+                var loweredPropName = property.Name.FirstLetterToLower();
 
                 if (!jsonDictionary.ContainsProperty(loweredPropName))
                     continue;

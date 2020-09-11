@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using DataEntity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
@@ -24,10 +25,11 @@ namespace JsonStringEntityTests
         {
             var sut = new JsonStringEntity(TEST_FILE);
 
-            sut.ExtendProperty("\"barack\"", "stringArrayProp", AppendPosition.begining);
+            sut.ExtendProperty("barack".ToJsonString(), "stringArrayProp", AppendPosition.begining);
             var result = sut.Read("stringArrayProp");
 
-            Assert.AreEqual("[\"barack\",\"alma\",\"korte\",\"szilva\"]", result);
+            var expected = new List<string>() {"barack", "alma", "korte", "szilva"}.ToJsonString();
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
@@ -35,10 +37,11 @@ namespace JsonStringEntityTests
         {
             var sut = new JsonStringEntity(TEST_FILE);
 
-            sut.ExtendProperty("\"barack\"", "stringArrayProp", AppendPosition.end);
+            sut.ExtendProperty("barack".ToJsonString(), "stringArrayProp", AppendPosition.end);
             var result = sut.Read("stringArrayProp");
 
-            Assert.AreEqual("[\"alma\",\"korte\",\"szilva\",\"barack\"]", result);
+            var expected = new List<string>() { "alma", "korte", "szilva", "barack" }.ToJsonString();
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
@@ -49,7 +52,13 @@ namespace JsonStringEntityTests
             sut.ExtendProperty("\"newProp\":24816", "complexProp", AppendPosition.begining);
             var result = sut.Read("complexProp");
 
-            Assert.AreEqual("{\"newProp\":24816,\"prop1\":123,\"prop2\":\"alma\"}", result);
+            var expected = new
+            {
+                newProp = 24816,
+                prop1 = 123,
+                prop2 = "alma"
+            }.ToJsonString();
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
@@ -57,10 +66,20 @@ namespace JsonStringEntityTests
         {
             var sut = new JsonStringEntity(TEST_FILE);
 
-            sut.ExtendProperty("\"newProp\":24816", "complexProp", AppendPosition.end);
+            sut.ExtendProperty(
+                new {newProp = 24816 }.ToJsonString().Trim('{').Trim('}'),
+                "complexProp",
+                AppendPosition.end);
             var result = sut.Read("complexProp");
 
-            Assert.AreEqual("{\"prop1\":123,\"prop2\":\"alma\",\"newProp\":24816}", result);
+            var expected = new
+            {
+                prop1 = 123,
+                prop2 = "alma",
+                newProp = 24816
+            }.ToJsonString();
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
@@ -68,10 +87,41 @@ namespace JsonStringEntityTests
         {
             var sut = new JsonStringEntity(TEST_FILE);
 
-            sut.ExtendProperty("{\"prop1\":000,\"prop2\":\"szolo\"}", "complexArrayProp", AppendPosition.begining);
+            sut.ExtendProperty(
+                new
+                {
+                    prop1 = -123,
+                    prop2 = "mango"
+                }.ToJsonString(),
+                "complexArrayProp",
+                AppendPosition.begining);
             var result = sut.Read("complexArrayProp");
 
-            Assert.AreEqual("[{\"prop1\":000,\"prop2\":\"szolo\"},{\"prop1\":123,\"prop2\":\"alma\"},{\"prop1\":456,\"prop2\":\"korte\"},{\"prop1\":789,\"prop2\":\"szilva\"}]", result);
+            var expected = new List<object>()
+            {
+                new
+                {
+                    prop1 = -123,
+                    prop2 = "mango"
+                },
+                new
+                {
+                    prop1 = 123,
+                    prop2 = "alma"
+                },
+                new
+                {
+                    prop1 = 456,
+                    prop2 = "korte"
+                },
+                new
+                {
+                    prop1 = 789,
+                    prop2 = "szilva"
+                }
+            }.ToJsonString();
+            
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]
@@ -79,10 +129,40 @@ namespace JsonStringEntityTests
         {
             var sut = new JsonStringEntity(TEST_FILE);
 
-            sut.ExtendProperty("{\"prop1\":000,\"prop2\":\"szolo\"}", "complexArrayProp", AppendPosition.end);
+            sut.ExtendProperty(new
+                {
+                    prop1 = -123,
+                    prop2 = "mango"
+                }.ToJsonString(),
+                "complexArrayProp",
+                AppendPosition.end);
             var result = sut.Read("complexArrayProp");
 
-            Assert.AreEqual("[{\"prop1\":123,\"prop2\":\"alma\"},{\"prop1\":456,\"prop2\":\"korte\"},{\"prop1\":789,\"prop2\":\"szilva\"},{\"prop1\":000,\"prop2\":\"szolo\"}]", result);
+            var expected = new List<object>()
+            {
+                new
+                {
+                    prop1 = 123,
+                    prop2 = "alma"
+                },
+                new
+                {
+                    prop1 = 456,
+                    prop2 = "korte"
+                },
+                new
+                {
+                    prop1 = 789,
+                    prop2 = "szilva"
+                },
+                new
+                {
+                    prop1 = -123,
+                    prop2 = "mango"
+                }
+            }.ToJsonString();
+
+            Assert.AreEqual(expected, result);
         }
 
         [TestMethod]

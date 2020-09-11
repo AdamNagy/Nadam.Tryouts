@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -234,8 +233,7 @@ namespace DataEntity
 
         public void SetProperty(
             string propertyName,
-            string newValue,
-            AppendPosition appendTo = AppendPosition.end)
+            string newValue)
         {
             using (FileStream fileStream = File.Open(_jsonFileName, FileMode.Open))
             {

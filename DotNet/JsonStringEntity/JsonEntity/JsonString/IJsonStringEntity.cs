@@ -17,8 +17,7 @@
         /// <param name="appendTo"> if property does not exist, it will be append, this param tells where </param>
         void SetProperty(
             string propertyName,
-            string newValue,
-            AppendPosition appendTo = AppendPosition.end);
+            string newValue);
 
         /// <summary>
         /// Extends an existing property in the json. Value can be array or object, NOT primitive
