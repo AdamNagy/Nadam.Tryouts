@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+csöcs
+
+	<my-element id="my-id" class="class1 class2" complex='{ "sm": "100px", "md": "200vh", "lg": "300rem" }' other="Hello shit fuck">
+		<p nid="labelElement" label="Hello inner element"></p>
+	</my-element>
+
+	<my-element id="my-id" class="class1 class2" complex='{ "sm": "100px", "md": "200vh", "lg": "300rem" }' other="Hello shit fuck" columnLaneElementConfig="Hello inner element">
+	</my-element>
+
+	<script>
+
+		class MyConfig {
+			id = "my-id-2";
+			classes = ["container", "mb-2", "pb-5"];
+			other = 220;
+			complex = { sm: "100", md: "200", lg: "300" };
+			innerElementLabel = "Hello from inner";
+		}
+
+		class MyElement extends HTMLElement {
+
+			config = { };
+			initFrom = "";
+
+			elementDomInterface = {
+				labelElementConfig: { }
+			}
+
+			constructor(_config) {
+				super();
+
+				this.initFrom = _config === undefined ? "html" : "js";
+				this.config = _config;
+			}
+
+			connectedCallback() {
+
+				if( this.initFrom === "html" ) {
+					this.config = this.attributesToProperties(this);
+				}
+
+				var pElement = this.getElementsByTagName("p")[0];
+				if( pElement === undefined ) {
+					this.elementDomInterface["labelElement"] = document.createElement("p");
+					this.elementDomInterface["labelElement"].setAttribute("label", this.config.innerElementLabel);
+					this.append(this.elementDomInterface["labelElement"]);
+				}
+			}
+
+			attributesToProperties(element) {
+
+				var newConf = { }
+
+				for(var prop of element.getAttributeNames()) {
+
+					var attributeValue = element.getAttribute(prop);
+
+					if( attributeValue[0] == '{' )
+						newConf[prop] = JSON.parse(attributeValue);
+					else if(prop === "class") 
+						newConf[prop] = attributeValue.split(" ");
+					else if( !isNaN(attributeValue) )
+						newConf[prop] = parseInt(attributeValue);
+					else
+						newConf[prop] = attributeValue;
+				}
+
+				return newConf;
+			}
+		}
+
+		customElements.define('my-element', MyElement);
+
+		var s = Reflect.construct(MyElement, [ new MyConfig() ]);
+		document.body.append(s);
+
+	</script>
+</body>
+</html>
