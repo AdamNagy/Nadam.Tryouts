@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions.cs" />
+    <Compile Include="ObjectExtensions.cs" />
     <Compile Include="JsonString\IJsonStringEntity.cs" />
     <Compile Include="JsonString\JsonDictionary.cs" />
     <Compile Include="JsonString\JsonStringEnums.cs" />
@@ -58,7 +58,7 @@
     <Compile Include="ReflectionUtils.cs" />
     <Compile Include="StreamSeeker.cs" />
     <Compile Include="JsonString\JsonStringEntity.cs" />
-    <Compile Include="StringUtils.cs" />
+    <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -2,16 +2,38 @@
 <html>
 <body>
 
-csöcs
+	Hello word!
 
 	<my-element id="my-id" class="class1 class2" complex='{ "sm": "100px", "md": "200vh", "lg": "300rem" }' other="Hello shit fuck">
 		<p nid="labelElement" label="Hello inner element"></p>
 	</my-element>
 
-	<my-element id="my-id" class="class1 class2" complex='{ "sm": "100px", "md": "200vh", "lg": "300rem" }' other="Hello shit fuck" columnLaneElementConfig="Hello inner element">
+	<my-element id="my-id" class="class1 class2" complex='{ "sm": "100px", "md": "200vh", "lg": "300rem" }' other="Hello shit fuck" labelElementConfig="Hello inner element">
 	</my-element>
 
 	<script>
+
+		const pageConfig = [
+			{
+				type: "accordion",
+				config: {
+					images:  []
+				},
+				withFrontLayer: {
+					config: {
+						title: "hello",
+						subTitle: "made with ndm"
+					}
+				}
+			}, {
+				type: "galleryThumbnail",
+				api: "https://my-api/gallery-thumbnails",
+				css: [ "container", "mb-3" ]
+			}, {
+				type: "parallax",
+				imgSrc: "../my-image.jpeg"
+			}
+		];
 
 		class MyConfig {
 			id = "my-id-2";
@@ -42,6 +64,7 @@ csöcs
 				if( this.initFrom === "html" ) {
 					this.config = this.attributesToProperties(this);
 				}
+
 
 				var pElement = this.getElementsByTagName("p")[0];
 				if( pElement === undefined ) {
