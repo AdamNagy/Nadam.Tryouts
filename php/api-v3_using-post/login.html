@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<h1>Postinh some shit</h1>
+		<div id="demo"></div>
+		
+		<script>
+
+			var out = JSON.stringify( {
+					controller: 'manifest',
+					action: 'get',
+					params: {
+						page: 3,
+						search: "curch"
+					}
+				});
+
+			$.ajax({
+				type: "POST",
+				contentType: "application/x-www-form-urlencoded",
+				url: "index.php",
+				data: `query=${out}`,
+				success: function (response) {
+					document.getElementById("demo").innerText = response;
+				}
+			});
+
+		</script>
+	</body>
+</html>
