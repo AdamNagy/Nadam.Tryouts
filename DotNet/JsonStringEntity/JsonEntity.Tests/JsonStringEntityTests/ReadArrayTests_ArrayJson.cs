@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using TestData;
 
 namespace JsonStringEntityTests
@@ -94,6 +95,35 @@ namespace JsonStringEntityTests
         #endregion
 
         #region complex
+        [TestMethod]
+        public void Complex_All()
+        {
+            var sut = new JsonStringEntity(TEST_FILE_PATH_4);
+            var propVal = sut.ReadArray();
+
+            var expected = JArray.Parse(File.ReadAllText(TEST_FILE_PATH_4));
+
+            Assert.AreEqual(expected.Count(), propVal.Count());
+
+            CollectionAssert.AreEqual(
+                propVal.ToArray(),
+                propVal.ToArray());
+        }
+
+        [TestMethod]
+        public void Complex_Skip2_Read3()
+        {
+            var sut = new JsonStringEntity(TEST_FILE_PATH_4);
+            var propVal = sut.ReadArray();
+
+            var expected = JArray.Parse(File.ReadAllText(TEST_FILE_PATH_4));
+
+            Assert.AreEqual(expected.Count(), propVal.Count());
+
+            CollectionAssert.AreEqual(
+                expected.Skip(2).Take(3).Select(p => p.ToJsonString()).ToArray(),
+                propVal.Skip(2).Take(3).ToArray());
+        }
         #endregion
     }
 }

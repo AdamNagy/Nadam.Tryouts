@@ -14,8 +14,7 @@
 				border: 1px solid blue;
 				float: left;
 
-
-				 overflow: scroll; 
+				overflow-y: scroll; 
 				z-index: 10;
 			}
 
@@ -29,11 +28,6 @@
 				z-index: 11;
 				max-width: 200px;			
 			}
-
-			.overflow-y-hidden {
-				/* overflow-y: hidden; */
-				z-index: 9;
-			} 
 
 			.custom-state-active {
 				background: rgba(100, 130, 160, .3);
@@ -54,7 +48,7 @@
 
 	<body>
 
-		<div class="container-fluid overflow-y-hidden">
+		<div class="container-fluid">
 			<div class="col-6 p-2 column" id="column-a">
 				<div class="image-wall d-flex flex-row justify-content-around flex-wrap align-items-start">
 					<img src="../test-images/small/rectangle/small_1.jpg" class="draggable-column-a">
@@ -141,9 +135,9 @@
 
 				$(".draggable-column-b").draggable(dragableConfig);
 
-				$( "#column-a" ).droppable(Object.assign({}, { accept: ".draggable-column-b" }, dropableConfig));
+				$("#column-a").droppable(Object.assign({}, { accept: ".draggable-column-b" }, dropableConfig));
 
-				$( "#column-b" ).droppable(Object.assign({}, { accept: ".draggable-column-a" }, dropableConfig));
+				$("#column-b").droppable(Object.assign({}, { accept: ".draggable-column-a" }, dropableConfig));
 			});
 		</script>
 	</body>
