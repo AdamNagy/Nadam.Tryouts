@@ -4,7 +4,9 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	</head>
 	<body>
-		<h1>Postinh some shit</h1>
+		<h1>Posting some shit</h1>
+		<button id="btn-post">POST</button>
+		<button id="btn-get">GET</button>
 		<div id="demo"></div>
 		
 		<script>
@@ -18,15 +20,29 @@
 					}
 				});
 
+		$('#btn-post').click(() => {
 			$.ajax({
 				type: "POST",
 				contentType: "application/x-www-form-urlencoded",
-				url: "index.php",
+				url: "api/",
 				data: `query=${out}`,
 				success: function (response) {
 					document.getElementById("demo").innerText = response;
 				}
 			});
+		});
+
+		$('#btn-get').click(() => {
+			$.ajax({
+				type: "GET",
+				// contentType: "application/x-www-form-urlencoded",
+				url: "api/index/admin/users",
+				// data: `query=${out}`,
+				success: function (response) {
+					document.getElementById("demo").innerText = response;
+				}
+			});
+		});
 
 		</script>
 	</body>
