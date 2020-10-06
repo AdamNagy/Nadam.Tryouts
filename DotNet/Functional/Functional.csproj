@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D695B736-4B91-420D-9AAF-0FED9AB6034D}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>DataEntity</RootNamespace>
-    <AssemblyName>DataEntity</AssemblyName>
+    <ProjectGuid>{F7BABB5C-05DD-4F1A-87D3-EC86F2023D02}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Functional</RootNamespace>
+    <AssemblyName>Functional</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -32,13 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,20 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ObjectExtensions.cs" />
-    <Compile Include="JsonString\IJsonStringEntity.cs" />
-    <Compile Include="JsonString\JsonDictionary.cs" />
-    <Compile Include="JsonString\JsonStringEnums.cs" />
-    <Compile Include="JsonString\JsonStringUtils.cs" />
+    <Compile Include="FCsh.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReflectionUtils.cs" />
-    <Compile Include="StreamSeeker.cs" />
-    <Compile Include="JsonString\JsonStringEntity.cs" />
-    <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -2,8 +2,6 @@
 //		by resgistering static object you HTML Elements be saved as well
 // can regsiter prototype functions (ctor) to be able to instantiate whenever needed like a DI container
 
-
-
 var RegistryItemLifecycle = {
 	dynamic: "dynamic",
 	static: "static"

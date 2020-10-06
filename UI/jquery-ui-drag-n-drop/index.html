@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" href="../lib/bootstrap/bootstrap-grid.min.css">
+		<link rel="stylesheet" href="../lib/bootstrap/bootstrap-reboot.min.css">
+		<link rel="stylesheet" href="../lib/bootstrap/bootstrap.min.css">
+		
+		<link rel="stylesheet" href="../lib/jquery-ui/jquery-ui.min.css">
+	
+		<style>
+			.column {
+				min-height: 80vh;
+				border: 1px solid blue;
+				float: left;
+
+				overflow-y: scroll; 
+				z-index: 10;
+			}
+
+			.image-wall {
+				max-height: 98vh;
+				z-index: 7;
+			}
+
+			.image-wall img {
+				margin: 3px;
+				z-index: 11;
+				max-width: 200px;			
+			}
+
+			.custom-state-active {
+				background: rgba(100, 130, 160, .3);
+				z-index: 8;
+				opacity: .5;
+			}
+
+			.custom-state-hover {
+				background: rgba(100, 130, 160, .5);
+			}
+
+			.circle-box-shadow {
+				box-shadow: 0 0 10px 10px darkgrey;
+				z-index: 100 !important;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="container-fluid">
+			<div class="col-6 p-2 column" id="column-a">
+				<div class="image-wall d-flex flex-row justify-content-around flex-wrap align-items-start">
+					<img src="../test-images/small/rectangle/small_1.jpg" class="draggable-column-a">
+					<img src="../test-images/small/rectangle/small_2.jpg" class="draggable-column-a">
+					<img src="../test-images/small/rectangle/small_3.jpg" class="draggable-column-a">
+					<img src="../test-images/small/rectangle/small_4.jpg" class="draggable-column-a">
+					<img src="../test-images/small/rectangle/small_5.jpg" class="draggable-column-a">
+					<img src="../test-images/small/rectangle/small_6.jpg" class="draggable-column-a">
+					<img src="../test-images/small/rectangle/small_7.jpg" class="draggable-column-a">
+					<img src="../test-images/small/rectangle/small_8.jpg" class="draggable-column-a">
+					<img src="../test-images/small/rectangle/small_9.jpg" class="draggable-column-a">
+					<img src="../test-images/small/rectangle/small_10.jpg" class="draggable-column-a">
+					<img src="../test-images/small/rectangle/small_11.jpg" class="draggable-column-a">
+					<img src="../test-images/small/rectangle/small_12.jpg" class="draggable-column-a">
+					<img src="../test-images/small/rectangle/small_13.jpg" class="draggable-column-a">
+					<img src="../test-images/small/rectangle/small_14.jpg" class="draggable-column-a">
+					<img src="../test-images/small/rectangle/small_15.jpg" class="draggable-column-a">
+					<img src="../test-images/small/rectangle/small_16.jpg" class="draggable-column-a">
+
+					<img src="../test-images/small/portraits/portrait_1.jpg" class="draggable-column-a">
+					<img src="../test-images/small/portraits/portrait_2.jpg" class="draggable-column-a">
+					<img src="../test-images/small/portraits/portrait_3.jpg" class="draggable-column-a">
+					<img src="../test-images/small/portraits/portrait_4.jpg" class="draggable-column-a">
+					<img src="../test-images/small/portraits/portrait_5.jpg" class="draggable-column-a">
+					<img src="../test-images/small/portraits/portrait_6.jpg" class="draggable-column-a">
+					<img src="../test-images/small/portraits/portrait_7.jpg" class="draggable-column-a">
+					<img src="../test-images/small/portraits/portrait_8.jpg" class="draggable-column-a">
+					<img src="../test-images/small/portraits/portrait_9.jpg" class="draggable-column-a">
+					<img src="../test-images/small/portraits/portrait_10.jpg" class="draggable-column-a">
+					<img src="../test-images/small/portraits/portrait_11.jpg" class="draggable-column-a">
+				</div>				
+			</div>
+
+			<div class="col-6 p-2 column" id="column-b">
+				<div class="image-wall d-flex flex-row justify-content-around flex-wrap align-items-start"></div>
+			</div>
+		</div>
+
+		<script src="../lib/jquery/jquery-v3.4.0.js"></script>
+		<script src="../lib/jquery-ui/jquery-ui.min.js"></script>
+
+		<script src="../lib/bootstrap/bootstrap.bundle.min.js"></script>
+
+		<script>
+
+			function addDroppedItem($container, $item) {
+				$item.fadeOut(function() {
+					$item.appendTo( $(".image-wall", $container) )
+						.fadeIn()
+						.css({
+							"left": "",
+							"top": ""
+						});
+				});
+			}
+
+			$( function() {
+
+				var dragableConfig = { 
+					revert: "invalid",
+					cursor: "pointer",
+					scroll: false,
+					start: function() {
+						$(this).addClass("circle-box-shadow");
+					},
+					stop: function() {
+						$(this).removeClass("circle-box-shadow");
+					}
+				}
+
+				var dropableConfig = {						
+						classes: {
+							"ui-droppable-active": "custom-state-active",
+							"ui-droppable-hover": "custom-state-hover"
+						},
+						drop: function( event, ui ) {
+							$(ui.draggable).toggleClass("draggable-column-a")
+								.toggleClass("draggable-column-b");
+							addDroppedItem(event.target, ui.draggable);
+						}
+					}
+
+				$(".draggable-column-a").draggable(dragableConfig);
+
+				$(".draggable-column-b").draggable(dragableConfig);
+
+				$("#column-a").droppable(Object.assign({}, { accept: ".draggable-column-b" }, dropableConfig));
+
+				$("#column-b").droppable(Object.assign({}, { accept: ".draggable-column-a" }, dropableConfig));
+			});
+		</script>
+	</body>
+</html>

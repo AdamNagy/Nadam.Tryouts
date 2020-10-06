@@ -1,6 +1,8 @@
-﻿namespace DataEntity
+﻿using System.Text;
+
+namespace DataEntity
 {
-    public static class StringUtils
+    public static class StringExtensions
     {
         public static string FirstLetterToLower(this string text)
         {
@@ -12,5 +14,9 @@
 
         public static string ToJsonString(this string text)
             => $"\"{text}\"";
+
+        public static byte[] ToByArray(this string text)
+            => Encoding.ASCII.GetBytes(text);
+        
     }
 }

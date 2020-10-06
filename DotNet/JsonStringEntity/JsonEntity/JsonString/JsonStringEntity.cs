@@ -136,7 +136,8 @@ namespace DataEntity
                             if (JsonStringUtils.IsJsonValueClosed(propertyValue, arrayValueType, out closingCharIdx))
                             {
                                 var arrayItemValue = propertyValue.Substring(0, closingCharIdx).Trim('"');
-                                propertyValue = closingCharIdx >= (propertyValue.Length + 1) ? "" : propertyValue.Substring(closingCharIdx + 1);
+                                // propertyValue = closingCharIdx >= (propertyValue.Length + 1) ? "" : propertyValue.Substring(closingCharIdx + 1);
+                                propertyValue = propertyValue.Substring(closingCharIdx).TrimStart(',');
                                 yield return arrayItemValue;
                             }
                             break;

@@ -6,41 +6,41 @@ namespace DataEntity
 {
     public class StreamSeeker
     {
-        public static int SeekWord(string word, string file)
-        {
-            if(!File.Exists(file))
-                throw new ArgumentException($"file does not exist: {file}");
+        //public static int SeekWord(string word, string file)
+        //{
+        //    if(!File.Exists(file))
+        //        throw new ArgumentException($"file does not exist: {file}");
 
-            var buffer = new byte[word.Length];
-            string prevBufferText = "";
-            var seekIndex = -1;
-            UTF8Encoding temp = new UTF8Encoding(true);
+        //    var buffer = new byte[word.Length];
+        //    string prevBufferText = "";
+        //    var seekIndex = -1;
+        //    UTF8Encoding temp = new UTF8Encoding(true);
 
-            using (FileStream fileStream = File.OpenRead(file))
-            {
-                while (fileStream.Read(buffer, 0, buffer.Length) > 0)
-                {
-                    var textToCheck = $"{prevBufferText}{temp.GetString(buffer)}";
+        //    using (FileStream fileStream = File.OpenRead(file))
+        //    {
+        //        while (fileStream.Read(buffer, 0, buffer.Length) > 0)
+        //        {
+        //            var textToCheck = $"{prevBufferText}{temp.GetString(buffer)}";
 
-                    if (textToCheck.Contains(word))
-                    {
-                        prevBufferText = textToCheck;
-                        ++seekIndex;
-                        break;
-                    }
+        //            if (textToCheck.Contains(word))
+        //            {
+        //                prevBufferText = textToCheck;
+        //                ++seekIndex;
+        //                break;
+        //            }
 
-                    prevBufferText = temp.GetString(buffer);
-                    seekIndex += buffer.Length;
-                }
+        //            prevBufferText = temp.GetString(buffer);
+        //            seekIndex += buffer.Length;
+        //        }
 
-                seekIndex += prevBufferText.IndexOf(word);
+        //        seekIndex += prevBufferText.IndexOf(word);
 
-                if( seekIndex > 0 )
-                    seekIndex -= word.Length;
-            }
+        //        if( seekIndex > 0 )
+        //            seekIndex -= word.Length;
+        //    }
 
-            return seekIndex;
-        }
+        //    return seekIndex;
+        //}
 
         public static int SeekWord(string word, FileStream fileStream)
         {

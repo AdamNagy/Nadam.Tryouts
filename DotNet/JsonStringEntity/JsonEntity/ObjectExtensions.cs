@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
-using System.Text;
 
 namespace DataEntity
 {
-    public static class Extensions
+    public static class ObjectExtensions
     {
         public static string ToJsonString(this Object subject)
         {
@@ -21,11 +20,6 @@ namespace DataEntity
             };
 
             return JsonConvert.SerializeObject(subject, jsonSerializerSettings);
-        }
-
-        public static byte[] ToByArray(this string text)
-        {
-            return Encoding.ASCII.GetBytes(text);
         }
     }
 }
