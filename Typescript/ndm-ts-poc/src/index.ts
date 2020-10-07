@@ -20,9 +20,28 @@ const accConfig: AccordionElementConfig = {
 	nid: "",
 };
 
-const accordion: AccordionElement = new AccordionElement(accConfig);
+// const accordion: AccordionElement = new AccordionElement(accConfig);
 
-document.body.append(
-	document.createElement("section")
-		.WithClass("container")
-		.WithChild(accordion));
+// document.body.append(
+	// document.createElement("section")
+		// .WithClass("container")
+		// .WithChild(accordion));
+
+class HomePage extends HTMLElement {
+
+	constructor() {
+		super();
+	}
+
+	public connectedCallback() {
+
+		const accordion: AccordionElement = new AccordionElement(accConfig);
+		this.append(accordion);
+	}
+}
+
+customElements.define("ndm-honme-page", HomePage);
+
+const router: Router = new Router();
+router.registerRoute("home", HomePage, "");
+router.activateRoute("home", true);

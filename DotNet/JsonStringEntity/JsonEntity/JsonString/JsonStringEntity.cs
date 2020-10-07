@@ -255,15 +255,15 @@ namespace DataEntity
 
         public void ExtendProperty(
             string newValue,
-            string arrayPropertyName,
+            string propertyName,
             AppendPosition appendTo = AppendPosition.end)
         {
             using (FileStream fileStream = File.Open(_jsonFileName, FileMode.Open))
             {
-                var valuePosition = JsonStringUtils.GetValuePosition(arrayPropertyName, fileStream);
+                var valuePosition = JsonStringUtils.GetValuePosition(propertyName, fileStream);
 
                 if (valuePosition.startPos == -1 && valuePosition.length == -1)
-                    throw new ArgumentException($"Property {arrayPropertyName} does not exist in json file {_jsonFileName}");
+                    throw new ArgumentException($"Property {propertyName} does not exist in json file {_jsonFileName}");
                 
                 if (appendTo == AppendPosition.begining)
                 {

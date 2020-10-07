@@ -392,9 +392,15 @@ class Router {
 				pageRootElement = registeredRoute.componentInstance;
 			}
 			else if( registeredRoute.type === "template" ) {
+				
 				const template = document.querySelector(`[route="${registeredRoute.route}"]`);
 				pageRootElement = document.createElement("section");
 				pageRootElement.WithChild( (template).content.cloneNode(true));
+				registeredRoute.componentInstance = pageRootElement;
+			}
+			else if( registeredRoute.type === "elementclass" ) {
+
+				pageRootElement = Reflect.construct(registeredRoute.ctor, []);
 				registeredRoute.componentInstance = pageRootElement;
 			}
 
