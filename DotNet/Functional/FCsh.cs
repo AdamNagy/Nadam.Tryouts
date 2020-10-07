@@ -1,21 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Functional
 {
-    public delegate int GetInt(int value);
-    public delegate string GetString(string value);
+    public delegate int GetInt();
+    public delegate string GetString();
+
+    public delegate string GetStringFor(string path);
+    public delegate IEnumerable<string> GetStringsFor(string path);
 
     public class Context
     {
-        private int intValue;
-        public int GetInt(int value)
+        public readonly GetInt Age;
+        public readonly GetStringFor ReadFile;
+
+        public Context()
         {
-            intValue = value;
-            return intValue;
+            Age += () => 29;
+            ReadFile += (path) =>
+                {
+                    if (File.Exists(path))
+                        File.ReadAllText(path);
+                    
+                    throw new ArgumentException($"{path} does not exist");
+                };
+
         }
     }
 }

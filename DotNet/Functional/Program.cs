@@ -11,11 +11,13 @@ namespace Functional
     {
         static void Main(string[] args)
         {
-            ReadInt("Give me a number");
-            var greet = CreateGreetings("Csá");
-            Console.WriteLine(greet("Adam"));
+            var siteCrackers = new SiteCrackerContainer();
 
-            Console.WriteLine(Get_ReadString("csumika")());
+            //ReadInt("Give me a number");
+            //var greet = CreateGreetings("Csá");
+            //Console.WriteLine(greet("Adam"));
+
+            //Console.WriteLine(Get_ReadString("csumika")());
 
             Console.ReadKey();
         }
