@@ -13,11 +13,11 @@ namespace Functional
         {
             var siteCrackers = new SiteCrackerContainer();
 
-            //ReadInt("Give me a number");
-            //var greet = CreateGreetings("Csá");
-            //Console.WriteLine(greet("Adam"));
+            // ReadInt("Give me a number");
+            // var greet = CreateGreetings("Csá");
+            // Console.WriteLine(greet("Adam"));
 
-            //Console.WriteLine(Get_ReadString("csumika")());
+            // Console.WriteLine(Get_ReadString("csumika")());
 
             Console.ReadKey();
         }
