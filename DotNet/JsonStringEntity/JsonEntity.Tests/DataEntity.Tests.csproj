@@ -52,6 +52,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImageList_Tests.cs" />
     <Compile Include="JsonDictionaryTests\ToObjectTests.cs" />
     <Compile Include="JsonStringEntityTests\ExtendPropertyTests.cs" />
     <Compile Include="JsonStringEntityTests\ReadArrayTests_ArrayProperty.cs" />
