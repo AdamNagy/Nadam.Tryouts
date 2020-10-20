@@ -21,7 +21,7 @@ class ModalElement extends HTMLElement {
 
 		var template = `
 			<p class="modal-closer h1">X</p>
-			<div class="modal-container d-flex justify-content-center align-items-center">
+			<div class="modal modal-container d-flex justify-content-center align-items-center">
 			</div>
 		`;
 
@@ -32,7 +32,7 @@ class ModalElement extends HTMLElement {
 
 	// runs each time the element is added to the DOM
 	connectedCallback() {
-		this.classList.add("modal");
+		// this.classList.add("modal");
 
 		if( this.config.content ) {
 			if( this.config.content.length !== undefined ) {
