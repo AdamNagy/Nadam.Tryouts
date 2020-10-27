@@ -1,21 +1,49 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Mvc;
-
 using HtmlAgilityPack;
 using Framework_ScraperDemo.Models;
 using Framework_ScraperDemo.Extensions;
 
 namespace Framework_ScraperDemo.Controllers
 {
+    // [System.Web.Http.Cors.EnableCors("*", "*", "*")]
     public class HomeController : Controller
     {
         private UriBuilder _url;
 
         [System.Web.Http.Route("{urlString}")]
         public ActionResult Index([FromUri]string url = "")
+        {
+            if (string.IsNullOrEmpty(url))
+                return View(new ScraperEchoViewModel());
+
+            _url = new UriBuilder(url);
+            var web = new HtmlWeb();
+            var doc = web.Load(url, "GET");
+
+            // RemoveElemetsByName(ref doc, "script");
+            RemoveElemetsByName(ref doc, "iframe");
+
+            MoveHeaderStylesToBody(ref doc);
+            HackAnchorTags(ref doc);
+
+            var htmlString = doc.DocumentNode
+                .SelectSingleNode("//body")
+                .InnerHtml
+                .ToString();
+
+            var viewModel = new ScraperEchoViewModel(htmlString);
+            viewModel.Schema = _url.Scheme;
+            viewModel.Domain = _url.Host.ToString();
+            viewModel.Path = _url.Path;
+
+            return View(viewModel);
+        }
+
+        [System.Web.Mvc.HttpPost]
+        public ActionResult Home([FromUri]string url = "")
         {
             if (string.IsNullOrEmpty(url))
                 return View(new ScraperEchoViewModel());
@@ -81,9 +109,9 @@ namespace Framework_ScraperDemo.Controllers
             return $"{_url.Scheme}://{_url.Host}/{path}";
         }
 
-        private HtmlNode ToStyleLink(HtmlNode origNide)
+        private HtmlNode ToStyleLink(HtmlNode origNode)
             => HtmlNode.CreateNode(
-                $"<link type='text/css' rel='stylesheet' href='{ExpandLinkWithDomain(origNide.Attributes["href"].Value)}'>");
+                $"<link type='text/css' rel='stylesheet' href='{ExpandLinkWithDomain(origNode.Attributes["href"].Value)}'>");
         
         private void HackAnchorTags(ref HtmlDocument htmlDoc)
         {
