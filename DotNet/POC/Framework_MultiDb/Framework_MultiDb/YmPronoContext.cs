@@ -18,24 +18,34 @@ namespace MultiDb
         public DbSet<WebImage> WebImages { get; set; }
         public DbSet<StoredImage> StoredImages { get; set; }
 
-        public DbSet<Album> Albums { get; set; }
-        public DbSet<HibridImage> HibridImages { get; set; }
+        //public DbSet<Album> Albums { get; set; }
+        //public DbSet<HibridImage> HibridImages { get; set; }
 
         public YmPronoContext(string ctorString) : base(ctorString)
         {
-            
+            Database.SetInitializer<YmPronoContext>(new CreateDatabaseIfNotExists<YmPronoContext>());
         }
 
         public YmPronoContext(DbConnection existingConnection, bool contextOwnsConnection)
             : base(existingConnection, contextOwnsConnection)
         {
-            
+            Database.SetInitializer<YmPronoContext>(new CreateDatabaseIfNotExists<YmPronoContext>());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //Write Fluent API configurations here
+            base.OnModelCreating(modelBuilder);
 
+            //Write Fluent API configurations here
+            //Configure default schema
+            modelBuilder.HasDefaultSchema("viewer");
+
+            //Map entity to table
+            modelBuilder.Entity<WebGallery>().ToTable("WebGalleries");
+            modelBuilder.Entity<StoredGallery>().ToTable("StoredGalleries");
+
+            modelBuilder.Entity<WebImage>().ToTable("WebImages");
+            modelBuilder.Entity<StoredImage>().ToTable("StoredImages");
         }
     }
 }
