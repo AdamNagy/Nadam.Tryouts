@@ -17,10 +17,7 @@ namespace MultiDb
         public DbSet<StoredGallery> StoredGalleries { get; set; }
         public DbSet<WebImage> WebImages { get; set; }
         public DbSet<StoredImage> StoredImages { get; set; }
-
-        public DbSet<Album> Albums { get; set; }
-        public DbSet<HibridImage> HibridImages { get; set; }
-
+        
         public YmPronoContext(string ctorString) : base(ctorString)
         {
             
