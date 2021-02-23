@@ -17,10 +17,14 @@ namespace MultiDb
         public DbSet<StoredGallery> StoredGalleries { get; set; }
         public DbSet<WebImage> WebImages { get; set; }
         public DbSet<StoredImage> StoredImages { get; set; }
+<<<<<<< HEAD
+        
+=======
 
         //public DbSet<Album> Albums { get; set; }
         //public DbSet<HibridImage> HibridImages { get; set; }
 
+>>>>>>> ba0d4ca4e3243b9116ea056b559b0b5615f5a740
         public YmPronoContext(string ctorString) : base(ctorString)
         {
             Database.SetInitializer<YmPronoContext>(new CreateDatabaseIfNotExists<YmPronoContext>());
