@@ -6,17 +6,13 @@ using Azure.Search.Documents.Models;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Reflection;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Test2.Data
+namespace GitApiIndexUpdater
 {
     public class CognitiveSearchService : ICognitiveSearchService
     {
@@ -56,26 +52,6 @@ namespace Test2.Data
                 Console.WriteLine("Failed to index some of the documents: {0}");
                 throw new Exception($"CognitiveSearchHandler.UpdateIndex\n", ex);
             }            
-        }
-
-        public IEnumerable<GitApiModel> Search(string searchTerm)
-        {
-            SearchClient srchclient = new SearchClient(new Uri(Configuration["SearchServiceEndPoint"]), Configuration["IndexName"], new AzureKeyCredential(Configuration["SearchServiceAdminApiKey"]));
-
-            SearchOptions options = new SearchOptions()
-            {
-                IncludeTotalCount = true,
-                Filter = "",
-                OrderBy = { "" }
-            };
-
-            // adding all field to search result
-            foreach(var property in typeof(GitApiModel).GetProperties())
-                options.Select.Add(property.Name);
-
-            var response = srchclient.Search<GitApiModel>(searchTerm, options);
-
-            return response.Value.GetResults().Select(p => p.Document);
         }
 
         private void DeleteIndexIfExists(string indexName, SearchIndexClient adminClient)
