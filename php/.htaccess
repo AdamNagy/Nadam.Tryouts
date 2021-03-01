@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# this one actually works
+RewriteRule ^([^/.]+)/api/([^/.]+)$ "/$1/api/index.php"
+RewriteRule ^([^/.]+)/api/([^/.]+)/([^/.]+)$ "/$1/api/index.php"
+RewriteRule ^([^/.]+)/api/([^/.]+)/([^/.]+)/([^/.]+)$ "/$1/api/index.php"
+RewriteRule ^([^/.]+)/api/([^/.]+)/([^/.]+)/([^/.]+)/([^/.]+)/([^/.]+)$ "/$1/api/index.php"
+RewriteRule ^([^/.]+)/api/([^/.]+)/([^/.]+)/([^/.]+)/([^/.]+)/([^/.]+)/([^/.]+)$ "/$1/api/index.php"
+RewriteRule ^([^/.]+)/api/([^/.]+)/([^/.]+)/([^/.]+)/([^/.]+)/([^/.]+)/([^/.]+)/([^/.]?)$ "/$1/api/index.php"
+RewriteRule ^([^/.]+)/api/([^/.]+)/([^/.]+)/([^/.]+)/([^/.]+)/([^/.]+)/([^/.]+)/([^/.]+)/([^/.]?)$ "/$1/api/index.php"
