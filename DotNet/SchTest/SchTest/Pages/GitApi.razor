@@ -1,0 +1,45 @@
+﻿@page "/gitapi"
+@using SchTest.Models;
+@using SchTest.Infrastructure;
+
+@inject HttpClient Http;
+@inject ICognitiveSearchHandler Searcher;
+
+<h3>Search Git Api</h3>
+
+<section class="container">
+
+    <div class="row">
+        <button class="btn btn-dark" @onclick="UpdateIndex">Update index</button>
+        <hr class="mb-3"/>
+        <input type="text" id="search-term" class="mr-2" @bind="SearchTermValue" @onfocus="DeleteText"/>
+        <button class="btn btn-dark" @onclick="Search">Go!</button>
+    </div>
+
+    <section class="row" id="search-result">
+    </section>
+</section>
+
+
+@code {
+
+    private string SearchTermValue = "search..";
+
+
+    private void Search(MouseEventArgs e)
+    {
+        var result = Searcher.Search(SearchTermValue);
+        Console.WriteLine(result.First());
+    }
+
+    private async Task UpdateIndex()
+    {
+        var gitApi = await Http.GetFromJsonAsync<GitApiModel>("https://api.github.com");
+        Searcher.UpdateIndex(gitApi);
+    }
+
+    private void DeleteText()
+    {
+        SearchTermValue = "";
+    }
+}
