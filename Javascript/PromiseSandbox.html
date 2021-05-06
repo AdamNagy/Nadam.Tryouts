@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<button id="pressMe">Press me</button>
+	<button id="pressMe2">Press me</button>
+	<button id="pressMe3">Press me</button>
+
+	<script>
+		skalar = new Promise((resolve, reject) => {
+			console.log("resolving promise");
+			let val = 1
+			resolve(() => ++val);
+		});
+	
+		document.getElementById("pressMe").addEventListener("click", async () => {
+			console.log((await skalar)());
+		})
+		
+		document.getElementById("pressMe2").addEventListener("click", async () => {
+			console.log((await skalar)());
+		})
+		
+		document.getElementById("pressMe3").addEventListener("click", async () => {
+			console.log((await skalar)());
+		})
+	</script>
+</body>
+</html>

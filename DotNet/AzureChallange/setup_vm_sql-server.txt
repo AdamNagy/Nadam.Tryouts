@@ -1,0 +1,68 @@
+# Set an admin login and password for your database
+export ADMINLOGIN='nadam'
+export PASSWORD='Minad123'
+
+# Set the logical SQL server name. We'll add a random string as it needs to be globally unique.
+export SERVERNAME=server$RANDOM
+export RESOURCEGROUP=learn-7a8f03b1-35e1-4232-96f5-6b93556e3606
+
+# Set the location, we'll pull the location from our resource group.
+export LOCATION=$(az group show --name $RESOURCEGROUP | jq -r '.location')
+
+az sql server create \
+    --name $SERVERNAME \
+    --resource-group $RESOURCEGROUP \
+    --location $LOCATION \
+    --admin-user $ADMINLOGIN \
+    --admin-password $PASSWORD
+	
+az sql db create --resource-group $RESOURCEGROUP \
+    --server $SERVERNAME \
+    --name marketplaceDb \
+    --sample-name AdventureWorksLT \
+    --service-objective Basic
+	
+az sql db show-connection-string --client sqlcmd --name marketplaceDb --server $SERVERNAME | jq -r
+// result: sqlcmd -S tcp:server12345.database.windows.net,1433 -d marketplaceDb -U '[username]' -P '[password]' -N -l 30
+
+az vm create \
+  --resource-group $RESOURCEGROUP \
+  --name appServer \
+  --image UbuntuLTS \
+  --size Standard_DS2_v2 \
+  --generate-ssh-keys
+
+/*
+{- Finished ..
+  "fqdns": "",
+  "id": "/subscriptions/9e2deb73-2f73-46d9-96f9-f94827200755/resourceGroups/learn-7a8f03b1-35e1-4232-96f5-6b93556e3606/providers/Microsoft.Compute/virtualMachines/appServer",
+  "location": "westus",
+  "macAddress": "00-0D-3A-36-C6-D5",
+  "powerState": "VM running",
+  "privateIpAddress": "10.0.0.4",
+  "publicIpAddress": "13.64.111.193",
+  "resourceGroup": "learn-7a8f03b1-35e1-4232-96f5-6b93556e3606",
+  "zones": ""
+}
+*/
+
+ssh 13.64.111.193
+
+echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
+echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+source ~/.bashrc
+curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list | sudo tee /etc/apt/sources.list.d/msprod.list
+sudo apt-get update
+sudo ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev
+
+// test sql db connection
+sqlcmd -S tcp:server23504.database.windows.net,1433 -d marketplaceDb -U 'nadam' -P 'Minad123' -N -l 30
+
+
+EXECUTE sp_set_database_firewall_rule N'My Firewall Rule', '40.112.128.214', '40.112.128.214'
+EXECUTE sp_set_database_firewall_rule N'Allow appServer database level rule', '[From IP Address]', '[To IP Address]';
+GO
+
+EXECUTE sp_set_database_firewall_rule N'Allow appServer database level rule', '13.64.111.193', '13.64.111.193';
+GO
