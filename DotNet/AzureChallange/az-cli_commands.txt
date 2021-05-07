@@ -1,0 +1,61 @@
+az servicebus namespace authorization-rule keys list \
+    --resource-group learn-6cbfbddb-7fb4-4ee6-b4d0-69211735c2ca \
+    --name RootManageSharedAccessKey \
+    --query primaryConnectionString \
+    --output tsv \
+    --namespace-name salesteamapp-na-0322.servicebus.windows.net
+	
+Endpoint=sb://salesteamapp-na-0322.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=g4u7s4ixBeG0p6n7j6jAYTttMjSjvPcGsRftXOxzATk=
+		 https://salesteamapp-na-0322.servicebus.windows.net/salesperformancemessages
+
+az servicebus queue show \
+    --resource-group learn-6cbfbddb-7fb4-4ee6-b4d0-69211735c2ca \
+    --name salesmessages \
+    --query messageCount \
+    --namespace-name salesteamapp-na-0322
+	
+az servicebus topic subscription show \
+    --resource-group learn-6cbfbddb-7fb4-4ee6-b4d0-69211735c2ca \
+    --namespace-name salesteamapp-na-0322 \
+    --topic-name salesperformancemessages \
+    --name Americas \
+    --query messageCount
+	
+az storage account create --name nadamqueuestorage0322 -g learn-6afa9d3a-e823-4ee2-9a31-2dd34d7f0721 --kind StorageV2 --sku Standard_LRS -l westeurope
+
+az storage account show-connection-string --name nadamqueuestorage0322 --resource-group learn-6afa9d3a-e823-4ee2-9a31-2dd34d7f0721
+
+{
+  "connectionString": "DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=nadamqueuestorage0322;AccountKey=dX9iWwMviQ3vZJs5xA1T16f0uJftYCc+6p5WOGLS1atzu7a71dbmKpZfGVK1keVzgiUdcqqgxBSS6VDxg1SMiw=="
+}
+
+az storage message peek --queue-name newsqueue --connection-string "DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=nadamqueuestorage0322;AccountKey=dX9iWwMviQ3vZJs5xA1T16f0uJftYCc+6p5WOGLS1atzu7a71dbmKpZfGVK1keVzgiUdcqqgxBSS6VDxg1SMiw=="
+
+az eventhubs namespace
+	create	:Create the Event Hubs namespace.
+	authorization-rule	:return the auth rule
+	
+NS_NAME=ehubns-$RANDOM // set and evrinment variable
+az eventhubs namespace --name $NS_NAME
+
+az eventhubs eventhub
+	create
+	show
+	
+// set the defualt resourse group and location so that after this, you don't need to add these values
+az configure --defaults group=learn-f5fc4aa9-4ba5-4aed-b55e-8e08be055c85 location=westeurope
+
+// storage account commands
+storage account create		Create a general-purpose V2 Storage account.
+storage account key list	Retrieve the storage account key.
+	az storage account keys list --account-name $STORAGE_NAME
+storage account show-connection-string		Retrieve the connection string for an Azure Storage account.
+storage container create	Creates a new container in a storage account
+
+az vm create \
+  --resource-group learn-1fe036f2-74a5-439f-8167-9fddc53bb8c2 \
+  --name MeanStack \
+  --image Canonical:UbuntuServer:16.04-LTS:latest \
+  --admin-username nadam \
+  --generate-ssh-keys
+  -- location easteurope

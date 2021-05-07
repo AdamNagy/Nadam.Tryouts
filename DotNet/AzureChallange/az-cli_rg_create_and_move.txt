@@ -1,0 +1,25 @@
+///Azure CLI
+// create resource group
+az group create --name <destination resource group name> --location <location name>
+
+// get resources in an existing one, and save it in an environment var
+yourResource=$(az resource show --resource-group <resource group name> --name <resource name> --resource-type <resource type> --query id --output tsv)
+
+// move resource
+az resource move --destination-group <destination resource group name> --ids $yourResource
+
+// get resources again from the newly created rg
+az resource list --resource-group <destination resource group name> --query [].type --output tsv | uniq
+
+/// Azure PS
+// create rg
+New-AzResourceGroup -Name <destination resource group name> -Location <location name>
+
+// get get resources in an existing one, and save it in an environment var
+$yourResource = Get-AzResource -ResourceGroupName <resource group name> -ResourceName <resource name>
+
+// move resource
+Move-AzResource -DestinationResourceGroupName <destination resource group name> -ResourceId $yourResource.ResourceId
+
+// get resources again from the newly created rg
+Get-AzResource -ResourceGroupName <destination resource group name> | ft
