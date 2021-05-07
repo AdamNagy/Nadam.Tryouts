@@ -41,6 +41,20 @@ namespace StringNumTests
         }
 
         [Fact]
+        public void MultiplyMultiDigit5()
+        {
+            var result = "123".ToStringNum() * "-65".ToStringNum();
+            Assert.Equal("-7995".ToStringNum(), result);
+        }
+
+        [Fact]
+        public void MultiplyMultiDigit6()
+        {
+            var result = "-123".ToStringNum() * "-65".ToStringNum();
+            Assert.Equal("7995".ToStringNum(), result);
+        }
+
+        [Fact]
         public void MultiplyWithZero()
         {
             var result = "0".ToStringNum() * "123425654".ToStringNum();
@@ -52,6 +66,20 @@ namespace StringNumTests
         {
             var result = "245676542347".ToStringNum() * "0".ToStringNum();
             Assert.Equal("0".ToStringNum(), result);
+        }
+
+        [Fact]
+        public void MultiplyWithMinusOne()
+        {
+            var result = "245676542347".ToStringNum() * "-1".ToStringNum();
+            Assert.Equal("-245676542347".ToStringNum(), result);
+        }
+
+        [Fact]
+        public void MultiplyWithMinusOne2()
+        {
+            var result = "-1".ToStringNum() * "245676542347".ToStringNum();
+            Assert.Equal("-245676542347".ToStringNum(), result);
         }
     }
 }

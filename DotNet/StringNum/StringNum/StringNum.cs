@@ -27,14 +27,17 @@ namespace StringNumSet
         {
             if (bNum.IsNegative)
                 return aNum - bNum.Abs();
-
-            if (aNum.IsNegative)
+            else if( aNum.IsNegative )
             {
-                if( bNum.Abs() > aNum.Abs )
-
-                return new StringNum(aNum.Number) - bNum;
+                if (aNum.Abs() > bNum.Abs())
+                {
+                    var res = aNum.Abs() - bNum;
+                    return res * StringNum.MinusOne;
+                }
+                else
+                    return bNum - aNum.Abs();
             }
-
+            
             var a = aNum.Number.Backward();
             var b = bNum.Number.Backward();
 
@@ -68,8 +71,23 @@ namespace StringNumSet
 
         public static StringNum operator -(StringNum a, StringNum b)
         {
-            //if (b.IsNegative)
-            //    return a + new StringNum(b.Number);
+            if (b.IsNegative)
+                return a + b.Abs();
+
+            if( a.IsNegative )
+            {
+                var result = a.Abs() + b;
+                return result * StringNum.MinusOne;
+            }
+
+            if( b > a )
+            {
+                var result = b - a;
+                return result * StringNum.MinusOne;
+            }
+
+            if (a == b)
+                return StringNum.Zero;
 
             var stringNumBuilder = new StringBuilder();
             bool isNegative = false;
@@ -83,8 +101,8 @@ namespace StringNumSet
                 isNegative = true;
             }
 
-            int[] aDigits = a.ToIntArray().Reverse().ToArray(),
-                bDigits = b.ToIntArray().Reverse().ToArray();
+            int[] aDigits = a.Digits().Reverse().ToArray(),
+                bDigits = b.Digits().Reverse().ToArray();
 
             for (int i = 0; i < aDigits.Length; i++)
             {
@@ -100,24 +118,27 @@ namespace StringNumSet
                 }
 
                 int partialSum;
-                if( a.IsNegative )
-                    partialSum = (current * -1) + decrementer;
-                else
-                    partialSum = current - decrementer;
+                partialSum = current - decrementer;
 
                 stringNumBuilder.Append(partialSum);
             }
 
             if( isNegative )
-                return new StringNum($"-{stringNumBuilder.ToString().Backward()}");
+                return new StringNum($"-{stringNumBuilder.ToString().Backward().TrimStart('0')}");
 
-            return new StringNum(stringNumBuilder.ToString().Backward());
+            return new StringNum(stringNumBuilder.ToString().Backward().TrimStart('0'));
         }
 
         public static StringNum operator *(StringNum a, StringNum b)
         {
-            if (a == '0' || b == '0')
+            if (a == StringNum.Zero || b == StringNum.Zero)
                 return new StringNum("0");
+
+            if (a == StringNum.MinusOne)
+                return new StringNum($"-{b.Number}");
+
+            if (b == StringNum.MinusOne)
+                return new StringNum($"-{a.Number}");
 
             var fraction = '0';
             var digitalSum = new List<string>();
@@ -149,6 +170,9 @@ namespace StringNumSet
             var sumBuilder = "0".ToStringNum();
             foreach (var subNum in digitalSum)            
                 sumBuilder = sumBuilder + subNum.ToStringNum();            
+
+            if( (a.IsNegative && !b.IsNegative) || (!a.IsNegative && b.IsNegative) )
+                return new StringNum($"-{sumBuilder.Number}");
 
             return sumBuilder;
         }
@@ -188,34 +212,48 @@ namespace StringNumSet
 
         #region comparsion operators
         public static bool operator ==(StringNum a, StringNum b)
-            => a.Length == b.Length && a == b;
+        {
+            if( a.Length == b.Length && a.IsNegative == b.IsNegative)
+            {
+                for (int i = 0; i < a.Number.Length; i++)
+                {
+                    if (a[i] != b[i])
+                        return false;
+                }
+
+                return true;
+            }
+
+            return false;
+        }
 
         public static bool operator !=(StringNum a, StringNum b)
             => a.Length != b.Length || a != b;
 
-        public static bool operator ==(StringNum a, char b)
-            => a.Length == 1 && a.Number[0] == b;        
-
-        public static bool operator !=(StringNum a, char b)
-            => a.Length != 1 || a.Number[0] != b;
-
         public static bool operator <(StringNum a, StringNum b)
         {
+            var lt = a.Abs().Lt(b.Abs());
+
             if (a.IsNegative && !b.IsNegative)
                 return true;
 
-            if (a.Length < b.Length)
-                return true;
+            if (!a.IsNegative && b.IsNegative)
+                return false;
 
-            for (int i = 0; i < a.Length; i++)
-            {
-
-            }
+            return lt;
         }
 
         public static bool operator >(StringNum a, StringNum b)
         {
+            var lt = a.Abs().Gt(b.Abs());
 
+            if (!a.IsNegative && b.IsNegative)
+                return true;
+
+            if (a.IsNegative && !b.IsNegative)
+                return false;
+
+            return lt;
         }
         #endregion
 
@@ -230,11 +268,48 @@ namespace StringNumSet
             get => Number[i];
         }
 
-        public StringNum Substring(int start, int length)
-            => new StringNum(Number.Substring(start, length));
+        private bool Lt(StringNum other)
+        {
+            if (Length < other.Length)
+                return true;
+            else if (Length > other.Length)
+                return false;
 
-        public StringNum Substring(int start)
-             => new StringNum(Number.Substring(start));
+            int[] aDigits = this.Digits(),
+                    bDigits = other.Digits();
+
+            for (int i = 0; i < Length; i++)
+            {
+                if (aDigits[i] < bDigits[i])
+                    return true;
+                else if (aDigits[i] > bDigits[i])
+                    return false;
+            }
+
+            return false;
+        }
+
+        private bool Gt(StringNum other)
+        {
+            if (Length > other.Length)
+                return true;
+            
+            if (Length < other.Length)
+                return false;
+
+            int[] aDigits = this.Digits(),
+                    bDigits = other.Digits();
+
+            for (int i = 0; i < Length; i++)
+            {
+                if (aDigits[i] > bDigits[i])
+                    return true;
+                else if (aDigits[i] < bDigits[i])
+                    return false;
+            }
+
+            return false;
+        }
 
         private StringNum Backward()
         {
@@ -243,7 +318,7 @@ namespace StringNumSet
             return new StringNum(new string(charArray));
         }
 
-        public int[] ToIntArray()
+        public int[] Digits()
         {
             var intArr = new int[Number.Length];
             for (int i = 0; i < Number.Length; i++)
@@ -261,14 +336,32 @@ namespace StringNumSet
                 return $"-{Number}";
 
             return Number;
-        }
-            
+        }            
 
         public int CompareTo(object obj)
         {
             var other = (StringNum)obj;
-            return String.Compare(this.Number, other.Number);
+            if (this > other)
+                return 1;
+
+            if (this < other)
+                return -1;
+
+            return 0;
+
         }
+
+        public override bool Equals(object obj)
+            => this == (StringNum)obj;        
+
+        public override int GetHashCode()        
+            => ToString().GetHashCode();        
+        #endregion
+
+        #region static const
+        public static StringNum Zero { get => new StringNum("0"); }
+        public static StringNum One { get => new StringNum("1"); }
+        public static StringNum MinusOne { get => new StringNum("-1"); }
         #endregion
     }
 }

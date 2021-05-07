@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace StringNumTests.HelperTests
+namespace HelperTests
 {
     public class ToIntArray
     {
