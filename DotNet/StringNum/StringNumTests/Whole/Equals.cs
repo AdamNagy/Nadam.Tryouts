@@ -1,10 +1,10 @@
-﻿using StringNumSet;
+﻿using StringNum;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace StringNumTests
+namespace Whole_Tests
 {
     public class Equals
     {
@@ -97,6 +97,48 @@ namespace StringNumTests
         {
             var result = "123455".ToStringNum() == "123456".ToStringNum();
             Assert.False(result);
+        }
+
+        [Fact]
+        public void CompareToStaticZeroTrue()
+        {
+            var result = "0".ToStringNum() == Whole.Zero;
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void CompareToStaticZeroFalse()
+        {
+            var result = "1".ToStringNum() == Whole.Zero;
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void CompareToStaticOneTrue()
+        {
+            var result = "0".ToStringNum() == Whole.One;
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void CompareToStaticOneFalse()
+        {
+            var result = "1".ToStringNum() == Whole.One;
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void CompareToStaticMOneTrue()
+        {
+            var result = "0".ToStringNum() == Whole.MinusOne;
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void CompareToStaticMOneFalse()
+        {
+            var result = "-1".ToStringNum() == Whole.MinusOne;
+            Assert.True(result);
         }
     }
 }

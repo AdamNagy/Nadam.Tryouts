@@ -1,100 +1,56 @@
-import { fromEvent, merge, of } from "rxjs";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { Observable } from "rxjs-compat";
+import { Subject } from "rxjs/Subject";
+import { map, tap } from "rxjs/operators";
+import { xorWith } from "lodash";
 
-import { Action, AppStore, StateChange } from "./my-store";
-
-// state and store building
-class TodoModel {
-	public content: string = "";
-	public completed: boolean = false;
+function $id(id: string): HTMLElement {
+	return document.getElementById(id);
 }
 
-const initialTodoState: TodoModel[] =
-	 [
-		{
-			completed: false,
-			content: "task 1",
-		},
-		{
-			completed: false,
-			content: "task 2",
-		},
-	];
-
-const store: AppStore = new AppStore(
-	[
-		{
-			propName: "todos",
-			reducerFunc: todoReducer,
-		},
-	]);
-
-// html dom building
-function renderTodos(todos: TodoModel[]) {
-	const container = document.getElementById("todo-container");
-	container.innerHTML = "";
-
-	for (const todo of todos) {
-		const todoItem = document.createElement("p");
-		todoItem.innerText = todo.content;
-
-		container.append(todoItem);
-	}
+function $class(className: string): HTMLCollection {
+	return document.getElementsByClassName(className);
 }
 
-const todoActions = {
-	add: "todo:Add",
-	delete: "todo:DELETE",
-	filter: "todo:filter",
-	markCompleted: "todo:MARK_COMPLETED",
-};
+const buttonClicked = Observable.fromEvent($id("the-button"), "click").pipe(
+	tap(() => console.log("btn click observable pipe")),
+	map(() => ($id("input") as HTMLInputElement).value)
+);
 
-enum todoFilter {
-	all, copleted, notCompleted,
-}
+buttonClicked.subscribe((value: string) => console.log(`observable subscriber 1 ${value}`));
+buttonClicked.subscribe((value) => console.log(`observable subscriber 2 ${value}`));
 
-function todoReducer(state: TodoModel[] = initialTodoState, action: Action) {
+const subject = new Subject<any>();
+subject.pipe(
+	tap(() => console.log("subject 1 pipe"))
+).subscribe((value: string) => console.log(`subject 1 subscription ${value}`));
 
-	if ( action === undefined )
-		return state;
+subject.subscribe((value: string) => console.log(`subject 2 subscriber ${value}`));
 
-	let newState: TodoModel[] = state;
+buttonClicked.subscribe(subject);
 
-	switch (action.type) {
-
-		case todoActions.add:
-			newState = [...state, action.payload];
-			break;
-
-		default: break;
-	}
-
-	return newState;
-}
-
-const todoInput: HTMLInputElement = document.createElement("input");
-todoInput.setAttribute("type", "text");
-
-const addTodoBtn = document.createElement("button");
-addTodoBtn.innerText = "add todo";
-addTodoBtn.addEventListener("click", () => {
-	const content = todoInput.value;
-	const newTodo: TodoModel = {
-		completed: false,
-		content,
-	};
-
-	store.dispatch(todoActions.add, newTodo);
+let index = 2;
+Observable.fromEvent($id("the-button-2"), "click").subscribe(() => {
+	subject.subscribe((value: string) => console.log(`subject subscription ${++index} ${value}`));
 });
 
-const todoContainer = document.createElement("div");
-todoContainer.classList.add("container");
-todoContainer.setAttribute("id", "todo-container");
+/******************************************************/
 
-document.body.append(todoInput);
-document.body.append(addTodoBtn);
-document.body.append(todoContainer);
+var arr: number[] = [1,2,3];
+var promise: Promise<number[]>;
+promise = Promise.resolve(arr);
 
-store.select("todos").subscribe((stateChange: StateChange<TodoModel[]>) => {
-	renderTodos(stateChange.currentValue);
+
+$id("late-button").addEventListener("click", () => {
+	arr = [1,2,3];
+	promise = Promise.resolve(arr);
+	promise.then((val: number[]) => console.log(`from first ${val}`));
+});
+
+var idx = 1;
+$id("add-listener").addEventListener("click", () => {
+	promise.then((val: number[]) => console.log(`from ${++idx} ${val}`));	
+});
+
+$id("add-number").addEventListener("click", () => {
+	arr.push(++idx);
 });

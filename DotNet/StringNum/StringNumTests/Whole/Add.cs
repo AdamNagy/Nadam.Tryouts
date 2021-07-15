@@ -1,7 +1,7 @@
-﻿using StringNumSet;
+﻿using StringNum;
 using Xunit;
 
-namespace StringNumTests
+namespace Whole_Tests
 {
     public class Add
     {

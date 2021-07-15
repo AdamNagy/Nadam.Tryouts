@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace StringNumSet
+namespace StringNum
 {
     public static class StringExtensions
     {
@@ -12,19 +12,18 @@ namespace StringNumSet
             return new string(charArray);
         }
 
-        public static int[] ToIntArray(this string stringNum)
+        public static Whole ToStringNum(this StringBuilder num)
+            => num.ToString().ToStringNum();
+
+        public static Whole ToStringNum(this String num)
         {
-            var intArr = new int[stringNum.Length];
-            for (int i = 0; i < stringNum.Length; i++)
-                intArr[i] = (int)char.GetNumericValue(stringNum[i]);
-
-            return intArr;
+            if( num.Contains('.') )
+            {
+                var splitted = num.Split('.');
+                return new Real(splitted[0], splitted[1]);
+            }
+                
+            return new Whole(num);
         }
-
-        public static StringNum ToStringNum(this StringBuilder num)
-            => new StringNum(num.ToString());
-
-        public static StringNum ToStringNum(this String num)
-                => new StringNum(num);
     }
 }

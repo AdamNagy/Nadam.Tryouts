@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace StringNumSet
+namespace StringNum
 {
-    public class StringNum : IComparable
+    public class Whole : IComparable
     {
         public string Number { get; private set; }
         public int Length { get => Number.Length; }
         public bool IsNegative { get; private set; }
 
-        public StringNum(string number)
+        #region ctor
+        public Whole(string number)
         {
             if (number.StartsWith('-'))
             {
@@ -22,8 +23,15 @@ namespace StringNumSet
                 Number = number;
         }
 
+        public Whole(Whole num)
+        {
+            Number = num.Number;
+            IsNegative = num.IsNegative;
+        }
+        #endregion
+
         #region basic arithmetic operator
-        public static StringNum operator +(StringNum aNum, StringNum bNum)
+        public static Whole operator +(Whole aNum, Whole bNum)
         {
             if (bNum.IsNegative)
                 return aNum - bNum.Abs();
@@ -32,7 +40,7 @@ namespace StringNumSet
                 if (aNum.Abs() > bNum.Abs())
                 {
                     var res = aNum.Abs() - bNum;
-                    return res * StringNum.MinusOne;
+                    return res * Whole.MinusOne;
                 }
                 else
                     return bNum - aNum.Abs();
@@ -63,13 +71,13 @@ namespace StringNumSet
             {
                 var longer = a.Length <= b.Length ? b : a;
                 var pre = longer.Substring(baseNum.Length);
-                return new StringNum($"{pre.Backward()}{stringNumBuilder.ToStringNum().Backward()}");
+                return new Whole($"{pre.Backward()}{stringNumBuilder.ToStringNum().Backward()}");
             }
 
             return stringNumBuilder.ToStringNum().Backward();
         }
 
-        public static StringNum operator -(StringNum a, StringNum b)
+        public static Whole operator -(Whole a, Whole b)
         {
             if (b.IsNegative)
                 return a + b.Abs();
@@ -77,17 +85,17 @@ namespace StringNumSet
             if( a.IsNegative )
             {
                 var result = a.Abs() + b;
-                return result * StringNum.MinusOne;
+                return result * Whole.MinusOne;
             }
 
             if( b > a )
             {
                 var result = b - a;
-                return result * StringNum.MinusOne;
+                return result * Whole.MinusOne;
             }
 
             if (a == b)
-                return StringNum.Zero;
+                return Whole.Zero;
 
             var stringNumBuilder = new StringBuilder();
             bool isNegative = false;
@@ -124,21 +132,22 @@ namespace StringNumSet
             }
 
             if( isNegative )
-                return new StringNum($"-{stringNumBuilder.ToString().Backward().TrimStart('0')}");
+                return new Whole($"-{stringNumBuilder.ToString().Backward().TrimStart('0')}");
 
-            return new StringNum(stringNumBuilder.ToString().Backward().TrimStart('0'));
+            return new Whole(stringNumBuilder.ToString().Backward().TrimStart('0'));
         }
 
-        public static StringNum operator *(StringNum a, StringNum b)
+        #region multiply
+        public static Whole operator *(Whole a, Whole b)
         {
-            if (a == StringNum.Zero || b == StringNum.Zero)
-                return new StringNum("0");
+            if (a == Whole.Zero || b == Whole.Zero)
+                return new Whole("0");
 
-            if (a == StringNum.MinusOne)
-                return new StringNum($"-{b.Number}");
+            if (a == Whole.MinusOne)
+                return new Whole($"-{b.Number}");
 
-            if (b == StringNum.MinusOne)
-                return new StringNum($"-{a.Number}");
+            if (b == Whole.MinusOne)
+                return new Whole($"-{a.Number}");
 
             var fraction = '0';
             var digitalSum = new List<string>();
@@ -172,46 +181,57 @@ namespace StringNumSet
                 sumBuilder = sumBuilder + subNum.ToStringNum();            
 
             if( (a.IsNegative && !b.IsNegative) || (!a.IsNegative && b.IsNegative) )
-                return new StringNum($"-{sumBuilder.Number}");
+                return new Whole($"-{sumBuilder.Number}");
 
             return sumBuilder;
         }
 
-        //public static (string whole, string fraction) Devide(string a, string b, int numOfDigits = 4)
-        //{
-        //    if (a == "0" || b == "0")
-        //        return ("/", "/");
+        public static Whole operator *(Whole a, int b)
+            => a * new Whole(b.ToString());
 
-        //    var devidence = Devide(numA, numB);
-        //    int whole = devidence.whole;
+        public static Whole operator *(int a, Whole b)
+            => new Whole(a.ToString()) * b;
+        #endregion
 
-        //    var fractionBuilder = new StringBuilder();
-        //    int digits = 0;
-        //    while (devidence.fraction > 0 && numOfDigits > digits)
-        //    {
-        //        devidence = Devide(devidence.fraction * 10, numB);
-        //        fractionBuilder.Append(devidence.whole);
-        //        ++digits;
-        //    }
+        public static Real operator /(Whole a, Whole b)
+        {
+            if (b == Zero)
+                throw new DivideByZeroException();
 
-        //    return (whole.ToString(), fractionBuilder.ToString());
-        //}
+            if (a == Zero)
+                return (Real)Zero;
 
-        //private static (int whole, int fraction) DevideOnce(string a, string b)
-        //{
-        //    var wholes = 0;
-        //    while (numA >= numB)
-        //    {
-        //        ++wholes;
-        //        numA -= numB;
-        //    }
+            var dividence = Divide(a, b);
+            var whole = dividence.whole;
 
-        //    return (wholes, numA);
-        //}
+            var fractionBuilder = new StringBuilder();
+            int digits = 0;
+            while (dividence.fraction > Zero && 
+                StringNumOptions.DefaultNumberOfFraction > digits)
+            {
+                dividence = Divide(dividence.fraction * 10, b);
+                fractionBuilder.Append(dividence.whole);
+                ++digits;
+            }
+
+            return new Real(whole, new Whole(fractionBuilder.ToString()));
+        }
+
+        private static (Whole whole, Whole fraction) Divide(Whole a, Whole b)
+        {
+            var wholes = Whole.Zero;
+            while (a > b || a == b)
+            {
+                ++wholes;
+                a -= b;
+            }
+
+            return (wholes, a);
+        }
         #endregion
 
         #region comparsion operators
-        public static bool operator ==(StringNum a, StringNum b)
+        public static bool operator ==(Whole a, Whole b)
         {
             if( a.Length == b.Length && a.IsNegative == b.IsNegative)
             {
@@ -227,10 +247,10 @@ namespace StringNumSet
             return false;
         }
 
-        public static bool operator !=(StringNum a, StringNum b)
+        public static bool operator !=(Whole a, Whole b)
             => a.Length != b.Length || a != b;
 
-        public static bool operator <(StringNum a, StringNum b)
+        public static bool operator <(Whole a, Whole b)
         {
             var lt = a.Abs().Lt(b.Abs());
 
@@ -243,7 +263,7 @@ namespace StringNumSet
             return lt;
         }
 
-        public static bool operator >(StringNum a, StringNum b)
+        public static bool operator >(Whole a, Whole b)
         {
             var lt = a.Abs().Gt(b.Abs());
 
@@ -257,9 +277,17 @@ namespace StringNumSet
         }
         #endregion
 
+        #region unary operator
+        public static Whole operator ++(Whole a)
+            => a + Whole.One;
+
+        public static Whole operator --(Whole a)
+            => a - Whole.One;
+        #endregion
+
         #region math functions
-        public StringNum Abs()
-            => new StringNum(Number);
+        public Whole Abs()
+            => new Whole(Number);
         #endregion
 
         #region helpers
@@ -268,7 +296,7 @@ namespace StringNumSet
             get => Number[i];
         }
 
-        private bool Lt(StringNum other)
+        private bool Lt(Whole other)
         {
             if (Length < other.Length)
                 return true;
@@ -289,7 +317,7 @@ namespace StringNumSet
             return false;
         }
 
-        private bool Gt(StringNum other)
+        private bool Gt(Whole other)
         {
             if (Length > other.Length)
                 return true;
@@ -311,11 +339,11 @@ namespace StringNumSet
             return false;
         }
 
-        private StringNum Backward()
+        private Whole Backward()
         {
             char[] charArray = Number.ToCharArray();
             Array.Reverse(charArray);
-            return new StringNum(new string(charArray));
+            return new Whole(new string(charArray));
         }
 
         public int[] Digits()
@@ -326,7 +354,9 @@ namespace StringNumSet
 
             return intArr;
         }
+        #endregion
 
+        #region utils
         public CharEnumerator GetEnumerator()
             => Number.GetEnumerator();
 
@@ -336,11 +366,11 @@ namespace StringNumSet
                 return $"-{Number}";
 
             return Number;
-        }            
+        }
 
-        public int CompareTo(object obj)
+        public virtual int CompareTo(object obj)
         {
-            var other = (StringNum)obj;
+            var other = (Whole)obj;
             if (this > other)
                 return 1;
 
@@ -352,16 +382,16 @@ namespace StringNumSet
         }
 
         public override bool Equals(object obj)
-            => this == (StringNum)obj;        
+            => this == (Whole)obj;
 
-        public override int GetHashCode()        
-            => ToString().GetHashCode();        
+        public override int GetHashCode()
+            => ToString().GetHashCode();
         #endregion
 
         #region static const
-        public static StringNum Zero { get => new StringNum("0"); }
-        public static StringNum One { get => new StringNum("1"); }
-        public static StringNum MinusOne { get => new StringNum("-1"); }
+        public static Whole Zero { get => new Whole("0"); }
+        public static Whole One { get => new Whole("1"); }
+        public static Whole MinusOne { get => new Whole("-1"); }
         #endregion
     }
 }

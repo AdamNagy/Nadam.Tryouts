@@ -1,10 +1,10 @@
-﻿using StringNumSet;
+﻿using StringNum;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace StringNumTests
+namespace Whole_Tests
 {
     public class LessThen
     {
