@@ -23,4 +23,9 @@
     <ProjectReference Include="..\StringNum\StringNum.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="HelperTests\" />
+    <Folder Include="Real\" />
+  </ItemGroup>
+
 </Project>

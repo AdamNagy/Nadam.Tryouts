@@ -254,3 +254,5 @@ paket-files/
 **/app_data/*
 
 **/dist/*
+
+**/bin/*

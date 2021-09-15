@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Text;
 
-namespace StringNumSet
+namespace StringNum
 {
     public class Digit
     {
@@ -22,15 +21,6 @@ namespace StringNumSet
                 return (sum[0], '0');
             }
         }
-    
-        //public static (char whole, char fraction, bool isNegative) Substract(char a, char b)
-        //{
-        //    var numA = Char.GetNumericValue(a);
-        //    var numB = Char.GetNumericValue(b);
-
-        //    var numSum = numA - numB;
-        //    return (numSum.ToString().Trim('-')[0], '/', numA < numB);
-        //}
 
         public static (char ones, char tens) Multiply(char a, char b)
         {
@@ -48,21 +38,6 @@ namespace StringNumSet
             {
                 return (sum[0], '0');
             }
-        }
-
-        private static (int whole, int fraction) Devide(int a, int b)
-        {
-            var numA = a;
-            var numB = b;
-
-            var wholes = 0;
-            while (numA >= numB)
-            {
-                ++wholes;
-                numA -= numB;
-            }
-
-            return (wholes, numA);
         }
     }
 }

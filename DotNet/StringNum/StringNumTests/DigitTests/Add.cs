@@ -1,5 +1,4 @@
-﻿using StringNumSet;
-using System;
+﻿using StringNum;
 using Xunit;
 
 namespace DigitTests
