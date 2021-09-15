@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using CshTryouts.EnumerablePattern;
 
@@ -13,31 +15,61 @@ namespace CshTryouts
     {
         static void Main(string[] args)
         {
-            Class1 c1 = new Class1();
-            //  Show the current module.
-            Module m = c1.GetType().Module;
-            Console.WriteLine("The current module is {0}.", m.Name);
-
-            //  List all modules in the assembly.
-            Assembly curAssembly = typeof(Program).Assembly;
-            Console.WriteLine("The current executing assembly is {0}.", curAssembly);
-
-            Module[] mods = curAssembly.GetModules();
-            foreach (Module md in mods)
+            var i = 0;
+            foreach (var item in LazyQueryable4().Skip(2).Take(3))
             {
-                Console.WriteLine("This assembly contains the {0} module", md.Name);
+                ++i;
             }
-            Console.ReadLine();
 
-            //foreach (var fibn in YieldUseage.Fibonacci(10))
-            //    Console.Write($"{fibn} ");
-
-            //ValueAnRefTypeDemo();
-
-            //var x = new StringNum("123");
-
-            // Console.ReadKey();
+            Console.WriteLine($"\n{i} run happend");
+            Console.ReadKey();
         }
+
+        #region Lazy collection and queryable
+        static IEnumerable<int> LazyReading()
+        {
+            Console.WriteLine("LazyReading");
+            for (int i = 0; i < 10; i++)
+            {
+                Console.Write($"{i} ");
+                yield return i;
+            }
+
+            yield break;
+        }
+
+        static IQueryable<int> LazyQueryable()
+            => LazyReading().AsQueryable();
+
+        static IQueryable<int> LazyQueryable2()
+        {
+            var list = LazyReading();
+
+            return list.Take(5).AsQueryable();
+        }
+
+
+        static IQueryable<int> LazyQueryable3()
+        {
+            var list = new List<int>();
+
+            foreach (var item in LazyReading())
+            {
+                list.Add(item * 2);
+            }
+
+            return list.AsQueryable();
+        }
+
+        static IQueryable<int> LazyQueryable4()
+        {
+            var list = new List<int>();
+
+            var query = LazyReading().Select(p => 2 * p);
+
+            return query.AsQueryable();
+        }
+        #endregion
 
         static void ValueAnRefTypeDemo()
         {
