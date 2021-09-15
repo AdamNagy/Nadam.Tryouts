@@ -54,3 +54,32 @@ $id("add-listener").addEventListener("click", () => {
 $id("add-number").addEventListener("click", () => {
 	arr.push(++idx);
 });
+
+/******************************************************/
+
+class Console {
+	public static Log(message: string) {
+		const comment = document.createElement("p");
+		comment.innerText = message;
+		$id("console").append(comment);
+	}
+}
+
+function apiCall() {
+	const observable: Observable<string> = Observable.fromPromise(new Promise((resolve, reject) => {
+		setTimeout(() => resolve("halika"), 400);
+	}))
+
+	observable.pipe(
+		tap((message: string) => Console.Log(`From observable pipe ${message}`)),
+	);
+
+	var subject = new Subject<string>();
+	observable.subscribe(subject);
+
+	subject.subscribe((message) => Console.Log(message as string));
+	return subject;
+}
+
+apiCall().subscribe((message) => Console.Log(message as string))
+apiCall().subscribe((message) => Console.Log(message as string))
