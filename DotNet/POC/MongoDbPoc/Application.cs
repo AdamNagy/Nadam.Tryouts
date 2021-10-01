@@ -24,8 +24,8 @@ namespace MongoDbPoc
         public async Task Run()
         {
             await Task.Run(async () => {
-                // await _ingestionFeeder.Feed(1000);
-                var ingestions = await _ingestionCollection.Get();
+                // await _ingestionFeeder.Feed(10);
+                var ingestions = await _ingestionCollection.Get(); 
                 foreach (var item in ingestions)
                     Console.WriteLine(item);
 

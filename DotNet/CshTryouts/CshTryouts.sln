@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.136
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CshTryouts", "CshTryouts\CshTryouts.csproj", "{3B10D42F-AA1C-4381-B651-AD6D00129AD9}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileStreamReader", "FileStreamReader\FileStreamReader.csproj", "{8B9F98E1-0603-4EDD-B770-BB101F76B6AC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCollections.Tests", "Collections.Tests\MyCollections.Tests.csproj", "{72091096-19B8-461A-8646-A40328C7E4E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Events", "Events\Events.csproj", "{EF34D6E5-C1F6-494C-A264-5D383611137F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{72091096-19B8-461A-8646-A40328C7E4E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72091096-19B8-461A-8646-A40328C7E4E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72091096-19B8-461A-8646-A40328C7E4E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF34D6E5-C1F6-494C-A264-5D383611137F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF34D6E5-C1F6-494C-A264-5D383611137F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF34D6E5-C1F6-494C-A264-5D383611137F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF34D6E5-C1F6-494C-A264-5D383611137F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
