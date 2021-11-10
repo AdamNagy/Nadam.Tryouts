@@ -6,40 +6,54 @@ using System.Threading.Tasks;
 
 namespace BackgroundWorker
 {
-    public static class MessageQueue
+    public class MessageQueue<TJobResult>
     {
-        private static ConcurrentQueue<string> _messages;
-        private static ConcurrentQueue<Task<dynamic>> _dynamicMessages;
+        private ConcurrentQueue<Task<TJobResult>> _jobQueue;
+        private bool _isRunning = false;
 
-        public static Task<TOut> Push<TOut, TIn>(Func<TIn, TOut> job, TIn arg)
+        public MessageQueue()
         {
-            var jobTask = new Task<TOut>(() => job(arg));
-            _dynamicMessages.Enqueue(jobTask);
+            _jobQueue = new ConcurrentQueue<Task<TJobResult>>();
+        }
+
+        public Task<TJobResult> Push<TIn>(Func<TIn, TJobResult> job, TIn arg)
+        {
+            var jobTask = new Task<TJobResult>(() => job(arg));
+            _jobQueue.Enqueue(jobTask);
             return jobTask;
         }
 
-        public static void Push(string newMessage)
+        public void Start()
         {
-            _messages.Enqueue(newMessage);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(this.Init));
         }
 
-        public static void Init(object v)
+        public void Stop()
         {
-            _messages = new ConcurrentQueue<string>();
+
+        }
+
+        public void Init(object v)
+        {
+            if (_isRunning)
+                return;
+
+            _isRunning = true;
             while (true)
             {
                 Process();
-                Thread.Sleep(5000);
+                Thread.Sleep(3000);
             }
         }
 
-        public static void Process()
+        public void Process()
         {
-            Console.WriteLine($"Processing {_messages.Count()}");
-            while(_messages.Any())
+            Console.WriteLine($"Have {_jobQueue.Count()} in the queue");
+            var haveMoreJob = _jobQueue.TryDequeue(out var toProcess);
+            while(haveMoreJob)
             {
-                _messages.TryDequeue(out var toProcess);
-                Console.WriteLine(toProcess);
+                toProcess.Start();
+                haveMoreJob = _jobQueue.TryDequeue(out toProcess);
             }
         }
     }
