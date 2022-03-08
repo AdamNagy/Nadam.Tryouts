@@ -9,11 +9,37 @@
 			height: 100%;
 			background: rgba(100, 100, 100, .6);
 			top: 0;
+			left: 0;
+		}
+		
+		.btn {
+			min-width: 70px;
+			min-height: 25px;
+			padding: 5px;
+			background-color: lightblue;
+			border: 1px solid darkblue;
+			border-radius: 3px;
+			font-weight: 700;
+		}
+		
+		.btn:hover {
+			background-color: darkblue;
+			color: lightgrey;
+			border: 1px solid lightgrey;
+			border-radius: 3px;
+		}
+		
+		.row {
+			margin-bottom: 5px;
 		}
 	</style>
 </head>
 <body>
-	<button id="get-html" disabled>get</button> <button id=set-html disabled>set</button> 
+	<section class="row">
+		<button id="get-html" disabled class="btn">get</button>
+		<button id="set-html" disabled class="btn">set</button>
+	</section>
+	
   	<textarea id="tinymce-txtarea">Lorem ipsum dolor sit amet</textarea>
 
 	<div id="focus-layer"></div>
@@ -22,8 +48,7 @@
 	</section>
 
   	<script>
-		tinymce.init({selector:'#tinymce-txtarea'});
-
+	
 		const focusLayer = document.getElementById("focus-layer");
 
 		const htmlCodeContainer = document.getElementById("html-code-container");
@@ -32,25 +57,28 @@
 		const getBtn = document.getElementById("get-html");
 		const setBtn = document.getElementById("set-html");
 		let tinyMceContainer = {}; 
-
-		setTimeout(function() { 
+	
+		tinymce.init({selector:'#tinymce-txtarea'}).then(() => {
 			getBtn.removeAttribute("disabled");
 			setBtn.removeAttribute("disabled");
 			focusLayer.style.visibility = "hidden";
 			tinyMceContainer = document.getElementById("tinymce-txtarea_ifr").contentWindow.document.body;
 
 			document.querySelector("body > div.tox-tinymce-aux").remove();
-		}, 1000);
+			document.querySelector(".tox-statusbar__branding").remove();
+			
+			getBtn.addEventListener("click", () => getHtml());
+			let getHtml = function() {
+				htmlCodeContainer.value = tinyMceContainer.innerHTML;
+			}
 
-		getBtn.addEventListener("click", () => getHtml());
-		let getHtml = function() {
-			htmlCodeContainer.value = tinyMceContainer.innerHTML;
-		}
+			setBtn.addEventListener("click", () => setHtml());
+			let setHtml = function() {
+				tinyMceContainer.innerHTML = htmlCodeContainer.value;
+			}
+		});
 
-		setBtn.addEventListener("click", () => setHtml());
-		let setHtml = function() {
-			tinyMceContainer.innerHTML = htmlCodeContainer.value;
-		}
+
   	</script>
 </body>
 </html>
