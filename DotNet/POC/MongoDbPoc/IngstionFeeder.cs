@@ -42,10 +42,10 @@ namespace MongoDbPoc
                     Changed = currentDate.AddDays(rand.Next(1, 100) * -1),
                     Created = currentDate.AddDays(rand.Next(1, 100) * -1),
                     DataPartition = _datapartitions[rand.Next(_datapartitions.Length-1)],
-                    Id = $"{Guid.NewGuid()}:{Guid.NewGuid()}",
-                    ObjectId = Guid.NewGuid(),
+                    Key = $"{Guid.NewGuid()}:{Guid.NewGuid()}",
+                    ObjectId = Guid.NewGuid().ToString(),
                     ObjectType = _objectTypes[rand.Next(_objectTypes.Length-1)],
-                    RevisionId = rand.Next(int.MaxValue),
+                    RevisionId = rand.Next(int.MaxValue).ToString(),
                     Status = _statuses[rand.Next(_statuses.Length-1)],
                 };
             }
