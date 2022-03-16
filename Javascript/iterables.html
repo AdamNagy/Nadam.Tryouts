@@ -42,44 +42,131 @@
         class List {
 
             backbone = [];
+            iterator = undefined;
+            evaluated = false;
 
-            [Symbol.iterator]() {
-                for( let value of backbone ) {
-                    yield value;
+            constructor(_generator) {
+                this.iterator = _generator;
+            }
+
+            *[Symbol.iterator] () {
+                if( !this.evaluated ) {
+                    this.backbone = [];
+                    for( let value of this.iterator ) {
+                        this.backbone.push(value);
+                        yield value;
+                    }
+                    this.evaluated = true;
+                } else {
+                    for( let value of this.backbone ) {
+                        yield value;
+                    }
+                }
+            }
+
+            *getItartor() {
+                for(let item of this.backbone) {
+                    Console.log("inside List getIterator");
+                    yield item;
+                }
+            }
+
+            Add(any) {
+                this.backbone.push(any);
+                this.iterator = this.getItartor();
+            }
+
+            *$Take(n) {
+                let idx = 0;
+                const current = this.evaluated ? this.backbone : this.iterator;
+                for(let item of current) {
+                    if( idx === n )
+                        break;
+
+                    Console.log("inside list Take");
+                    yield item;
+                    ++idx;
+                }
+            }
+
+            Take(n) {
+                return new List(this.$Take(n));
+            }
+
+            *$Where(predicate) {
+                const current = this.evaluated ? this.backbone : this.iterator;
+                for(let item of current) {
+                    if( predicate(item) ) {
+                        Console.log("inside list Where");
+                        yield item;
+                    }
+                }
+            }
+
+            Where(predicate) {
+                return new List(this.$Where(predicate));
+            }
+
+            *$Select(selector) {
+                const current = this.evaluated ? this.backbone : this.iterator;
+                for(let item of current) {
+                    Console.log("inside list Select");
+                    yield selector(item);
+                }
+            }
+
+            Select(selector) {
+                return new List(this.$Select(selector));
+            }
+
+            First(arg) {
+                const type = typeof arg;
+                switch(type) {
+                    case 'function':
+                        break;
+                        
+                    case 'number': 
+                        if( arg < 0 ) {
+
+                        } else {
+
+                        }
+                        break;
+
+                    default:
+                        return this.backbone[0];
                 }
             }
         }
 
-        class Dictionary {
-            map = new Map();
+        // class Dictionary {
+        //     map = new Map();
 
-            [Symbol.iterator]() {
-                for( let value of map.values() ) {
-                    yield value;
-                }
-            }
+        //     *[Symbol.iterator] () {
+        //         for( let value of map.values() ) {
+        //             yield value;
+        //         }
+        //     }
 
-            add(key, value) {
-                map.set(key, value);
-            }
+        //     add(key, value) {
+        //         map.set(key, value);
+        //     }
 
-            map(mapper) {
+        //     map(mapper) {
 
-            }
-        }
+        //     }
+        // }
 
 		function* myIterable() {
             for(let i = 0; ; ++i) {
-                console.log(`inside "myIterable": ${i}`);
                 Console.log(`inside "myIterable": ${i}`);
                 yield i;
             }
         }
 
         let iterator = myIterable();
-        console.log("using for with 10")
+        Console.log("using for with 10")
         for(let j = 0; j < 10; ++j) {
-            console.log(iterator.next().value);
             Console.log(iterator.next().value);
         }
 
@@ -93,11 +180,10 @@
         // this line gonna fail because map function is defined on array and not on iterable
         // iterator.map((p) => console.log(p));
 
-        console.log("using object with [Symbol.iterator]");
+        Console.log("using object with [Symbol.iterator]");
         const iterable = {
             [Symbol.iterator]: function*() {
                 for(let i = 0; i < 10; ++i) {
-                    console.log(`inside "myIterable": ${i}`);
                     Console.log(`inside "myIterable": ${i}`);
                     yield i;
                 }
@@ -105,7 +191,7 @@
         }
 
         for(let k of iterable) {
-            console.log(k);
+            Console.log(k);
         }
 
         const map = new Map();
@@ -120,8 +206,31 @@
             Console.log(key);
         }
 	
-        var dict = new Dictionary();
+        Console.log("List");
+        var list = new List();
+        for(let k = 0; k < 100; ++k) {
+            list.Add(k);
+        }
+        
+        
+        let taken = list.Take(10).Where((num) => num % 3 === 0).Select((p) => `(${p})`);
+        // Console.log(`indexing ${taken[1]}`);
 
+        for(let item of taken) {
+            Console.log(item);
+        }
+
+        Console.log("Listing again");
+        // taken = list.Take(10).Where((num) => num % 3 === 0).Select((p) => `(${p})`);
+        for(let item of taken) {
+            Console.log(item);
+        }
+
+        Console.log("Listing again 2");
+        taken2 = taken.Select((p) => `{${p}}`).Take(2);
+        for(let item of taken2) {
+            Console.log(item);
+        }
     </script>
 </body>
 </html>
