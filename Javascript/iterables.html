@@ -1,10 +1,77 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <style>
+            html {
+                background-color: darkblue;
+                color: yellow;
+            }
+
+            #console {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
 <body>
+    <div id="console"></div>
 	<script>
+        const Console = document.getElementById("console");
+        Console.log = function(arg) {
+            const p = document.createElement("p");
+            p.innerText = arg;
+
+            this.appendChild(p);
+        }
+
+        /*
+        interface IList {
+            [Symbol.iterator]();
+
+            Select();
+            Where();
+            Take();
+            Skip();
+            ToDictionary();
+
+            First();
+            FirstOrDefault();
+        }
+        */
+
+        class List {
+
+            backbone = [];
+
+            [Symbol.iterator]() {
+                for( let value of backbone ) {
+                    yield value;
+                }
+            }
+        }
+
+        class Dictionary {
+            map = new Map();
+
+            [Symbol.iterator]() {
+                for( let value of map.values() ) {
+                    yield value;
+                }
+            }
+
+            add(key, value) {
+                map.set(key, value);
+            }
+
+            map(mapper) {
+
+            }
+        }
+
 		function* myIterable() {
             for(let i = 0; ; ++i) {
                 console.log(`inside "myIterable": ${i}`);
+                Console.log(`inside "myIterable": ${i}`);
                 yield i;
             }
         }
@@ -13,6 +80,7 @@
         console.log("using for with 10")
         for(let j = 0; j < 10; ++j) {
             console.log(iterator.next().value);
+            Console.log(iterator.next().value);
         }
 
         // iterator = myIterable();
@@ -30,6 +98,7 @@
             [Symbol.iterator]: function*() {
                 for(let i = 0; i < 10; ++i) {
                     console.log(`inside "myIterable": ${i}`);
+                    Console.log(`inside "myIterable": ${i}`);
                     yield i;
                 }
             }
@@ -37,7 +106,22 @@
 
         for(let k of iterable) {
             console.log(k);
-        } 
-	</script>
+        }
+
+        const map = new Map();
+        map.set("adam", "c# javascript");
+        Console.log(map.get("adam"));
+
+        for(let key of map.keys()) {
+            Console.log(key);
+        }
+
+        for(let key of map.values()) {
+            Console.log(key);
+        }
+	
+        var dict = new Dictionary();
+
+    </script>
 </body>
 </html>
