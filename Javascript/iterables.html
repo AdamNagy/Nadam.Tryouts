@@ -15,7 +15,7 @@
     </head>
 <body>
     <div id="console"></div>
-	<script>
+    <script>
         const Console = document.getElementById("console");
         Console.log = function(arg) {
             const p = document.createElement("p");
@@ -24,21 +24,25 @@
             this.appendChild(p);
         }
 
-        /*
-        interface IList {
-            [Symbol.iterator]();
-
-            Select();
-            Where();
-            Take();
-            Skip();
-            ToDictionary();
-
-            First();
-            FirstOrDefault();
+        Console.h1 = function(arg) {
+            const p = document.createElement("h1");
+            p.innerText = arg;
+            this.appendChild(p);
         }
-        */
 
+        Console.h2 = function(arg) {
+            const p = document.createElement("h2");
+            p.innerText = arg;
+            this.appendChild(p);
+        }
+
+        Console.h3 = function(arg) {
+            const p = document.createElement("h3");
+            p.innerText = arg;
+            this.appendChild(p);
+        }
+    </script>
+	<script>
         class List {
 
             backbone = [];
@@ -93,6 +97,23 @@
                 return new List(this.$Take(n));
             }
 
+            *$Skip(n) {
+                let idx = 0;
+                const current = this.evaluated ? this.backbone : this.iterator;
+                for(let item of current) {
+                    if( idx < n )
+                        continue;
+
+                    Console.log("inside list Skip");
+                    yield item;
+                    ++idx;
+                }
+            }
+
+            Skip(n) {
+                return new List(this.$Skip(n));
+            }
+
             *$Where(predicate) {
                 const current = this.evaluated ? this.backbone : this.iterator;
                 for(let item of current) {
@@ -118,44 +139,24 @@
             Select(selector) {
                 return new List(this.$Select(selector));
             }
+        
+            ToArray() {
+                var arr = this.evaluated ? [...this.backbone] : Array.from(this.iteratorreturn);
+                this.evaluated = true;
+                return arr;
+            }
 
-            First(arg) {
-                const type = typeof arg;
-                switch(type) {
-                    case 'function':
-                        break;
-                        
-                    case 'number': 
-                        if( arg < 0 ) {
-
-                        } else {
-
-                        }
-                        break;
-
-                    default:
-                        return this.backbone[0];
-                }
+            Evaulate() {
+                if(this.evaluated)
+                    return;
+                
+                for(let i of this);
             }
         }
 
-        // class Dictionary {
-        //     map = new Map();
-
-        //     *[Symbol.iterator] () {
-        //         for( let value of map.values() ) {
-        //             yield value;
-        //         }
-        //     }
-
-        //     add(key, value) {
-        //         map.set(key, value);
-        //     }
-
-        //     map(mapper) {
-
-        //     }
-        // }
+        function From(array) {
+            var list = new List();
+        }
 
 		function* myIterable() {
             for(let i = 0; ; ++i) {
@@ -206,27 +207,24 @@
             Console.log(key);
         }
 	
-        Console.log("List");
+        Console.h1("List");
         var list = new List();
         for(let k = 0; k < 100; ++k) {
             list.Add(k);
-        }
-        
+        }        
         
         let taken = list.Take(10).Where((num) => num % 3 === 0).Select((p) => `(${p})`);
-        // Console.log(`indexing ${taken[1]}`);
 
         for(let item of taken) {
             Console.log(item);
         }
 
-        Console.log("Listing again");
-        // taken = list.Take(10).Where((num) => num % 3 === 0).Select((p) => `(${p})`);
+        Console.h1("Listing again");
         for(let item of taken) {
             Console.log(item);
         }
 
-        Console.log("Listing again 2");
+        Console.h1("Listing again 2");
         taken2 = taken.Select((p) => `{${p}}`).Take(2);
         for(let item of taken2) {
             Console.log(item);
