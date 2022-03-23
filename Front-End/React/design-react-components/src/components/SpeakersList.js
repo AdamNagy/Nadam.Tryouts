@@ -1,29 +1,29 @@
 import Speaker from "./Speaker";
-import { useState } from "react";
-import { data } from "../../SpeakerData";
+import useRequestDelay, { REQUEST_STATUS } from "../hooks/useRequestDelay";
+import ReactPlaceholder from "react-placeholder";
+import {data} from "../../SpeakerData";
 
 function SpeakersList({ showSessions }) {
 
-  const [speakersData, setSpeakersData] = useState(data);
+  const {
+    data: speakersData, 
+    requestStatus, error,
+    updateRecord
+  } = useRequestDelay(2000, data);
 
-  const onFavoriteToggle = (id) => {
-    const speaker = speakersData.find((sp) => sp.id === id);
-    // speaker.favorite = !speaker.favorite;
-    console.log(`${speaker.first} ${speaker.last} is ${speaker.favorite}`);
-    
-    const updated = {...speaker, favorite: !speaker.favorite};
-    const updatedList = speakersData.map((sp) => sp.id === id ? updated : sp);
-    setSpeakersData(updatedList);  
-  }
+  if( requestStatus === REQUEST_STATUS.FAILURE )
+    return (<div>{error}</div>)
 
   return (
     <div className="container speakers-list">
-      <div className="row">
-        {speakersData.map(function (speaker) {
-          return <Speaker key={speaker.id} speaker={speaker} showSessions={showSessions} 
-          onFavoriteToggle={() => onFavoriteToggle(speaker.id)}/>;
-        })}
-      </div>
+      <ReactPlaceholder type="media" rows={15} className="speakerslist-placeholder" ready={requestStatus === REQUEST_STATUS.SUCCESS}>
+        <div className="row">
+          {speakersData.map((speaker) => {
+            return <Speaker key={speaker.id} speaker={speaker} showSessions={showSessions} 
+              onFavoriteToggle={(doneFunction) => updateRecord({...speaker, favorite: !speaker.favorite}, doneFunction) } />;
+          })}
+        </div>
+      </ReactPlaceholder>
     </div>
   );
 }

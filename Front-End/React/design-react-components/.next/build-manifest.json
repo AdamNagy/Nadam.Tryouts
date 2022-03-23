@@ -11,8 +11,7 @@
   ],
   "lowPriorityFiles": [
     "static/development/_buildManifest.js",
-    "static/development/_ssgManifest.js",
-    "static/development/_middlewareManifest.js"
+    "static/development/_ssgManifest.js"
   ],
   "pages": {
     "/": [
