@@ -1,19 +1,16 @@
-import {useState} from "react";
-
 import Header from "./Header";
 import Conference from "./Conference";
+import Layout from "./Layout";
 
 function App() {
 
-  const [theme, setTheme] = useState("dark");
-
   return (
-    <div className={theme === "light" ? "container-fluid light" : "container-fluid dark"} >
-      <Header theme={theme}/>
-      <Conference
-        theme={theme} 
-        setTheme={setTheme} />
-    </div>
+    <Layout startingTheme="light">
+      <div>
+        <Header />
+        <Conference />
+      </div>
+    </Layout>
   );
 }
 

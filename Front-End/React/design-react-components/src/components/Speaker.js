@@ -1,17 +1,20 @@
-import {useState} from "react";
+import React, { useState, useContext } from "react";
+import { SpeakerFilterContext } from "../contexts/SpeakerFilterContext";
 
 function Session({ title, room }) {
   return (
     <span className="session w-100">
-      {title} <strong>Room: {room.name}</strong>
+      {title} <strong>Room: {room?.name}</strong>
     </span>
   );
 }
 
 function Sessions({ sessions }) {
+  const { eventYear } = useContext(SpeakerFilterContext);
+
   return (
     <div className="sessionBox card h-250">
-      <Session {...sessions[0]} />
+      {sessions.filter((p) => p.eventYear === eventYear).map((p) => {return (<Session {...p}/>)})}
     </div>
   );
 }
@@ -29,26 +32,35 @@ function SpeakerImage({ id, first, last }) {
   );
 }
 
-function SpeakerFavorite({favorite, onFavoriteToggle}) {
-
+function SpeakerFavorite({ favorite, onFavoriteToggle }) {
   const [inTransition, setInTransition] = useState(false);
-
   function doneCallback() {
     setInTransition(false);
-    console.log(`In speaker favorite com: done callback ${new Date().getMilliseconds()}`);
+    console.log(
+      `In SpeakerFavorite:doneCallback    ${new Date().getMilliseconds()}`
+    );
   }
 
   return (
     <div className="action padB1">
-      <span onClick={() => {setInTransition(true); onFavoriteToggle(doneCallback)}}>
-        <i className={favorite === true ?
-          "fa fa-star orange" : "fa fa-star-o orange"} />
-          {" "}Favorite
-          { inTransition === true ? 
-            <span className="fa fa-circle-notch fa-spin" /> : null}
+      <span
+        onClick={function () {
+          setInTransition(true);
+          return onFavoriteToggle(doneCallback);
+        }}
+      >
+        <i
+          className={
+            favorite === true ? "fa fa-star orange" : "fa fa-star-o orange"
+          }
+        />{" "}
+        Favorite{" "}
+        {inTransition ? (
+          <span className="fas fa-circle-notch fa-spin"></span>
+        ) : null}
       </span>
     </div>
-  )
+  );
 }
 
 function SpeakerDemographics({
@@ -58,7 +70,7 @@ function SpeakerDemographics({
   company,
   twitterHandle,
   favorite,
-  onFavoriteToggle
+  onFavoriteToggle,
 }) {
   return (
     <div className="speaker-info">
@@ -67,7 +79,10 @@ function SpeakerDemographics({
           {first} {last}
         </h3>
       </div>
-      <SpeakerFavorite favorite={favorite} onFavoriteToggle={onFavoriteToggle}/>
+      <SpeakerFavorite
+        favorite={favorite}
+        onFavoriteToggle={onFavoriteToggle}
+      />
       <div>
         <p className="card-description">{bio}</p>
         <div className="social d-flex flex-row mt-4">
@@ -85,16 +100,17 @@ function SpeakerDemographics({
   );
 }
 
-function Speaker({ speaker, showSessions, onFavoriteToggle }) {
+function Speaker({ speaker, onFavoriteToggle }) {
   const { id, first, last, sessions } = speaker;
+  const { showSessions } = useContext(SpeakerFilterContext);
+
   return (
     <div className="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-sm-12 col-xs-12">
       <div className="card card-height p-4 mt-4">
         <SpeakerImage id={id} first={first} last={last} />
-        <SpeakerDemographics {...speaker} onFavoriteToggle={onFavoriteToggle}/>
+        <SpeakerDemographics {...speaker} onFavoriteToggle={onFavoriteToggle} />
       </div>
-      { showSessions === true ? 
-        <Sessions sessions={sessions} /> : null}
+      {showSessions === true ? <Sessions sessions={sessions} /> : null}
     </div>
   );
 }
