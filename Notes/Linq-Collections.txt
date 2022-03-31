@@ -6,7 +6,6 @@ query
 expression
 expression tree
 lambda
-functional programming (vs declarative?)
 IEnumerable (extensions)
 ***************************************
 Collections
