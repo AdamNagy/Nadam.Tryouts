@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            html {
+                background-color: darkblue;
+                color: yellow;
+            }
+
+            #console {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+<body>
+    <div id="console"></div>
+    <script>
+        const Console = document.getElementById("console");
+        Console.log = function(arg) {
+            const p = document.createElement("p");
+            p.innerText = arg;
+
+            this.appendChild(p);
+        }
+
+        Console.h1 = function(arg) {
+            const p = document.createElement("h1");
+            p.innerText = arg;
+            this.appendChild(p);
+        }
+
+        Console.h2 = function(arg) {
+            const p = document.createElement("h2");
+            p.innerText = arg;
+            this.appendChild(p);
+        }
+
+        Console.h3 = function(arg) {
+            const p = document.createElement("h3");
+            p.innerText = arg;
+            this.appendChild(p);
+        }
+    </script>
+	<script>
+        class List {
+
+            backbone = [];
+            iterator = undefined;
+            evaluated = false;
+
+            constructor(_generator) {
+                this.iterator = _generator;
+            }
+
+            *[Symbol.iterator] () {
+                if( !this.evaluated ) {
+                    this.backbone = [];
+                    for( let value of this.iterator ) {
+                        this.backbone.push(value);
+                        yield value;
+                    }
+                    this.evaluated = true;
+                } else {
+                    for( let value of this.backbone ) {
+                        yield value;
+                    }
+                }
+            }
+
+            *getItartor() {
+                for(let item of this.backbone) {
+                    Console.log("inside List getIterator");
+                    yield item;
+                }
+            }
+
+            Add(any) {
+                this.backbone.push(any);
+                this.iterator = this.getItartor();
+            }
+
+            *$Take(n) {
+                let idx = 0;
+                const current = this.evaluated ? this.backbone : this.iterator;
+                for(let item of current) {
+                    if( idx === n )
+                        break;
+
+                    Console.log("inside list Take");
+                    yield item;
+                    ++idx;
+                }
+            }
+
+            Take(n) {
+                return new List(this.$Take(n));
+            }
+
+            *$Skip(n) {
+                let idx = 0;
+                const current = this.evaluated ? this.backbone : this.iterator;
+                for(let item of current) {
+                    if( idx < n )
+                        continue;
+
+                    Console.log("inside list Skip");
+                    yield item;
+                    ++idx;
+                }
+            }
+
+            Skip(n) {
+                return new List(this.$Skip(n));
+            }
+
+            *$Where(predicate) {
+                const current = this.evaluated ? this.backbone : this.iterator;
+                for(let item of current) {
+                    if( predicate(item) ) {
+                        Console.log("inside list Where");
+                        yield item;
+                    }
+                }
+            }
+
+            Where(predicate) {
+                return new List(this.$Where(predicate));
+            }
+
+            *$Select(selector) {
+                const current = this.evaluated ? this.backbone : this.iterator;
+                for(let item of current) {
+                    Console.log("inside list Select");
+                    yield selector(item);
+                }
+            }
+
+            Select(selector) {
+                return new List(this.$Select(selector));
+            }
+        
+            ToArray() {
+                var arr = this.evaluated ? [...this.backbone] : Array.from(this.iteratorreturn);
+                this.evaluated = true;
+                return arr;
+            }
+
+            Evaulate() {
+                if(this.evaluated)
+                    return;
+                
+                for(let i of this);
+            }
+        }
+
+        function From(array) {
+            var list = new List();
+        }
+
+		function* myIterable() {
+            for(let i = 0; ; ++i) {
+                Console.log(`inside "myIterable": ${i}`);
+                yield i;
+            }
+        }
+
+        let iterator = myIterable();
+        Console.log("using for with 10")
+        for(let j = 0; j < 10; ++j) {
+            Console.log(iterator.next().value);
+        }
+
+        // iterator = myIterable();
+        // console.log("using for with 20")
+        // for(let j = 0; j < 10; ++j) {
+        //     console.log(iterator.next().value);
+        // }
+
+        iterator = myIterable();
+        // this line gonna fail because map function is defined on array and not on iterable
+        // iterator.map((p) => console.log(p));
+
+        Console.log("using object with [Symbol.iterator]");
+        const iterable = {
+            [Symbol.iterator]: function*() {
+                for(let i = 0; i < 10; ++i) {
+                    Console.log(`inside "myIterable": ${i}`);
+                    yield i;
+                }
+            }
+        }
+
+        for(let k of iterable) {
+            Console.log(k);
+        }
+
+        const map = new Map();
+        map.set("adam", "c# javascript");
+        Console.log(map.get("adam"));
+
+        for(let key of map.keys()) {
+            Console.log(key);
+        }
+
+        for(let key of map.values()) {
+            Console.log(key);
+        }
+	
+        Console.h1("List");
+        var list = new List();
+        for(let k = 0; k < 100; ++k) {
+            list.Add(k);
+        }        
+        
+        let taken = list.Take(10).Where((num) => num % 3 === 0).Select((p) => `(${p})`);
+
+        for(let item of taken) {
+            Console.log(item);
+        }
+
+        Console.h1("Listing again");
+        for(let item of taken) {
+            Console.log(item);
+        }
+
+        Console.h1("Listing again 2");
+        taken2 = taken.Select((p) => `{${p}}`).Take(2);
+        for(let item of taken2) {
+            Console.log(item);
+        }
+    </script>
+</body>
+</html>
