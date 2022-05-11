@@ -9,7 +9,6 @@ import { PersistGate } from "redux-persist/lib/integration/react";
 const store = configureStore();
 const persistor = persistStore(store);
 
-
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate persistor={persistor} loading={<div>loading...</div>}>

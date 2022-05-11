@@ -3,6 +3,7 @@ import TodoListItem from "./TodoListItem.js";
 import NewTodoForm from "./NewTodoForm.js";
 import { connect } from "react-redux";
 import { removeTodo, markTodoDone } from "./actions"
+import {displayAlert} from "./thunks";
 
 const TodoList = ({todos = [], onRemovePressed, onCompletePressed}) => (
     <div className="list-wrapper">
