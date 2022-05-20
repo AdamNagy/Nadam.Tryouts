@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+
+<svg xmlns= "http://www.w3.org/2000/svg"
+     xmlns:xlink= "http://www.w3.org/1999/xlink"
+     version="1.1" width="1920" height="1080">
+
+<defs>
+
+	<g id="cloud">
+		<circle
+			cx=	"200"	 
+			cy=	"500"	 
+			r=	"50"
+		style="fill:#40ffff;">	
+				<animate attributeType="auto"
+				attributeName="r"
+				from="50" to="120"
+				begin="1s" dur="2s"
+				fill="freeze"/>
+		</circle>
+
+		<circle
+			cx=	"400"	 
+			cy=	"500"	 
+			r=	"30"
+		style="fill:#40ffff;">	
+				<animate attributeType="CSS"
+				attributeName="r"
+				from="30" to="80"
+				begin="1s" dur="2s"
+				fill="freeze"/>
+		</circle> 
+
+		<circle
+			cx=	"300"	 
+			cy=	"500"	 
+			r=	"90"
+		style="fill:#40ffff;">	
+				<animate attributeType="CSS"
+				attributeName="r"
+				from="90" to="120"
+				begin="1s" dur="2s"
+				fill="freeze"/>
+		</circle>  <!-- felhő középső kör-->
+
+		<rect x="100" y="500" width="370" height="90" rx="45" ry="45"
+		style="fill:#40ffff;">
+			
+		</rect>  <!-- felhő alja-->
+		
+	</g>
+</defs>
+
+<use xlink:href="#cloud" x="300" y="300" width="40" height="40">
+
+</use>
+
+	 
+</svg>

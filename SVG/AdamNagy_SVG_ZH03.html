@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+
+<svg xmlns= "http://www.w3.org/2000/svg"
+     xmlns:xlink= "http://www.w3.org/1999/xlink"
+     version="1.1" width="1920" height="1080">
+	<!-- égbolt -->
+	<rect x="0" y="0" width="1920" height="450"
+			style="fill:#0080ff;">
+			<animate attributeType="CSS"
+					attributeName="fill"
+					from="#0080ff" to="000080"
+					begin="eclipse.begin" dur="3s"
+					fill="freeze" />
+	</rect>
+	
+		<!-- nap -->
+	
+		<circle cx="600" cy="100" r= "100"
+			style="fill:#ffff00;">	
+				  <animate attributeName="fill" 
+					   from="#ffff00" to="#ff8040" 
+					   begin="getingNight.end" dur="3s"
+					   fill="freeze"
+					   />
+				<animateTransform id="eclipse" attributeType="XML"
+				  attributeName="transform"
+				  type="translate"
+				  from="1 1" to="800 300"
+				  begin="1s" dur="3s"
+				  fill="freeze"
+				  additive="sum"/>
+		</circle>
+	<!-- talaj -->
+	<rect x="0" y="450" width="1920" height="450"
+			style="fill:#80c040;">
+			<animate attributeType="CSS"
+					attributeName="fill"
+					from="#80c040" to="004000"
+					begin="eclipse.begin" dur="3s"
+					fill="freeze" />
+	</rect>
+	
+
+	
+<!-- felhő -->
+		<circle
+			cx=	"1200"	 
+			cy=	"50"	 
+			r=	"50"
+		style="fill:#40ffff;">	
+			  <animate attributeName="opacity" 
+					   from="0.25" to="1" 
+					   begin="0s" dur="1s"/>
+				  <animate attributeName="cx" 
+					   from="1200" to="700" 
+					   begin="0s" dur="3s"
+					   fill="freeze"/>
+				  <animate attributeName="r" 
+					   from="1%" to="3.5%" 
+					   begin="0s" dur="3s"
+					   fill="freeze"/>
+		</circle>
+
+		<circle
+			cx=	"1400"	 
+			cy=	"50"	 
+			r=	"30"
+		style="fill:#40ffff;">	
+				<animate attributeName="opacity" 
+					from="0.25" to="1" 
+				   begin="0s" dur="1s"/>
+				<animate attributeName="cx" 
+				   from="1400" to="760" 
+				   begin="0s" dur="3s"
+				   fill="freeze"/>
+				<animate attributeName="cy" 
+				   from="50" to="70" 
+				   begin="0s" dur="3s"
+				   fill="freeze"/>
+				<animate attributeName="r" 
+				   from="1%" to="5.5%" 
+				   begin="0s" dur="3s"
+				   fill="freeze"/>
+		</circle> 
+
+		<circle
+			cx=	"1300"	 
+			cy=	"50"	 
+			r=	"90"
+		style="fill:#40ffff;">	
+			  <animate attributeName="cx" 
+					   from="1300" to="600" 
+					   begin="0s" dur="3s"
+					   fill="freeze"/>
+			  <animate attributeName="r" 
+					   from="0%" to="3%" 
+					   begin="0s" dur="3s"
+					   fill="freeze"/>
+					   
+		</circle>  <!-- felhő középső kör-->
+
+		<rect x="1100" y="50" width="370" height="90" rx="45" ry="45"
+		style="fill:#40ffff;">
+			   <animate id="getingNight" attributeName="x"
+						   from="1100" to="500" 
+						begin="0s" dur="3s"
+						fill="freeze"/>		
+				<animate attributeName="y"
+						from="50" to="55" 
+						begin="0s" dur="3s"
+						fill="freeze"/>		
+				<animate attributeName="width" 
+					   from="0%" to="20%" 
+					   begin="0s" dur="3s"
+					   fill="freeze"/>	  
+		</rect>  <!-- felhő alja-->
+	
+	<!-- füstölés -->
+	<defs>
+<path id="gorbe" transform="translate(155,105)" d="M 0 0 q 10 -100 -155 -105"
+      style="stroke: black; fill: none;"/>
+</defs>
+<ellipse cx= "155" cy= "105"	 
+		 rx= "25" ry= "25" style="fill: #cccccc;">
+	<animateMotion dur="3s" 
+	fill="freeze" repeatDur="indefinite" begin="getingNight.end+1s">
+		<mpath xlink:href="#gorbe"/>
+	</animateMotion>
+					<animate attributeName="rx"
+						from="25" to="55" 
+						dur="3s"
+						repeatDur="indefinite"
+						begin="getingNight.end+1s"/>
+						
+				<animate id="sign" attributeName="opacity" 
+					from="1" to="0.25" 
+				   dur="3s"
+				   repeatDur="indefinite"
+				   begin="getingNight.end+1s"/>
+</ellipse>
+	
+<ellipse cx= "155" cy= "105"	 
+		 rx= "25" ry= "25"
+		 style="fill:#cccccc;">
+		 <animateMotion path="M 155 105 q 0 30 0 0"
+			begin="1s" dur="1s" fill="freeze"/>
+</ellipse>
+
+	
+	
+	<!-- Ház négyzete -->
+<rect x="100" y="350" width="400" height="400"		
+style="stroke: black;  fill: blue; stroke-width:3" />
+
+	<!-- háztető -->
+	
+<rect x="130" y="80" width="50" height="250" 
+style="stroke:black; fill: brown;" />								<!-- kémény -->
+
+<polyline points="50 350, 300 10, 550 350"	
+style="stroke:black; stroke-width:3; fill:#ff3300;" />				<!-- háztető 01 -->
+<!--
+<polyline points="100 350, 300 70.68, 500 350"	
+style="stroke:black; fill: green;" />	-->							<!-- háztető 01 -->
+
+	<!-- ajtó -->
+<polyline points="300 750, 300 550, 400 550, 400 750"
+style="stroke:black; fill: brown; stroke-width:2" />				<!-- ajtó -->
+<line x1="305" y1="650" x2="315" y2="650" style="stroke:rgb(0,0,0); stroke-width:2" />		<!-- kilincs -->
+
+	<!-- ablak -->
+<rect x="130" y="380" width="150" height="150" 
+style="stroke:black; fill: #c08000; stroke-width:2"> 
+	<animate attributeType="CSS"
+		attributeName="fill"
+		from="#c08000" to="ffff40"
+		begin="getingNight.end + 3s" dur="0.1s"
+		fill="freeze" />
+</rect>				
+<line x1="205" y1="380" x2="205" y2="530" style="stroke:rgb(0,0,0); stroke-width:2" />		<!-- ablak rács 1 -->
+<line x1="130" y1="455" x2="280" y2="455" style="stroke:rgb(0,0,0); stroke-width:2" />		<!-- ablak rács 2 -->
+
+	<!-- fa -->
+<rect x="780" y="350" width="80" height="400" 
+style="stroke:black; fill: brown;" />				<!-- törzs -->
+
+<circle cx="825" cy="300" r="200" 
+stroke="black" stroke-width="2" fill="lime" />		<!-- lomb -->
+
+		
+</svg>
