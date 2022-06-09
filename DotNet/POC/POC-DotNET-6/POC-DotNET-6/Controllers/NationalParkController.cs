@@ -7,7 +7,7 @@ using POC_DotNET_6.Repository.Contract;
 
 namespace POC_DotNET_6.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/nationalparks")]
     [ApiController]
     public class NationalParkController : ControllerBase
     {
@@ -18,6 +18,51 @@ namespace POC_DotNET_6.Controllers
         {
             _npRepo = repository;
             _mapper = mapper;
+        }
+
+        /// <summary>
+        /// Get list of national parks.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<NationalParkDto>))]
+        public IActionResult GetNationalParks()
+        {
+            var objList = _npRepo.GetNationalParks();
+            var objDto = new List<NationalParkDto>();
+            foreach (var obj in objList)
+            {
+                objDto.Add(_mapper.Map<NationalParkDto>(obj));
+            }
+            return Ok(objDto);
+        }
+
+        /// <summary>
+        /// Get individual national park
+        /// </summary>
+        /// <param name="nationalParkId"> The Id of the national Park </param>
+        /// <returns></returns>
+        [HttpGet("{nationalParkId:int}", Name = "GetNationalPark")]
+        [ProducesResponseType(200, Type = typeof(NationalParkDto))]
+        [ProducesResponseType(404)]
+        [ProducesDefaultResponseType]
+        public IActionResult GetNationalPark(int nationalParkId)
+        {
+            var obj = _npRepo.GetNationalPark(nationalParkId);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            var objDto = _mapper.Map<NationalParkDto>(obj);
+            //var objDto = new NationalParkDto()
+            //{
+            //    Created = obj.Created,
+            //    Id = obj.Id,
+            //    Name = obj.Name,
+            //    State = obj.State,
+            //};
+            return Ok(objDto);
+
         }
 
         [HttpPost]
