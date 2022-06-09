@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+
+<svg xmlns= "http://www.w3.org/2000/svg"
+     xmlns:xlink= "http://www.w3.org/1999/xlink"
+     version="1.1" width="800" height="150">
+
+	<g fill = "navy">
+		<text x = "10" y = "90" font-family="sans-serif" font-size = "20" fill="black">
+			<!-- megoldás -->
+            <tspan opacity="0">
+                = a 
+                <tspan baseline-shift = "super" font-size = "14">
+                    2
+                </tspan>
+                +2ab + b 
+                <tspan baseline-shift = "super" font-size = "14">
+                 2
+                </tspan>
+				
+					<animate id="first" attributeType="XML"
+					attributeName="opacity"
+					from="0" to="1"
+					begin="mo4.end" dur="1s"
+					fill="freeze" />
+			</tspan>
+        </text>
+		
+		<!-- megoldás menete -->
+		<text x = "10" y = "30" font-family="sans-serif" font-size = "16" fill="black">
+		<tspan opacity="0">
+			Irja fel a negyzetet ket tag szorzatakent:
+			<animate id="alap" attributeType="XML"
+			attributeName="opacity"
+			from="0" to="1"
+			begin="gomb.click" dur="1s"
+			fill="freeze" />
+		</tspan>
+		</text>
+		
+		<text x = "10" y = "60" font-family="sans-serif" font-size = "20" fill="black">
+			<!-- megoldás egyenlet BAL oldal -->
+			<tspan opacity="0">
+				(
+				<tspan>a
+					<animate id="_a1" attributeType="XML"
+					attributeName="fill"
+					from="black" to="red"
+					begin="alap.end" dur="1s"
+					fill="freeze" />
+					
+					<animate id="_a2" attributeType="XML"
+					attributeName="fill"
+					from="red" to="blue"
+					begin="mo1.end" dur="1s"
+					fill="freeze" />
+				</tspan> + 
+				<tspan>b
+					<animate id="_b1" attributeType="XML"
+					attributeName="fill"
+					from="black" to="green"
+					begin="mo2.end" dur="1s"
+					fill="freeze" />
+					<animate id="_b2" attributeType="XML"
+					attributeName="fill"
+					from="green" to="gold"
+					begin="mo3.end" dur="1s"
+					fill="freeze" />
+					
+				</tspan>) * (
+				<tspan>a
+					<animate attributeType="XML"
+					attributeName="fill"
+					from="black" to="red"
+					begin="alap.end" dur="1s"
+					fill="freeze" />
+					<animate id="_a2" attributeType="XML"
+					attributeName="fill"
+					from="black" to="green"
+					begin="mo2.end" dur="1s"
+					fill="freeze" />
+				</tspan> + 
+				<tspan>b
+					<animate attributeType="XML"
+					attributeName="fill"
+					from="black" to="blue"
+					begin="_a2.begin" dur="1s"
+					fill="freeze" />
+					<animate attributeType="XML"
+					attributeName="fill"
+					from="green" to="gold"
+					begin="mo3.end" dur="1s"
+					fill="freeze" />
+				</tspan>)=
+				
+				<animate id="alap" attributeType="XML"
+				attributeName="opacity"
+				from="0" to="1"
+				begin="gomb.click" dur="1s"
+				fill="freeze" />	<!-- check this animation start -->
+			</tspan>
+		</text>
+		
+		<text x = "300" y = "30" font-family="sans-serif" font-size = "16" fill="black">
+		<tspan opacity="0">
+			Majd minden tagot minden taggal szorozzon ossze:
+			<animate attributeType="XML"
+			attributeName="opacity"
+			from="0" to="1"
+			begin="_a1.begin" dur="1s"
+			fill="freeze" />
+		</tspan>
+		</text>
+		
+		<text x = "280" y = "60" font-family="sans-serif" font-size = "20" fill="black">
+			<!-- megoldás egyenlet JOBB oldal -->
+			<tspan opacity="0" fill="red">
+				a 
+				<tspan baseline-shift="super" font-size="14">
+				2 </tspan> +
+					<animate id="mo1" attributeType="XML"
+					attributeName="opacity"
+					from="0" to="1"
+					begin="_a1.end" dur="1s"
+					fill="freeze" />
+			</tspan>
+			<tspan opacity="0" fill="blue">
+				(ab +
+					<animate id="mo2" attributeType="XML"
+					attributeName="opacity"
+					from="0" to="1"
+					begin="_a2.end" dur="1s"
+					fill="freeze" />
+			</tspan>
+			<tspan opacity="0" fill="green">
+				ba) +
+					<animate id="mo3" attributeType="XML"
+					attributeName="opacity"
+					from="0" to="1"
+					begin="_b1.end" dur="1s"
+					fill="freeze" />
+			</tspan>
+			<tspan opacity="0" fill="gold">
+				b 
+				<tspan baseline-shift="super" font-size="14">
+				2 </tspan>
+					<animate id="mo4" attributeType="XML"
+					attributeName="opacity"
+					from="0" to="1"
+					begin="_b2.end" dur="1s"
+					fill="freeze" />
+			</tspan>
+		</text>
+    </g>
+	 
+	<rect x="700" y="100"
+      width="100" height="50" style="fill: red;">
+	</rect>
+	<text id="gomb" x="720" y="130" font-family="sans-serif" font-size = "20" fill="black"> Mutasd! </text>
+
+</svg>

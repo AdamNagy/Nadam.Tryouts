@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC "-//W3//DTD SVG 1.1//EN"
+	"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg xmlns= "http://www.w3.org/2000/svg"
+     xmlns:xlink= "http://www.w3.org/1999/xlink"
+     version="1.1" height="800" width="1300">
+
+<defs>
+<linearGradient id="atmenet" x1="0%" y1="50%" x2="50%" y2="50%">
+<stop offset="0%" style="stop-color: blue;"/>
+<stop offset="100%" style="stop-color: yellow;"/>
+</linearGradient>
+
+<linearGradient id="folytatas"
+x1="0%" y1="50%" x2="70%" y2="60%">
+<stop offset="0%" style="stop-color: blue;" />
+<stop offset="100%" style="stop-color: red; spreadMethod="reflect"/>
+</linearGradient>
+
+<linearGradient id="tukrozes"
+x1="0%" y1="50%" x2="60%" y2="30%">
+<stop offset="0%" style="stop-color: #120550;"/>
+<stop offset="100%" style="stop-color: yellow; spreadMethod="reflect"/>
+</linearGradient>
+
+<linearGradient id="hatter" x1="50%" y1="30%" x2="50%" y2="70%">		<!-- háttér színe -->
+<stop offset="0%" style="stop-color: blue;"/>
+<stop offset="100%" style="stop-color: green;"/>
+</linearGradient>
+
+
+<radialGradient id="atmenet1">
+  <stop offset="40%" style="stop-color: red;"/>
+  <stop offset="80%" style="stop-color: #CC3366;"/>
+ </radialGradient>	
+ <radialGradient id="korkoros1"
+  xlink:href="#atmenet1"/>
+  
+</defs>
+	 
+	 <!-- háttér színezés -->
+<rect x="0" y="0" width="100%" height="100%" 
+style="stroke:black; stroke-width:3px; fill: url(#hatter);"/>	 
+	 
+	 <!-- tojások -->
+<ellipse transform="skewX(10)" class="egg" id="firstEgg" cx="50" cy="500" rx="90" ry="130"
+  style="fill: url(#folytatas);" />
+
+  <g>
+  <circle transform="skewX(10)" cx="10" cy="450" r="8" stroke="black" stroke-width="1" fill="#601580" />
+  <circle transform="skewX(10)" cx="50" cy="450" r="8" stroke="black" stroke-width="1" fill="#451590" />
+  <circle transform="skewX(10)" cx="80" cy="430" r="8" stroke="black" stroke-width="1" fill="#5530ab" />
+  </g>
+
+<ellipse class="egg" id="firstEgg" cx="260" cy="500" rx="75" ry="120"
+  style="fill: url(#tukrozes);" />
+  
+<ellipse transform="skewX(-10)" class="egg" id="firstEgg" cx="480" cy="500" rx="80" ry="125"
+  style="fill: url(#korkoros1);" />
+  
+  <!-- felhõk -->
+<ellipse cx="10" cy="30" rx="120" ry="20"
+  style="fill:#3399FF;" />
+<ellipse cx="190" cy="40" rx="140" ry="40"
+  style="fill:#8878df;" />
+<ellipse cx="150" cy="80" rx="100" ry="25"
+  style="fill:#8899FF;" />
+<ellipse cx="380" cy="20" rx="80" ry="30"
+  style="fill:#0099FF;" />
+  <!-- /felhõk -->
+  
+		<!-- nyuszi -->
+  <!--test-->
+<ellipse cx="800" cy="500" rx="110" ry="160"	
+  style="fill:#663300;" />
+<ellipse cx="800" cy="500" rx="80" ry="140"
+  style="fill:#996600; stroke:black;" />
+  <!--lábak-->
+<ellipse cx="750" cy="650" rx="30" ry="50"
+  style="fill:#996600; stroke:black;" />
+<ellipse cx="850" cy="650" rx="30" ry="50"
+  style="fill:#996600; stroke:black;" />
+  <!--fej-->
+<ellipse cx="800" cy="320" rx="70" ry="100"
+  style="fill:#996600; stroke:black;" />
+  
+  <!--fülek-->
+<ellipse transform="skewX(-10)" cx="900" cy="220" rx="30" ry="80"
+  style="fill:#663300; stroke:black;" />
+<ellipse transform="skewX(10)" cx="700" cy="220" rx="30" ry="80"
+  style="fill:#663300; stroke:black;" />
+<ellipse transform="skewX(-10)" cx="900" cy="220" rx="15" ry="65"
+  style="fill:#CC9966; stroke:black;" />
+<ellipse transform="skewX(10)" cx="700" cy="220" rx="15" ry="65"
+  style="fill:#CC9966; stroke:black;" />
+  
+  <!--szemek-->
+<ellipse cx="820" cy="320" rx="10" ry="20"
+  style="fill:white; stroke:black;" />
+<ellipse cx="820" cy="330" rx="5" ry="5"
+  style="fill:black; stroke:black;" />
+  
+<ellipse cx="780" cy="320" rx="10" ry="20"
+  style="fill:white; stroke:black;" />
+<ellipse cx="780" cy="330" rx="5" ry="5"
+  style="fill:black; stroke:black;" />
+  
+  <!-- orr -->
+<rect x="795" y="340" width="10" height="10" 
+style="stroke:black; fill: black;" />
+
+<line x1="800" y1="350" x2="800" y2="370" style="stroke:rgb(0,0,0); stroke-width:2" />
+<line x1="780" y1="370" x2="820" y2="370" style="stroke:rgb(0,0,0); stroke-width:2" />
+
+  <!--bajusz-->
+<line x1="803" y1="360" x2="880" y2="320" style="stroke:rgb(0,0,0); stroke-width:2" />
+<line x1="808" y1="365" x2="885" y2="335" style="stroke:rgb(0,0,0); stroke-width:2" />
+
+<line x1="797" y1="360" x2="720" y2="320" style="stroke:rgb(0,0,0); stroke-width:2" />
+<line x1="792" y1="365" x2="725" y2="335" style="stroke:rgb(0,0,0); stroke-width:2" />
+
+  <!-- nyuszi -->
+</svg>
