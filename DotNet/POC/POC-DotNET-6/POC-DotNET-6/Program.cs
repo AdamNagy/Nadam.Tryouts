@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using POC_DotNET_6.Data;
+using POC_DotNET_6.Mapper;
+using POC_DotNET_6.Repository;
+using POC_DotNET_6.Repository.Contract;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddAutoMapper(typeof(ParkyMapper));
+builder.Services.AddScoped<INationalParkRepository, NationalParkRepository>();
 
 var app = builder.Build();
 

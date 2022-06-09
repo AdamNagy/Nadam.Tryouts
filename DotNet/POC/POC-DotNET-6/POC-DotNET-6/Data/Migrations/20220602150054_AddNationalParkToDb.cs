@@ -18,7 +18,7 @@ namespace POC_DotNET_6.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     State = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Picture = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Picture = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Established = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
