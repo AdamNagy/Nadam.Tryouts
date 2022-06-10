@@ -12,8 +12,8 @@ namespace POC_DotNET_6.Data
         }
 
         public DbSet<NationalPark> NationalParks { get; set; }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         public DbSet<Trail> Trails { get; set; }
-        //public DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }

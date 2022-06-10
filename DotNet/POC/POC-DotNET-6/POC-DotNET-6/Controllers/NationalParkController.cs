@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using POC_DotNET_6.Models;
@@ -26,6 +27,7 @@ namespace POC_DotNET_6.Controllers
         /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(List<NationalParkDto>))]
+        [Authorize]
         public IActionResult GetNationalParks()
         {
             var objList = _npRepo.GetNationalParks();
@@ -92,7 +94,9 @@ namespace POC_DotNET_6.Controllers
 
             return CreatedAtRoute(
                 "GetNationalPark", 
-                new { nationalParkId = nationalParkObj.Id },
+                new {
+                    version = HttpContext.GetRequestedApiVersion().ToString(),
+                    nationalParkId = nationalParkObj.Id },
                 nationalParkObj);
         }
 
