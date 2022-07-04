@@ -8,7 +8,8 @@ namespace POC_DotNET_6.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-
+            //Database.EnsureDeleted();
+            //Database.EnsureCreated();
         }
 
         public DbSet<NationalPark> NationalParks { get; set; }
