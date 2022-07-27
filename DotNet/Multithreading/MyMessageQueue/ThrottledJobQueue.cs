@@ -66,13 +66,15 @@ namespace MyMessageQueue
                 }
 
                 Parallel.For(0, currentBatchSize, (idx) => {
-                    var nextMessage = _queue.TryDequeue(out var job);
+                    var dequeued = _queue.TryDequeue(out var job);
                     var result = job.Job.Handler(job.Job.Payload);
                     job.Result.SetResult(result);
                 });
 
                 Console.WriteLine($"{Environment.NewLine}Left {_queue.Count} in the queue");
-                await Task.Delay(delay);
+                
+                if(_queue.Count == 0)
+                    await Task.Delay(delay);
             }
         }
 
@@ -81,8 +83,6 @@ namespace MyMessageQueue
             running = false;
         }
     }
-
-
 
     internal class QueueJob
     {
