@@ -21,19 +21,6 @@ namespace MyMessageQueue
             _batchSize = batchSize;
         }
 
-        public ThrottledQueue(IEnumerable<QueueJob> jobs, int batchSize)
-        {
-            _batchSize= batchSize;
-
-            foreach (var job in jobs)
-            {
-                if( job is QueueAction)
-                    Enque(job as QueueAction);
-                else if( job is QueueFunction)
-                    Enque(job as QueueFunction);
-            }
-        }
-
         public Task Enque(QueueAction action)
         {
             var tcs = new TaskCompletionSource<object>();

@@ -96,7 +96,6 @@ namespace MyMessageQueue
             Count = count;
         }
 
-
         public override string ToString()
             => $"{Done}/({Count})";
     }
