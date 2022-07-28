@@ -1,43 +1,47 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Concurrent;
 
 namespace MyMessageQueue
 {
     internal class ThrottledQueue
     {
-        private readonly ConcurrentQueue<QueueAction> _queue;
-        private int delay = 5000;
-        private readonly int _maxQueueSize;
-        private readonly int _batchSize;
-        private bool running;
+        private readonly ConcurrentQueue<QueueJobItem> _queue = new ConcurrentQueue<QueueJobItem>();
+        private readonly int _maxQueueSize = 0;
+        private readonly int _batchSize = 0;
 
+        private bool running;
+        private int delay = 1000;
         public ThrottledQueue()
         {
-            _queue = new ConcurrentQueue<QueueAction>();
 
-            _maxQueueSize = 0;
-            _batchSize = 0;
         }
 
         public ThrottledQueue(int queueSize, int batchSize)
         {
-            _queue = new ConcurrentQueue<QueueAction>();
-
             _maxQueueSize = queueSize;
             _batchSize = batchSize;
         }
 
-        public void Enque(QueueAction action)
+        public ThrottledQueue(IEnumerable<QueueJob> jobs, int batchSize)
         {
+            _batchSize= batchSize;
+
+            foreach (var job in jobs)
+            {
+                if( job is QueueAction)
+                    Enque(job as QueueAction);
+                else if( job is QueueFunction)
+                    Enque(job as QueueFunction);
+            }
+        }
+
+        public Task Enque(QueueAction action)
+        {
+            var tcs = new TaskCompletionSource<object>();
             if (_maxQueueSize > 0)
             {
                 if (_queue.Count < _maxQueueSize)
                 {
-                    _queue.Enqueue(action);
+                    _queue.Enqueue(new QueueJobItem(action, tcs));
                 }
                 else
                 {
@@ -46,7 +50,29 @@ namespace MyMessageQueue
             }
             else
             {
-                _queue.Enqueue(action);
+                _queue.Enqueue(new QueueJobItem(action, tcs));
+            }
+
+            return tcs.Task;
+        }
+
+        public Task<object> Enque(QueueFunction action)
+        {
+            var tcs = new TaskCompletionSource<object>();
+            if (_maxQueueSize > 0)
+            {
+                if (_queue.Count < _maxQueueSize)
+                {
+                    _queue.Enqueue(new QueueJobItem(action, tcs));
+                    return tcs.Task;
+                }
+
+                throw new Exception("Queue is full");
+            }
+            else
+            {
+                _queue.Enqueue(new QueueJobItem(action, tcs));
+                return tcs.Task;
             }
         }
 
@@ -54,8 +80,9 @@ namespace MyMessageQueue
         {
             running = true;
             while (running)
-            { 
-                Console.WriteLine($"Have {_queue.Count} in the queue");
+            {
+                while (!_queue.Any() || (_batchSize > 0 && _queue.Count < _batchSize))
+                    await Task.Delay(delay);
 
                 var currentBatchSize = _queue.Count;
                 if ( _batchSize > 0 )
@@ -64,12 +91,19 @@ namespace MyMessageQueue
                 }
     
                 Parallel.For(0, currentBatchSize, (idx) => {
-                    var nextMessage = _queue.TryDequeue(out var message);
-                    message.Handler(message.Payload);
-                });                
+                    var dequeued = _queue.TryDequeue(out var queueJobItem);
 
-                Console.WriteLine($"{Environment.NewLine}Left {_queue.Count} in the queue");
-                await Task.Delay(delay);
+                    if (queueJobItem.Job is QueueAction)
+                    {
+                        (queueJobItem.Job as QueueAction).Handler(queueJobItem.Job.Payload);
+                        queueJobItem.Result.SetResult(null);
+                    }
+                    else if(queueJobItem.Job is QueueFunction)
+                    {
+                        var res = (queueJobItem.Job as QueueFunction).Handler(queueJobItem.Job.Payload);
+                        queueJobItem.Result.SetResult(res);
+                    }
+                });
             }
         }
 
@@ -79,17 +113,51 @@ namespace MyMessageQueue
         }
     }
 
-    internal class QueueAction
+    internal abstract class QueueJob
     {
-        public string Message { get; private set; }
         public object Payload { get; private set; }
+
+        public QueueJob(object payload)
+        {
+            Payload = payload;
+        }
+    }
+
+    internal class QueueFunction : QueueJob
+    {
+        public Func<object, object> Handler { get; set; }
+
+        public QueueFunction(object payload, Func<object, object> handler) : base(payload)
+        {
+            Handler = handler;
+        }
+
+        public QueueFunction(object payload, Func<object, Task<object>> handler) : base(payload)
+        {
+            Handler = handler;
+        }
+    }
+
+    internal class QueueAction : QueueJob
+    {
         public Action<object> Handler { get; set; }
 
-        public QueueAction(string msg, object payload, Action<object> handler)
+        public QueueAction(object payload, Action<object> handler) : base(payload)
         {
-            Message = msg;
-            Payload = payload;
             Handler = handler;
+        }
+    }
+
+    internal class QueueJobItem
+    {
+        public QueueJob Job { get; private set; }
+        public TaskCompletionSource<object> Result { get; set; }
+        public bool Done { get; set; } = false;
+
+        public QueueJobItem(QueueJob job, TaskCompletionSource<object> result)
+        {
+            Job = job;
+            Result = result;
         }
     }
 }

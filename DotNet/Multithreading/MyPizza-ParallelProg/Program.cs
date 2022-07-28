@@ -8,25 +8,25 @@ Console.WriteLine("Parallell.For");
 var orderService = new OrderService();
 var numOfSuccess = 0;
 
-//Parallel.For(0, 5000, () => 0, (idx, loopState, localSum) =>
-//{
-//    try
-//    {
-//        var order = new Order();
-//        if (idx % 2 == 0)
-//        {
-//            orderService.Order(order);
-//            localSum++;
-//        }
-//    }
-//    catch (Exception ex)
-//    {
-//        Console.WriteLine($"{idx}:{ex.Message}");
-//        loopState.Break();  // stop()
-//    }
+Parallel.For(0, 5000, () => 0, (idx, loopState, localSum) =>
+{
+    try
+    {
+        var order = new Order();
+        if (idx % 2 == 0)
+        {
+            orderService.Order(order);
+            localSum++;
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"{idx}:{ex.Message}");
+        loopState.Break();  // stop()
+    }
 
-//    return localSum;
-//}, (result) => Interlocked.Add(ref numOfSuccess, result));
+    return localSum;
+}, (result) => Interlocked.Add(ref numOfSuccess, result));
 
 Console.WriteLine($"Successfull orders: {numOfSuccess}");
 #endregion
