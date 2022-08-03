@@ -8,13 +8,20 @@ namespace UriTreeTests
 {
     public class Tests
     {
-        [SetUp]
-        public void Setup()
+        [Test]
+        public void Contains_Single()
         {
+            var uriString = "https://gate.shop/hu/noi-polok-es-felsok";
+            var uri = new Uri(uriString);
+
+            var tree = new UriTree(uriString);
+
+            Assert.AreEqual(uri.Host, tree.Domain);
+            Assert.IsTrue(tree.Contains("https://gate.shop/hu/noi-polok-es-felsok"));
         }
 
         [Test]
-        public void Valid_Contains()
+        public void Contains_Single_With_QUery()
         {
             var uriString = "https://gate.shop/hu/noi-polok-es-felsok?filter%5Bto%5D=1000";
             var uri = new Uri(uriString);
@@ -25,9 +32,8 @@ namespace UriTreeTests
             Assert.IsTrue(tree.Contains("https://gate.shop/hu/noi-polok-es-felsok?filter%5Bto%5D=1000"));
         }
 
-
         [Test]
-        public void InValid_Contains()
+        public void Not_Contains()
         {
             var uriString = "https://ipon.hu/shop/csopo/notebook-szamitogep/6";
 
@@ -36,7 +42,7 @@ namespace UriTreeTests
         }
 
         [Test]
-        public void Add_Many_Uri()
+        public void Contains()
         {
             var uris = File.ReadAllLines(@"C:\Users\Adam_Nagy1\Documents\test-urls-to-download.txt")
                 .Where(p => !string.IsNullOrEmpty(p))
@@ -54,12 +60,10 @@ namespace UriTreeTests
             {
                 Assert.IsTrue(tree.Contains(item));
             }
-
-            Assert.AreEqual(uris.Count, tree.Count);
         }
 
         [Test]
-        public void Get_Many_Uri()
+        public void GetUris_Many()
         {
             var uris = File.ReadAllLines(@"C:\Users\Adam_Nagy1\Documents\test-urls-to-download.txt")
                 .Where(p => !string.IsNullOrEmpty(p))
@@ -74,26 +78,76 @@ namespace UriTreeTests
                 tree.AddUri(item);
             }
 
-            var idx = 0;
             var treeUris = tree.GetUris().ToList();
             foreach (var item in uris)
             {
-                ++idx;
                 Assert.IsTrue(treeUris.Contains(item));
             }
         }
 
         [Test]
-        public void Valid_Get()
+        public void GetUris_Single()
         {
-            var uriString = "https://gate.shop/hu/noi-polok-es-felsok?filter%5Bto%5D=1000";
-            var uri = new Uri(uriString);
+            var uriString = "https://gate.shop/hu/noi-polok-es-felsok";
 
             var tree = new UriTree(uriString);
 
-            var treeUris = tree.GetUris().ToList()[0];
+            var treeUris = tree.GetUris().ToList().Last();
 
             Assert.AreEqual(treeUris, uriString);
+        }
+
+        [Test]
+        public void Count_One()
+        {
+            var uriString = "https://gate.shop";
+
+            var tree = new UriTree(uriString);
+
+            Assert.AreEqual(1, tree.Count);
+        }
+
+        [Test]
+        public void Count_Two()
+        {
+            var uriString = "https://gate.shop/stuffs";
+
+            var tree = new UriTree(uriString);
+
+            Assert.AreEqual(2, tree.Count);
+        }
+
+        [Test]
+        public void Count_Three()
+        {
+            var uriString = "https://gate.shop/stuffs/child";
+
+            var tree = new UriTree(uriString);
+
+            Assert.AreEqual(3, tree.Count);
+        }
+
+        [Test]
+        public void Count_Three_With_Duplicated()
+        {
+            var uriString = "https://gate.shop/stuffs";
+            var tree = new UriTree(uriString);
+
+            tree.AddUri("https://gate.shop/stuffs/child");
+
+
+            Assert.AreEqual(3, tree.Count);
+        }
+
+        [Test]
+        public void Count_Four()
+        {
+            var uriString = "https://gate.shop/stuffs";
+            var tree = new UriTree(uriString);
+
+            tree.AddUri("https://gate.shop/stuffs2/child");
+
+            Assert.AreEqual(4, tree.Count);
         }
     }
 }

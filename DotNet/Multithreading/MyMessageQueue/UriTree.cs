@@ -5,7 +5,7 @@
         public string Domain => _root.Segment;
         private readonly UriTreeNode _root;
         private readonly Uri _uriObj;
-        public int Count { get; private set; }
+        public int Count => GetUris().Count();
 
         public UriTree(string uri)
         {
@@ -23,9 +23,6 @@
                 return false;
 
             var success = _root.Add(GetSegments(uriObj).ToList());
-            
-            if(success)
-                ++Count;
 
             return success;
         }
@@ -44,6 +41,8 @@
         {
             var basePath = $"{_uriObj.Scheme}://{_uriObj.Host}";
 
+            yield return basePath;
+
             foreach (var uri in _root.Enumerate())
             {
                 yield return $"{basePath}/{uri}";
@@ -56,7 +55,14 @@
         }
 
         private IEnumerable<string> GetSegments(Uri uri)
-            => uri.Segments.Select(p => p.Trim('/')).Where(p => p != "/" && !string.IsNullOrEmpty(p));
+        {
+            var segments = uri.Segments.Select(p => p.Trim('/')).Where(p => p != "/" && !string.IsNullOrEmpty(p)).ToList();
+
+            if (!string.IsNullOrEmpty(uri.Query))
+                segments[segments.Count - 1] = $"{segments[segments.Count - 1]}{uri.Query}";
+
+            return segments;
+        }
     }
 
     public class UriTreeNode
@@ -72,8 +78,6 @@
 
         public bool Add(string segment)
         {
-            var contains = Children.FirstOrDefault(x => x.Segment == segment);
-
             if(!Children.Any(x => x.Segment == segment))
             {
                 Children.Add(new UriTreeNode(segment));
@@ -85,15 +89,15 @@
 
         public bool Add(IList<string> segments)
         {
-            if( !segments.Any() )
+            if(segments == null || !segments.Any())
                 return false;
 
-            var segmentText = segments.First();
-            var segmentNode = GetChild(segmentText);
+            var segment = segments.First();
+            var segmentNode = GetChild(segment);
 
             if (segmentNode == null)
             {
-                segmentNode = new UriTreeNode(segmentText);
+                segmentNode = new UriTreeNode(segment);
                 Children.Add(segmentNode);
             }
 
@@ -108,14 +112,17 @@
 
         public bool Contains(IEnumerable<string> segments)
         {
-            if(!segments.Any() )
+            if(segments == null || !segments.Any() )
                 return true;
 
-            var first = segments.First();
+            var segment = segments.First();
 
-            var child = GetChild(first);
+            var child = GetChild(segment);
             if (child == null)
                 return false;
+
+            if (!segments.Skip(1).Any())
+                return true;
 
             return child.Contains(segments.Skip(1));
         }
@@ -132,6 +139,9 @@
                 }
             }
         }
+
+        public override string ToString()
+            => Segment;
 
         private UriTreeNode GetChild(string segment)
             => Children.FirstOrDefault(p => p.Segment == segment);
