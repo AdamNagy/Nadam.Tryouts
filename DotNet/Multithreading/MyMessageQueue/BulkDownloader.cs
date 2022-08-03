@@ -13,6 +13,7 @@
             _eventBus = eventBus;
         }
 
+        #region throttle
         public async Task<IList<(string, string)>> DownloadBatch(IEnumerable<string> uris)
         {
             var uriQueue = new Queue<string>(uris.Count());
@@ -44,6 +45,7 @@
             var content = await response.Content.ReadAsStringAsync();
             return (uri, content);
         }
+        #endregion
 
         #region semaphore
         public async Task<IList<(string, string)>> DownloadSemaphore(IEnumerable<string> uris)
@@ -67,13 +69,27 @@
 
         private async Task<(string, string)> Download(string uri, SemaphoreSlim semaphore)
         {
-            semaphore.Wait();
-            var response = await _client.GetAsync(uri);
-            var content = await response.Content.ReadAsStringAsync();
+            await semaphore.WaitAsync();
+            return await Task.Run(async () =>
+            {
+                var response = await _client.GetAsync(uri);
+                var content = await response.Content.ReadAsStringAsync();
 
-            semaphore.Release();
-            return (uri, content);
+                semaphore.Release();
+                return (uri, content);
+            });
         }
+
+        //private async Task<(string, string)> Download(string uri, SemaphoreSlim semaphore)
+        //{
+        //    Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId}: {semaphore.CurrentCount}");
+        //    semaphore.Wait();
+        //    var response = await _client.GetAsync(uri);
+        //    var content = await response.Content.ReadAsStringAsync();
+
+        //    semaphore.Release();
+        //    return (uri, content);            
+        //}
         #endregion
     }
 }

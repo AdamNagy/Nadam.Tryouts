@@ -13,10 +13,9 @@ namespace MyMessageQueue
 
         public const string PROGRESS_EVENT_NAME = "making-progress";
 
-        public ThrottledList(IEnumerable<QueueJob> jobs, int batchSize, EventBus eventBus)
+        public ThrottledList(IEnumerable<QueueJob> jobs, int batchSize)
         {
             _batchSize = batchSize;
-            _eventBus = eventBus;
             _count = jobs.Count();
 
             foreach (var job in jobs)

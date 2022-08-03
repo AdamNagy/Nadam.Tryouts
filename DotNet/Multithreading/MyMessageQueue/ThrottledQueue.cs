@@ -9,7 +9,10 @@ namespace MyMessageQueue
         private readonly int _batchSize = 0;
 
         private bool running;
-        private int delay = 1000;
+        private int delay = 400;
+
+        private readonly object _lock = new object();
+
         public ThrottledQueue()
         {
 
@@ -23,43 +26,53 @@ namespace MyMessageQueue
 
         public Task Enque(QueueAction action)
         {
-            var tcs = new TaskCompletionSource<object>();
-            if (_maxQueueSize > 0)
+            lock (_lock)
             {
-                if (_queue.Count < _maxQueueSize)
+                var tcs = new TaskCompletionSource<object>();
+
+                if (_maxQueueSize > 0)
                 {
-                    _queue.Enqueue(new QueueJobItem(action, tcs));
+                    if (_queue.Count < _maxQueueSize)
+                    {
+                        _queue.Enqueue(new QueueJobItem(action, tcs));
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No space for new messaga. Please wait. ({_queue.Count})");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("No space for new messaga. Please wait.");
+                    _queue.Enqueue(new QueueJobItem(action, tcs));
                 }
-            }
-            else
-            {
-                _queue.Enqueue(new QueueJobItem(action, tcs));
-            }
 
-            return tcs.Task;
+                return tcs.Task;
+            }
         }
 
         public Task<object> Enque(QueueFunction action)
         {
-            var tcs = new TaskCompletionSource<object>();
-            if (_maxQueueSize > 0)
+            lock(_lock)
             {
-                if (_queue.Count < _maxQueueSize)
+                var tcs = new TaskCompletionSource<object>();
+                if (_maxQueueSize > 0)
+                {
+                    if (_queue.Count < _maxQueueSize)
+                    {
+                        _queue.Enqueue(new QueueJobItem(action, tcs));
+                        return tcs.Task;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No space for new messaga. Please wait. ({_queue.Count})");
+                        return null;
+                    }
+                }
+                else
                 {
                     _queue.Enqueue(new QueueJobItem(action, tcs));
                     return tcs.Task;
                 }
-
-                throw new Exception("Queue is full");
-            }
-            else
-            {
-                _queue.Enqueue(new QueueJobItem(action, tcs));
-                return tcs.Task;
             }
         }
 
@@ -68,35 +81,78 @@ namespace MyMessageQueue
             running = true;
             while (running)
             {
-                while (!_queue.Any() || (_batchSize > 0 && _queue.Count < _batchSize))
+                bool haveMessage;
+                int queueCount;
+
+                lock (_lock)
+                {
+                    haveMessage = _queue.Any();
+                    queueCount = _queue.Count;
+                }
+
+                while (!haveMessage || (_batchSize > 0 && queueCount < _batchSize))
                     await Task.Delay(delay);
 
-                var currentBatchSize = _queue.Count;
+                var currentBatchSize = queueCount;
                 if ( _batchSize > 0 )
                 {
-                    currentBatchSize = Math.Min(_queue.Count, _batchSize);
+                    currentBatchSize = Math.Min(queueCount, _batchSize);
                 }
     
-                Parallel.For(0, currentBatchSize, (idx) => {
-                    var dequeued = _queue.TryDequeue(out var queueJobItem);
+                if(queueCount > 100)
+                {
+                    ProcessParallel(currentBatchSize);
+                }
+                else
+                {
+                    ProcessSequentially(currentBatchSize);
+                }
+            }
+        }
 
-                    if (queueJobItem.Job is QueueAction)
-                    {
-                        (queueJobItem.Job as QueueAction).Handler(queueJobItem.Job.Payload);
-                        queueJobItem.Result.SetResult(null);
-                    }
-                    else if(queueJobItem.Job is QueueFunction)
-                    {
-                        var res = (queueJobItem.Job as QueueFunction).Handler(queueJobItem.Job.Payload);
-                        queueJobItem.Result.SetResult(res);
-                    }
-                });
+        private void ProcessParallel(int batchSize)
+        {
+            Parallel.For(0, batchSize, (idx) => {
+                var dequeued = _queue.TryDequeue(out var queueJobItem);
+
+                if (queueJobItem.Job is QueueAction)
+                {
+                    (queueJobItem.Job as QueueAction).Handler(queueJobItem.Job.Payload);
+                    queueJobItem.Result.SetResult(null);
+                }
+                else if (queueJobItem.Job is QueueFunction)
+                {
+                    var res = (queueJobItem.Job as QueueFunction).Handler(queueJobItem.Job.Payload);
+                    queueJobItem.Result.SetResult(res);
+                }
+            });
+        }
+
+        private void ProcessSequentially(int batchSize)
+        {
+            for (int i = 0; i < batchSize; i++)
+            {
+                var dequeued = _queue.TryDequeue(out var queueJobItem);
+
+                if (queueJobItem.Job is QueueAction)
+                {
+                    (queueJobItem.Job as QueueAction).Handler(queueJobItem.Job.Payload);
+                    queueJobItem.Result.SetResult(null);
+                }
+                else if (queueJobItem.Job is QueueFunction)
+                {
+                    var res = (queueJobItem.Job as QueueFunction).Handler(queueJobItem.Job.Payload);
+                    queueJobItem.Result.SetResult(res);
+                }
             }
         }
 
         public void Pause()
         {
-            running = false;            
+            lock(_lock)
+            {
+                running = false;
+            }
         }
     }
 
