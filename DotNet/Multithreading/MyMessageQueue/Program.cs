@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using MyMessageQueue;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 // TestThrottledQueue();
 TestBulkDownload();
@@ -66,20 +67,21 @@ void TestBulkDownload()
     var uris = File.ReadAllLines(@"C:\Users\Adam_Nagy1\Documents\test-urls-to-download.txt")
             .Where(p => !string.IsNullOrEmpty(p))
             .Where(p => p.ToLower().Contains("gate"))
-            .Take(100)
+            .Skip(200)
+            .Take(10)
             .ToList();
 
     var sw = new Stopwatch();
     sw.Start();
-    var res2 = DownloadBatch(client, uris).Result;
+    DownloadBatch(client, uris);
     sw.Stop();
-    Console.WriteLine($"DownloadBatch: {sw.ElapsedMilliseconds}\nCount: {res2.Count()}");
+    Console.WriteLine($"DownloadBatch: {sw.ElapsedMilliseconds}");
 
     sw.Reset();
     sw.Start();
-    var res3 = DownloadSemaphore(client, uris).Result;
+    DownloadSemaphore(client, uris);
     sw.Stop();
-    Console.WriteLine($"DownloadSemaphore: {sw.ElapsedMilliseconds}\nCount: {res3.Count()}");
+    Console.WriteLine($"DownloadSemaphore: {sw.ElapsedMilliseconds}");
 }
 
 //async Task<IEnumerable<object>> DownloadParallel(HttpClient client, IEnumerable<string> uris)
@@ -95,25 +97,34 @@ void TestBulkDownload()
 //    return downloadJobs.Start();
 //}
 
-async Task<IList<(string, string)>> DownloadBatch(HttpClient client, IEnumerable<string> uris)
+async void DownloadBatch(HttpClient client, IEnumerable<string> uris)
 {
-    var path = @"C:\Users\Adam_Nagy1\Documents\test-urls-to-download\batched\";
+    var path = @"C:\Users\Adam_Nagy1\Documents\test-urls-to-download\";
     var downloader = new BulkDownloader(client);
-    var downloads = new List<(string, string)>();
 
     foreach (var uriBatch in uris.Chunk(10))
     {
         var downloadsBatch = await downloader.DownloadBatch(uriBatch);
-        downloads.AddRange(downloadsBatch);
 
-        Parallel.ForEach(downloadsBatch.Select(p => p.Item2),
-            webPage => File.WriteAllText($"{path}{Guid.NewGuid()}.html", webPage));
+        foreach (var regex in HtmlRegex.Regexes)
+        {
+            var attributes = downloadsBatch
+                .Select(p => p.Item2)
+                .Select(q => regex.Value.Matches(q))
+                .SelectMany(r => r)
+                .SelectMany(r => r.Groups.Values.Where(s => s.Name.ToLower() == regex.Key))
+                .Select(t => t.Value)
+                .ToList();
+        }
+
+        foreach (var result in downloadsBatch)
+        {
+            var uri = new Uri(result.Item1);
+        }
     }
-
-    return downloads;
 }
 
-async Task<IList<(string, string)>> DownloadSemaphore(HttpClient client, IEnumerable<string> uris)
+async void DownloadSemaphore(HttpClient client, IEnumerable<string> uris)
 {
     var path = @"C:\Users\Adam_Nagy1\Documents\test-urls-to-download\semaphored\";
     var downloader = new BulkDownloader(client);
@@ -127,8 +138,6 @@ async Task<IList<(string, string)>> DownloadSemaphore(HttpClient client, IEnumer
         Parallel.ForEach(downloadsBatch.Select(p => p.Item2),
             webPage => File.WriteAllText($"{path}{Guid.NewGuid()}.html", webPage));
     }
-
-    return downloads;
 }
 
 void Print(string message)
@@ -157,4 +166,29 @@ bool RunCommand()
     //}
 
     return true;
+}
+
+public class HtmlRegex
+{
+    public static readonly Dictionary<string, Regex> Regexes = new Dictionary<string, Regex>();
+
+    static HtmlRegex()
+    {
+        Regexes.Add(
+            "href",
+            new Regex("href=\"(?<href>.+?)\"", RegexOptions.Compiled | RegexOptions.Multiline));
+
+        //Regexes.Add(
+        //    "src",
+        //    new Regex("src=\"(?<src>.+?)\"", RegexOptions.Compiled | RegexOptions.Multiline));
+
+        Regexes.Add(
+            "img-src",
+            new Regex("img src=\"(?<src>.+?)\"", RegexOptions.Compiled | RegexOptions.Multiline));
+    }
+
+    public Regex this[string i] => Regexes[i];
+    
+    public bool ContainsKey(string attr)
+        => Regexes.ContainsKey(attr);
 }

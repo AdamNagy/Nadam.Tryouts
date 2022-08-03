@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPizza-ParallelProg", "MyP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskSchedulerCustom", "TaskSchedulerCustom\TaskSchedulerCustom.csproj", "{D7D277B2-EE34-4E08-B6BF-4E26F1AFF6BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyMessageQueue", "MyMessageQueue\MyMessageQueue.csproj", "{264FD753-FFF9-4500-842A-FBD4F368E228}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyMessageQueue", "MyMessageQueue\MyMessageQueue.csproj", "{264FD753-FFF9-4500-842A-FBD4F368E228}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UriTreeTests", "UriTreeTests\UriTreeTests.csproj", "{F50F6622-C0EE-4648-931F-899BB013D8DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +79,10 @@ Global
 		{264FD753-FFF9-4500-842A-FBD4F368E228}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{264FD753-FFF9-4500-842A-FBD4F368E228}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{264FD753-FFF9-4500-842A-FBD4F368E228}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F50F6622-C0EE-4648-931F-899BB013D8DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F50F6622-C0EE-4648-931F-899BB013D8DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F50F6622-C0EE-4648-931F-899BB013D8DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F50F6622-C0EE-4648-931F-899BB013D8DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
