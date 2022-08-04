@@ -59,7 +59,12 @@
             var segments = uri.Segments.Select(p => p.Trim('/')).Where(p => p != "/" && !string.IsNullOrEmpty(p)).ToList();
 
             if (!string.IsNullOrEmpty(uri.Query))
-                segments[segments.Count - 1] = $"{segments[segments.Count - 1]}{uri.Query}";
+            {
+                if (segments.Count > 0)
+                    segments[segments.Count - 1] = $"{segments[segments.Count - 1]}{uri.Query}";
+                else
+                    return new string[] { uri.Query };
+            }
 
             return segments;
         }
@@ -145,5 +150,39 @@
 
         private UriTreeNode GetChild(string segment)
             => Children.FirstOrDefault(p => p.Segment == segment);
+    }
+
+    public class DomainTree
+    {
+        private readonly IDictionary<string, UriTree> _domainTrees;
+
+        public DomainTree()
+        {
+            _domainTrees = new Dictionary<string, UriTree>();
+        }
+
+        public void Add(string uri)
+        {
+            var uriObj = new Uri(uri);
+
+            if(!_domainTrees.ContainsKey(uriObj.Host))
+            {
+                _domainTrees.Add(uriObj.Host, new UriTree(uri));
+            }
+            else
+            {
+                _domainTrees[uriObj.Host].AddUri(uri);
+            }
+        }
+
+        public bool Contains(string uri)
+        {
+            var uriObj = new Uri(uri);
+
+            if (!_domainTrees.ContainsKey(uriObj.Host))
+                return false;
+
+            return _domainTrees[uriObj.Host].Contains(uri);
+        }
     }
 }

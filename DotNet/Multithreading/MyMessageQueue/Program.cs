@@ -84,19 +84,6 @@ void TestBulkDownload()
     Console.WriteLine($"DownloadSemaphore: {sw.ElapsedMilliseconds}");
 }
 
-//async Task<IEnumerable<object>> DownloadParallel(HttpClient client, IEnumerable<string> uris)
-//{
-//    var queueJobs = uris
-//        .Select(p => new QueueFunction(p, (uri) => {
-//            var response = client.GetAsync(uri as string).Result;
-//            return response.Content.ReadAsStringAsync().Result;
-//        }))
-//        .ToList();
-
-//    var downloadJobs = new ThrottledList(queueJobs, 10);
-//    return downloadJobs.Start();
-//}
-
 async void DownloadBatch(HttpClient client, IEnumerable<string> uris)
 {
     var path = @"C:\Users\Adam_Nagy1\Documents\test-urls-to-download\";
@@ -166,6 +153,46 @@ bool RunCommand()
     //}
 
     return true;
+}
+
+void TestUriTree()
+{
+    var uris = File.ReadAllLines(@"C:\Users\Adam_Nagy1\Documents\test-urls-to-download.txt")
+        .Where(p => !string.IsNullOrEmpty(p))
+        .ToList();
+
+    var domainTree = new DomainTree();
+    foreach (var item in uris)
+    {
+        domainTree.Add(item);
+    }
+
+    var toSearch = new string[]
+    {
+        "https://ipon.hu/shop/csoport/szamitogep-periferia-gamer/ajandekutalvany/18476",
+        "https://facebook.com/iPon.hu/",
+        "https://www.bauhaus.hu/informaciok/adatvedelmi-nyilatkozat/",
+        "https://cdn.euromart.com/subcategories/belts/58",
+        "https://www.ecipo.hu/noi/gyartok:tamaris.html",
+        "https://www.fassag.com/szopsz"
+    };
+
+    var sw = Stopwatch.StartNew();
+    foreach (var item in toSearch)
+    {
+        uris.Contains(item);
+    }
+    sw.Stop();
+    Console.WriteLine($"Linear search: {sw.ElapsedMilliseconds}");
+
+    sw.Reset();
+    sw.Start();
+    foreach (var item in toSearch)
+    {
+        domainTree.Contains(item);
+    }
+    sw.Stop();
+    Console.WriteLine($"Tree search: {sw.ElapsedMilliseconds}");
 }
 
 public class HtmlRegex
