@@ -28,7 +28,8 @@ namespace MyMessageQueue
             if (subscriptions == null)
                 throw new Exception("Something went wrong with event bus");
 
-            Parallel.ForEach(subscriptions.Values, (subscription) => subscription(raisedEvent));
+            foreach (var subscription in subscriptions.Values)
+                subscription(raisedEvent);
         }
 
         public AppEventSubscription Subscribe(string eventname, Action<IAppEvent> handler)

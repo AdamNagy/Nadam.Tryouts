@@ -4,14 +4,54 @@
     {
         private readonly HttpClient _client;
         private readonly int _parallelism;
-        private readonly IEventBus _eventBus;
 
-        public BulkDownloader(HttpClient client, int parallelism = 10, IEventBus eventBus = default(IEventBus))
+        public BulkDownloader(HttpClient client, int parallelism = 10)
         {
             _client = client;
             _parallelism = parallelism;
-            _eventBus = eventBus;
         }
+
+        #region general batch processor
+        public async Task<IEnumerable<TOut>> BatchProcess<TOut>(IList<Func<Task<TOut>>> tasks)
+        {
+            var taskQueue = new Queue<Func<Task<TOut>>>(tasks);
+
+            var ongoingTasks = new List<Task<TOut>>();
+
+            for (int i = 0; i < _parallelism; i++)
+            {
+                var next = taskQueue.Dequeue();
+                ongoingTasks.Add(next());
+            }
+
+            while (taskQueue.Any())
+            {
+                await Task.WhenAny(ongoingTasks);
+
+                var next = taskQueue.Dequeue();
+                ongoingTasks.Add(next());
+            }
+
+            return ongoingTasks.Select(p => p.Result).ToList();
+        }
+
+        public IEnumerable<Func<Task<(string uri, string content)>>> GenerateHttpGetFunc(IEnumerable<string> uris)
+            => CaptureInputParam(uris, HttpGet);
+        
+        public Task<(string uri, string content)> HttpGet(string uri)
+             => Task.Run(async () =>
+                {
+                    var response = await _client.GetAsync(uri);
+                    var content = await response.Content.ReadAsStringAsync();
+                    return (uri, content);
+                });
+
+        private IEnumerable<Func<Task<TOut>>> CaptureInputParam<TIn, TOut>(IEnumerable<TIn> input, Func<TIn, Task<TOut>> hotTaskGenerator)
+        {
+            foreach (var item in input)
+                yield return () => hotTaskGenerator(item);
+        }
+        #endregion
 
         #region throttle
         public async Task<IList<(string, string)>> DownloadBatch(IEnumerable<string> uris)
@@ -50,9 +90,7 @@
         #region semaphore
         public async Task<IList<(string, string)>> DownloadSemaphore(IEnumerable<string> uris)
         {
-            var uriQueue = new Queue<string>(uris.Count());
-            foreach (var item in uris)
-                uriQueue.Enqueue(item);
+            var uriQueue = new Queue<string>(uris);
 
             var downloadTasks = new List<Task<(string, string)>>();
             var semaphore = new SemaphoreSlim(_parallelism);
@@ -79,17 +117,6 @@
                 return (uri, content);
             });
         }
-
-        //private async Task<(string, string)> Download(string uri, SemaphoreSlim semaphore)
-        //{
-        //    Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId}: {semaphore.CurrentCount}");
-        //    semaphore.Wait();
-        //    var response = await _client.GetAsync(uri);
-        //    var content = await response.Content.ReadAsStringAsync();
-
-        //    semaphore.Release();
-        //    return (uri, content);            
-        //}
         #endregion
     }
 }
