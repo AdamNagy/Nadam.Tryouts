@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 // TestThrottledQueue();
 TestBulkDownload();
 
+Console.WriteLine("Done");
 Console.ReadKey();
 
 /****************************/
@@ -66,14 +67,14 @@ void TestBulkDownload()
     HttpClient client = new HttpClient();
     var uris = File.ReadAllLines(@"C:\Users\Adam_Nagy1\Documents\test-urls-to-download.txt")
             .Where(p => !string.IsNullOrEmpty(p))
-            .Take(200)
+            .Take(20)
             .ToList();
 
     var sw = new Stopwatch();
-    sw.Start();
-    DownloadBatch(client, uris);
-    sw.Stop();
-    Console.WriteLine($"DownloadBatch: {sw.ElapsedMilliseconds}");
+    //sw.Start();
+    //DownloadBatch(client, uris);
+    //sw.Stop();
+    //Console.WriteLine($"DownloadBatch: {sw.ElapsedMilliseconds}");
 
     sw.Reset();
     sw.Start();

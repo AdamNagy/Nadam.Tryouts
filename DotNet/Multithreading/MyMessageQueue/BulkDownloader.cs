@@ -5,7 +5,7 @@
         private readonly HttpClient _client;
         private readonly int _parallelism;
 
-        public BulkDownloader(HttpClient client, int parallelism = 10)
+        public BulkDownloader(HttpClient client, int parallelism = 3)
         {
             _client = client;
             _parallelism = parallelism;
@@ -101,21 +101,30 @@
                 downloadTasks.Add(Download(next, semaphore));
             }
 
-            await Task.WhenAny(downloadTasks);
+            await Task.WhenAll(downloadTasks);
             return downloadTasks.Select(p => p.Result).ToList();
         }
 
         private async Task<(string, string)> Download(string uri, SemaphoreSlim semaphore)
         {
-            await semaphore.WaitAsync();
-            return await Task.Run(async () =>
+            var runing = Task.Run(() =>
             {
-                var response = await _client.GetAsync(uri);
-                var content = await response.Content.ReadAsStringAsync();
-
+                Console.WriteLine($"Before wait: {Thread.CurrentThread.ManagedThreadId} {semaphore.CurrentCount}");
+                semaphore.Wait();
+                Console.WriteLine($"After wait: {Thread.CurrentThread.ManagedThreadId} {semaphore.CurrentCount}");
+                var response = _client.GetAsync(uri).Result;
+                var content = response.Content.ReadAsStringAsync().Result;
+                // Console.WriteLine($"Run: {Thread.CurrentThread.ManagedThreadId} {semaphore.CurrentCount}");
                 semaphore.Release();
+                Console.WriteLine($"After release: {Thread.CurrentThread.ManagedThreadId} {semaphore.CurrentCount}");
                 return (uri, content);
             });
+
+            //await runing.ContinueWith(t => {
+            //    Console.WriteLine($"ContinueWith: {Thread.CurrentThread.ManagedThreadId} {semaphore.CurrentCount}");
+            //});
+
+            return await runing;
         }
         #endregion
     }
