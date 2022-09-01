@@ -33,12 +33,12 @@ namespace MongoDbPoc
                     IConfigurationRoot configurationRoot = configuration.Build();
                 })
             .ConfigureServices((hostingContext, services) => {
-                services
-                    .AddSingleton<IApplication, Application>()
-                    .AddSingleton<IDbCollection<Ingestion>>(container => 
-                        new IngestorCollection(hostingContext.Configuration.GetSection("ConnectionStrings")["mongo"])
-                    )
-                    .AddTransient<DataFeeder<Ingestion>, IngstionFeeder>();
+                //services
+                //    .AddSingleton<IApplication, Application>()
+                //    .AddSingleton<IDbCollection<Ingestion>>(container => 
+                //        new IngestorCollection(hostingContext.Configuration.GetSection("ConnectionStrings")["mongo"])
+                //    )
+                //    .AddTransient<DataFeeder<Ingestion>, IngstionFeeder>();
             });
     }
 }

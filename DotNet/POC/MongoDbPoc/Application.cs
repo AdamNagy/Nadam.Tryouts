@@ -10,28 +10,13 @@ namespace MongoDbPoc
 
     public class Application : IApplication
     {
-        private readonly IDbCollection<Ingestion> _ingestionCollection;
-        private readonly DataFeeder<Ingestion> _ingestionFeeder;
-
-        public Application(
-            IDbCollection<Ingestion> ingestionCollection,
-            DataFeeder<Ingestion> ingestionFeeder)
+        public Application()
         {
-            _ingestionCollection = ingestionCollection;
-            _ingestionFeeder = ingestionFeeder;
         }
 
         public async Task Run()
         {
-            await Task.Run(async () => {
-                // await _ingestionFeeder.Feed(10);
-                var ingestions = await _ingestionCollection.Get(); 
-                foreach (var item in ingestions)
-                    Console.WriteLine(item);
 
-                Console.WriteLine("Done");
-                Console.ReadKey();
-            });
         }
     }
 }
