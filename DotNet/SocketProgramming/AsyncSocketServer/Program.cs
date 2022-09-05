@@ -3,6 +3,7 @@
 Console.WriteLine("This is the Server.");
 
 var server = new AsynchronousSocketServer();
+
 Task.Run(() => server.StartListening());
 
 var input = Console.ReadLine();

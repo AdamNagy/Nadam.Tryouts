@@ -21,7 +21,8 @@ namespace AsyncSocketServer
             // Establish the local endpoint for the socket.
             // The DNS name of the computer  
             // running the listener is "host.contoso.com".
-            _ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
+            var hostName = Dns.GetHostName();
+            _ipHostInfo = Dns.GetHostEntry(hostName);
             _ipAddress = _ipHostInfo.AddressList[0];
             _localEndPoint = new IPEndPoint(_ipAddress, 81);
 
@@ -150,7 +151,6 @@ namespace AsyncSocketServer
 
         public void Dispose()
         {
-
             _server.Shutdown(SocketShutdown.Both);
             _server.Close();
         }

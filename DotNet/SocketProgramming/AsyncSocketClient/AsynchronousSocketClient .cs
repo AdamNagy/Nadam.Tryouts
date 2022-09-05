@@ -48,7 +48,8 @@ namespace AsyncSocketClient
             {
                 // Connect to the remote endpoint.  
                 _client.BeginConnect(_remoteEP,
-                    new AsyncCallback(ConnectCallback), _client);
+                    new AsyncCallback(ConnectCallback),
+                    _client);
                 connectDone.WaitOne();
 
                 // Send test data to the remote device.  

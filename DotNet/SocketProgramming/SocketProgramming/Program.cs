@@ -3,4 +3,6 @@ using SocketProgramming;
 
 Console.WriteLine("Tcp Socket Server\nStarting server");
 
-TcpSocketServer.StartServer();
+var tcpServer = new TcpSocketServer();
+tcpServer.StartServer();
+

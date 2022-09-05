@@ -3,4 +3,5 @@ using SocketClient;
 
 Console.WriteLine("Tcp Socket Client\nStarting client app");
 
-TcpSocketClient.StartClient();
+var client = new TcpSocketClient();
+client.StartClient();

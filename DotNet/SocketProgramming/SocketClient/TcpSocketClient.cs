@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using Newtonsoft.Json;
+using SocketServer;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
@@ -6,47 +8,85 @@ namespace SocketClient
 {
     internal class TcpSocketClient
     {
-        public static void StartClient()
+        private readonly IPHostEntry _ipHostInfo;
+        private readonly IPAddress _ipAddress;
+        private readonly IPEndPoint _localEndPoint;
+        private readonly Socket _sender;
+
+        public TcpSocketClient()
+        {
+
+            _ipHostInfo = Dns.GetHostEntry("localhost");
+            _ipAddress = _ipHostInfo.AddressList[0];
+            _localEndPoint = new IPEndPoint(_ipAddress, 11000);
+
+            _sender = new Socket(_ipAddress.AddressFamily,
+                SocketType.Stream, ProtocolType.Tcp);
+        }
+
+        public void StartClient()
         {
             var bytes = new byte[1024];
 
             try
             {
-                // Connect to a Remote server
-                // Get Host IP Address that is used to establish a connection
-                // In this case, we get one IP address of localhost that is IP : 127.0.0.1
-                // If a host has multiple addresses, you will get a list of addresses
-                var host = Dns.GetHostEntry("localhost");
-                var ipAddress = host.AddressList[0];
-                var remoteEP = new IPEndPoint(ipAddress, 11000);
-
-                // Create a TCP/IP  socket.
-                var sender = new Socket(ipAddress.AddressFamily,
-                    SocketType.Stream, ProtocolType.Tcp);
-
                 // Connect the socket to the remote endpoint. Catch any errors.
                 try
                 {
                     // Connect to Remote EndPoint
-                    sender.Connect(remoteEP);
+                    _sender.Connect(_localEndPoint);
 
-                    Console.WriteLine("Socket connected to {0}",
-                        sender.RemoteEndPoint.ToString());
+                    Console.WriteLine("Socket connected to {0}", _sender.RemoteEndPoint.ToString());
+                    Console.WriteLine("Checking in...");
 
-                    // Encode the data string into a byte array.
-                    var msg = Encoding.ASCII.GetBytes("This is a test<EOF>");
+                    var checkinMessage = new WebMessage();
+                    checkinMessage.Type = MessageType.checkin;
+                    var messageBytes = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(checkinMessage));
+                    _sender.Send(messageBytes);
 
-                    // Send the data through the socket.
-                    var bytesSent = sender.Send(msg);
+                    var bytesRec = _sender.Receive(bytes);
+                    Console.WriteLine("Your id: ", Encoding.ASCII.GetString(bytes, 0, bytesRec));
 
-                    // Receive the response from the remote device.
-                    var bytesRec = sender.Receive(bytes);
-                    Console.WriteLine("Echoed test = {0}",
-                        Encoding.ASCII.GetString(bytes, 0, bytesRec));
+                    Task.Run(() =>
+                    {
+                        while(true)
+                        {
+                            var receiveBuffer = new byte[1024];
+
+                            var numOfReceived = _sender.Receive(receiveBuffer);
+
+                            Console.WriteLine("Echoed test = {0}",
+                                Encoding.ASCII.GetString(receiveBuffer, 0, numOfReceived));
+                        }
+                    });
+
+                    Console.WriteLine($"> Type message:");
+                    var message = Console.ReadLine();
+                    while(message.ToLower() != "exit")
+                    {
+                        var messageObj = new WebMessage();
+                        messageObj.Type = MessageType.message;
+                        messageObj.Text = message;
+                        messageObj.Recipiants = new List<string>() { "*" };
+                        var messageBytesToSend = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(messageObj));
+
+                        // Send the data through the socket.
+                        var bytesSent = _sender.Send(messageBytesToSend);
+                        message = Console.ReadLine();
+
+                        // Receive the response from the remote device.
+                        //var bytesRec = _sender.Receive(bytes);
+                        //Console.WriteLine("Echoed test = {0}",
+                        //    Encoding.ASCII.GetString(bytes, 0, bytesRec));
+                    }
+
+                    // send disconnecttion
+                    var exitMessage = Encoding.ASCII.GetBytes("exit");
+                    _sender.Send(exitMessage);
 
                     // Release the socket.
-                    sender.Shutdown(SocketShutdown.Both);
-                    sender.Close();
+                    _sender.Shutdown(SocketShutdown.Both);
+                    _sender.Close();
                 }
                 catch (ArgumentNullException ane)
                 {
