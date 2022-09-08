@@ -45,8 +45,10 @@ namespace SocketClient
                     _sender.Send(messageBytes);
 
                     var bytesRec = _sender.Receive(bytes);
-                    Console.WriteLine("Your id: ", Encoding.ASCII.GetString(bytes, 0, bytesRec));
+                    Console.WriteLine("Your id: {0}", Encoding.ASCII.GetString(bytes, 0, bytesRec));
 
+                    var tokenSource = new CancellationTokenSource();
+                    var token = tokenSource.Token;
                     Task.Run(() =>
                     {
                         while(true)
@@ -58,7 +60,7 @@ namespace SocketClient
                             Console.WriteLine("Echoed test = {0}",
                                 Encoding.ASCII.GetString(receiveBuffer, 0, numOfReceived));
                         }
-                    });
+                    }, token);
 
                     Console.WriteLine($"> Type message:");
                     var message = Console.ReadLine();
@@ -73,16 +75,14 @@ namespace SocketClient
                         // Send the data through the socket.
                         var bytesSent = _sender.Send(messageBytesToSend);
                         message = Console.ReadLine();
-
-                        // Receive the response from the remote device.
-                        //var bytesRec = _sender.Receive(bytes);
-                        //Console.WriteLine("Echoed test = {0}",
-                        //    Encoding.ASCII.GetString(bytes, 0, bytesRec));
                     }
 
-                    // send disconnecttion
-                    var exitMessage = Encoding.ASCII.GetBytes("exit");
-                    _sender.Send(exitMessage);
+                    tokenSource.Cancel();
+                    // send checkout
+                    var checkoutMessage = new WebMessage();
+                    checkoutMessage.Type = MessageType.checkout;
+                    var checkoutMessageBytes = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(checkoutMessage));
+                    _sender.Send(checkoutMessageBytes);
 
                     // Release the socket.
                     _sender.Shutdown(SocketShutdown.Both);

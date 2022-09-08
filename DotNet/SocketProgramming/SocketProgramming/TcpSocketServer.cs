@@ -27,8 +27,7 @@ namespace SocketProgramming
             _ipAddress = _ipHostInfo.AddressList[0];
             _localEndPoint = new IPEndPoint(_ipAddress, 11000);
 
-            _server = new Socket(_ipAddress.AddressFamily,
-                SocketType.Stream, ProtocolType.Tcp);
+            _server = new Socket(_ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
             _clients = new ConcurrentDictionary<string, Socket>();
         }
@@ -43,10 +42,10 @@ namespace SocketProgramming
                 Console.WriteLine("Waiting for a connection...");
 
                 // miért tud csatlakozni a 4. kliens is, de nem jelenik meg az üzenet?
-                // connection vs listening
+                // connection vs listening ??
                 for (int i = 0; i < 3; i++)
                 {
-                    Task.Run(() => Robot());
+                    Task.Run(() => HandleClient());
                 }
             }
             catch (Exception e)
@@ -58,7 +57,7 @@ namespace SocketProgramming
             Console.ReadKey();
         }
 
-        private void Robot()
+        private void HandleClient()
         {
             var handler = _server.Accept();
             var clientId = Guid.NewGuid().ToString();
@@ -70,7 +69,7 @@ namespace SocketProgramming
 
             while (true)
             {
-                var buffer = new byte[1024];
+                var buffer = new byte[3];
                 var bytesRec = handler.Receive(buffer);
 
                 var data = Encoding.ASCII.GetString(buffer, 0, bytesRec);
@@ -108,28 +107,27 @@ namespace SocketProgramming
 
         private void Broadcast(IEnumerable<string> clients, string message)
         {
-            if(clients.First() == "*")
+            lock (_locker)
             {
-                lock (_locker)
+                if(clients.First() == "*")
                 {
-                    foreach (var client in _clients)
+                        foreach (var client in _clients)
+                        {
+                            client.Value.Send(Encoding.ASCII.GetBytes(message));
+                        }
+                }
+                else
+                {
+                    foreach (var clientId in clients)
                     {
-                        client.Value.Send(Encoding.ASCII.GetBytes(message));
+                        if(!_clients.ContainsKey(clientId))
+                            continue;
+
+                        var client = _clients[clientId];
+                        client.Send(Encoding.ASCII.GetBytes(message));
                     }
                 }
             }
-            else
-            {
-                foreach (var clientId in clients)
-                {
-                    if(!_clients.ContainsKey(clientId))
-                        continue;
-
-                    var client = _clients[clientId];
-                    client.Send(Encoding.ASCII.GetBytes(message));
-                }
-            }
-
         }
     }
 }

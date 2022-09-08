@@ -58,8 +58,6 @@
     <Compile Include="LinqToSql\base\QueryTranslator.cs" />
     <Compile Include="LinqToSql\base\TypeSystem.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="LinqToJson\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
