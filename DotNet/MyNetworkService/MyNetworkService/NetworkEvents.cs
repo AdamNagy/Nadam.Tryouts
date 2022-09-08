@@ -1,9 +1,11 @@
-﻿namespace MyNetworkService
+﻿using MyNetworkService.EventInfrastructure.Contracts;
+
+namespace MyNetworkService
 {
-    public class ClientConnectedEvent : IAppEvent
+    public class ClientConnectedEvent : IEvent
     {
-        public string Name => "Client-Connected";
         public string ClientId { get; set; }
+        public string Id { get => "Client-Connected"; }
 
         public ClientConnectedEvent(string clientId)
         {
@@ -11,9 +13,9 @@
         }
     }
 
-    public class MessageArrivedEvent : IAppEvent
+    public class MessageArrivedEvent : IEvent
     {
-        public string Name => "Message-Arrived";
+        public string Id => "Message-Arrived";
         public string ClientId { get; private set; }
         public string Message { get; private set; }
 

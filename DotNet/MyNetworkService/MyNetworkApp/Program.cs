@@ -1,17 +1,19 @@
-﻿using MyNetworkService;
+﻿using MyNetworkApp;
 using MyNetworkService.EventInfrastructure;
 using MyNetworkService.EventInfrastructure.Contracts;
 
-Console.WriteLine("Starting Server");
+Console.WriteLine("Starting Client");
 
 IEventBus eventBus = new EventBus();
-TcpServer tcpServer = new TcpServer(eventBus); ;
-
-var messageServer = new MessageServer(tcpServer, eventBus);
-messageServer.Strart();
+var tcpClient = new MyNetworkApp.TcpClient(eventBus);
+var messageClient = new MessageClient(tcpClient, eventBus);
+messageClient.Start();
 
 var command = Console.ReadLine();
+
 while(command != "exit")
 {
     command = Console.ReadLine();
 }
+
+return;

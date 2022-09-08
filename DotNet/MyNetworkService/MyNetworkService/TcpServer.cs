@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using MyNetworkService.EventInfrastructure.Contracts;
+using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -12,7 +13,7 @@ namespace MyNetworkService
         private readonly IPEndPoint _localEndPoint;
         private readonly Socket _server;
 
-        private readonly ConcurrentDictionary<string, TcpClient> _clients;
+        private readonly ConcurrentDictionary<string, TcpConnectedClient> _clients;
 
         private readonly object _locker = new object();
         private readonly IEventBus _eventBus;
@@ -26,7 +27,7 @@ namespace MyNetworkService
             _server = new Socket(_ipAddress.AddressFamily,
                 SocketType.Stream, ProtocolType.Tcp);
 
-            _clients = new ConcurrentDictionary<string, TcpClient>();
+            _clients = new ConcurrentDictionary<string, TcpConnectedClient>();
             _eventBus = eventBus;
         }
 
@@ -40,9 +41,16 @@ namespace MyNetworkService
 
         private void Accept()
         {
-            _server.BeginAccept(
-                new AsyncCallback(AcceptCallback),
-                _server);
+            try
+            {
+                _server.BeginAccept(
+                    new AsyncCallback(AcceptCallback),
+                    _server);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
 
         public void AcceptCallback(IAsyncResult ar)
@@ -52,12 +60,10 @@ namespace MyNetworkService
                 Socket handler = _server.EndAccept(ar);
                 var clientId = Guid.NewGuid().ToString();
 
-                _eventBus.Publish(new ClientConnectedEvent(clientId));
-
                 lock(_locker)
                 {
 
-                    var tcpCLienthandler = new TcpClient();
+                    var tcpCLienthandler = new TcpConnectedClient();
                     tcpCLienthandler.ClientId = clientId;
                     tcpCLienthandler.Buffer = new byte[1024];
                     tcpCLienthandler.Offset = 0;
@@ -68,6 +74,7 @@ namespace MyNetworkService
                         new AsyncCallback(ReceiveCallback), tcpCLienthandler);
 
                     Accept();
+                    _eventBus.Publish(new ClientConnectedEvent(clientId));
                 }
             }
             catch (Exception ex)
@@ -80,7 +87,7 @@ namespace MyNetworkService
         {
             try
             {
-                var state = (TcpClient)ar.AsyncState;
+                var state = (TcpConnectedClient)ar.AsyncState;
 
                 int bytesRead = _server.EndReceive(ar);
 
@@ -101,46 +108,67 @@ namespace MyNetworkService
     
         public void SendMessage(string clientId, string message)
         {
-            lock(_locker)
+            try
             {
-                if (!_clients.TryGetValue(clientId, out var client))
-                    return;
+                lock(_locker)
+                {
+                    if (!_clients.TryGetValue(clientId, out var client))
+                        return;
 
-                byte[] byteData = Encoding.UTF8.GetBytes(message);
+                    byte[] byteData = Encoding.UTF8.GetBytes(message);
 
-                client.Handler.BeginSend(byteData, 0, byteData.Length, 0,
-                    new AsyncCallback(SendCallback), client);
+                    client.Handler.BeginSend(byteData, 0, byteData.Length, 0,
+                        new AsyncCallback(SendCallback), client);
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
         }
 
         public void SendMessage(IEnumerable<string> clientIds, string message)
         {
-            lock (_locker)
+            try
             {
-                foreach (var clientId in clientIds)
+                lock (_locker)
                 {
-                    if (!_clients.TryGetValue(clientId, out var client))
-                        continue;
+                    foreach (var clientId in clientIds)
+                    {
+                        if (!_clients.TryGetValue(clientId, out var client))
+                            continue;
 
-                    byte[] byteData = Encoding.UTF8.GetBytes(message);
+                        byte[] byteData = Encoding.UTF8.GetBytes(message);
 
-                    client.Handler.BeginSend(byteData, 0, byteData.Length, 0,
-                        new AsyncCallback(SendCallback), client);
+                        client.Handler.BeginSend(byteData, 0, byteData.Length, 0,
+                            new AsyncCallback(SendCallback), client);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
         }
 
         public void SendMessage(string message)
         {
-            lock (_locker)
+            try
             {
-                foreach (var client in _clients.Values)
+                lock (_locker)
                 {
-                    byte[] byteData = Encoding.UTF8.GetBytes(message);
+                    foreach (var client in _clients.Values)
+                    {
+                        byte[] byteData = Encoding.UTF8.GetBytes(message);
 
-                    client.Handler.BeginSend(byteData, 0, byteData.Length, 0,
-                        new AsyncCallback(SendCallback), client);
+                        client.Handler.BeginSend(byteData, 0, byteData.Length, 0,
+                            new AsyncCallback(SendCallback), client);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
         }
 
@@ -148,7 +176,7 @@ namespace MyNetworkService
         {
             try
             {
-                var client = (TcpClient)ar.AsyncState;
+                var client = (TcpConnectedClient)ar.AsyncState;
 
                 int bytesSent = client.Handler.EndSend(ar);
                 Console.WriteLine("Sent {0} bytes to client.", bytesSent);
