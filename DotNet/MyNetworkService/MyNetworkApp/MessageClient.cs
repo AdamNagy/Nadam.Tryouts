@@ -8,6 +8,7 @@ namespace MyNetworkApp
     {
         private readonly TcpClient _client;
         private readonly IEventBus _eventBus;
+        public string Name { get; set; }
 
         public MessageClient(TcpClient client, IEventBus eventBus)
         {
@@ -23,10 +24,10 @@ namespace MyNetworkApp
                 {
                     Console.WriteLine($"Message Arrived: {payload.Message}");
                     var message = JsonConvert.DeserializeObject<WebMessage>(payload.Message);
+                    Console.WriteLine(message.Data);
                 });
 
                 _client.Connect();
-                _client.Listen();
             }
             catch (Exception ex)
             {
@@ -34,12 +35,14 @@ namespace MyNetworkApp
             }
         }
 
-        public void Checkin()
+        public void Checkin(string name)
         {
             try
             {
                 var checkinMessage = new WebMessage();
                 checkinMessage.Type = MessageType.checkin;
+                checkinMessage.Data = name;
+                Name = name;
 
                 var message = JsonConvert.SerializeObject(checkinMessage);
                 _client.SendMessage(message);
@@ -64,6 +67,17 @@ namespace MyNetworkApp
             {
                 Console.WriteLine(ex.ToString());
             }
+        }
+    
+        public void SendMessage(string message)
+        {
+            var messageObj = new WebMessage();
+            messageObj.Type = MessageType.message;
+            messageObj.Data = $"{Name}:{message}";
+
+            var messageText = JsonConvert.SerializeObject(messageObj);
+
+            _client.SendMessage(messageText);
         }
     }
 }

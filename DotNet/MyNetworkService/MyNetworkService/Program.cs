@@ -5,9 +5,11 @@ using MyNetworkService.EventInfrastructure.Contracts;
 Console.WriteLine("Starting Server");
 
 IEventBus eventBus = new EventBus();
-TcpServer tcpServer = new TcpServer(eventBus); ;
+var tcpServer = new SocketServer(eventBus);
+tcpServer.Start();
+var broker = new MessageBroker(eventBus);
 
-var messageServer = new MessageServer(tcpServer, eventBus);
+var messageServer = new MessageServer(eventBus, broker);
 messageServer.Strart();
 
 var command = Console.ReadLine();

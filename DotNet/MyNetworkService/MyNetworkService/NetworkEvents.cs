@@ -4,12 +4,12 @@ namespace MyNetworkService
 {
     public class ClientConnectedEvent : IEvent
     {
-        public string ClientId { get; set; }
+        public SocketClient Client { get; set; }
         public string Id { get => "Client-Connected"; }
 
-        public ClientConnectedEvent(string clientId)
+        public ClientConnectedEvent(SocketClient client)
         {
-            ClientId = clientId;
+            Client = client;
         }
     }
 
