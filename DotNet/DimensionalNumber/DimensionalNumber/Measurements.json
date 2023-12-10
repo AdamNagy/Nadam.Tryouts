@@ -1,0 +1,30 @@
+[
+  {
+    "Name": "Bag20",
+    "Dimension": 1,
+    "Unit": "bag(20kg)",
+    "MesurementBase": "Mass",
+    "Value": "20 kg"
+  },
+  {
+    "Name": "Bag25",
+    "Dimension": 1,
+    "Unit": "bag(25kg)",
+    "MesurementBase": "Mass",
+    "Change": "25 kg"    
+  },
+  {
+    "Name": "Bag40",
+    "Dimension": 1,
+    "Unit": "bag(40kg)",
+    "MesurementBase": "Mass",
+    "Change": "40 kg"    
+  },
+  {
+    "Name": "Pile20x20",
+    "Dimension": 1,
+    "Unit": "pile(20x20)",
+    "MesurementBase": "Square",
+    "Change": "400 cm2"    
+  }
+]
