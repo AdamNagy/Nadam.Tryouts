@@ -1,13 +1,15 @@
+using Microsoft.EntityFrameworkCore;
 using SQLiteDemo;
 
 namespace SQLiteDemoTests
 {
-    public class DbContextTests
+    public class SQLitetTests
     {
         [Fact]
-        public void Create()
+        public void CreateContext()
         {
-            var context = new SharingsContext();
+            var context = new SharingsContext(GetDbOptions());
+
             Assert.NotNull(context);
         }
 
@@ -37,7 +39,7 @@ namespace SQLiteDemoTests
             });
 
             SQLitePCL.Batteries.Init();
-            var context = new SharingsContext();
+            var context = new SharingsContext(GetDbOptions());
             var people = context.Set<Person>();
 
             var insertedGuids = new List<Guid>();
@@ -60,6 +62,15 @@ namespace SQLiteDemoTests
             // Cleanup
             context.Set<Person>().RemoveRange(people);
             context.SaveChanges();
+        }
+
+        private DbContextOptions<SharingsContext> GetDbOptions()
+        {
+            var folder = Environment.SpecialFolder.LocalApplicationData;
+            var path = Environment.GetFolderPath(folder);
+            var dbPath = Path.Join(path, "unit-test");
+
+            return DbContextOptionFactory<SharingsContext>.GetSqliteDbOption(dbPath);
         }
     }
 }
