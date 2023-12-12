@@ -4,7 +4,7 @@ namespace SQLiteDemoTests
 {
     public class TestContext : DbContext
     {
-        public DbSet<TestModel> TestModels { get; set; }
+        public DbSet<SimpleModel> TestModels { get; set; }
 
         public TestContext(DbContextOptions<TestContext> options) : base(options)
         {
@@ -13,7 +13,7 @@ namespace SQLiteDemoTests
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            new TestModelConfiguration().Configure(modelBuilder.Entity<TestModel>());
+            new SimpleModelConfiguration().Configure(modelBuilder.Entity<SimpleModel>());
         }
     }
 }

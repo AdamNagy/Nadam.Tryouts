@@ -4,13 +4,14 @@ namespace SQLiteDemoTests.QueryRepositoryTests
 {
     public abstract class QueryFilterTestDefinitions
     {
-        public abstract IQueryable<TestModel> GetTable();
+        public abstract IQueryable<SimpleModel> GetSimpleModelTable();
 
+        #region Filtering
         [Fact]
         public void GreaterThan_Int_Some()
         {
             // Arrange
-            var inMemoryData = GetTable();
+            var inMemoryData = GetSimpleModelTable();
             var s = inMemoryData.Select(p => p.DoubleProp).ToList();
 
             var filter = new FilterDefinition()
@@ -33,7 +34,7 @@ namespace SQLiteDemoTests.QueryRepositoryTests
         public void GreaterThan_Int_All()
         {
             // Arrange
-            var inMemoryData = GetTable();
+            var inMemoryData = GetSimpleModelTable();
 
             var filter = new FilterDefinition()
             {
@@ -55,7 +56,7 @@ namespace SQLiteDemoTests.QueryRepositoryTests
         public void GreaterThan_DateTime()
         {
             // Arrange
-            var inMemoryData = GetTable();
+            var inMemoryData = GetSimpleModelTable();
 
             var referenceVal = DateTime.Now.AddDays(-500);
             var filter = new FilterDefinition()
@@ -77,7 +78,7 @@ namespace SQLiteDemoTests.QueryRepositoryTests
         public void GreaterThan_Double()
         {
             // Arrange
-            var inMemoryData = GetTable();
+            var inMemoryData = GetSimpleModelTable();
 
             var referenceVal = 4.9;
             var filter = new FilterDefinition()
@@ -99,7 +100,7 @@ namespace SQLiteDemoTests.QueryRepositoryTests
         public void StartsWith_Some()
         {
             // Arrange
-            var inMemoryData = GetTable();
+            var inMemoryData = GetSimpleModelTable();
 
             var referenceVal = "4";
             var filter = new FilterDefinition()
@@ -121,7 +122,7 @@ namespace SQLiteDemoTests.QueryRepositoryTests
         public void StartsWith_All()
         {
             // Arrange
-            var inMemoryData = GetTable();
+            var inMemoryData = GetSimpleModelTable();
 
             var referenceVal = "4";
             var filter = new FilterDefinition()
@@ -143,7 +144,7 @@ namespace SQLiteDemoTests.QueryRepositoryTests
         public void Contains_All()
         {
             // Arrange
-            var inMemoryData = GetTable();
+            var inMemoryData = GetSimpleModelTable();
 
             var referenceVal = "4";
             var filter = new FilterDefinition()
@@ -165,7 +166,7 @@ namespace SQLiteDemoTests.QueryRepositoryTests
         public void Contains_Some()
         {
             // Arrange
-            var inMemoryData = GetTable();
+            var inMemoryData = GetSimpleModelTable();
 
             var referenceVal = "4";
             var filter = new FilterDefinition()
@@ -187,7 +188,7 @@ namespace SQLiteDemoTests.QueryRepositoryTests
         public void EndsWith_All()
         {
             // Arrange
-            var inMemoryData = GetTable();
+            var inMemoryData = GetSimpleModelTable();
 
             var referenceVal = "4";
             var filter = new FilterDefinition()
@@ -209,7 +210,7 @@ namespace SQLiteDemoTests.QueryRepositoryTests
         public void EndsWith_Some()
         {
             // Arrange
-            var inMemoryData = GetTable();
+            var inMemoryData = GetSimpleModelTable();
 
             var referenceVal = "4";
             var filter = new FilterDefinition()
@@ -226,5 +227,15 @@ namespace SQLiteDemoTests.QueryRepositoryTests
             // Assert
             Assert.Equal(20, result.Count);
         }
+        #endregion
+
+        #region Order
+        #endregion
+
+        #region Joins
+        #endregion
+
+        #region Projection
+        #endregion
     }
 }

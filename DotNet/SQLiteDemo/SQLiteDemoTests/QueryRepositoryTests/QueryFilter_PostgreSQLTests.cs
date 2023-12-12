@@ -27,7 +27,7 @@ namespace SQLiteDemoTests.QueryRepositoryTests
 
         private void SeedDb()
         {
-            foreach (var record in TestModel.GenerateData())
+            foreach (var record in SimpleModel.GenerateData())
             {
                 Context.TestModels.Add(record);
             }
@@ -44,9 +44,9 @@ namespace SQLiteDemoTests.QueryRepositoryTests
             _context = fixture.Context;
         }
 
-        public override IQueryable<TestModel> GetTable()
+        public override IQueryable<SimpleModel> GetSimpleModelTable()
         {
-            return _context.Set<TestModel>();
+            return _context.Set<SimpleModel>();
         }
     }
 }

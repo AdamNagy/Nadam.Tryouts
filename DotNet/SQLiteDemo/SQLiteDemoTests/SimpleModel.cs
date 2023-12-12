@@ -1,6 +1,6 @@
 ﻿namespace SQLiteDemoTests
 {
-    public class TestModel : IComparable<TestModel>
+    public class SimpleModel : IComparable<SimpleModel>
     {
         public int Key { get; set; }
         public int GreaterThanSome { get; set; }
@@ -18,15 +18,15 @@
         public string ContainsSomeProp { get; set; }
         public string ContainsAllProp { get; set; }
 
-        public int CompareTo(TestModel? other)
+        public int CompareTo(SimpleModel? other)
         {
             if (GreaterThanSome == other.GreaterThanSome) return 0;
 
             return GreaterThanSome < other.GreaterThanSome ? -1 : 1;
         }
 
-        public static IEnumerable<TestModel> GenerateData()
-             => Enumerable.Range(0, 100).Select(p => new TestModel()
+        public static IEnumerable<SimpleModel> GenerateData()
+             => Enumerable.Range(0, 100).Select(p => new SimpleModel()
              {
                  GreaterThanSome = p,
                  GreaterThanAll = p + 51,
