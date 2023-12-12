@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SQLiteDemo;
+using SQLiteDemo.Config;
 
 namespace SQLiteDemoTests.QueryRepositoryTests
 {
-    public class SQLiteDbFixture
+    public class PostgreSQLDbFixture
     {
         public TestContext Context { get; private set; }
 
-        public SQLiteDbFixture()
+        public PostgreSQLDbFixture()
         {
             Context = CreateContext();
 
@@ -16,11 +17,9 @@ namespace SQLiteDemoTests.QueryRepositoryTests
 
         private DbContextOptions<TestContext> GetDbOptions()
         {
-            var folder = Environment.SpecialFolder.LocalApplicationData;
-            var path = Environment.GetFolderPath(folder);
-            var dbPath = Path.Join(path, "query-filter-db");
+            var config = new PostgreSQLConfig("localhost:5432", "unit-test-query-db", "postgres", "postgre");
 
-            return DbContextOptionFactory<TestContext>.GetSqliteDbOption(dbPath);
+            return DbContextOptionFactory<TestContext>.GetPostgreSqlDbOptions("unit-test-query-db", config);
         }
 
         private TestContext CreateContext()
@@ -36,11 +35,11 @@ namespace SQLiteDemoTests.QueryRepositoryTests
         }
     }
 
-    public class QueryFilter_SQLiteTests : QueryFilterTestDefinitions, IClassFixture<SQLiteDbFixture>
+    public class QueryFilter_PostgreSQLTests : QueryFilterTestDefinitions, IClassFixture<PostgreSQLDbFixture>
     {
         private readonly TestContext _context;
 
-        public QueryFilter_SQLiteTests(SQLiteDbFixture fixture)
+        public QueryFilter_PostgreSQLTests(PostgreSQLDbFixture fixture)
         {
             _context = fixture.Context;
         }

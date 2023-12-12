@@ -108,7 +108,7 @@ namespace SQLiteDemo.QueryRepository
         {
 
             object value = null;
-            if (filter.ReferenceValue == null) return CreateWhere<TEntity>(propertyInfo, filter.Operation, value); ;
+            if (filter.ReferenceValue == null) return CreateWhere<TEntity>(propertyInfo, filter.Operation, value);
 
             var type = propertyInfo.PropertyType;
             var converter = TypeDescriptor.GetConverter(type);

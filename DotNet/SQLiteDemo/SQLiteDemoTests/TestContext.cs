@@ -10,5 +10,10 @@ namespace SQLiteDemoTests
         {
             Database.EnsureCreated();
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            new TestModelConfiguration().Configure(modelBuilder.Entity<TestModel>());
+        }
     }
 }

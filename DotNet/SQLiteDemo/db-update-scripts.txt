@@ -1,0 +1,4 @@
+add-migration <some_name_for_migration>
+add-migration v1_2
+
+update-database –verbose

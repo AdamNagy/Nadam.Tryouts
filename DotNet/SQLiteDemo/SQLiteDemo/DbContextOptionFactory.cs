@@ -19,12 +19,12 @@ namespace SQLiteDemo
             return _options[file];
         }
 
-        public static DbContextOptions<T> GetPostgreSqlDbOptions(string dbKey, PostgreSqlConfig config)
+        public static DbContextOptions<T> GetPostgreSqlDbOptions(string dbKey, PostgreSQLConfig config)
         {
             if (_options.ContainsKey(dbKey)) return _options[dbKey];
 
             var contextOptions = new DbContextOptionsBuilder<T>()
-                .UseNpgsql($"Host={config.Host};Database={config.DbName};Username={config.Username};Password={config.Password}")
+                .UseNpgsql($"Host={config.Host};Database={config.DbName};Username={config.Username};Password={config.Password}") // Trusted_Connection=True
                 .Options;
 
             _options.Add(dbKey, contextOptions);

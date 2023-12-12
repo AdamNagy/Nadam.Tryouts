@@ -1,6 +1,6 @@
 ﻿namespace SQLiteDemo.Config
 {
-    public class PostgreSqlConfig : DbConfig
+    public class PostgreSQLConfig : DbConfig
     {
         public override SupportedDbEngines DbEngine { get => SupportedDbEngines.Postgre; }
 
@@ -9,7 +9,7 @@
         public string Username { get; private set; }
         public string Password { get; private set; }
 
-        public PostgreSqlConfig(string host, string dbName, string userName, string password)
+        public PostgreSQLConfig(string host, string dbName, string userName, string password)
         {
             Host = host;
             DbName = dbName;

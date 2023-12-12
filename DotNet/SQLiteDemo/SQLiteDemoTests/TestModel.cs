@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace SQLiteDemoTests
+﻿namespace SQLiteDemoTests
 {
     public class TestModel : IComparable<TestModel>
     {
-        [Key]
         public int Key { get; set; }
         public int GreaterThanSome { get; set; }
         public int GreaterThanAll { get; set; }

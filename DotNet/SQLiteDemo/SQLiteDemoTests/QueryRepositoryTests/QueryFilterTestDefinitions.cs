@@ -70,7 +70,7 @@ namespace SQLiteDemoTests.QueryRepositoryTests
             var result = resultQuery.ToList();
 
             // Assert
-            Assert.Equal(51, result.Count);
+            Assert.Equal(50, result.Count);
         }
 
         [Fact]
