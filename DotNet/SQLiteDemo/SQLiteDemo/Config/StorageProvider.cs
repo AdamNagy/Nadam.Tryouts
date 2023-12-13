@@ -1,5 +1,11 @@
 ﻿namespace SQLiteDemo.Config
 {
+    public interface IStorageProvider
+    {
+        byte[] GetObject(string key);
+        void SaveFile(string key, byte[] file, bool force);
+    }
+
     public abstract class StorageProvider
     {
         public abstract void SaveFile(string key, byte[] file, bool force);

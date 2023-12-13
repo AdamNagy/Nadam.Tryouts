@@ -1,4 +1,5 @@
 ﻿using SQLiteDemo.QueryRepository;
+using SQLiteDemoTests.Models;
 
 namespace SQLiteDemoTests.QueryRepositoryTests
 {

@@ -1,4 +1,4 @@
-﻿namespace SQLiteDemoTests
+﻿namespace SQLiteDemoTests.Models
 {
     public class SimpleModel : IComparable<SimpleModel>
     {
@@ -7,7 +7,7 @@
         public int GreaterThanAll { get; set; }
 
         public DateTime DateTimeProp { get; set; }
-        public Double DoubleProp { get; set; }
+        public double DoubleProp { get; set; }
 
         public string StartsWithSomeProp { get; set; }
         public string StartsWithAllProp { get; set; }
@@ -31,7 +31,7 @@
                  GreaterThanSome = p,
                  GreaterThanAll = p + 51,
                  DateTimeProp = DateTime.Now.AddDays(p * 10 * -1),
-                 DoubleProp = Double.Parse($"{(p / 10)}.{p % 10}".TrimEnd('0')),
+                 DoubleProp = double.Parse($"{p / 10}.{p % 10}".TrimEnd('0')),
                  StartsWithSomeProp = $"{p % 5} and some text 4",
                  StartsWithAllProp = $"4 and some text 4",
                  ContainsAllProp = $"{p % 5} and some text 4 some other text",

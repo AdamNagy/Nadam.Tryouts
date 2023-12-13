@@ -12,6 +12,6 @@ namespace SQLiteDemo.QueryRepository
 
         public int NumberOfItems { get; set; }
 
-        public IEnumerable<T> Result { get; set; }
+        public IList<T> Result { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-namespace SQLiteDemoTests
+
+namespace SQLiteDemoTests.Models
 {
     internal class SimpleModelConfiguration : IEntityTypeConfiguration<SimpleModel>
     {

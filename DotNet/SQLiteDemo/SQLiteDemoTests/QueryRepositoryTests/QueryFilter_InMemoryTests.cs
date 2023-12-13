@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SQLiteDemo;
+using SQLiteDemo.DbContextService;
+using SQLiteDemoTests.Models;
 
 namespace SQLiteDemoTests.QueryRepositoryTests
 {
