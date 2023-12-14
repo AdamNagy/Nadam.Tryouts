@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace SQLiteDemo.DbContextService
 {
-    internal class DataContext<T> where T : DbContext
+    public class DataContext<T> where T : DbContext
     {
         public DbConfig DbConfig { get; set; }
         public string Name { get => DbConfig.DbName; }
@@ -30,9 +30,12 @@ namespace SQLiteDemo.DbContextService
             {
                 case SupportedDbEngines.Sqlite:
                     var sqLiteConfig = DbConfig as SqliteConfig;
-                    var dbBackup = BackupProvider.GetObject(sqLiteConfig.DbFileName);
-                    LocalDriveStorage.SaveFile(sqLiteConfig.DbFileName, dbBackup, true);
-                    return DbContextOptionFactory<T>.GetSqliteDbOption(sqLiteConfig.DbFileName);
+                    if (BackupProvider.GetObject(sqLiteConfig.DbFileName, out var dbBackup))
+                    {
+                        LocalDriveStorage.SaveObject(sqLiteConfig.DbFileName, dbBackup, true);
+                    }
+
+                    return DbContextOptionFactory<T>.GetSqliteDbOption(Path.Combine(LocalDriveStorage.Root, sqLiteConfig.DbFileName));
 
                 case SupportedDbEngines.Postgre:
                     var postgreSqlConfig = DbConfig as PostgreSQLConfig;
@@ -42,12 +45,15 @@ namespace SQLiteDemo.DbContextService
             }
         }
 
-        private T CreateContext()
+        public T CreateContext()
         {
             var dbContextType = typeof(T);
-            var ctor = dbContextType.GetConstructor(BindingFlags.Public, new[] { typeof(DbContextOptions<T>) });
+            var ctor = dbContextType.GetConstructor(BindingFlags.Instance | BindingFlags.Public, new[] { typeof(DbContextOptions<T>) });
 
-            if (ctor == null) throw new ArgumentException($"Given type ({dbContextType.Name}) dose not have a public ctor that takes a DbContextOptions");
+            if (ctor == null)
+            {
+                throw new ArgumentException($"Given type ({dbContextType.Name}) dose not have a public ctor that takes a DbContextOptions");
+            }
 
             var dbContextOptions = GetDbContextOptions();
             var dbContext = ctor.Invoke(new object[] { dbContextOptions });

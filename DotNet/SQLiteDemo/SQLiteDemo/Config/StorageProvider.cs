@@ -2,44 +2,50 @@
 {
     public interface IStorageProvider
     {
-        byte[] GetObject(string key);
-        void SaveFile(string key, byte[] file, bool force);
+        bool GetObject(string key, out byte[] file);
+        void SaveObject(string key, byte[] file, bool force);
     }
 
-    public abstract class StorageProvider
+    public class AzureStorageProvider : IStorageProvider
     {
-        public abstract void SaveFile(string key, byte[] file, bool force);
-
-        public abstract byte[] GetFile(string key);
-    }
-
-    public class AzureStorageProvider : StorageProvider
-    {
-        public override byte[] GetFile(string key)
+        public bool GetObject(string key, out byte[] file)
         {
             throw new NotImplementedException();
         }
 
-        public override void SaveFile(string key, byte[] file, bool force)
+        public void SaveObject(string key, byte[] file, bool force)
         {
             throw new NotImplementedException();
         }
     }
 
-    public class LocalDriveStorageProvider : StorageProvider
+    public class LocalDriveStorageProvider : IStorageProvider
     {
-        public override byte[] GetFile(string key)
-        {
-            if (!File.Exists(key)) throw new FileNotFoundException();
+        public string Root { get => _root; }
+        private readonly string _root;
 
-            return File.ReadAllBytes(key);
+        public LocalDriveStorageProvider(string root)
+        {
+            _root = root;
         }
 
-        public override void SaveFile(string key, byte[] file, bool force)
+        public bool GetObject(string key, out byte[] file)
         {
-            if (File.Exists(key) && !force) throw new ArgumentException();
+            if (!File.Exists(Path.Combine(_root, key)))
+            {
+                file = null;
+                return false;
+            }
 
-            File.WriteAllBytes(key, file);
+            file = File.ReadAllBytes(Path.Combine(_root, key));
+            return true;
+        }
+
+        public void SaveObject(string key, byte[] file, bool force)
+        {
+            if (File.Exists(Path.Combine(_root, key)) && !force) throw new ArgumentException();
+
+            File.WriteAllBytes(Path.Combine(_root, key), file);
         }
     }
 }
