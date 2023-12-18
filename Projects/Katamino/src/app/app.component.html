@@ -1,0 +1,23 @@
+<router-outlet></router-outlet>
+<h1>Hello, Katamino</h1>
+
+<!-- <div *ngFor="let matrix of baseMatrixes" class="katamino-container">
+  <app-matrix [matrix]="matrix"></app-matrix>
+</div>
+
+<hr>
+
+<div *ngFor="let matrix of baseKatamino" class="katamino-container">
+  <app-matrix [matrix]="matrix"></app-matrix>
+</div> -->
+
+<hr>
+<h3>Mirror</h3>
+<div *ngFor="let matrix of mirrors" class="katamino-container">
+  <app-matrix [matrix]="matrix"></app-matrix>
+</div> 
+<hr>
+
+<div *ngFor="let matrix of kataminos" class="katamino-container">
+  <app-matrix [matrix]="matrix"></app-matrix>
+</div>

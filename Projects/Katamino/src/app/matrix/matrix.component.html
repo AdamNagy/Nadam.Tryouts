@@ -1,0 +1,7 @@
+<!-- <label>dimension: </label><label>{{dimension}}</label><hr>
+<label>isAdjacent: </label><label>{{isAdjacent}}</label><hr>
+<label>isSquare: </label><label>{{isSquare}}</label> -->
+
+<div *ngFor="let row of matrix" class="katamino-row">
+    <div *ngFor="let value of row" class="katamino-square" [ngClass]="{'filled': value === 1, 'empty': value === 0}"></div>
+</div>

@@ -1,0 +1,20 @@
+.katamino-container {
+    display: inline-block;
+    border: 1px solid #ccc;
+    margin: 10px;
+  }
+  .katamino-row {
+    display: flex;
+  }
+  .katamino-square {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #888;
+    margin: 1px;
+  }
+  .filled {
+    background-color: #3498db; /* Change this color for filled squares */
+  }
+  .empty {
+    background-color: #fff; /* Change this color for empty squares */
+  }
