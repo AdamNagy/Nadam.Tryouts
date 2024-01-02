@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Moq;
+using SQLiteDemo.Config;
 using SQLiteDemo.DbContextService;
 using SQLiteDemoTests.Models;
 
@@ -15,17 +17,24 @@ namespace SQLiteDemoTests.QueryRepositoryTests
             if (!Context.TestModels.Any()) SeedDb();
         }
 
-        private DbContextOptions<TestContext> GetDbOptions()
+        private TestContext CreateContext()
         {
             var folder = Environment.SpecialFolder.LocalApplicationData;
             var path = Environment.GetFolderPath(folder);
             var dbPath = Path.Join(path, "query-filter-db");
 
-            return DbContextOptionFactory<TestContext>.GetSqliteDbOption(dbPath);
-        }
+            var cloudStorage = new Mock<IStorage>();
+            var localStorage = new Mock<ILocalStorage>();
 
-        private TestContext CreateContext()
-            => new TestContext(GetDbOptions());
+            var contextFactory = new DbContextFactory<TestContext>(localStorage.Object, cloudStorage.Object);
+
+            var options = new SqliteConfig()
+            {
+                DbFileName = dbPath,
+            };
+
+            return contextFactory.CreateContext(options);
+        }
 
         private void SeedDb()
         {

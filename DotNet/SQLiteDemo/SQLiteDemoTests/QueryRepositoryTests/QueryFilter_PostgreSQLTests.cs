@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Moq;
 using SQLiteDemo.Config;
 using SQLiteDemo.DbContextService;
 using SQLiteDemoTests.Models;
@@ -16,15 +16,17 @@ namespace SQLiteDemoTests.QueryRepositoryTests
             if (!Context.TestModels.Any()) SeedDb();
         }
 
-        private DbContextOptions<TestContext> GetDbOptions()
-        {
-            var config = new PostgreSQLConfig("localhost:5432", "unit-test-query-db", "postgres", "postgre");
-
-            return DbContextOptionFactory<TestContext>.GetPostgreSqlDbOptions("unit-test-query-db", config);
-        }
-
         private TestContext CreateContext()
-            => new TestContext(GetDbOptions());
+        {
+            var config = new PostgreSQLConfig("localhost:1433", "postgres", "postgres", "Minad123");
+
+            var cloudStorage = new Mock<IStorage>();
+            var localStorage = new Mock<ILocalStorage>();
+
+            var contextFactory = new DbContextFactory<TestContext>(localStorage.Object, cloudStorage.Object);
+
+            return contextFactory.CreateContext(config);
+        }
 
         private void SeedDb()
         {
@@ -32,6 +34,7 @@ namespace SQLiteDemoTests.QueryRepositoryTests
             {
                 Context.TestModels.Add(record);
             }
+
             Context.SaveChanges();
         }
     }

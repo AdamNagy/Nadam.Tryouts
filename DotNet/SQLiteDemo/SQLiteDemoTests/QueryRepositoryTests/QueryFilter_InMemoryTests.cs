@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Moq;
+using SQLiteDemo.Config;
 using SQLiteDemo.DbContextService;
 using SQLiteDemoTests.Models;
 
@@ -14,11 +15,17 @@ namespace SQLiteDemoTests.QueryRepositoryTests
             SeedDb();
         }
 
-        private DbContextOptions<TestContext> GetDbOptions()
-            => DbContextOptionFactory<TestContext>.GetInMemoryDbOptions("in-memory-ef");
-
         private TestContext CreateContext()
-            => new TestContext(GetDbOptions());
+        {
+            var config = new InMemoryEfDbConfig("query-filter-db");
+
+            var cloudStorage = new Mock<IStorage>();
+            var localStorage = new Mock<ILocalStorage>();
+
+            var contextFactory = new DbContextFactory<TestContext>(localStorage.Object, cloudStorage.Object);
+
+            return contextFactory.CreateContext(config);
+        }
 
         private void SeedDb()
         {
