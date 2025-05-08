@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebClientPOC", "HTTPClientPOC\WebClientPOC.csproj", "{FD970759-FAD3-4BAB-8F30-80643DA64B89}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebClientPOCTests", "HttpClientPOCTests\WebClientPOCTests.csproj", "{62D12B2C-E398-444C-9C26-AD83388EF625}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD970759-FAD3-4BAB-8F30-80643DA64B89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD970759-FAD3-4BAB-8F30-80643DA64B89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD970759-FAD3-4BAB-8F30-80643DA64B89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD970759-FAD3-4BAB-8F30-80643DA64B89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62D12B2C-E398-444C-9C26-AD83388EF625}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62D12B2C-E398-444C-9C26-AD83388EF625}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62D12B2C-E398-444C-9C26-AD83388EF625}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62D12B2C-E398-444C-9C26-AD83388EF625}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DFE0664B-A4D9-4E26-AF1A-BFFE95DB4BFB}
+	EndGlobalSection
+EndGlobal
