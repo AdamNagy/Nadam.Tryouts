@@ -1,7 +1,7 @@
 ﻿using Lucene.Net.Util;
-using LuceneDNet.SearchIndex;
-using LuceneDNet.WebContent;
-using LuceneDNet.WebMirror;
+using LuceneDNet.Domain.SearchIndex;
+using LuceneDNet.Domain.WebContent;
+using LuceneDNet.Domain.WebMirror;
 
 var dataRoot = "C:\\webindex";
 var webContentIndex = new WebContentIndex(Path.Combine(dataRoot, "contentindex"));
@@ -9,23 +9,40 @@ var searchIndexWriter = new SearchIndexWriter(Path.Combine(dataRoot, "searchinde
 
 var webScanner = new WebScanner(webContentIndex, searchIndexWriter, new HttpClient());
 
-var command = Console.ReadLine();
+string command = Console.ReadLine() ?? "exit";
 
-if (command == "index")
+while (command != "exit")
 {
-    await webScanner.ScanDomain("https://www.uktights.com");
-}
-else
-{
-    searchIndexWriter.OpenWrite();
-    var indexReader = searchIndexWriter.GetReader();
-    var searchIndexReader = new SearchIndexReader(indexReader);
-    var res = searchIndexReader.Search(command);
-    foreach (var item in res)
+    if (command.StartsWith("index") || command.StartsWith("idx"))
     {
-        Console.WriteLine(item);
+        var splitted = command.Split(' ');
+        var entryUrl = splitted.Length > 1 ? splitted[1] : "https://www.uktights.com";
+
+        await webScanner.ScanDomain(entryUrl);
+
+        Console.WriteLine($"Done scanning {entryUrl}");
     }
+    else if (command == "reindex" || command == "re")
+    {
+        await webScanner.ReIndex();
+    }
+    else
+    {
+        searchIndexWriter.OpenWrite();
+        var indexReader = searchIndexWriter.GetReader();
+        var searchIndexReader = new SearchIndexReader(indexReader);
+        var res = searchIndexReader.Search(command!);
+
+        foreach (var item in res)
+        {
+            Console.WriteLine(item.Get("imgAlt"));
+            Console.WriteLine(item.Get("imgSrc"));
+        }
+    }
+
+    command = Console.ReadLine() ?? "exit";
 }
+
 
 // Specify the compatibility version we want
 // const LuceneVersion luceneVersion = LuceneVersion.LUCENE_48;

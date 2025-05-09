@@ -2,7 +2,7 @@
 using Lucene.Net.Search;
 using Document = Lucene.Net.Documents.Document;
 
-namespace LuceneDNet.SearchIndex;
+namespace LuceneDNet.Domain.SearchIndex;
 
 public class SearchIndexReader
 {
@@ -23,9 +23,14 @@ public class SearchIndexReader
 
         int numMatchingDocs = topDocs.TotalHits;
 
-        for (int i = 0; i < topDocs.TotalHits; i++)
+        for (int i = 0; i < Math.Min(numMatchingDocs, 100); i++)
         {
             yield return _searcher.Doc(topDocs.ScoreDocs[i].Doc);
+        }
+
+        if (numMatchingDocs > 100)
+        {
+            Console.WriteLine("There are more then 100.");
         }
     }
 }

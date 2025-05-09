@@ -4,7 +4,7 @@ using Lucene.Net.Store;
 using Lucene.Net.Util;
 using Document = Lucene.Net.Documents.Document;
 
-namespace LuceneDNet.SearchIndex;
+namespace LuceneDNet.Domain.SearchIndex;
 
 public class SearchIndexWriter
 {

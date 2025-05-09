@@ -1,9 +1,11 @@
-﻿namespace LuceneDNet.WebContent;
+﻿using System.Collections;
 
-public class WebContentIndex
+namespace LuceneDNet.Domain.WebContent;
+
+public class WebContentIndex : IEnumerable<(string url, string content)>
 {
     private readonly string _root;
-    private readonly Dictionary<string, string> _hashTable = new Dictionary<string, string>();
+    private readonly Dictionary<string, string> _contentDictionary = new Dictionary<string, string>();
 
     public WebContentIndex(string root)
     {
@@ -12,24 +14,24 @@ public class WebContentIndex
     }
 
     public bool Contains(Uri uri)
-        => _hashTable.ContainsKey(uri.OriginalString);
+        => _contentDictionary.ContainsKey(uri.OriginalString);
 
     public bool Get(Uri uri, out string content)
     {
-        if (!_hashTable.ContainsKey(uri.OriginalString))
+        if (!_contentDictionary.ContainsKey(uri.OriginalString))
         {
             content = string.Empty;
             return false;
         }
 
-        var cache = _hashTable[uri.OriginalString] as string;
+        var cache = _contentDictionary[uri.OriginalString] as string;
         content = File.ReadAllText(Path.Combine(_root, cache!));
         return true;
     }
 
     public void Set(Uri uri, string content, bool force = false)
     {
-        if (_hashTable.ContainsKey(uri.OriginalString) && !force)
+        if (_contentDictionary.ContainsKey(uri.OriginalString) && !force)
         {
             throw new Exception($"{uri.OriginalString} is already present.");
         }
@@ -37,7 +39,7 @@ public class WebContentIndex
         var hash = uri.OriginalString;
         var guid = Guid.NewGuid().ToString();
 
-        _hashTable.Add(hash, guid);
+        _contentDictionary.Add(hash, guid);
 
         File.WriteAllText(Path.Combine(_root, guid), content);
 
@@ -54,7 +56,7 @@ public class WebContentIndex
         foreach (var item in File.ReadAllLines(Path.Combine(_root, "index.txt")))
         {
             var splitted = item.Split(',');
-            _hashTable.Add(splitted[0], splitted[1]);
+            _contentDictionary.Add(splitted[0], splitted[1]);
         }
     }
 
@@ -64,5 +66,15 @@ public class WebContentIndex
         {
             sw.WriteLine($"{hash},{guid}");
         }
+    }
+
+    public IEnumerator<(string url, string content)> GetEnumerator()
+    {
+        return _contentDictionary.Select(p => (p.Key, File.ReadAllText(Path.Combine(_root, p.Value)))).GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return _contentDictionary.Select(p => (p.Key, p.Value)).GetEnumerator();
     }
 }
