@@ -36,14 +36,13 @@ public class WebContentIndex : IEnumerable<(string url, string content)>
             throw new Exception($"{uri.OriginalString} is already present.");
         }
 
-        var hash = uri.OriginalString;
         var guid = Guid.NewGuid().ToString();
 
-        _contentDictionary.Add(hash, guid);
+        _contentDictionary.Add(uri.OriginalString, guid);
 
         File.WriteAllText(Path.Combine(_root, guid), content);
 
-        Append(hash.ToString(), guid);
+        Append(uri.OriginalString, guid);
     }
 
     private void Init()
