@@ -145,7 +145,8 @@ public class WebScanner
                 return null;
             })
             .Where(r => r is not null)
-            .Select(s => s!);
+            .Select(s => s!)
+            .Where(t => !IsDuplicateContent(t, sourceUrl));
     }
 
     private async Task<IDocument> GetWebPage(Uri uri, bool force = false)
@@ -169,5 +170,16 @@ public class WebScanner
         var config = Configuration.Default;
         var context = BrowsingContext.New(config);
         return await context.OpenAsync((req) => req.Content(htmlString));
+    }
+
+    private bool IsDuplicateContent(Uri uri, Uri sourceUrl)
+    {
+        var queryStringKeys = uri.Query.TrimStart('?').Split('&').SelectMany(p => p.Split('='));
+        if (queryStringKeys.Contains("currency"))
+        {
+            return true;
+        }
+
+        return sourceUrl.Host != uri.Host;
     }
 }
