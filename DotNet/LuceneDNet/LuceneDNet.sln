@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuceneDNetCli", "LuceneDNet.Cli\LuceneDNetCli.csproj", "{B56B55FA-14A4-F5DA-F806-937A6C36BCC5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoCli", "LuceneDNet.Cli\DemoCli.csproj", "{B56B55FA-14A4-F5DA-F806-937A6C36BCC5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuceneDNet.Domain", "LuceneDNet.Domain\LuceneDNet.Domain\LuceneDNet.Domain.csproj", "{D6429AD5-E22E-4B4E-BDF4-7A80954C2BBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfPig.Domain", "PdfPig\PdfPig.Domain\PdfPig.Domain.csproj", "{23ED1DA9-AF4B-4449-91CF-699AFE4301A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D6429AD5-E22E-4B4E-BDF4-7A80954C2BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6429AD5-E22E-4B4E-BDF4-7A80954C2BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6429AD5-E22E-4B4E-BDF4-7A80954C2BBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23ED1DA9-AF4B-4449-91CF-699AFE4301A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23ED1DA9-AF4B-4449-91CF-699AFE4301A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23ED1DA9-AF4B-4449-91CF-699AFE4301A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23ED1DA9-AF4B-4449-91CF-699AFE4301A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
