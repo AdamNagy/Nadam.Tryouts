@@ -8,12 +8,21 @@ function setHorizontal(line, y) {
   line.style.top = `${y}px`;
 }
 
-const image = document.getElementById("the-image");
-const pointerV = document.getElementById("pointer-v");
-const pointerH = document.getElementById("pointer-h");
+function setCross(cross, x, y) {
+  setVertical(cross.v, x);
+  setHorizontal(cross.h, y);
+}
 
-const imageV = document.getElementById("image-v");
-const imageH = document.getElementById("image-h");
+const image = document.getElementById("the-image");
+const pointerCross = {
+  v: document.getElementById("pointer-v"),
+  h: document.getElementById("pointer-h")
+}
+
+const imageCross = {
+  v: document.getElementById("image-v"),
+  h: document.getElementById("image-h")
+}
 
 let xCorrection = 0;
 let yCorrection = 0;
@@ -32,20 +41,22 @@ image.addEventListener("mousedown", (event) => {
 function setImagePosition(event) {
   const x = event.clientX;
   const y = event.clientY;
-  setVertical(pointerV, x);
-  setHorizontal(pointerH, y);
+
+  if(x <= 0 || y <= 0) {
+    return;
+  }
+
+  setCross(pointerCross, x, y);
 
   const imageX = x - xCorrection;
   const imageY = y - yCorrection;
-  setVertical(imageV, imageX);
-  setHorizontal(imageH, imageY);
+  setCross(imageCross, imageX, imageY);
 
   image.style.left = `${imageX}px`;
   image.style.top = `${imageY}px`;
 }
 
 image.addEventListener("drag", setImagePosition);
-image.addEventListener("dragend", setImagePosition);
 
 function checkScrollDirection(event) {
   if (checkScrollDirectionIsUp(event)) {
