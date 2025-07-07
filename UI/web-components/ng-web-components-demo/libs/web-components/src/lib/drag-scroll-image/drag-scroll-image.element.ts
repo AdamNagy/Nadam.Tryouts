@@ -36,10 +36,9 @@ export class DragScrollImageElement extends HTMLElement {
         z-index: 1;
         width: 480px;
       }
-      `;
+    `;
 
     this.#root.appendChild(style);
-
     this.#root.appendChild(this.#image);
   }
 
