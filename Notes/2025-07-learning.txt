@@ -1,0 +1,35 @@
+FE:Common
+- web-components
+- SCSS (mixins, etc..)
+- UMD, esm
+- testing: component, unit, e2e
+- JavaScript: micro/macro tasks
+
+FE:Angular
+- zone.js, zoneless Angular, signals
+- change detection strategies
+- interceptors
+
+BE:Common:
+- caching
+- full text search
+- real time messaging, AWS api gateway
+- message queue
+- AWS lambda, dynamo db
+- CQRS
+
+BE:.NET
+- records, patterns (with, is null, etc..)
+- GC, disposable pattern, finalizer
+- AOT, publish models
+- middleware
+
+DB:
+- relational, NoSQL (document store, key-value store, wide-column/column family, graph db)
+- MongoDb
+- bounded context
+- migrations
+
+Devops
+- containers
+- actions, CI pipelines 
