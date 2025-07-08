@@ -9,7 +9,7 @@
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/web-components",
+        "outputPath": "dist",
         "main": "libs/web-components/src/index.ts",
         "tsConfig": "libs/web-components/tsconfig.lib.json",
         "assets": ["libs/web-components/*.md"]

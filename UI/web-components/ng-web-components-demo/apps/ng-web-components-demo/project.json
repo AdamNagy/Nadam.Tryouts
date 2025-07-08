@@ -10,7 +10,7 @@
       "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/ng-web-components-demo",
+        "outputPath": "dist",
         "browser": "apps/ng-web-components-demo/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/ng-web-components-demo/tsconfig.app.json",
@@ -19,6 +19,11 @@
           {
             "glob": "**/*",
             "input": "apps/ng-web-components-demo/public"
+          },
+          {
+            "input": "libs/note-editor/src/assets/",
+            "glob": "**/*",
+            "output": "/assets/"
           }
         ],
         "styles": ["apps/ng-web-components-demo/src/styles.scss"]

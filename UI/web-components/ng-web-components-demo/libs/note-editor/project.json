@@ -1,18 +1,18 @@
 {
   "name": "note-editor",
-  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "note-editor/src",
-  "prefix": "lib",
+  "sourceRoot": "libs/note-editor/src",
+  "prefix": "ndm",
   "targets": {
     "build": {
-      "executor": "@angular/build:ng-packagr",
+      "executor": "@nx/angular:ng-packagr-lite",
       "configurations": {
         "production": {
-          "tsConfig": "note-editor/tsconfig.lib.prod.json"
+          "tsConfig": "libs/note-editor/tsconfig.lib.prod.json"
         },
         "development": {
-          "tsConfig": "note-editor/tsconfig.lib.json"
+          "tsConfig": "libs/note-editor/tsconfig.lib.json"
         }
       },
       "defaultConfiguration": "production"
@@ -20,7 +20,7 @@
     "test": {
       "executor": "@angular/build:karma",
       "options": {
-        "tsConfig": "note-editor/tsconfig.spec.json",
+        "tsConfig": "libs/note-editor/tsconfig.spec.json",
         "polyfills": [
           "zone.js",
           "zone.js/testing"
