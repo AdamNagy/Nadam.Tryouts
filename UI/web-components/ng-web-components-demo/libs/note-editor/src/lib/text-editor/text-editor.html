@@ -1,4 +1,11 @@
-<h1>TinyMCE 7 Angular Demo</h1>
-  <editor
+<h1>Text Editor</h1>
+
+<section id="header">
+  <button (click)="save()">Save</button>
+</section>
+
+<editor #editor
+  apiKey="s6b02gvy4jix4zfic68yhkr2uo1zfwpiqhu809qqamsf3hgl"
     [init]="init"
+    [(ngModel)]="textContent"
   />
