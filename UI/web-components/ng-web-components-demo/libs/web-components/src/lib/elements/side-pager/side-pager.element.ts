@@ -1,26 +1,4 @@
-export type CssRules = 'background' | 'transition';
-
-export type Css = {
-  selector: string;
-  [key: string]: string;
-};
-
-export function ToCssElement(css: Css[]): HTMLStyleElement {
-  const styleElement = document.createElement('style');
-
-  let cssString = '';
-  for (const section of css) {
-    cssString += `${section.selector} {\n`;
-    for (const rule of Object.keys(section).filter((p) => p !== 'selector')) {
-      cssString += `\t${rule}: ${section[rule]};\n`;
-    }
-
-    cssString += '} \n';
-  }
-
-  styleElement.textContent = cssString;
-  return styleElement;
-}
+import { CssRule, ToCssElement } from '../../style-utils/css-rule';
 
 export class SidePagerElement extends HTMLElement {
   pages: { id: number; element: HTMLElement }[] = [];
@@ -56,7 +34,7 @@ export class SidePagerElement extends HTMLElement {
     //   this.appendChild(sidePage);
     // }
 
-    const styleDef: Css = {
+    const styleDef: CssRule = {
       selector: '.side-page',
       transition: 'right 0.4s',
       position: 'fixed',

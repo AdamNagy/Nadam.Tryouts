@@ -1,6 +1,6 @@
+import { CreateStyleElement } from '../../style-utils/css-rule.js';
 // @ts-expect-error wer
 import { jarallax } from './jarallax.esm.min.js';
-import { CreateStyleElement } from '../utils.js';
 
 export class ParallaxElement extends HTMLElement {
   static observedAttributes = ['height', 'src'];

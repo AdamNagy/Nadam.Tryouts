@@ -1,4 +1,5 @@
-import { GetNumberValue } from '../utils';
+import { checkScrollDirection, ScrollEvent } from '../../scroll-event';
+import { GetNumberValue } from '../../utils';
 
 export class DragScrollImageElement extends HTMLElement {
   static observedAttributes = ['src'];
@@ -35,10 +36,14 @@ export class DragScrollImageElement extends HTMLElement {
       this.#xCorrection = x - imageX;
       this.#yCorrection = y - imageY;
     });
-    this.#image.addEventListener('drag', this.#setImagePosition.bind(this));
-    this.#image.addEventListener('wheel', this.#scrollImage.bind(this));
 
-    this.#image.setAttribute('id', 'the-image');
+    this.#image.classList.add('scrollable-dragable-image');
+
+    this.#image.addEventListener('drag', this.#setImagePosition.bind(this));
+    this.#image.addEventListener('wheel', (event) => {
+      this.#scrollImage.bind(this)(event as ScrollEvent);
+    });
+
     this.#image.addEventListener('load', (event) => {
       this.#originalWidth = (event.target as HTMLImageElement).naturalWidth;
       this.#originalHeight = (event.target as HTMLImageElement).naturalHeight;
@@ -46,7 +51,7 @@ export class DragScrollImageElement extends HTMLElement {
 
     const style = document.createElement('style');
     style.textContent = `
-      #the-image {
+      .scrollable-dragable-image {
         position: relative;
         top: 0;
         left: 0;
@@ -68,7 +73,7 @@ export class DragScrollImageElement extends HTMLElement {
     }
   }
 
-  #setImagePosition(event: any) {
+  #setImagePosition(event: DragEvent) {
     const x = event.clientX;
     const y = event.clientY;
 
@@ -83,37 +88,38 @@ export class DragScrollImageElement extends HTMLElement {
     this.#image.style.top = `${imageY}px`;
   }
 
-  #checkScrollDirection(event: any) {
-    if (this.#checkScrollDirectionIsUp(event)) {
-      return 1;
-    } else {
-      return -1;
-    }
-  }
-
-  #checkScrollDirectionIsUp(event: any) {
-    if (event.wheelDelta) {
-      return event.wheelDelta > 0;
-    }
-    return event.deltaY < 0;
-  }
-
-  #scrollImage(event: Event) {
+  #scrollImage(event: ScrollEvent) {
     event.stopImmediatePropagation();
     event.preventDefault();
-    const imageX = this.#image.clientWidth;
 
-    const scrollDirection = this.#checkScrollDirection(event);
+    const imageWith = this.#image.clientWidth;
+
+    const scrollDirection = checkScrollDirection(event);
 
     const left = GetNumberValue(this.#image.style.left);
     const top = GetNumberValue(this.#image.style.top);
 
     if (scrollDirection == -1) {
-      this.#image.style.width = `${imageX - this.#scrollAmount}px`;
+      const newWith = imageWith - this.#scrollAmount;
+
+      if (newWith < 120) {
+        return;
+      }
+
+      this.#image.style.width = `${newWith}px`;
       this.#image.style.left = `${left + this.#scrollAmount / 2}px`;
       this.#image.style.top = `${top + this.#scrollAmount / 3}px`;
     } else {
-      this.#image.style.width = `${imageX + this.#scrollAmount}px`;
+      if (imageWith === this.#image.naturalWidth) {
+        return;
+      }
+
+      const newWith = Math.min(
+        imageWith + this.#scrollAmount,
+        this.#image.naturalWidth
+      );
+
+      this.#image.style.width = `${newWith}px`;
       this.#image.style.left = `${left - this.#scrollAmount / 2}px`;
       this.#image.style.top = `${top - this.#scrollAmount / 3}px`;
     }

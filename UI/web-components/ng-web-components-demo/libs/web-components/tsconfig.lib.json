@@ -9,7 +9,7 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/lib/drag-scroll-image/drag-scroll-image.element.ts"
+    "src/lib/elements/drag-scroll-image/drag-scroll-image.element.ts"
   ],
   "exclude": [
     "jest.config.ts",
