@@ -1,3 +1,5 @@
+import { GetNumberValue } from '../utils';
+
 export class DragScrollImageElement extends HTMLElement {
   static observedAttributes = ['src'];
 
@@ -8,6 +10,17 @@ export class DragScrollImageElement extends HTMLElement {
   #yCorrection = 0;
 
   #scrollAmount = 90;
+
+  #originalWidth?: number;
+  #originalHeight?: number;
+
+  get ratio() {
+    if (!this.#originalWidth || !this.#originalHeight) {
+      return 0;
+    }
+
+    return this.#originalWidth / this.#originalHeight;
+  }
 
   connectedCallback() {
     this.#root = this.attachShadow({ mode: 'open' });
@@ -26,6 +39,10 @@ export class DragScrollImageElement extends HTMLElement {
     this.#image.addEventListener('wheel', this.#scrollImage.bind(this));
 
     this.#image.setAttribute('id', 'the-image');
+    this.#image.addEventListener('load', (event) => {
+      this.#originalWidth = (event.target as HTMLImageElement).naturalWidth;
+      this.#originalHeight = (event.target as HTMLImageElement).naturalHeight;
+    });
 
     const style = document.createElement('style');
     style.textContent = `
@@ -88,10 +105,17 @@ export class DragScrollImageElement extends HTMLElement {
 
     const scrollDirection = this.#checkScrollDirection(event);
 
+    const left = GetNumberValue(this.#image.style.left);
+    const top = GetNumberValue(this.#image.style.top);
+
     if (scrollDirection == -1) {
       this.#image.style.width = `${imageX - this.#scrollAmount}px`;
+      this.#image.style.left = `${left + this.#scrollAmount / 2}px`;
+      this.#image.style.top = `${top + this.#scrollAmount / 3}px`;
     } else {
       this.#image.style.width = `${imageX + this.#scrollAmount}px`;
+      this.#image.style.left = `${left - this.#scrollAmount / 2}px`;
+      this.#image.style.top = `${top - this.#scrollAmount / 3}px`;
     }
   }
 }
