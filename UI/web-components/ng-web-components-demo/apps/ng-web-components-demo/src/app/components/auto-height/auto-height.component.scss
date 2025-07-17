@@ -1,0 +1,14 @@
+.component-host {
+  border: 1px solid green;
+
+  .content {
+    border: 1px solid red;
+    padding: 15px;
+
+    .column {
+      width: 30%;
+      overflow-y: scroll;
+      border: 1px solid blue;
+    }
+  }
+}

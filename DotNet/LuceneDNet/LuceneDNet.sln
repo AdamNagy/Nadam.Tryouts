@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoCli", "LuceneDNet.Cli\D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuceneDNet.Domain", "LuceneDNet.Domain\LuceneDNet.Domain\LuceneDNet.Domain.csproj", "{D6429AD5-E22E-4B4E-BDF4-7A80954C2BBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfPig.Domain", "PdfPig\PdfPig.Domain\PdfPig.Domain.csproj", "{23ED1DA9-AF4B-4449-91CF-699AFE4301A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{9EDA4D59-5499-4E98-8A94-D85F5B028A7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{D6429AD5-E22E-4B4E-BDF4-7A80954C2BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6429AD5-E22E-4B4E-BDF4-7A80954C2BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6429AD5-E22E-4B4E-BDF4-7A80954C2BBB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{23ED1DA9-AF4B-4449-91CF-699AFE4301A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{23ED1DA9-AF4B-4449-91CF-699AFE4301A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{23ED1DA9-AF4B-4449-91CF-699AFE4301A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{23ED1DA9-AF4B-4449-91CF-699AFE4301A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EDA4D59-5499-4E98-8A94-D85F5B028A7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EDA4D59-5499-4E98-8A94-D85F5B028A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EDA4D59-5499-4E98-8A94-D85F5B028A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EDA4D59-5499-4E98-8A94-D85F5B028A7E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

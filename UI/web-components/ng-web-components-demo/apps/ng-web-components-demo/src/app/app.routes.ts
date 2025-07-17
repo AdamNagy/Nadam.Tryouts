@@ -5,6 +5,7 @@ import { SidePagerDemoComponent } from './components/side-pager-demo.component';
 import { TextEditorDemoComponent } from './components/text-editor-demo.component';
 import { JsonViewerDemoComponent } from './components/json-viewer-demo.component';
 import { CodeEditorDemoComponent } from './components/code-editor-demo.component';
+import { AutoHeightDemoComponent } from './components/auto-height/auto-height.component';
 
 export const appRoutes: Route[] = [
   {
@@ -36,5 +37,10 @@ export const appRoutes: Route[] = [
     path: 'code-editor',
     pathMatch: 'full',
     component: CodeEditorDemoComponent,
+  },
+  {
+    path: 'auto-height',
+    pathMatch: 'full',
+    component: AutoHeightDemoComponent,
   },
 ];

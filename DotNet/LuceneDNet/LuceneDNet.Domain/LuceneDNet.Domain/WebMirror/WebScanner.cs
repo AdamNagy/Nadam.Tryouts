@@ -9,18 +9,26 @@ namespace LuceneDNet.Domain.WebMirror;
 
 public class WebScanner
 {
-    private readonly WebContentIndex _contentIndex;
+    private readonly WebContentIndex _htmlIndex;
+    private readonly WebContentIndex _scriptIndex;
+    private readonly WebContentIndex _styleIndex;
+
     private readonly SearchIndexWriter _searchIndexer;
     private readonly HttpClient _client;
 
     private readonly HashSet<string> _indexedImages = new HashSet<string>();
 
     public WebScanner(
-        WebContentIndex contentIndex,
+        WebContentIndex htmlIndex,
+        WebContentIndex scriptIndex,
+        WebContentIndex styleIndex,
         SearchIndexWriter searchIndexer,
         HttpClient client)
     {
-        _contentIndex = contentIndex;
+        _htmlIndex = htmlIndex;
+        _scriptIndex = scriptIndex;
+        _styleIndex = styleIndex;
+
         _searchIndexer = searchIndexer;
         _client = client;
     }
@@ -33,7 +41,7 @@ public class WebScanner
         }
 
         var uri = new Uri(entryUrl, UriKind.Absolute);
-        var needToIndex = !_contentIndex.Contains(uri);
+        var needToIndex = !_htmlIndex.Contains(uri);
         var page = await GetWebPage(uri);
 
         if (needToIndex)
@@ -44,7 +52,7 @@ public class WebScanner
         var pageLinks = GetLinks(page, uri);
 
         // Index the child pages
-        foreach (var childUri in pageLinks.Where(p => !_contentIndex.Contains(p)))
+        foreach (var childUri in pageLinks.Where(p => !_htmlIndex.Contains(p)))
         {
             var childPage = await GetWebPage(childUri);
 
@@ -60,7 +68,7 @@ public class WebScanner
 
     public async Task ReIndex()
     {
-        foreach (var item in _contentIndex)
+        foreach (var item in _htmlIndex)
         {
             var document = await Parse(item.content);
             IndexWebPageImages(document, new Uri(item.url));
@@ -149,20 +157,92 @@ public class WebScanner
             .Where(t => !IsDuplicateContent(t, sourceUrl));
     }
 
+    private async Task SaveScripts(IDocument document, Uri sourceUrl)
+    {
+        foreach (var scriptSrc in document.QuerySelectorAll("script")
+            .Select(p => p.GetAttribute("src"))
+            .Select(p => NormalizeUri(p, sourceUrl))
+            .Where(p => p is not null))
+        {
+            if (_scriptIndex.Contains(scriptSrc!))
+            {
+                continue;
+            }
+
+            var script = await Get(scriptSrc!);
+            _scriptIndex.Set(scriptSrc!, script);
+        }
+    }
+
+    private async Task SaveStyles(IDocument document, Uri sourceUrl)
+    {
+        foreach (var styleSrc in document.QuerySelectorAll("link")
+            .Select(p =>
+            {
+                var linkType = p.GetAttribute("rel");
+
+                if (linkType != "stylesheet")
+                {
+                    return null;
+                }
+
+                return p.GetAttribute("href");
+            })
+            .Select(p => NormalizeUri(p, sourceUrl))
+            .Where(p => p is not null))
+        {
+            if (_styleIndex.Contains(styleSrc!))
+            {
+                continue;
+            }
+
+            var style = await Get(styleSrc!);
+            _styleIndex.Set(styleSrc!, style);
+        }
+    }
+
+    private Uri? NormalizeUri(string? uriString, Uri SourceUri)
+    {
+        if (string.IsNullOrEmpty(uriString))
+        {
+            return null;
+        }
+
+        if (Uri.IsWellFormedUriString(uriString, UriKind.Relative))
+        {
+            var builder = new UriBuilder(SourceUri.Scheme, SourceUri.Host);
+            builder.Path = uriString;
+            return builder.Uri;
+        }
+        else if (Uri.IsWellFormedUriString(uriString, UriKind.Absolute))
+        {
+            return new Uri(uriString);
+        }
+
+        return null;
+    }
+
     private async Task<IDocument> GetWebPage(Uri uri, bool force = false)
     {
         string documentText;
-        if (!_contentIndex.Get(uri, out documentText))
+        if (!_htmlIndex.Get(uri, out documentText))
         {
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
             var response = await _client.SendAsync(requestMessage);
 
             documentText = await response.Content.ReadAsStringAsync();
-            _contentIndex.Set(uri, documentText);
+            _htmlIndex.Set(uri, documentText);
         }
 
         return await Parse(documentText);
+    }
+
+    private async Task<string> Get(Uri uri)
+    {
+        var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+        var response = await _client.SendAsync(requestMessage);
+        return await response.Content.ReadAsStringAsync();
     }
 
     private async Task<IDocument> Parse(string htmlString)
@@ -172,7 +252,7 @@ public class WebScanner
         return await context.OpenAsync((req) => req.Content(htmlString));
     }
 
-    private bool IsDuplicateContent(Uri uri, Uri sourceUrl)
+    public static bool IsDuplicateContent(Uri uri, Uri sourceUrl)
     {
         var queryStringKeys = uri.Query.TrimStart('?').Split('&').SelectMany(p => p.Split('='));
         if (queryStringKeys.Contains("currency"))

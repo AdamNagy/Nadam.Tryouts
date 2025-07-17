@@ -7,9 +7,21 @@ public class WebContentIndex : IEnumerable<(string url, string content)>
     private readonly string _root;
     private readonly Dictionary<string, string> _contentDictionary = new Dictionary<string, string>();
 
+    private readonly string _indexFileName;
+
     public WebContentIndex(string root)
     {
         _root = root;
+        _indexFileName = "index.txt";
+
+        Init();
+    }
+
+    public WebContentIndex(string root, string indexFileName)
+    {
+        _root = root;
+        _indexFileName = indexFileName;
+
         Init();
     }
 
@@ -47,12 +59,12 @@ public class WebContentIndex : IEnumerable<(string url, string content)>
 
     private void Init()
     {
-        if (!File.Exists(Path.Combine(_root, "index.txt")))
+        if (!File.Exists(Path.Combine(_root, _indexFileName)))
         {
             return;
         }
 
-        foreach (var item in File.ReadAllLines(Path.Combine(_root, "index.txt")))
+        foreach (var item in File.ReadAllLines(Path.Combine(_root, _indexFileName)))
         {
             var splitted = item.Split(',');
             _contentDictionary.Add(splitted[0], splitted[1]);
@@ -61,7 +73,7 @@ public class WebContentIndex : IEnumerable<(string url, string content)>
 
     private void Append(string hash, string guid)
     {
-        using (StreamWriter sw = File.AppendText(Path.Combine(_root, "index.txt")))
+        using (StreamWriter sw = File.AppendText(Path.Combine(_root, _indexFileName)))
         {
             sw.WriteLine($"{hash},{guid}");
         }

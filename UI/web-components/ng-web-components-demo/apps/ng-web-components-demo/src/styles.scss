@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+.component-host {
+  overflow-y: hidden;
+
+  h2 {
+    border-bottom: 1px solid black;
+  }
+}
