@@ -178,9 +178,10 @@ export class SidePagerElement extends HTMLElement {
     };
 
     const sidePageOpen_StyleDef: CssRule = {
-      selector: 'div.side-page-open',
+      selector: 'ndm-side-pager div.side-page-open',
       'background-color': 'lightgray',
       opacity: '1',
+      background: 'lightgray',
     };
 
     const sidePageOpener_StyleDef: CssRule = {
@@ -194,6 +195,7 @@ export class SidePagerElement extends HTMLElement {
       selector: '.side-page-content',
       'overflow-y': 'scroll',
       height: '100%',
+      'padding-right': '30px',
     };
 
     const sidePagerHeader_StyleDef: CssRule = {
@@ -201,7 +203,7 @@ export class SidePagerElement extends HTMLElement {
       display: 'flex',
       'justify-content': 'space-between',
       padding: '10px 10px 10px 40px',
-      'background-color': 'lightgray',
+      'background-color': 'darkgrey',
     };
 
     const styleBase = ToCssElement([
