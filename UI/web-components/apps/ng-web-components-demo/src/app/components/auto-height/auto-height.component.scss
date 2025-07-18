@@ -1,12 +1,17 @@
 .component-host {
   border: 1px solid green;
+  height: 0;
 
   .content {
     border: 1px solid red;
     // padding: 15px;
 
-    .title {
-      height: 80px;
+    // For h1, tags need to change the margin to padding to work with auto-height
+    // otherwise the height is not calculated correctly
+    h1 {
+      margin: 0;
+      padding-top: 16px;
+      padding-bottom: 16px;
     }
 
     .column {
@@ -16,4 +21,11 @@
       height: 0;
     }
   }
+}
+
+.title {
+  height: 80px;
+  // need to figure out how to handle padding and margin
+  padding-top: 15px;
+  padding-bottom: 15px;
 }

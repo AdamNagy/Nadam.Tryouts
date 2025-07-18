@@ -22,6 +22,7 @@ export function provideViewState(): Provider {
 })
 export class AutoHeightDirective implements AfterViewInit {
   private readonly viewState?: ViewState = inject(ViewState);
+
   constructor(private readonly elementRef?: ElementRef) {}
 
   ngAfterViewInit(): void {
@@ -34,10 +35,13 @@ export class AutoHeightDirective implements AfterViewInit {
       );
       let availHeight = this.viewState?.availableHeight || 0;
       for (const sibling of siblings) {
+        // clientHeight includes padding but not margin, so we need to subtract margin
         availHeight -= sibling.clientHeight;
       }
+      //this.viewState!.availableHeight = availHeight;
       // Set the height of the element to the available height.
-      this.elementRef.nativeElement.style.height = `${availHeight}px`;
+      // if there is any padding, then need to subtract additional 3 from availHeight
+      this.elementRef.nativeElement.style.height = `${availHeight - 3}px`;
     }
   }
 }
