@@ -1,13 +1,13 @@
-<div class="component-host" appAutoHeight>
+<div class="component-host" appAutoHeight id="auto-height-component">
   <div class="content">
     <div class="title">Column</div>
     <h1>Some title</h1>
-    <div class="column" appAutoHeight>
+    <div class="column" [appAutoHeight]="'auto-height-component'">
       {{ paragraph1 }}
 
       {{ paragraph2 }}
     </div>
-    <div class="title">some content footer</div>
+    <div class="title">content footer</div>
   </div>
 </div>
-<!-- <div class="title">some page footer</div> -->
+<div class="title">page footer</div>
