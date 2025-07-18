@@ -22,21 +22,23 @@ export function provideViewState(): Provider {
 })
 export class AutoHeightDirective implements AfterViewInit {
   private readonly viewState?: ViewState = inject(ViewState);
-
-  #nature = '';
-  @Input('appAutoHeight') public set nature(value: string) {
-    this.#nature = value;
-  }
-
   constructor(private readonly elementRef?: ElementRef) {}
 
   ngAfterViewInit(): void {
-    this.viewState?.availableHeight$.subscribe((height) => {
-      if (this.elementRef?.nativeElement) {
-        // Set the height of the element to the available height.
-        this.elementRef.nativeElement.style.height = `${height}px`;
+    // this.viewState?.availableHeight$.subscribe((height) => {
+    // });
+    if (this.elementRef?.nativeElement) {
+      const siblings = Array.from(
+        this.elementRef?.nativeElement.parentElement
+          ?.children as HTMLCollectionOf<HTMLElement>
+      );
+      let availHeight = this.viewState?.availableHeight || 0;
+      for (const sibling of siblings) {
+        availHeight -= sibling.clientHeight;
       }
-    });
+      // Set the height of the element to the available height.
+      this.elementRef.nativeElement.style.height = `${availHeight}px`;
+    }
   }
 }
 

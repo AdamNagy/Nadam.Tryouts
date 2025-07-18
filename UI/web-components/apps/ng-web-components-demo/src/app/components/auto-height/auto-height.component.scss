@@ -3,12 +3,17 @@
 
   .content {
     border: 1px solid red;
-    padding: 15px;
+    // padding: 15px;
+
+    .title {
+      height: 80px;
+    }
 
     .column {
       width: 30%;
       overflow-y: scroll;
       border: 1px solid blue;
+      height: 0;
     }
   }
 }
