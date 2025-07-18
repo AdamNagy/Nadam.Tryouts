@@ -1,8 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
-.component-host {
-  overflow-y: hidden;
+.flex {
+  display: flex;
+}
 
-  h2 {
-    border-bottom: 1px solid black;
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.justify-content-start {
+  justify-content: flex-start;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+button {
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid darkgrey;
+  border-radius: 5px;
+  padding: 5px;
+
+  &:hover {
+    background-color: red;
   }
 }

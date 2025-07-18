@@ -11,82 +11,36 @@ export class SidePagerElement extends HTMLElement {
 
   template = `
     <div class="side-page">
-        <button nid='btn-close'>Close</button>
-        <button nid='btn-remove'>Remove</button>
+      <div class="side-page-header">
+        <span>[Title]</span>
+        <section>
+          <button nid='btn-close'>Close</button>
+          <button nid='btn-remove'>Remove</button>
+        </section>
+      </div>
         <div class="side-page-opener"></div>
         <div class="side-page-content"></div>
     </div>`;
 
-  #root?: ShadowRoot;
-
-  // runs each time the element is added to the DOM
   connectedCallback() {
-    this.#root = this.attachShadow({ mode: 'open' });
+    this.#addStyle();
 
-    // const pages = this.querySelectorAll('.side-page');
-    // for (const page of this.pages) {
-    //   const sidePage = this.createPageSkeleton();
-
-    //   while (page.children.length > 0) {
-    //     sidePage.querySelector('.side-page-content').append(page.children[0]);
-    //   }
-    //   page.remove();
-    //   this.appendChild(sidePage);
-    // }
-
-    const styleDef: CssRule = {
-      selector: '.side-page',
-      transition: 'right 0.4s',
-      position: 'fixed',
-      height: '100%',
-      background: 'rgba(100,100,100,0.5)',
-      'border-left': '1px solid lightskyblue',
-    };
-    const styleBase = ToCssElement([styleDef]);
-    this.#root.appendChild(styleBase);
-
-    const style = document.createElement('style');
-    style.textContent = `
-        side-page-closed {
-            background: rgb(100,100,100);
-            opacity: 0.6;
-            overflow-y: hidden;
-        }
-
-        .side-page-open {
-            background-color: lightgray;
-            opacity: 1;
-        }
-
-        .side-page-opener {
-            height: 100%;
-            width: 30px;
-            float: left;
-        }
-
-        .side-page-content {
-            overflow-y: scroll;
-            height: 100%;
-        }
-    `;
-
-    this.#root.appendChild(style);
-
-    this.style.display = 'block';
-    this.closeAll();
+    if (this.pages.length > 0) {
+      this.closeAll();
+    }
   }
 
   addPage(contentElement: HTMLElement) {
-    const sidePage = this.createPageSkeleton();
+    const sidePage = this.#createPageSkeleton();
     sidePage
       ?.querySelector('div[class=side-page-content]')
       ?.append(contentElement);
 
-    this.#root?.appendChild(sidePage);
+    this.appendChild(sidePage);
     this.closeAll();
   }
 
-  createPageSkeleton() {
+  #createPageSkeleton() {
     const pageElement: HTMLElement | null = this.domParser
       .parseFromString(this.template, 'text/html')
       .querySelector('div:first-child');
@@ -196,7 +150,67 @@ export class SidePagerElement extends HTMLElement {
   }
 
   closeAll() {
+    if (!this.pages || this.pages.length === 0) {
+      return;
+    }
+
     this.closePage(this.pages[0].id);
+  }
+
+  #addStyle() {
+    const sidePage_StyleDef: CssRule = {
+      selector: 'ndm-side-pager div.side-page',
+      transition: 'right 0.4s',
+      position: 'fixed',
+      height: '100%',
+      background: 'rgba(100,100,100,0.5)',
+      'border-left': '1px solid lightskyblue',
+    };
+
+    const sidePageClosed_StyleDef: CssRule = {
+      selector: 'div.side-page-closed',
+      background: 'rgb(100,100,100)',
+      opacity: '0.6',
+      'overflow-y': 'hidden',
+    };
+
+    const sidePageOpen_StyleDef: CssRule = {
+      selector: 'div.side-page-open',
+      'background-color': 'lightgray',
+      opacity: '1',
+    };
+
+    const sidePageOpener_StyleDef: CssRule = {
+      selector: '.side-page-opener',
+      height: '100%',
+      width: '30px',
+      float: 'left',
+    };
+
+    const sidePageContent_StyleDef: CssRule = {
+      selector: '.side-page-content',
+      'overflow-y': 'scroll',
+      height: '100%',
+    };
+
+    const sidePagerHeader_StyleDef: CssRule = {
+      selector: '.side-page-header',
+      display: 'flex',
+      'justify-content': 'space-between',
+      padding: '10px 10px 10px 40px',
+      'background-color': 'lightgray',
+    };
+
+    const styleBase = ToCssElement([
+      sidePage_StyleDef,
+      sidePageClosed_StyleDef,
+      sidePageOpen_StyleDef,
+      sidePageOpener_StyleDef,
+      sidePageContent_StyleDef,
+      sidePagerHeader_StyleDef,
+    ]);
+    this.appendChild(styleBase);
+    this.style.display = 'block';
   }
 }
 

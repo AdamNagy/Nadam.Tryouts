@@ -13,7 +13,7 @@ import { SidePagerElement } from '@ng-web-components-demo/web-components';
   template: `<section class="body">
     <button (click)="addPage()">Add</button>
     <button (click)="closeAll()">Close All</button>
-    <ndm-side-pager #pager id="pager-1"></ndm-side-pager>
+    <ndm-side-pager #pager id="pager-1"> </ndm-side-pager>
   </section> `,
   styles: `
         .body {
