@@ -3,12 +3,12 @@ import {
   Directive,
   ElementRef,
   inject,
-  Inject,
   Injectable,
   InjectionToken,
+  Input,
   Provider,
 } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export const VIEW_STATE = new InjectionToken<ViewState>('VIEW_STATE');
 
@@ -23,12 +23,17 @@ export function provideViewState(): Provider {
 export class AutoHeightDirective implements AfterViewInit {
   private readonly viewState?: ViewState = inject(ViewState);
 
+  #nature = '';
+  @Input('appAutoHeight') public set nature(value: string) {
+    this.#nature = value;
+  }
+
   constructor(private readonly elementRef?: ElementRef) {}
 
   ngAfterViewInit(): void {
     this.viewState?.availableHeight$.subscribe((height) => {
       if (this.elementRef?.nativeElement) {
-        const pt = this.elementRef.nativeElement.style.borderTop;
+        // Set the height of the element to the available height.
         this.elementRef.nativeElement.style.height = `${height}px`;
       }
     });
@@ -39,27 +44,8 @@ export class AutoHeightDirective implements AfterViewInit {
   providedIn: 'root',
 })
 export class ViewState {
-  #screenHeight = 0;
-  #menubarHeight = 0;
   #availableHeight = 0;
 
-  public get screenHeight(): number {
-    return this.#screenHeight;
-  }
-
-  public set screenHeight(value) {
-    this.#screenHeight = value;
-  }
-
-  public get menubarHeight(): number {
-    return this.#menubarHeight;
-  }
-
-  public set menubarHeight(value) {
-    this.#menubarHeight = value;
-  }
-
-  // <available-height>
   public get availableHeight(): number {
     return this.#availableHeight;
   }
@@ -68,9 +54,9 @@ export class ViewState {
     this.#availableHeight = value;
     this.#availableHeight$.next(value);
   }
+
   #availableHeight$ = new BehaviorSubject<number>(0);
   public get availableHeight$(): Observable<number> {
     return this.#availableHeight$.asObservable();
   }
-  // </available-height>
 }

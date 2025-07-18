@@ -3,14 +3,10 @@ import {
   Component,
   ElementRef,
   inject,
-  Inject,
   ViewChild,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  VIEW_STATE,
-  ViewState,
-} from './components/auto-height/auto-height.directive';
+import { ViewState } from './components/auto-height/auto-height.directive';
 
 @Component({
   imports: [RouterModule],
@@ -23,8 +19,6 @@ export class App implements AfterViewInit {
 
   @ViewChild('menubar') menubar?: ElementRef<HTMLScriptElement>;
 
-  public screenHeight = 0;
-  public menubarHeight = 0;
   public availableHeight = 0;
 
   private readonly viewState?: ViewState = inject(ViewState);
@@ -35,18 +29,13 @@ export class App implements AfterViewInit {
   }
 
   #adjustHeight() {
-    this.screenHeight = document.documentElement.clientHeight;
-    this.menubarHeight = this.menubar?.nativeElement.offsetHeight || 0;
-    this.availableHeight = this.screenHeight - this.menubarHeight;
+    const screenHeight = document.documentElement.clientHeight;
+    const menubarHeight = this.menubar?.nativeElement.offsetHeight || 0;
+    this.availableHeight = screenHeight - menubarHeight;
 
     if (!this.viewState) {
       return;
     }
-    this.viewState.screenHeight = this.screenHeight;
-    this.viewState.menubarHeight = this.menubarHeight;
     this.viewState.availableHeight = this.availableHeight - 18;
-    console.log(
-      `Screen Height: ${this.screenHeight}, Menubar Height: ${this.menubarHeight}, Available Height: ${this.availableHeight}`
-    );
   }
 }
