@@ -19,11 +19,15 @@ export class SidePagerElement extends HTMLElement {
         </section>
       </div>
         <div class="side-page-opener"></div>
-        <div class="side-page-content"></div>
     </div>`;
 
   connectedCallback() {
     this.#addStyle();
+
+    this.querySelectorAll('div').forEach((page) => {
+      page.remove();
+      this.addPage.bind(this)(page as HTMLElement);
+    });
 
     if (this.pages.length > 0) {
       this.closeAll();
@@ -32,9 +36,7 @@ export class SidePagerElement extends HTMLElement {
 
   addPage(contentElement: HTMLElement) {
     const sidePage = this.#createPageSkeleton();
-    sidePage
-      ?.querySelector('div[class=side-page-content]')
-      ?.append(contentElement);
+    sidePage?.append(contentElement);
 
     this.appendChild(sidePage);
     this.closeAll();
@@ -50,7 +52,7 @@ export class SidePagerElement extends HTMLElement {
     }
 
     this.nextPageId++;
-    pageElement.style.zIndex = `${11 + this.nextPageId}`;
+    pageElement.style.zIndex = `${101 + this.nextPageId}`;
 
     pageElement
       .querySelector("div[class='side-page-opener']")
@@ -162,6 +164,7 @@ export class SidePagerElement extends HTMLElement {
       selector: 'ndm-side-pager div.side-page',
       transition: 'right 0.4s',
       position: 'fixed',
+      top: '0',
       height: '100%',
       background: 'rgba(100,100,100,0.5)',
       'border-left': '1px solid lightskyblue',
@@ -211,6 +214,8 @@ export class SidePagerElement extends HTMLElement {
     ]);
     this.appendChild(styleBase);
     this.style.display = 'block';
+    this.style.position = 'relative';
+    this.style.top = '0';
   }
 }
 

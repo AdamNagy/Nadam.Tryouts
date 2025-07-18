@@ -1,5 +1,10 @@
+section.body {
+  position: absolute;
+  padding-top: 6px;
+}
+
 section.menubar {
-  position: sticky;
+  position: absolute;
   top: 0;
   left: 0;
   display: flex;
@@ -13,6 +18,10 @@ section.menubar {
   background-color: azure;
   border-bottom: 1px solid black;
   z-index: 100;
+
+  &:hover {
+    z-index: 1000;
+  }
 
   a {
     text-decoration: none;

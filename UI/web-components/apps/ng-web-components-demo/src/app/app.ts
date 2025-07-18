@@ -17,7 +17,9 @@ import { ViewState } from './components/auto-height/auto-height.directive';
 export class App implements AfterViewInit {
   protected title = 'ng-web-components-demo';
 
-  @ViewChild('menubar') menubar?: ElementRef<HTMLScriptElement>;
+  @ViewChild('menubar') menubar?: ElementRef<HTMLElement>;
+
+  @ViewChild('body') body?: ElementRef<HTMLElement>;
 
   public availableHeight = 0;
 
@@ -37,5 +39,6 @@ export class App implements AfterViewInit {
       return;
     }
     this.viewState.availableHeight = this.availableHeight - 18;
+    this.body!.nativeElement.style.top = `${menubarHeight}px`;
   }
 }
