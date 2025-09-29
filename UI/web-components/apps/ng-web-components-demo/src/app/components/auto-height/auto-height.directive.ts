@@ -79,7 +79,7 @@ export class ViewState {
 
   public getAvailableHeight(id?: string): Observable<number> {
     if (!id) {
-      return of(this.#availableHeight);
+      return this.#availableHeight$.asObservable();
     }
 
     const exist = this.#childHostHeights.get(id);

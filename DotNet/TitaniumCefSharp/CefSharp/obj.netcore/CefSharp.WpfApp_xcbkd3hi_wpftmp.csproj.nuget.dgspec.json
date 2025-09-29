@@ -1,0 +1,199 @@
+{
+  "format": 1,
+  "restore": {
+    "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\CefSharp\\CefSharp.WpfApp.csproj": {}
+  },
+  "projects": {
+    "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\CefSharp\\CefSharp.WpfApp.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\CefSharp\\CefSharp.WpfApp.csproj",
+        "projectName": "CefSharp.WpfApp",
+        "projectPath": "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\CefSharp\\CefSharp.WpfApp.csproj",
+        "packagesPath": "C:\\Users\\nagyq\\.nuget\\packages\\",
+        "outputPath": "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\CefSharp\\obj.netcore\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "G:\\Program Files\\VisualStudio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\nagyq\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0-windows7.0": {
+            "targetAlias": "net8.0-windows",
+            "projectReferences": {
+              "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\Titanium.Web.Proxy.csproj": {
+                "projectPath": "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\Titanium.Web.Proxy.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0-windows7.0": {
+          "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "CefSharp.Wpf.NetCore": {
+              "target": "Package",
+              "version": "[136.1.40, )"
+            },
+            "Microsoft.Xaml.Behaviors.Wpf": {
+              "target": "Package",
+              "version": "[1.1.135, )"
+            },
+            "chromiumembeddedframework.runtime.win-arm64": {
+              "target": "Package",
+              "version": "[136.1.4, )"
+            },
+            "chromiumembeddedframework.runtime.win-x64": {
+              "target": "Package",
+              "version": "[136.1.4, )"
+            },
+            "chromiumembeddedframework.runtime.win-x86": {
+              "target": "Package",
+              "version": "[136.1.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\Titanium.Web.Proxy.csproj": {
+      "version": "3.2.2",
+      "restore": {
+        "projectUniqueName": "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\Titanium.Web.Proxy.csproj",
+        "projectName": "Titanium.Web.Proxy",
+        "projectPath": "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\Titanium.Web.Proxy.csproj",
+        "packagesPath": "C:\\Users\\nagyq\\.nuget\\packages\\",
+        "outputPath": "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "fallbackFolders": [
+          "G:\\Program Files\\VisualStudio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\nagyq\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "BouncyCastle.Cryptography": {
+              "target": "Package",
+              "version": "[2.6.2, )"
+            },
+            "BrotliSharpLib": {
+              "target": "Package",
+              "version": "[0.3.3, )"
+            },
+            "Microsoft.Win32.Registry": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "System.Buffers": {
+              "target": "Package",
+              "version": "[4.5.1, )"
+            },
+            "System.Memory": {
+              "target": "Package",
+              "version": "[4.5.5, )"
+            },
+            "System.Security.Principal.Windows": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "System.Threading.Tasks.Extensions": {
+              "target": "Package",
+              "version": "[4.5.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
