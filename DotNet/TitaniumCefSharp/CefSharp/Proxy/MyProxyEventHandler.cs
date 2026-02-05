@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
+using CefSharp.WpfApp.Proxy;
+
 using Titanium.Web.Proxy.Http;
 
 namespace CefSharp.WpfApp;
@@ -66,6 +68,14 @@ public class MyProxyEventHandler
                         response.Body);
 
                     files.Add(fileName);
+                }
+                else if((response.ContentType ?? "") == "image/avif")
+                {
+                    var fileName = request.RequestUri.Segments.Last();
+                    var jpeg = ImageConverter.Convert(response.Body);
+
+                    File.WriteAllBytes(Path.Combine(_contentRoot, $"{fileName}.jpeg"), jpeg.ToArray());
+
                 }
             }
             catch (Exception ex)
