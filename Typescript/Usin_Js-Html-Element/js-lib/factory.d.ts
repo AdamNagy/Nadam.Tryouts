@@ -1,1 +1,0 @@
-declare function factory(params: any): PrototypeElement;
