@@ -1,4 +1,7 @@
 ﻿using Microsoft.Playwright;
+
+using Nadam.Playwright.POC;
+
 using System.Net;
 using Titanium.Web.Proxy;
 using Titanium.Web.Proxy.EventArguments;
@@ -26,6 +29,26 @@ proxyServer.BeforeRequest += async (sender, e) => {
 proxyServer.BeforeResponse += async (object sender, SessionEventArgs e) =>
 {
     if(!e.HttpClient.Response.HasBody) return;
+
+    var imageType = ContentDetector.GetImageType(e.HttpClient.Response.ContentType);
+    var content = await e.GetResponseBody();
+    var imageUri = e.HttpClient.Request.Url;
+    var contentType = e.HttpClient.Response.ContentType;
+
+    switch (imageType)
+    {
+        case ImageContentType.Classic:
+            ImageContentHandler.HandleClassicImage(content, imageUri, contentType);
+            break;
+        case ImageContentType.Avif:
+            ImageContentHandler.HandleAvifImage(content, e.HttpClient.Request.Url, contentType);
+            break;
+        case ImageContentType.NonImage:
+        default:
+            return;
+    }
+
+    var imageContent = await e.GetResponseBody();
 };
 
 proxyServer.Start();
@@ -73,10 +96,11 @@ page.Load += async (sender, e) =>
             document.body.appendChild(btn);
         }");
     }
-    catch { /* Handle cases where page closes during injection */ }
+    catch(Exception ex)
+    { 
+        Console.WriteLine($"Error injecting button: {ex.Message}");
+    }
 };
-
-
 
 await page.GotoAsync("https://httpbin.org/get");
 
