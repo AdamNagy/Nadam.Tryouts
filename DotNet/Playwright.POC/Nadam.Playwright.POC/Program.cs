@@ -1,112 +1,24 @@
-﻿using Microsoft.Playwright;
-
-using Nadam.Playwright.POC;
-
-using System.Net;
-using Titanium.Web.Proxy;
-using Titanium.Web.Proxy.EventArguments;
-using Titanium.Web.Proxy.Models;
+﻿using Nadam.Playwright.POC;
 
 Console.WriteLine("Hello, World!");
 
 // --- 1. SETUP TITANIUM PROXY ---
-var proxyServer = new ProxyServer();
-
-// Explicit endpoint for the browser to connect to
-var explicitEndPoint = new ExplicitProxyEndPoint(IPAddress.Any, 8001, true);
-proxyServer.AddEndPoint(explicitEndPoint);
-//proxyServer.CertificateManager.TrustRootCertificate(true);
-// Example: Intercept and modify traffic
-proxyServer.BeforeRequest += async (sender, e) => {
-    Console.WriteLine($"Proxy Intercepted Request: {e.HttpClient.Request.Url}");
-
-    // You can add custom headers for your scraper here
-    e.HttpClient.Request.Headers.AddHeader("X-Scraper-Bot", "Titanium-Playwright");
-
-    await Task.CompletedTask;
-};
-
-proxyServer.BeforeResponse += async (object sender, SessionEventArgs e) =>
-{
-    if(!e.HttpClient.Response.HasBody) return;
-
-    var imageType = ContentDetector.GetImageType(e.HttpClient.Response.ContentType);
-    var content = await e.GetResponseBody();
-    var imageUri = e.HttpClient.Request.Url;
-    var contentType = e.HttpClient.Response.ContentType;
-
-    switch (imageType)
-    {
-        case ImageContentType.Classic:
-            ImageContentHandler.HandleClassicImage(content, imageUri, contentType);
-            break;
-        case ImageContentType.Avif:
-            ImageContentHandler.HandleAvifImage(content, e.HttpClient.Request.Url, contentType);
-            break;
-        case ImageContentType.NonImage:
-        default:
-            return;
-    }
-
-    var imageContent = await e.GetResponseBody();
-};
-
-proxyServer.Start();
+var proxy = new MyProxy();
+proxy.Init();
 Console.WriteLine("Titanium Proxy started on port 8001...");
 
+// --- 3. Host Angular ---
+var webServer = new MyWebServer();
+await webServer.Init();
+Console.WriteLine("FE app hosted.");
+
 // --- 2. LAUNCH PLAYWRIGHT ---
-using var playwright = await Playwright.CreateAsync();
-await using var browser = await playwright.Chromium.LaunchPersistentContextAsync("user-data", new BrowserTypeLaunchPersistentContextOptions
-{
-    Headless = false, // Set to true for production
-    Proxy = new Proxy { Server = "http://127.0.0.1:8001" }
-});
-
-var page = await browser.NewPageAsync();
-
-await page.ExposeFunctionAsync("notifyScraper", (string data) =>
-{
-    Console.WriteLine($"[C# Received]: {data}");
-    // Trigger your scraping logic here!
-});
-
-page.Load += async (sender, e) =>
-{
-    try
-    {
-        await page.EvaluateAsync(@"() => {
-            const btn = document.createElement('button');
-            btn.innerHTML = '🚀 Start Scrape';
-            btn.style.position = 'fixed';
-            btn.style.top = '10px';
-            btn.style.right = '10px';
-            btn.style.zIndex = '9999';
-            btn.style.padding = '10px';
-            btn.style.backgroundColor = '#ff4757';
-            btn.style.color = 'white';
-            btn.style.border = 'none';
-            btn.style.borderRadius = '5px';
-            btn.style.cursor = 'pointer';
-
-            btn.onclick = () => {
-                // Call the C# function we exposed earlier!
-                window.notifyScraper('User clicked the button on: ' + window.location.href);
-            };
-
-            document.body.appendChild(btn);
-        }");
-    }
-    catch(Exception ex)
-    { 
-        Console.WriteLine($"Error injecting button: {ex.Message}");
-    }
-};
-
-await page.GotoAsync("https://httpbin.org/get");
+var browser = new MyPlaywrightBrowser();
+await browser.Init(webServer.Url);
 
 Console.WriteLine("Browser launched. Press any key to exit.");
-Console.ReadKey();
 
 // Cleanup
-await browser.CloseAsync();
-proxyServer.Stop();
+Console.ReadKey();
+await browser.Stop();
+proxy.Stop();

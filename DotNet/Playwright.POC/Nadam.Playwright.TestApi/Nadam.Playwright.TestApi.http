@@ -1,0 +1,6 @@
+@Nadam.Playwright.TestApi_HostAddress = http://localhost:5090
+
+GET {{Nadam.Playwright.TestApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
