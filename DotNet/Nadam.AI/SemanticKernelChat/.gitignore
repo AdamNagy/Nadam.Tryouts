@@ -1,0 +1,11 @@
+# Build outputs
+bin/
+obj/
+
+# Secret overrides — never commit real keys
+appsettings.local.json
+
+# IDE
+.vs/
+.vscode/
+*.user
