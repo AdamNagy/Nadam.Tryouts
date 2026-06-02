@@ -443,7 +443,7 @@
       if (rects.length === 0) throw new Error('No valid rectangles in response');
 
       drawScene();
-      setStatus('ok', `${rects.length} rect${rects.length !== 1 ? 's' : ''} drawn`);
+      setStatus('ok', `${rects.length} rect${rects.length !== 1 ? 's' : ''} drawn, ${rects[0].fileName}`);
       rectInfo.textContent = rects.map((r, i) =>
         `#${i + 1} ${r.width}×${r.height}`
       ).join('  ');

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FaceRecognition\FaceRecognition.csproj" />
+    <ProjectReference Include="..\VectorDb.Postgres\VectorDb.Postgres.csproj" />
   </ItemGroup>
 
 </Project>
