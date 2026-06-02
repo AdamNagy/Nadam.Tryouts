@@ -1,11 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36915.13 d17.14
+VisualStudioVersion = 17.14.36915.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SemanticKernelChat", "SemanticKernelChat", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SemanticKernelChat", "SemanticKernelChat\SemanticKernelChat.csproj", "{C848BF92-02F8-7FBA-6FD7-A113ACFBC24A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RAG", "RAG", "{7AD71F9E-5FEC-4276-A0BF-DF9C50C9DDE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorDb.Postgres", "VectorDb.Postgres\VectorDb.Postgres.csproj", "{44302E40-6FD8-4888-8D23-2C3DB95A1A24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaceRecognition", "FaceRecognition\FaceRecognition.csproj", "{239676D5-08ED-43C3-A969-ACDDAB7DD477}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rag.Domain", "Rag.Domain\Rag.Domain.csproj", "{261CCFBF-6935-4364-9224-7DC2265461E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rag.Web", "Rag.Web\Rag.Web.csproj", "{9C188761-55F3-4032-BEFD-E7621DD15ADF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +27,32 @@ Global
 		{C848BF92-02F8-7FBA-6FD7-A113ACFBC24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C848BF92-02F8-7FBA-6FD7-A113ACFBC24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C848BF92-02F8-7FBA-6FD7-A113ACFBC24A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44302E40-6FD8-4888-8D23-2C3DB95A1A24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44302E40-6FD8-4888-8D23-2C3DB95A1A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44302E40-6FD8-4888-8D23-2C3DB95A1A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44302E40-6FD8-4888-8D23-2C3DB95A1A24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{239676D5-08ED-43C3-A969-ACDDAB7DD477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{239676D5-08ED-43C3-A969-ACDDAB7DD477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{239676D5-08ED-43C3-A969-ACDDAB7DD477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{239676D5-08ED-43C3-A969-ACDDAB7DD477}.Release|Any CPU.Build.0 = Release|Any CPU
+		{261CCFBF-6935-4364-9224-7DC2265461E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{261CCFBF-6935-4364-9224-7DC2265461E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{261CCFBF-6935-4364-9224-7DC2265461E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{261CCFBF-6935-4364-9224-7DC2265461E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C188761-55F3-4032-BEFD-E7621DD15ADF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C188761-55F3-4032-BEFD-E7621DD15ADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C188761-55F3-4032-BEFD-E7621DD15ADF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C188761-55F3-4032-BEFD-E7621DD15ADF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C848BF92-02F8-7FBA-6FD7-A113ACFBC24A} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{44302E40-6FD8-4888-8D23-2C3DB95A1A24} = {7AD71F9E-5FEC-4276-A0BF-DF9C50C9DDE2}
+		{239676D5-08ED-43C3-A969-ACDDAB7DD477} = {7AD71F9E-5FEC-4276-A0BF-DF9C50C9DDE2}
+		{261CCFBF-6935-4364-9224-7DC2265461E3} = {7AD71F9E-5FEC-4276-A0BF-DF9C50C9DDE2}
+		{9C188761-55F3-4032-BEFD-E7621DD15ADF} = {7AD71F9E-5FEC-4276-A0BF-DF9C50C9DDE2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2C1C88F-55B5-4398-BAF1-B62FCCF6F7F0}

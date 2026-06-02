@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rectangle Annotator</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;500&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --surface: #161616;
+      --border: #2a2a2a;
+      --accent: #e8ff47;
+      --accent2: #ff4757;
+      --text: #f0f0f0;
+      --muted: #666;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    header {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    header h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--accent);
+    }
+
+    header span {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 2px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 900px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.red    { background: #ff5f57; }
+    .dot.yellow { background: #ffbd2e; }
+    .dot.green  { background: #28c840; }
+
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    select {
+      background: #0d0d0d;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      padding: 6px 10px;
+      border-radius: 3px;
+      min-width: 200px;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23666'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 28px;
+    }
+
+    select:focus { border-color: var(--accent); }
+    select:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .canvas-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #111;
+      min-height: 420px;
+      padding: 2rem;
+    }
+
+    canvas {
+      max-width: 100%;
+      border-radius: 2px;
+      display: block;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    }
+
+    .status-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1.25rem;
+      border-top: 1px solid var(--border);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    #statusMsg {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    #statusDot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--muted);
+      transition: background 0.3s;
+      flex-shrink: 0;
+    }
+
+    #statusDot.ok    { background: #28c840; }
+    #statusDot.error { background: var(--accent2); }
+    #statusDot.busy  {
+      background: var(--accent);
+      animation: pulse 0.9s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    #rectInfo {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--accent);
+    }
+
+    .overlay-hint {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 0.3s;
+    }
+
+    .overlay-hint svg { opacity: 0.35; }
+    .overlay-hint.hidden { opacity: 0; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>rect·annotator</h1>
+  <span>v2.0</span>
+</header>
+
+<div class="card">
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+    </div>
+    <div class="toolbar-right">
+      <label for="itemSelect">Image</label>
+      <select id="itemSelect" disabled>
+        <option value="">— loading…</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="canvas-wrapper">
+    <div class="overlay-hint" id="hint">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="4" width="40" height="40" rx="2" stroke="#666" stroke-width="2" stroke-dasharray="5 3"/>
+        <rect x="14" y="14" width="20" height="20" stroke="#e8ff47" stroke-width="2"/>
+      </svg>
+      <span>Select an image to annotate</span>
+    </div>
+    <canvas id="canvas"></canvas>
+  </div>
+
+  <div class="status-bar">
+    <div id="statusMsg">
+      <div id="statusDot"></div>
+      <span id="statusText">Loading image list…</span>
+    </div>
+    <div id="rectInfo">—</div>
+  </div>
+</div>
+
+<script>
+  // ── Config ────────────────────────────────────────────────────────────────
+  // Endpoint that returns a string array: ["cat", "dog", "bird", ...]
+  const ITEMS_ENDPOINT = 'https://localhost:7248/items';
+
+  // Image base URL — selected item is appended: IMAGE_BASE_URL + item
+  const IMAGE_BASE_URL = 'https://localhost:7248/image/';
+
+  // Rectangles endpoint — selected item is appended: RECTS_BASE_URL + item
+  const RECTS_BASE_URL = 'https://localhost:7248/ragging/';
+
+  // ── DOM refs ──────────────────────────────────────────────────────────────
+  const canvas     = document.getElementById('canvas');
+  const ctx        = canvas.getContext('2d');
+  const itemSelect = document.getElementById('itemSelect');
+  const statusDot  = document.getElementById('statusDot');
+  const statusText = document.getElementById('statusText');
+  const rectInfo   = document.getElementById('rectInfo');
+  const hint       = document.getElementById('hint');
+
+  // ── State ─────────────────────────────────────────────────────────────────
+  let baseImage = null;   // HTMLImageElement — set once per selection
+  let rects     = [];     // Array of {x, y, width, height}
+
+  // Palette for multiple rectangles (cycles if more than 6)
+  const COLORS = ['#e8ff47', '#ff4757', '#2ed573', '#1e90ff', '#ff6b81', '#ffa502'];
+
+  // ── Helpers ───────────────────────────────────────────────────────────────
+  function setStatus(type, msg) {
+    statusDot.className = type;  // 'ok' | 'error' | 'busy' | ''
+    statusText.textContent = msg;
+  }
+
+  // Draw image once, then all rectangles on top — never resets canvas mid-loop
+  function drawScene() {
+    if (!baseImage) return;
+
+    // Set canvas dimensions and draw the image exactly once
+    canvas.width  = baseImage.naturalWidth;
+    canvas.height = baseImage.naturalHeight;
+    ctx.drawImage(baseImage, 0, 0);
+
+    // Draw every rectangle on top of the already-painted image
+    rects.forEach((rect, i) => drawRect(rect, i));
+  }
+
+  function drawRect({ x, y, width, height }, index) {
+    const color = COLORS[index % COLORS.length];
+
+    ctx.save();
+    ctx.shadowColor = color.replace(')', ', 0.5)').replace('rgb', 'rgba');
+    ctx.shadowBlur  = 16;
+
+    // Tinted fill
+    ctx.fillStyle = hexToRgba(color, 0.08);
+    ctx.fillRect(x, y, width, height);
+
+    // Border
+    ctx.strokeStyle = color;
+    ctx.lineWidth   = 2.5;
+    ctx.strokeRect(x, y, width, height);
+    ctx.restore();
+
+    // Corner ticks
+    const t = 12;
+    ctx.strokeStyle = color;
+    ctx.lineWidth   = 2.5;
+    [
+      [x,         y,          t,  0,  0,  t ],
+      [x + width, y,         -t,  0,  0,  t ],
+      [x,         y + height, t,  0,  0, -t ],
+      [x + width, y + height,-t,  0,  0, -t ],
+    ].forEach(([cx, cy, dx, , , dy]) => {
+      ctx.beginPath();
+      ctx.moveTo(cx + dx, cy);
+      ctx.lineTo(cx,      cy);
+      ctx.lineTo(cx,      cy + dy);
+      ctx.stroke();
+    });
+
+    // Index badge (1-based)
+    const label = `#${index + 1}  ${width}×${height}`;
+    ctx.font = 'bold 12px "Space Mono", monospace';
+    const tw  = ctx.measureText(label).width;
+    const pad = 5;
+    const bx  = x;
+    const by  = Math.max(y - 24, 2);
+
+    ctx.fillStyle = color;
+    ctx.fillRect(bx, by, tw + pad * 2, 20);
+    ctx.fillStyle = '#0d0d0d';
+    ctx.fillText(label, bx + pad, by + 14);
+  }
+
+  function hexToRgba(hex, alpha) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r},${g},${b},${alpha})`;
+  }
+
+  // ── Load item list into dropdown ──────────────────────────────────────────
+  async function loadItemList() {
+    setStatus('busy', 'Fetching image list…');
+    try {
+      const res = await fetch(ITEMS_ENDPOINT);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const items = await res.json();
+      if (!Array.isArray(items) || items.length === 0) throw new Error('Empty list');
+
+      itemSelect.innerHTML = '<option value="">— select an image —</option>';
+      items.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item;
+        opt.textContent = item;
+        itemSelect.appendChild(opt);
+      });
+
+      itemSelect.disabled = false;
+      setStatus('ok', `${items.length} images available`);
+
+    } catch (err) {
+      // Demo fallback: populate with placeholder items
+      const demo = ['sample-01', 'sample-02', 'sample-03'];
+      itemSelect.innerHTML = '<option value="">— select an image —</option>';
+      demo.forEach(item => {
+        const opt = document.createElement('option');
+        opt.value = item;
+        opt.textContent = item + '  [demo]';
+        itemSelect.appendChild(opt);
+      });
+      itemSelect.disabled = false;
+      setStatus('error', `Could not load list (${err.message}) — showing demo items`);
+    }
+  }
+
+  // ── Load image + rectangles for selected item ─────────────────────────────
+  async function loadItem(item) {
+    if (!item) return;
+
+    hint.classList.add('hidden');
+    rects     = [];
+    baseImage = null;
+    rectInfo.textContent = '—';
+
+    setStatus('busy', `Loading "${item}"…`);
+
+    // 1. Load image
+    const imageUrl = IMAGE_BASE_URL + encodeURIComponent(item);
+    await new Promise((resolve) => {
+      // Demo fallback: use picsum when real URL fails
+      const tryLoad = (src, isFallback) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.src = src;
+        img.onload = () => {
+          baseImage = img;
+          resolve();
+        };
+        img.onerror = () => {
+          if (!isFallback) {
+            const seed = encodeURIComponent(item);
+            tryLoad(`https://picsum.photos/seed/${seed}/800/500`, true);
+          } else {
+            setStatus('error', 'Failed to load image');
+            resolve();
+          }
+        };
+      };
+      tryLoad(imageUrl, false);
+    });
+
+    if (!baseImage) return;
+
+    // Draw image immediately so it appears while rects load
+    canvas.width  = baseImage.naturalWidth;
+    canvas.height = baseImage.naturalHeight;
+    ctx.drawImage(baseImage, 0, 0);
+
+    // 2. Fetch rectangles
+    const rectsUrl = RECTS_BASE_URL + encodeURIComponent(item);
+    try {
+      const res = await fetch(rectsUrl);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const data = await res.json();
+      const arr  = Array.isArray(data) ? data : [data];
+
+      rects = arr.filter(r =>
+        ['x', 'y', 'width', 'height'].every(k => typeof r[k] === 'number')
+      );
+
+      if (rects.length === 0) throw new Error('No valid rectangles in response');
+
+      drawScene();
+      setStatus('ok', `${rects.length} rect${rects.length !== 1 ? 's' : ''} drawn`);
+      rectInfo.textContent = rects.map((r, i) =>
+        `#${i + 1} ${r.width}×${r.height}`
+      ).join('  ');
+
+    } catch (err) {
+      // Demo fallback: random rectangles
+      const W = baseImage.naturalWidth, H = baseImage.naturalHeight;
+      const count = 2 + Math.floor(Math.random() * 3);
+      rects = Array.from({ length: count }, () => {
+        const w = 80 + Math.floor(Math.random() * (W * 0.35));
+        const h = 60 + Math.floor(Math.random() * (H * 0.35));
+        return {
+          x: Math.floor(Math.random() * (W - w)),
+          y: Math.floor(Math.random() * (H - h)),
+          width: w,
+          height: h,
+        };
+      });
+
+      drawScene();
+      setStatus('error', `Rects API unreachable — ${rects.length} demo rects shown`);
+      rectInfo.textContent = rects.map((r, i) =>
+        `#${i + 1} ${r.width}×${r.height}`
+      ).join('  ') + '  [demo]';
+    }
+  }
+
+  // ── Events ────────────────────────────────────────────────────────────────
+  itemSelect.addEventListener('change', () => loadItem(itemSelect.value));
+
+  // ── Boot ──────────────────────────────────────────────────────────────────
+  loadItemList();
+</script>
+</body>
+</html>
