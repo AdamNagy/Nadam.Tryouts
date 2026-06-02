@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Npgsql;
+﻿using Npgsql;
 using Pgvector;
 
 namespace VectorDb.Postgres;
@@ -15,21 +9,19 @@ namespace VectorDb.Postgres;
     CREATE TABLE embeddings
     (
         id uuid PRIMARY KEY,
-        embedding vector(1536)
+        embedding vector(512),
+        file varchar
     );
  */
 
 public class VectorStoreService
 {
     private readonly NpgsqlDataSource _dataSource;
-    private readonly string _tableName;
 
-    public VectorStoreService(string connectionString, string tableName)
+    public VectorStoreService(string connectionString)
     {
         var builder = new NpgsqlDataSourceBuilder(connectionString);
         builder.UseVector();
-        _tableName = tableName;
-
         _dataSource = builder.Build();
     }
 
@@ -50,27 +42,6 @@ public class VectorStoreService
         cmd.Parameters.AddWithValue("file", file);
 
         await cmd.ExecuteNonQueryAsync();
-    }
-
-    public async Task<float[]?> GetVectorAsync(Guid id)
-    {
-        await using var conn = await _dataSource.OpenConnectionAsync();
-
-        const string sql = """
-            SELECT embedding
-            FROM embeddings
-            WHERE id = @id
-            """;
-
-        await using var cmd = new NpgsqlCommand(sql, conn);
-        cmd.Parameters.AddWithValue("id", id);
-
-        var result = await cmd.ExecuteScalarAsync();
-
-        if (result is Vector v)
-            return v.Memory.ToArray();
-
-        return null;
     }
 
     public async Task<List<string>> Search(

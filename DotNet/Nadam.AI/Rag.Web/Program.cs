@@ -33,6 +33,7 @@ var basePath = "H:\\Documents\\MIV\\app_data\\Adam_Nagy\\Babes\\images\\OnlyAllS
 var connectionString = "Host=localhost;Port=27018;Database=postgres;Username=postgres;Password=123qweASD";// "postgresql://postgres:123qweASD@localhost:27018/public";
 var tableName = "faceembeddings";
 
+// Careful here, has to run once, and later need to check new vectors/files.
 //app.MapGet("/vectorize", () =>
 //{
 //    var portraits = Directory.GetFiles("H:\\Documents\\MIV\\app_data\\Adam_Nagy\\Babes\\images\\_website-elements\\portraits");
@@ -55,13 +56,13 @@ var tableName = "faceembeddings";
 //    return Results.Ok("Done");
 //});
 
-app.MapGet("/ragging/{fileName}", async ([FromRoute] string fileName) =>
+app.MapGet("/search/{fileName}", async ([FromRoute] string fileName) =>
 {
     var recognizer = new FaceRecognition.FaceAiSharpEmbedder();
     var image = File.ReadAllBytes($"{basePath}\\{fileName}");
     var faces = recognizer.GenerateEmbeddings(image);
 
-    var vectorStore = new VectorDb.Postgres.VectorStoreService(connectionString, tableName);
+    var vectorStore = new VectorDb.Postgres.VectorStoreService(connectionString);
 
     var results = new List<SearchResult>();
     foreach (var item in faces)
@@ -72,19 +73,6 @@ app.MapGet("/ragging/{fileName}", async ([FromRoute] string fileName) =>
     }
 
     return results;
-});
-
-app.MapGet("/search/{fileName}", async ([FromRoute] string fileName) =>
-{
-    var image = File.ReadAllBytes($"{basePath}\\{fileName}");
-    var vectorStore = new VectorDb.Postgres.VectorStoreService(connectionString, tableName);
-
-    var recognizer = new FaceRecognition.FaceAiSharpEmbedder();
-    var faces = recognizer.GenerateEmbeddings(image).First();
-
-    var result = await vectorStore.Search(faces.Embedding, 5);
-
-    return result;
 });
 
 app.MapGet("/image/{fileName}", ([FromRoute] string fileName) =>
