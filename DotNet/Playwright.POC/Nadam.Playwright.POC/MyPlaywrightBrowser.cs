@@ -12,7 +12,7 @@ internal class MyPlaywrightBrowser
     private IPage? _sessionPage;
     private readonly SemaphoreSlim _sessionPageLock = new(1, 1);
     private string _sessionHtml = "";
-    private string _panelScript = "";
+    private ScrapPanelInjector _panelInjector = null!;
 
     public MyPlaywrightBrowser(ScrapeSession session, ILogger<MyPlaywrightBrowser> logger)
     {
@@ -23,7 +23,7 @@ internal class MyPlaywrightBrowser
     public async Task Init()
     {
         _sessionHtml = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Session.html"));
-        _panelScript = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "ScrapPanel.js"));
+        _panelInjector = await ScrapPanelInjector.LoadAsync();
 
         _playwright = await Microsoft.Playwright.Playwright.CreateAsync();
         _browserContext = await _playwright.Chromium.LaunchPersistentContextAsync("user-data", new()
@@ -31,7 +31,9 @@ internal class MyPlaywrightBrowser
             Headless = false
         });
 
-        _browserContext.Response += OnResponse;
+        _browserContext.Page += OnPage;
+        foreach (var existingPage in _browserContext.Pages)
+            OnPage(_browserContext, existingPage);
 
         await _browserContext.ExposeBindingAsync("pocGetVisitedUrls", (BindingSource source) =>
         {
@@ -47,7 +49,7 @@ internal class MyPlaywrightBrowser
             _logger.LogInformation("Scrap panel button clicked on {Url}", source.Page.Url);
             return "C# received the click.";
         });
-        await _browserContext.AddInitScriptAsync(script: _panelScript);
+        await _panelInjector.RegisterAsync(_browserContext);
         await _browserContext.ExposeBindingAsync("pocShowSession", async (BindingSource source) =>
         {
             try
@@ -66,11 +68,12 @@ internal class MyPlaywrightBrowser
             _logger.LogInformation("Session page message: {Message}", data);
             return "C# received the message.";
         });
-        _sessionPage = _browserContext.Pages.FirstOrDefault();
+        // A restored tab can retain its URL and CSP after SetContentAsync.
+        // Always create a dedicated about:blank page for the local session.
         await ShowSessionAsync();
         // SetContentAsync does not create a new document via navigation.
         foreach (var openPage in _browserContext.Pages)
-            await openPage.EvaluateAsync(_panelScript);
+            await _panelInjector.InjectAsync(openPage);
     }
 
     public async Task ShowSessionAsync()
@@ -87,7 +90,7 @@ internal class MyPlaywrightBrowser
             if (!await page.EvaluateAsync<bool>("() => document.documentElement.hasAttribute('data-scraper-session')"))
             {
                 await page.SetContentAsync(_sessionHtml);
-                await page.EvaluateAsync(_panelScript);
+                await _panelInjector.InjectAsync(page);
                 page.FrameNavigated += (_, frame) =>
                 {
                     // A user may use this tab for browsing. Do not overwrite it later.
@@ -104,31 +107,31 @@ internal class MyPlaywrightBrowser
         }
     }
 
-    // SPA navigation without a network request is not captured yet.
-    private void OnResponse(object? sender, IResponse response)
+    private void OnPage(object? sender, IPage page)
     {
-        try
-        {
-            var request = response.Request;
-            // Capture document navigation across all tabs, excluding iframe and asset traffic.
-            if (!request.IsNavigationRequest || request.Frame.ParentFrame != null)
-                return;
-
-            _session.RecordVisit(response.Url);
-        }
-        catch(Exception ex)
-        {
-            _logger.LogError(ex, "Failed to record navigation response");
-        }
+        page.PageError += (_, error) => _logger.LogError("Browser script failed on {Url}: {Error}", page.Url, error);
+        page.FrameNavigated += (_, frame) => RecordNavigation(frame);
+        // A popup's initial navigation may have committed before Context.Page fires.
+        RecordNavigation(page.MainFrame);
     }
 
+    private void RecordNavigation(IFrame frame)
+    {
+        if (frame.ParentFrame != null
+            || !Uri.TryCreate(frame.Url, UriKind.Absolute, out var uri)
+            || (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+            return;
+
+        _session.RecordVisit(frame.Url);
+        _logger.LogInformation("Visited page: {Url}", frame.Url);
+    }
     public async Task Stop()
     {
         try
         {
             if (_browserContext != null)
             {
-                _browserContext.Response -= OnResponse;
+                _browserContext.Page -= OnPage;
                 await _browserContext.CloseAsync();
             }
         }

@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+<PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
+<ItemGroup>
+<ProjectReference Include="../Nadam.Playwright.POC/Nadam.Playwright.POC.csproj" />
+<Compile Include="../Nadam.Playwright.POC/MyPlaywrightBrowser.cs" Link="MyPlaywrightBrowser.cs" />
+<Compile Include="../Nadam.Playwright.POC/ScrapeSession.cs" Link="ScrapeSession.cs" />
+<Compile Include="../Nadam.Playwright.POC/ScrapPanel/ScrapPanelInjector.cs" Link="ScrapPanelInjector.cs" />
+</ItemGroup>
+</Project>

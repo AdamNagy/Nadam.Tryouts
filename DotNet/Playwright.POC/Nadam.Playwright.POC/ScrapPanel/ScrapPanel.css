@@ -1,0 +1,25 @@
+:host {
+    all: initial !important;
+    position: fixed !important;
+    top: 35% !important;
+    right: 0 !important;
+    width: 280px !important;
+    height: 180px !important;
+    z-index: 2147483647 !important;
+    display: block !important;
+    pointer-events: none !important;
+}
+.panel { box-sizing: border-box; position: relative; width: 280px; height: 180px;
+    padding: 20px 20px 20px 56px; border-radius: 12px 0 0 12px;
+    background: #172033; color: white; font: 14px system-ui, sans-serif;
+    box-shadow: 0 4px 18px #0004; transform: translateX(236px);
+    transition: transform 220ms ease; pointer-events: auto; }
+.panel.open { transform: translateX(0); }
+button { font: inherit; cursor: pointer; color: white; border: 0; }
+.toggle { position: absolute; left: 0; top: 0; width: 44px; height: 100%;
+    border-radius: 12px 0 0 12px; background: #2458d3; writing-mode: vertical-rl; }
+.action { padding: 10px 14px; border-radius: 6px; background: #2458d3; }
+button:focus-visible { outline: 2px solid white; outline-offset: -4px; }
+h2 { font-size: 16px; margin: 0 0 16px; }
+p { font-size: 12px; margin-top: 12px; }
+@media (prefers-reduced-motion: reduce) { .panel { transition: none; } }
