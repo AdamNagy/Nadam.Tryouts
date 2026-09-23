@@ -4,6 +4,7 @@
 <ProjectReference Include="../Nadam.Playwright.POC/Nadam.Playwright.POC.csproj" />
 <Compile Include="../Nadam.Playwright.POC/MyPlaywrightBrowser.cs" Link="MyPlaywrightBrowser.cs" />
 <Compile Include="../Nadam.Playwright.POC/ScrapeSession.cs" Link="ScrapeSession.cs" />
+<Compile Include="../Nadam.Playwright.POC/CapturedImage.cs" Link="CapturedImage.cs" />
 <Compile Include="../Nadam.Playwright.POC/ScrapPanel/ScrapPanelInjector.cs" Link="ScrapPanelInjector.cs" />
 <Compile Include="../Nadam.Playwright.POC/SessionPage/SessionPageLoader.cs" Link="SessionPageLoader.cs" />
 </ItemGroup>

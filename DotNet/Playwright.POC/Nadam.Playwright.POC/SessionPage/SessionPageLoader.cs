@@ -22,9 +22,11 @@ internal sealed class SessionPageLoader
         var css = await File.ReadAllTextAsync(Path.Combine(directory, "SessionPage.css"));
         var bridge = await File.ReadAllTextAsync(Path.Combine(directory, "SessionBridge.js"));
         var page = await File.ReadAllTextAsync(Path.Combine(directory, "SessionPage.js"));
+        var images = await File.ReadAllTextAsync(Path.Combine(directory, "SessionImages.js"));
         var script = $$"""
             (() => {
                 {{bridge}}
+                {{images}}
                 {{page}}
                 createSessionPage(createSessionBridge()).start();
             })();

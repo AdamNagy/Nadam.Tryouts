@@ -11,9 +11,20 @@
         <p>This local session page is loaded by Playwright, without a web server.</p>
         <button id="notify" type="button">Test C# connection</button>
         <p id="status" role="status"></p>
-        <h2>Visited URLs</h2>
-        <p id="visits-status" role="status">Loading visited URLs...</p>
-        <ol id="visited-urls"></ol>
+        <nav class="tabs" aria-label="Session views">
+            <button id="visits-tab" type="button" aria-pressed="true" aria-controls="visits-view">Visited URLs</button>
+            <button id="images-tab" type="button" aria-pressed="false" aria-controls="images-view">Images</button>
+        </nav>
+        <section id="visits-view" aria-labelledby="visits-tab">
+            <h2>Visited URLs</h2>
+            <p id="visits-status" role="status">Loading visited URLs...</p>
+            <ol id="visited-urls"></ol>
+        </section>
+        <section id="images-view" aria-labelledby="images-tab" hidden>
+            <h2>Captured images</h2>
+            <p id="images-status" role="status">No captured images yet.</p>
+            <div id="images-grid"></div>
+        </section>
     </main>
 </body>
 </html>

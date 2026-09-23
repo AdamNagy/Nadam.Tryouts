@@ -32,16 +32,29 @@ internal class MyPlaywrightBrowser
         });
 
         _browserContext.Page += OnPage;
+        _browserContext.RequestFinished += OnRequestFinished;
         foreach (var existingPage in _browserContext.Pages)
             OnPage(_browserContext, existingPage);
 
         await _browserContext.ExposeBindingAsync("pocGetVisitedUrls", (BindingSource source) =>
         {
-            if (source.Page != _sessionPage || source.Frame != source.Page.MainFrame
-                || source.Frame.Url != "about:blank")
-                throw new InvalidOperationException("Visited URLs are only available on the session page.");
-
+            EnsureSessionPage(source);
             return _session.VisitedUrls;
+        });
+
+        await _browserContext.ExposeBindingAsync("pocGetImages", (BindingSource source) =>
+        {
+            EnsureSessionPage(source);
+            // Poll metadata only; image bytes are requested once when an image enters view.
+            return _session.Images.Select(image => new
+            {
+                id = image.Id, url = image.Url, contentType = image.ContentType, byteLength = image.ByteLength
+            }).ToArray();
+        });
+        await _browserContext.ExposeBindingAsync("pocGetImageData", (BindingSource source, int id) =>
+        {
+            EnsureSessionPage(source);
+            return _session.GetImage(id).ToDataUrl();
         });
 
         await _browserContext.ExposeBindingAsync("pocScrapPanelAction", (BindingSource source) =>
@@ -107,6 +120,38 @@ internal class MyPlaywrightBrowser
         }
     }
 
+    private void EnsureSessionPage(BindingSource source)
+    {
+        if (source.Page != _sessionPage || source.Frame != source.Page.MainFrame
+            || source.Frame.Url != "about:blank")
+            throw new InvalidOperationException("Session data is only available on the session page.");
+    }
+
+    private async void OnRequestFinished(object? sender, IRequest request)
+    {
+        try
+        {
+            var response = await request.ResponseAsync();
+            if (response == null || !response.Ok) return;
+
+            var contentType = (await response.HeaderValueAsync("content-type"))?
+                .Split(';')[0].Trim().ToLowerInvariant();
+            if (contentType == null || !contentType.StartsWith("image/", StringComparison.Ordinal)) return;
+
+            // RequestFinished fires after download; this reads the original bytes without refetching.
+            var content = await response.BodyAsync();
+            if (content.Length == 0) return;
+
+            _session.RecordImage(response.Url, contentType, content);
+            _logger.LogDebug("Captured image {Url} ({ContentType}, {ByteLength} bytes)",
+                response.Url, contentType, content.Length);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Could not capture image response for {Url}", request.Url);
+        }
+    }
+
     private void OnPage(object? sender, IPage page)
     {
         page.PageError += (_, error) => _logger.LogError("Browser script failed on {Url}: {Error}", page.Url, error);
@@ -132,6 +177,7 @@ internal class MyPlaywrightBrowser
             if (_browserContext != null)
             {
                 _browserContext.Page -= OnPage;
+                _browserContext.RequestFinished -= OnRequestFinished;
                 await _browserContext.CloseAsync();
             }
         }

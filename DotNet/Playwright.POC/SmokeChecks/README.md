@@ -15,6 +15,8 @@ requests (no external test site). It exercises the real panel and session HTML:
 - Navigate away from the session and open a replacement without overwriting that tab.
 - Open the panel under enforced Trusted Types, and record SPA navigation.
 - Preserve the panel after body replacement/removal and avoid duplicate panels on re-injection.
+- Capture PNG, CSS background SVG and iframe images, omit failed responses, and display
+  original bytes without fetching images again, including after reopening the session.
 
 Append `-- --instagram` to also check the public Instagram page with the isolated,
 signed-out profile. This optional check requires internet access.

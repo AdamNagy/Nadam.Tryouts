@@ -4,3 +4,10 @@ body { font-family: system-ui, sans-serif; max-width: 800px; margin: 64px auto; 
         #status { min-height: 24px; }
         #visited-urls { padding-left: 24px; }
         #visited-urls li { margin: 8px 0; overflow-wrap: anywhere; }
+        .tabs { display: flex; gap: 8px; margin: 20px 0; }
+        .tabs button[aria-pressed="false"] { background: #e8edf5; color: #172033; }
+        #images-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+        .image-card { margin: 0; padding: 12px; border: 1px solid #dde3ec; border-radius: 8px; min-width: 0; }
+        .image-card img { display: block; width: 100%; height: 160px; object-fit: contain; background: #f5f7fa; }
+        .image-card figcaption { margin-top: 8px; font-size: 12px; overflow-wrap: anywhere; }
+        .image-card p { margin: 6px 0; }

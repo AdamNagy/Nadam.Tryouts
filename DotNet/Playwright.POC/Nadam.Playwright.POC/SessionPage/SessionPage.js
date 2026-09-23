@@ -3,9 +3,22 @@ function createSessionPage(bridge) {
     const visitsStatus = document.getElementById('visits-status');
     const notifyButton = document.getElementById('notify');
     const status = document.getElementById('status');
+    const images = createSessionImages(bridge);
+    const visitsTab = document.getElementById('visits-tab');
+    const imagesTab = document.getElementById('images-tab');
     let lastUrls = '';
     let refreshTimer;
     let stopped = true;
+
+    function selectTab(showImages) {
+        document.getElementById('visits-view').hidden = showImages;
+        document.getElementById('images-view').hidden = !showImages;
+        visitsTab.setAttribute('aria-pressed', String(!showImages));
+        imagesTab.setAttribute('aria-pressed', String(showImages));
+    }
+
+    const showVisits = () => selectTab(false);
+    const showImages = () => selectTab(true);
 
     function renderUrls(urls) {
         const serialized = JSON.stringify(urls);
@@ -25,6 +38,7 @@ function createSessionPage(bridge) {
         try {
             const urls = await bridge.getVisitedUrls();
             if (!stopped) renderUrls(urls);
+            if (!stopped) await images.refresh();
         } catch (error) {
             if (!stopped) visitsStatus.textContent = 'Could not load visited URLs: ' + error.message;
         } finally {
@@ -43,6 +57,9 @@ function createSessionPage(bridge) {
     function stop() {
         stopped = true;
         clearTimeout(refreshTimer);
+        images.stop();
+        visitsTab.removeEventListener('click', showVisits);
+        imagesTab.removeEventListener('click', showImages);
         notifyButton.removeEventListener('click', notify);
         window.removeEventListener('pagehide', stop);
     }
@@ -50,6 +67,8 @@ function createSessionPage(bridge) {
     function start() {
         if (!stopped) return;
         stopped = false;
+        visitsTab.addEventListener('click', showVisits);
+        imagesTab.addEventListener('click', showImages);
         notifyButton.addEventListener('click', notify);
         window.addEventListener('pagehide', stop);
         refresh();
