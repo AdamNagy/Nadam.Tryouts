@@ -14,9 +14,11 @@ requests (no external test site). It exercises the real panel and session HTML:
 - Record a popup's initial navigation.
 - Navigate away from the session and open a replacement without overwriting that tab.
 - Open the panel under enforced Trusted Types, and record SPA navigation.
+- Preserve the panel after body replacement/removal and avoid duplicate panels on re-injection.
 
 Append `-- --instagram` to also check the public Instagram page with the isolated,
 signed-out profile. This optional check requires internet access.
+Use `-- --pinterest` for the public Pinterest page, including a delayed check after loading.
 
 The separate output directory avoids the executable lock when the POC is running.
 The temporary profile is retained under the system temporary directory in

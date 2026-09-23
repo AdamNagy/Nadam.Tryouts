@@ -3,6 +3,18 @@ function createScrapPanel(markup, css, bridge) {
     let toggle;
     let content;
     let status;
+    let host;
+    let observer;
+
+    function ensureAttached() {
+        // Reuse the same node so open state and event handlers survive page redraws.
+        if (document.body && !host.isConnected) document.body.appendChild(host);
+    }
+
+    function resume() {
+        observer.observe(document, { childList: true, subtree: true });
+        ensureAttached();
+    }
 
     function createNode(node) {
         if ('text' in node) return document.createTextNode(node.text);
@@ -25,9 +37,13 @@ function createScrapPanel(markup, css, bridge) {
     }
 
     function mount() {
-        if (window !== window.top || document.getElementById('poc-scrap-panel')) return;
+        if (window !== window.top) return;
+        if (host) {
+            ensureAttached();
+            return;
+        }
 
-        const host = document.createElement('div');
+        host = document.createElement('div');
         host.id = 'poc-scrap-panel';
         const root = host.attachShadow({ mode: 'open' });
         const style = document.createElement('style');
@@ -49,7 +65,11 @@ function createScrapPanel(markup, css, bridge) {
                 showStatus('Error: ' + error.message);
             }
         });
-        document.body.appendChild(host);
+        // Observe child changes only; normal updates need just an isConnected check.
+        observer = new MutationObserver(ensureAttached);
+        window.addEventListener('pagehide', () => observer.disconnect());
+        window.addEventListener('pageshow', resume);
+        resume();
     }
 
     return { mount };

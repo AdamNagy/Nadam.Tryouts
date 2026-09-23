@@ -11,7 +11,7 @@ internal class MyPlaywrightBrowser
     private IBrowserContext? _browserContext;
     private IPage? _sessionPage;
     private readonly SemaphoreSlim _sessionPageLock = new(1, 1);
-    private string _sessionHtml = "";
+    private SessionPageLoader _sessionPageLoader = null!;
     private ScrapPanelInjector _panelInjector = null!;
 
     public MyPlaywrightBrowser(ScrapeSession session, ILogger<MyPlaywrightBrowser> logger)
@@ -22,7 +22,7 @@ internal class MyPlaywrightBrowser
 
     public async Task Init()
     {
-        _sessionHtml = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Session.html"));
+        _sessionPageLoader = await SessionPageLoader.LoadAsync();
         _panelInjector = await ScrapPanelInjector.LoadAsync();
 
         _playwright = await Microsoft.Playwright.Playwright.CreateAsync();
@@ -89,7 +89,7 @@ internal class MyPlaywrightBrowser
             // Rebuild after a reload; an existing session page is only brought to the front.
             if (!await page.EvaluateAsync<bool>("() => document.documentElement.hasAttribute('data-scraper-session')"))
             {
-                await page.SetContentAsync(_sessionHtml);
+                await _sessionPageLoader.RenderAsync(page);
                 await _panelInjector.InjectAsync(page);
                 page.FrameNavigated += (_, frame) =>
                 {

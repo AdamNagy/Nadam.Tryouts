@@ -26,7 +26,8 @@ internal sealed class ScrapPanelInjector
                 if (window !== window.top) return;
                 {{bridge}}
                 {{panel}}
-                const panel = createScrapPanel(
+                const key = Symbol.for('nadam.scrapPanel');
+                const panel = window[key] ??= createScrapPanel(
                     {{JsonSerializer.Serialize(markup)}},
                     {{JsonSerializer.Serialize(css)}},
                     createScraperBridge());

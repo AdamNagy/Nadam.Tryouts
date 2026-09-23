@@ -54,6 +54,29 @@ try
     await latest.WaitForFunctionAsync("() => [...document.querySelectorAll('#visited-urls li')].some(li => li.textContent.endsWith('/spa'))", null, new() { Timeout = 5000 });
     if (!session.VisitedUrls.Contains("https://smoke.test/strict")) throw new Exception("Strict page not recorded.");
     Console.WriteLine("PASS: Trusted Types panel and session button; initial and SPA visits.");
+    await page.EvaluateAsync("() => document.body.replaceChildren(document.createElement('main'))");
+    await page.Locator("#poc-scrap-panel .action").ClickAsync(new() { Timeout = 5000 });
+    await page.EvaluateAsync("() => document.body.replaceWith(document.createElement('body'))");
+    await page.Locator("#poc-scrap-panel .action").ClickAsync(new() { Timeout = 5000 });
+    var injector = await ScrapPanelInjector.LoadAsync();
+    await injector.InjectAsync(page);
+    await injector.InjectAsync(page);
+    if (await page.Locator("#poc-scrap-panel").CountAsync() != 1)
+        throw new Exception("Panel duplicated after re-injection.");
+    await page.EvaluateAsync("() => document.getElementById('poc-scrap-panel').remove()");
+    await page.Locator("#poc-scrap-panel .action").ClickAsync(new() { Timeout = 5000 });
+    await page.WaitForFunctionAsync("() => document.querySelector('#poc-scrap-panel').shadowRoot.querySelector('[role=status]').textContent === 'Session opened.'", null, new() { Timeout = 5000 });
+    Console.WriteLine("PASS: panel survives body redraw/replacement/removal, preserves open state, and stays unique.");
+    if (args.Contains("--pinterest"))
+    {
+        await page.GotoAsync("https://www.pinterest.com/", new() { WaitUntil = WaitUntilState.DOMContentLoaded, Timeout = 45000 });
+        // Allow the site's delayed hydration/redraw to complete before checking the panel.
+        await Task.Delay(10000);
+        await page.Locator("#poc-scrap-panel .toggle").ClickAsync(new() { Timeout = 10000 });
+        await page.Locator("#poc-scrap-panel .action").ClickAsync(new() { Timeout = 10000 });
+        await page.WaitForFunctionAsync("() => document.querySelector('#poc-scrap-panel').shadowRoot.querySelector('[role=status]').textContent === 'Session opened.'", null, new() { Timeout = 10000 });
+        Console.WriteLine("PASS: public Pinterest panel remains available and opens the session.");
+    }
     if (args.Contains("--instagram"))
     {
         await page.GotoAsync("https://www.instagram.com/", new() { WaitUntil = WaitUntilState.DOMContentLoaded, Timeout = 45000 });
