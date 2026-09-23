@@ -13,6 +13,8 @@ try
     await browser.Init();
     var context = (IBrowserContext)typeof(MyPlaywrightBrowser).GetField("_browserContext", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(browser)!;
     var sessionPage = (IPage)typeof(MyPlaywrightBrowser).GetField("_sessionPage", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(browser)!;
+    if (context.Pages.Count != 1 || context.Pages[0] != sessionPage)
+        throw new Exception("Startup should open only the session tab in a fresh profile.");
     Console.WriteLine("Initial status: " + await sessionPage.Locator("#visits-status").InnerTextAsync());
     await context.RouteAsync("https://smoke.test/**", route => route.FulfillAsync(new() { ContentType = "text/html", Body = "<html><body>Smoke page</body></html>" }));
     var page = await context.NewPageAsync();

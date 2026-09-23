@@ -68,8 +68,8 @@ internal class MyPlaywrightBrowser
             _logger.LogInformation("Session page message: {Message}", data);
             return "C# received the message.";
         });
-        // A restored tab can retain its URL and CSP after SetContentAsync.
-        // Always create a dedicated about:blank page for the local session.
+        // Reuse Chromium's initial blank tab, but never overwrite a restored website.
+        _sessionPage = _browserContext.Pages.FirstOrDefault(page => page.Url == "about:blank");
         await ShowSessionAsync();
         // SetContentAsync does not create a new document via navigation.
         foreach (var openPage in _browserContext.Pages)
