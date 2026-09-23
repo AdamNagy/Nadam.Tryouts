@@ -15,7 +15,7 @@ public class MyProxy
 
     public MyProxy()
     {
-        handler = new MyProxyEventHandler("H:\\Documents\\MIV\\app_data\\Adam_Nagy\\Babes\\temp");
+        handler = new MyProxyEventHandler("\\\\NADAM-OLD\\Documents\\MIV\\app_data\\Adam_Nagy\\Babes\\temp");
         handler.Init();
 
         proxyServer = new ProxyServer();

@@ -258,3 +258,5 @@ paket-files/
 **/dist/*
 
 **/bin/*
+
+DotNet/Playwright.POC/Nadam.Playwright.POC/user-data/*

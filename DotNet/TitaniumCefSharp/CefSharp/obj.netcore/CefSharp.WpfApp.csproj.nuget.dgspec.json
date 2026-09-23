@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\CefSharp\\CefSharp.WpfApp.csproj": {}
+    "C:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\CefSharp\\CefSharp.WpfApp.csproj": {}
   },
   "projects": {
-    "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\CefSharp\\CefSharp.WpfApp.csproj": {
+    "C:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\CefSharp\\CefSharp.WpfApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\CefSharp\\CefSharp.WpfApp.csproj",
+        "projectUniqueName": "C:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\CefSharp\\CefSharp.WpfApp.csproj",
         "projectName": "CefSharp.WpfApp",
-        "projectPath": "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\CefSharp\\CefSharp.WpfApp.csproj",
-        "packagesPath": "C:\\Users\\nagyq\\.nuget\\packages\\",
-        "outputPath": "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\CefSharp\\obj.netcore\\",
+        "projectPath": "C:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\CefSharp\\CefSharp.WpfApp.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "C:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\CefSharp\\obj.netcore\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "fallbackFolders": [
-          "G:\\Program Files\\VisualStudio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\nagyq\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -30,11 +30,12 @@
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net8.0-windows7.0": {
+          "net8.0-windows": {
+            "framework": "net8.0-windows7.0",
             "targetAlias": "net8.0-windows",
             "projectReferences": {
-              "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\Titanium.Web.Proxy.csproj": {
-                "projectPath": "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\Titanium.Web.Proxy.csproj"
+              "C:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\Titanium.Web.Proxy.csproj": {
+                "projectPath": "C:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\Titanium.Web.Proxy.csproj"
               }
             }
           }
@@ -49,10 +50,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.400"
       },
       "frameworks": {
-        "net8.0-windows7.0": {
+        "net8.0-windows": {
+          "framework": "net8.0-windows7.0",
           "targetAlias": "net8.0-windows",
           "dependencies": {
             "CefSharp.Wpf.NetCore": {
@@ -99,25 +101,25 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\Titanium.Web.Proxy.csproj": {
+    "C:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\Titanium.Web.Proxy.csproj": {
       "version": "3.2.2",
       "restore": {
-        "projectUniqueName": "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\Titanium.Web.Proxy.csproj",
+        "projectUniqueName": "C:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\Titanium.Web.Proxy.csproj",
         "projectName": "Titanium.Web.Proxy",
-        "projectPath": "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\Titanium.Web.Proxy.csproj",
-        "packagesPath": "C:\\Users\\nagyq\\.nuget\\packages\\",
-        "outputPath": "G:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\obj\\",
+        "projectPath": "C:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\Titanium.Web.Proxy.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "C:\\git\\Nadam.Tryouts\\DotNet\\TitaniumCefSharp\\TitaniumWebProxy\\TitaniumWebProxy.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "fallbackFolders": [
-          "G:\\Program Files\\VisualStudio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\nagyq\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -130,6 +132,7 @@
         },
         "frameworks": {
           "net8.0": {
+            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {}
           }
@@ -144,10 +147,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.400"
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "BouncyCastle.Cryptography": {
@@ -195,7 +199,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
