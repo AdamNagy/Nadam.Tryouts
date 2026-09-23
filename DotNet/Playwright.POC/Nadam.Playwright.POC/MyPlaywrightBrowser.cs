@@ -9,6 +9,10 @@ internal class MyPlaywrightBrowser
     private readonly ILogger<MyPlaywrightBrowser> _logger;
     private IPlaywright? _playwright;
     private IBrowserContext? _browserContext;
+    private IPage? _sessionPage;
+    private readonly SemaphoreSlim _sessionPageLock = new(1, 1);
+    private string _sessionHtml = "";
+    private string _panelScript = "";
 
     public MyPlaywrightBrowser(ScrapeSession session, ILogger<MyPlaywrightBrowser> logger)
     {
@@ -18,8 +22,9 @@ internal class MyPlaywrightBrowser
 
     public async Task Init()
     {
-        var html = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Session.html"));
-        var panelScript = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "ScrapPanel.js"));
+        _sessionHtml = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "Session.html"));
+        _panelScript = await File.ReadAllTextAsync(Path.Combine(AppContext.BaseDirectory, "ScrapPanel.js"));
+
         _playwright = await Microsoft.Playwright.Playwright.CreateAsync();
         _browserContext = await _playwright.Chromium.LaunchPersistentContextAsync("user-data", new()
         {
@@ -28,24 +33,75 @@ internal class MyPlaywrightBrowser
 
         _browserContext.Response += OnResponse;
 
+        await _browserContext.ExposeBindingAsync("pocGetVisitedUrls", (BindingSource source) =>
+        {
+            if (source.Page != _sessionPage || source.Frame != source.Page.MainFrame
+                || source.Frame.Url != "about:blank")
+                throw new InvalidOperationException("Visited URLs are only available on the session page.");
+
+            return _session.VisitedUrls;
+        });
+
         await _browserContext.ExposeBindingAsync("pocScrapPanelAction", (BindingSource source) =>
         {
             _logger.LogInformation("Scrap panel button clicked on {Url}", source.Page.Url);
             return "C# received the click.";
         });
-        await _browserContext.AddInitScriptAsync(script: panelScript);
+        await _browserContext.AddInitScriptAsync(script: _panelScript);
+        await _browserContext.ExposeBindingAsync("pocShowSession", async (BindingSource source) =>
+        {
+            try
+            {
+                await ShowSessionAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to open session page");
+                throw;
+            }
+        });
 
-        var page = _browserContext.Pages.FirstOrDefault() ?? await _browserContext.NewPageAsync();
-        await page.ExposeFunctionAsync("notifyScraper", (string data) =>
+        await _browserContext.ExposeFunctionAsync("notifyScraper", (string data) =>
         {
             _logger.LogInformation("Session page message: {Message}", data);
             return "C# received the message.";
         });
-        await page.SetContentAsync(html);
+        _sessionPage = _browserContext.Pages.FirstOrDefault();
+        await ShowSessionAsync();
         // SetContentAsync does not create a new document via navigation.
         foreach (var openPage in _browserContext.Pages)
-            await openPage.EvaluateAsync(panelScript);
-        await page.BringToFrontAsync();
+            await openPage.EvaluateAsync(_panelScript);
+    }
+
+    public async Task ShowSessionAsync()
+    {
+        await _sessionPageLock.WaitAsync();
+        try
+        {
+            var context = _browserContext ?? throw new InvalidOperationException("Browser is not running.");
+            if (_sessionPage == null || _sessionPage.IsClosed)
+                _sessionPage = await context.NewPageAsync();
+
+            var page = _sessionPage;
+            // Rebuild after a reload; an existing session page is only brought to the front.
+            if (!await page.EvaluateAsync<bool>("() => document.documentElement.hasAttribute('data-scraper-session')"))
+            {
+                await page.SetContentAsync(_sessionHtml);
+                await page.EvaluateAsync(_panelScript);
+                page.FrameNavigated += (_, frame) =>
+                {
+                    // A user may use this tab for browsing. Do not overwrite it later.
+                    if (frame == page.MainFrame && _sessionPage == page)
+                        _sessionPage = null;
+                };
+            }
+            await page.BringToFrontAsync();
+            _logger.LogInformation("Session page opened");
+        }
+        finally
+        {
+            _sessionPageLock.Release();
+        }
     }
 
     // SPA navigation without a network request is not captured yet.
@@ -79,6 +135,7 @@ internal class MyPlaywrightBrowser
         finally
         {
             _browserContext = null;
+            _sessionPage = null;
             _playwright?.Dispose();
             _playwright = null;
         }

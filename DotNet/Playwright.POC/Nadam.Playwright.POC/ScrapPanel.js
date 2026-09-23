@@ -29,7 +29,7 @@
                 <button class="toggle" type="button" aria-expanded="false" aria-controls="content">Scrap panel</button>
                 <div id="content" inert>
                     <h2>Scrap panel</h2>
-                    <button class="action" type="button">Call C#</button>
+                    <button class="action" type="button">Open session</button>
                     <p role="status"></p>
                 </div>
             </div>`;
@@ -47,7 +47,8 @@
         root.querySelector('.action').addEventListener('click', async () => {
             const status = root.querySelector('[role="status"]');
             try {
-                status.textContent = await window.pocScrapPanelAction();
+                await window.pocShowSession();
+                status.textContent = 'Session opened.';
             } catch (error) {
                 status.textContent = 'Error: ' + error.message;
             }
