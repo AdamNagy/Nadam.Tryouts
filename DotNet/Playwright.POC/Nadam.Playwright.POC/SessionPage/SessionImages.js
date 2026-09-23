@@ -37,7 +37,7 @@ function createSessionImages(bridge) {
             const url = document.createElement('p');
             url.textContent = item.url;
             const details = document.createElement('p');
-            details.textContent = `${item.contentType} · ${Math.ceil(item.byteLength / 1024)} KB`;
+            details.textContent = `${item.width} × ${item.height} px · ${item.contentType} · ${Math.ceil(item.byteLength / 1024)} KB`;
             const message = document.createElement('p');
             message.className = 'preview-status';
             message.textContent = 'Loading preview...';

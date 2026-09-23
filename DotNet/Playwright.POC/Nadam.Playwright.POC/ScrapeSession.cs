@@ -5,6 +5,12 @@ internal sealed class ScrapeSession
     private readonly object _sync = new();
     private readonly List<string> _visitedUrls = new();
     private readonly List<CapturedImage> _images = new();
+    private readonly ImageCaptureFilter _imageFilter;
+
+    public ScrapeSession(uint minimumImageSide = 256)
+    {
+        _imageFilter = new ImageCaptureFilter(minimumImageSide);
+    }
 
     public IReadOnlyList<CapturedImage> Images
     {
@@ -15,10 +21,16 @@ internal sealed class ScrapeSession
         }
     }
 
-    public void RecordImage(string url, string contentType, byte[] content)
+    public bool TryRecordImage(string url, string contentType, byte[] content)
     {
+        if (!_imageFilter.TryGetAcceptedSize(content, out var width, out var height)) return false;
+
         lock (_sync)
-            _images.Add(new CapturedImage(_images.Count + 1, url, contentType, content));
+        {
+            _images.Add(new CapturedImage(_images.Count + 1, url, contentType, content, width, height));
+        }
+
+        return true;
     }
 
     public CapturedImage GetImage(int id)

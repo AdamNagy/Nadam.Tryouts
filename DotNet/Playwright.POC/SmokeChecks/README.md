@@ -17,6 +17,8 @@ requests (no external test site). It exercises the real panel and session HTML:
 - Preserve the panel after body replacement/removal and avoid duplicate panels on re-injection.
 - Capture PNG, CSS background SVG and iframe images, omit failed responses, and display
   original bytes without fetching images again, including after reopening the session.
+- Reject images below 256 pixels on either side before session storage, including
+  255x512 and 512x255 boundary cases; verify PNG/JPEG/WebP/AVIF/GIF metadata and invalid data.
 
 Append `-- --instagram` to also check the public Instagram page with the isolated,
 signed-out profile. This optional check requires internet access.

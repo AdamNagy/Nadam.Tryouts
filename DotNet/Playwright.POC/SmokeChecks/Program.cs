@@ -1,7 +1,27 @@
 using System.Reflection;
+using ImageMagick;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Playwright;
 using Nadam.Playwright.POC;
+
+var filterSession = new ScrapeSession();
+foreach (var size in new (uint Width, uint Height)[] { (1, 1), (32, 32), (128, 128), (255, 512), (512, 255) })
+{
+    if (filterSession.TryRecordImage("https://size.test/small", "image/png", MakeImage(size.Width, size.Height, MagickFormat.Png)))
+        throw new Exception($"Undersized image accepted: {size}");
+}
+foreach (var format in new[] { MagickFormat.Png, MagickFormat.Jpeg, MagickFormat.WebP, MagickFormat.Avif, MagickFormat.Gif })
+{
+    if (!filterSession.TryRecordImage("https://size.test/accepted", "image/" + format.ToString().ToLowerInvariant(), MakeImage(256, 256, format)))
+        throw new Exception($"256x256 {format} was rejected.");
+}
+if (filterSession.TryRecordImage("https://size.test/invalid", "image/png", new byte[] { 1, 2, 3 })
+    || filterSession.Images.Count != 5
+    || filterSession.Images.Any(image => image.Width != 256 || image.Height != 256))
+    throw new Exception("Dimension metadata or invalid-image filtering failed.");
+if (new ScrapeSession(512).TryRecordImage("https://size.test/256", "image/png", MakeImage(256, 256, MagickFormat.Png)))
+    throw new Exception("Configured image minimum was ignored.");
+Console.WriteLine("PASS: 256px minimum on both sides; invalid input rejected; PNG/JPEG/WebP/AVIF/GIF dimensions preserved.");
 
 var profile = Path.Combine(Path.GetTempPath(), "Nadam.Playwright.Smoke", Guid.NewGuid().ToString("N"));
 Directory.CreateDirectory(profile);
@@ -70,20 +90,26 @@ try
     await page.WaitForFunctionAsync("() => document.querySelector('#poc-scrap-panel').shadowRoot.querySelector('[role=status]').textContent === 'Session opened.'", null, new() { Timeout = 5000 });
     Console.WriteLine("PASS: panel survives body redraw/replacement/removal, preserves open state, and stays unique.");
     var imageRequests = 0;
-    var png = Convert.FromBase64String("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aY1cAAAAASUVORK5CYII=");
+    var png = MakeImage(256, 256, MagickFormat.Png);
     await context.RouteAsync("https://smoke.test/images/**", async route =>
     {
         switch (new Uri(route.Request.Url).AbsolutePath)
         {
             case "/images/page":
-                await route.FulfillAsync(new() { ContentType = "text/html", Body = "<html><body><img src='/images/photo'><div style=\"width:40px;height:40px;background-image:url('/images/background')\"></div><iframe src='/images/frame'></iframe><img src='/images/missing'></body></html>" });
+                await route.FulfillAsync(new() { ContentType = "text/html", Body = "<html><body><img src='/images/photo'><div style=\"width:40px;height:40px;background-image:url('/images/background')\"></div><iframe src='/images/frame'></iframe><img src='/images/missing'><img src='/images/small'><img src='/images/narrow'></body></html>" });
                 break;
             case "/images/frame":
                 await route.FulfillAsync(new() { ContentType = "text/html", Body = "<html><body><img src='/images/frame-photo'></body></html>" });
                 break;
             case "/images/background":
                 Interlocked.Increment(ref imageRequests);
-                await route.FulfillAsync(new() { ContentType = "image/svg+xml; charset=utf-8", Body = "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><rect width='20' height='20' fill='blue'/></svg>" });
+                await route.FulfillAsync(new() { ContentType = "image/svg+xml; charset=utf-8", Body = "<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256'><rect width='256' height='256' fill='blue'/></svg>" });
+                break;
+            case "/images/small":
+                await route.FulfillAsync(new() { ContentType = "image/png", BodyBytes = MakeImage(32, 32, MagickFormat.Png) });
+                break;
+            case "/images/narrow":
+                await route.FulfillAsync(new() { ContentType = "image/png", BodyBytes = MakeImage(512, 255, MagickFormat.Png) });
                 break;
             case "/images/missing":
                 await route.FulfillAsync(new() { Status = 404, ContentType = "image/png", Body = "Missing" });
@@ -138,3 +164,9 @@ try
 }
 finally { await browser.Stop(); }
 
+
+static byte[] MakeImage(uint width, uint height, MagickFormat format)
+{
+    using var image = new MagickImage(MagickColors.Blue, width, height);
+    return image.ToByteArray(format);
+}

@@ -48,7 +48,8 @@ internal class MyPlaywrightBrowser
             // Poll metadata only; image bytes are requested once when an image enters view.
             return _session.Images.Select(image => new
             {
-                id = image.Id, url = image.Url, contentType = image.ContentType, byteLength = image.ByteLength
+                id = image.Id, url = image.Url, contentType = image.ContentType, byteLength = image.ByteLength,
+                width = image.Width, height = image.Height
             }).ToArray();
         });
         await _browserContext.ExposeBindingAsync("pocGetImageData", (BindingSource source, int id) =>
@@ -142,7 +143,11 @@ internal class MyPlaywrightBrowser
             var content = await response.BodyAsync();
             if (content.Length == 0) return;
 
-            _session.RecordImage(response.Url, contentType, content);
+            if (!_session.TryRecordImage(response.Url, contentType, content))
+            {
+                _logger.LogDebug("Skipped small image or unreadable image dimensions: {Url}", response.Url);
+                return;
+            }
             _logger.LogDebug("Captured image {Url} ({ContentType}, {ByteLength} bytes)",
                 response.Url, contentType, content.Length);
         }
