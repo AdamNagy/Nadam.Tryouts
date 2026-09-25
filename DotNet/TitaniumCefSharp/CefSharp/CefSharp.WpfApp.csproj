@@ -90,10 +90,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TitaniumWebProxy\TitaniumWebProxy.Domain\Titanium.Web.Proxy.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>

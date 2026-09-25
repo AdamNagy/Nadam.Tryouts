@@ -4,12 +4,10 @@ namespace CefSharp.WpfApp;
 
 public partial class MainWindow : Window
 {
-    private readonly MyProxy _proxy;
-
     public MainWindow()
     {
-        _proxy = new MyProxy();
-
         InitializeComponent();
+        Browser.RequestHandler = new ImageRequestHandler(@"C:\Users\User\Documents\app_data\miv\temp");
+        Browser.Address = "https://www.google.com";
     }
 }
